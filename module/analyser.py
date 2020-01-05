@@ -3,12 +3,12 @@ import cv2
 import numpy as np
 import sys
 
-
 image_path = os.getcwd() + '/images/'
 models_path = os.getcwd() + '/models/'
+output_path = os.getcwd() + '/output/'
 
 
-def analyze_image(image_name):
+def analyze_image(image_object):
     # https://pysource.com/2019/06/27/yolo-object-detection-using-opencv-with-python/
     # Load Yolo
     net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
@@ -20,7 +20,7 @@ def analyze_image(image_name):
     colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
     # Loading image
-    img = cv2.imread(image_path + image_name)
+    img = cv2.imread(image_path + image_object.file_name)
     img = cv2.resize(img, None, fx=0.4, fy=0.4)
     height, width, channels = img.shape
 
@@ -55,6 +55,9 @@ def analyze_image(image_name):
     # function to remove this “noise”. It’s called Non maximum suppression.
     indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 
+    # Output file name
+    out_file_name = image_object.year + '_' + image_object.month + '_' + image_object.day + '_' + image_object.hours + '_' + image_object.minutes + '_' + image_object.seconds
+
     # We finally extract all the information's and show them on the screen.
     font = cv2.FONT_HERSHEY_PLAIN
     for i in range(len(boxes)):
@@ -62,8 +65,16 @@ def analyze_image(image_name):
             x, y, w, h = boxes[i]
             label = str(classes[class_ids[i]])
             color = colors[i]
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
+            cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
+            cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
+            roi = img[y:y + h, x:x + w]
+            try:
+                cv2.imwrite(output_path + out_file_name + '_' + str(i) + image_object.file_extension, roi)
+            except:
+                print('exception imwrite')
+
     cv2.imshow("Image", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
