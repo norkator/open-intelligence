@@ -2,36 +2,28 @@
 
 Tools to process security camera motion triggered images and sort seen objects in different categories
 
-Nice tutorial: https://www.geeksforgeeks.org/ml-training-image-classifier-using-tensorflow-object-detection-api/
-
 
 ### Installing
 
 Steps to get environment running
 
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
-2. Run `pip3 install --upgrade tensorflow` on console
-3. Run `pip install protobuf==3.6.1` on console
-4. Install all packages described below
-5. Download https://github.com/tensorflow/models
-6. Extract `research\object_detection` folder to project root as `object_detection`
-7. Run `protoc object_detection/protos/*.proto --python_out=.` ( uses protoc.exe on windows )
+2. Run `pip install opencv-python` on console
+3. Download <b>YOLOv3-416</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
+4. Extract weights, cfg and coco to `models` folder
 
 
 
-##
-Install all these packages (make script for it later)
-```
-pip install protobuf
-pip install pillow
-pip install lxml
-pip install Cython
-pip install jupyter
-pip install matplotlib
-pip install pandas
-pip install opencv-python
-```
-##
+#### Project folder structure
+
+    .
+    ├── images                   # Input images to process
+    ├── models                   # Trained models
+    ├── module                   # Source files (alternatively `lib` or `app`)
+    ├── output                   # Analyse results
+    ├── LICENSE
+    └── README.md
+
 
 
 ## Authors
