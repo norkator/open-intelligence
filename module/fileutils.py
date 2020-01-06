@@ -54,10 +54,6 @@ def get_file_create_second(gm_time):
 # -----------------------------------------
 # Directory tools
 
-def bool_directory_exists(directory_path):
-    return Path.exists(directory_path)
-
-
 def create_directory(directory_path):
     Path(directory_path).mkdir(parents=True, exist_ok=True)
 

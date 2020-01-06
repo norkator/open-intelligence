@@ -10,6 +10,9 @@ image_file_objects = []
 
 # Create image objects
 for image_folder in image_folders:
+    # Check for 'processed' folder existence
+    fileutils.create_directory(image_folder + 'processed/')
+    # Process files
     for file_name in fileutils.get_camera_image_names(image_folder):
         gm_time = fileutils.get_file_create_time(file_name)
         file = File.File(
@@ -24,6 +27,7 @@ for image_folder in image_folders:
             fileutils.get_file_create_second(gm_time)
         )
         image_file_objects.append(file)
+
 
 # Analyze image objects
 for image_object in image_file_objects:
