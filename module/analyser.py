@@ -1,15 +1,16 @@
 import os
+from pathlib import Path
 import cv2
 import numpy as np
 import sys
 import shutil
 
-#  image_path = os.getcwd() + '/images/'
+# Paths
 models_path = os.getcwd() + '/models/'
 output_path = os.getcwd() + '/output/'
 
 
-def analyze_image(image_object):
+def analyze_image(image_object, bool_move_processed):
     try:
         # https://pysource.com/2019/06/27/yolo-object-detection-using-opencv-with-python/
         # Load Yolo
@@ -53,8 +54,8 @@ def analyze_image(image_object):
                     confidences.append(float(confidence))
                     class_ids.append(class_id)
 
-        # When we perform the detection, it happens that we have more boxes for the same object, so we should use another
-        # function to remove this “noise”. It’s called Non maximum suppression.
+        # When we perform the detection, it happens that we have more boxes for the same object, so we should use
+        # another function to remove this “noise”. It’s called Non maximum suppression.
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 
         # Output file name
@@ -65,19 +66,24 @@ def analyze_image(image_object):
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
+                img_box = img.copy()
+                roi = img_box[y:y + h, x:x + w]
                 label = str(classes[class_ids[i]])
                 color = colors[i]
+
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
-                roi = img[y:y + h, x:x + w]
+
                 try:
-                    cv2.imwrite(output_path + out_file_name + '_' + str(i) + image_object.file_extension, roi)
+                    Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
+                    cv2.imwrite(output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension, roi)
                 except:
                     print('exception imwrite')
 
         # Move processed image
-        shutil.move(image_object.file_path + image_object.file_name,
-                    image_object.file_path + 'processed/' + image_object.file_name)
+        if bool_move_processed:
+            shutil.move(image_object.file_path + image_object.file_name,
+                        image_object.file_path + 'processed/' + image_object.file_name)
 
         # Show preview
         cv2.imshow("Image", img)

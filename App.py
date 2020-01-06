@@ -31,4 +31,4 @@ for image_folder in image_folders:
 
 # Analyze image objects
 for image_object in image_file_objects:
-    result = analyser.analyze_image(image_object)
+    result = analyser.analyze_image(image_object, False)
