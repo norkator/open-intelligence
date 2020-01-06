@@ -15,10 +15,13 @@ urllib.request.urlretrieve(url, models_folder + 'coco.names')
 
 # Download cfg
 print('Download yolov3.cfg')
-url = 'https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg'
+url = 'https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg'
 urllib.request.urlretrieve(url, models_folder + 'yolov3.cfg')
 
 # Download weights
 print('Download yolov3.weights')
 url = 'https://pjreddie.com/media/files/yolov3.weights'
 urllib.request.urlretrieve(url, models_folder + 'yolov3.weights')
+
+# Completed
+print('Setup finished!')

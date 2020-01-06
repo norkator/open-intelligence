@@ -12,7 +12,6 @@ output_path = os.getcwd() + '/output/'
 
 def analyze_image(image_object, bool_move_processed):
     try:
-        # https://pysource.com/2019/06/27/yolo-object-detection-using-opencv-with-python/
         # Load Yolo
         net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
         classes = []
@@ -28,7 +27,7 @@ def analyze_image(image_object, bool_move_processed):
         height, width, channels = img.shape
 
         # Detecting objects
-        blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
+        blob = cv2.dnn.blobFromImage(img, 0.00392, (608, 608), (0, 0, 0), True, crop=False)
         net.setInput(blob)
         outs = net.forward(output_layers)
 
