@@ -1,3 +1,6 @@
+[app]
+moveToProcessed=True
+
 [postgresql]
 host=localhost
 database=intelligence

@@ -1,7 +1,7 @@
 import psycopg2
-from module import dbconfigparser
+from module import configparser
 
-params = dbconfigparser.config()
+params = configparser.db_config()
 connection = psycopg2.connect(**params)
 # print(connection.get_backend_pid())
 
