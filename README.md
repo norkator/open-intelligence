@@ -9,7 +9,7 @@ Steps to get environment running
 
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
 2. Run `pip install opencv-python` on console
-3. Download <b>YOLOv3-416</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
+3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
 
 
