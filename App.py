@@ -39,9 +39,13 @@ def app():
     # Analyze image objects
     for image_object in image_file_objects:
         try:
-            result = object_detection.analyze_image(image_object, configparser.app_config()['movetoprocessed'] == 'True')
+            result = object_detection.analyze_image(
+                image_object,
+                configparser.app_config()['move_to_processed'] == 'True',
+                configparser.app_config()['use_database'] == 'True'
+            )
         except:
-            print('')
+            print('object_detection.analyze_image exception')
 
 
 # ---------------------------------------------------------------------
@@ -51,7 +55,7 @@ def main_loop():
     while 1:
         app()
         print('... running')
-        time.sleep(10)
+        time.sleep(int(configparser.app_config()['process_sleep_seconds']))
 
 
 if __name__ == '__main__':
