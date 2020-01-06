@@ -8,6 +8,7 @@ output/*
 object_detection/*
 models/*
 database.ini
+classifiers/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
