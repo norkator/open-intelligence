@@ -6,6 +6,7 @@ import time
 
 # Configure input image folders
 image_folders = [
+    # 'C:/Users/SomeUser/Desktop/image/',
     os.getcwd() + '/images/',
     os.getcwd() + '/images2/',
 ]

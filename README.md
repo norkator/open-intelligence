@@ -47,12 +47,10 @@ Here's some ideas
 
 - [x] implement usable **base** structure;
 - [ ] possibility to train model;
+- [ ] possibility to detect persons, car owners from sub result folders;
 - [ ] api for serving front end;
 - [ ] simple front end to make data usable;
 
 ## Authors
 
 * **Norkator** - *Initial work* - [norkator](https://github.com/norkator)
-
-
-test commit
