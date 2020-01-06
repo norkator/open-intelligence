@@ -1,17 +1,21 @@
 import os
 import os.path
 import time
+from pathlib import Path
 
 # Variables
 path = os.getcwd() + '/images/'
 
 
-def get_camera_image_path():
-    return path
+# -----------------------------------------
+# Camera image processing
+
+# def get_camera_image_path():
+#     return path
 
 
-def get_camera_image_names():
-    return os.listdir(path)
+def get_camera_image_names(directory_path):
+    return os.listdir(directory_path)
 
 
 def get_file_extension(file_name):
@@ -45,3 +49,16 @@ def get_file_create_minute(gm_time):
 
 def get_file_create_second(gm_time):
     return time.strftime('%S', gm_time)
+
+
+# -----------------------------------------
+# Directory tools
+
+def bool_directory_exists(directory_path):
+    return Path.exists(directory_path)
+
+
+def create_directory(directory_path):
+    Path(directory_path).mkdir(parents=True, exist_ok=True)
+
+# -----------------------------------------
