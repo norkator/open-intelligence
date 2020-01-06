@@ -1,3 +1,7 @@
+# Responsible for first stage object detection
+# then sorts objects to specific categories (labels)
+# which are in corresponding folders
+
 import os
 from pathlib import Path
 import cv2
@@ -76,7 +80,8 @@ def analyze_image(image_object, bool_move_processed):
 
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
-                    cv2.imwrite(output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension, roi)
+                    cv2.imwrite(output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension,
+                                roi)
                 except:
                     print('exception imwrite')
 

@@ -1,5 +1,5 @@
 import os
-from module import fileutils, analyser, configparser
+from module import fileutils, object_detection, configparser
 from objects import File
 import sys
 import time
@@ -39,7 +39,7 @@ def app():
     # Analyze image objects
     for image_object in image_file_objects:
         try:
-            result = analyser.analyze_image(image_object, configparser.app_config()['movetoprocessed'] == 'True')
+            result = object_detection.analyze_image(image_object, configparser.app_config()['movetoprocessed'] == 'True')
         except:
             print('')
 
