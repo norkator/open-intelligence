@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import sys
 import shutil
+from module import database
 
 # Paths
 models_path = os.getcwd() + '/models/'
@@ -78,6 +79,11 @@ def analyze_image(image_object, bool_move_processed):
                     cv2.imwrite(output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension, roi)
                 except:
                     print('exception imwrite')
+
+                try:
+                    database.insert_value(label, image_object.file_name)
+                except:
+                    print('exception database insert')
 
         # Move processed image
         if bool_move_processed:

@@ -6,6 +6,7 @@ images/*
 output/*
 object_detection/*
 models/*
+database.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

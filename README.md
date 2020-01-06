@@ -25,6 +25,20 @@ Steps to get environment running
     └── README.md
 
 
+#### Postgresql table
+
+You need table for recognized labels
+
+```database
+CREATE TABLE data
+(
+    id serial PRIMARY KEY,
+    label varchar(50),
+    file_name varchar(100),
+    createdate timestamp DEFAULT now()
+);
+```
+
 
 ## Authors
 
