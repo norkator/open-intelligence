@@ -9,11 +9,24 @@ Inserts data into Postgresql database for further processing. For now mostly cra
 Steps to get environment running
 
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
-2. Run `pip install opencv-python` on console
+2. Install dependencies, list is below
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
 5. Download Postgresql ( https://www.postgresql.org/ )
 6. Rename `database.ini.tpl` to `database.ini` and fill details
+
+
+#### Dependencies list
+
+Install all following dependencies using console
+ 
+```
+python -m pip install --upgrade pip
+pip install numpy
+pip install matplotlib
+pip install pillow
+pip install opencv-python  (I have 4.1.2.30)
+```  
 
 
 #### Project folder structure
@@ -40,6 +53,12 @@ CREATE TABLE data
     createdate timestamp DEFAULT now()
 );
 ```
+
+#### Trouble shooting
+Got `ImportError: DLL load failed: The specified module could not be found.` ???  
+=> try `import cv2`, not working -> packages missing, vc redistributable etc?  
+=> Windows Server for example requires desktop experience features installed.
+
 
 #### Todo
 
