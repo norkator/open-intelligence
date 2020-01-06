@@ -1,14 +1,10 @@
 import os
-from module import fileutils, object_detection, configparser
+from module import fileutils, person_detection, configparser
 from objects import File
-import sys
-import time
 
-# Configure input image folders
+# Configure input image folder
 image_folders = [
-    # 'C:/Users/SomeUser/Desktop/image/',
-    os.getcwd() + '/images/',
-    os.getcwd() + '/images2/',
+    os.getcwd() + '/output/person/',
 ]
 
 
@@ -39,30 +35,9 @@ def app():
     # Analyze image objects
     for image_object in image_file_objects:
         try:
-            result = object_detection.analyze_image(
+            person_detection.analyze_image(
                 image_object,
-                configparser.app_config()['move_to_processed'] == 'True',
-                configparser.app_config()['use_database'] == 'True'
+                configparser.app_config()['movetoprocessed'] == 'True'
             )
         except:
-            print('object_detection.analyze_image exception')
-
-
-# ---------------------------------------------------------------------
-# Keeps program running
-
-def main_loop():
-    while 1:
-        app()
-        print('... running')
-        time.sleep(int(configparser.app_config()['process_sleep_seconds']))
-
-
-if __name__ == '__main__':
-    try:
-        main_loop()
-    except KeyboardInterrupt:
-        print >> sys.stderr, '\nExiting by user request.\n'
-        sys.exit(0)
-
-# ---------------------------------------------------------------------
+            print('')

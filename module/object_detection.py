@@ -15,7 +15,7 @@ models_path = os.getcwd() + '/models/'
 output_path = os.getcwd() + '/output/'
 
 
-def analyze_image(image_object, bool_move_processed):
+def analyze_image(image_object, bool_move_processed, bool_use_database):
     try:
         # Load Yolo
         net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
@@ -85,10 +85,11 @@ def analyze_image(image_object, bool_move_processed):
                 except:
                     print('exception imwrite')
 
-                try:
-                    database.insert_value(label, image_object.file_name)
-                except:
-                    print('exception database insert')
+                if bool_use_database:
+                    try:
+                        database.insert_value(label, image_object.file_name)
+                    except:
+                        print('exception database insert')
 
         # Move processed image
         if bool_move_processed:
