@@ -25,6 +25,7 @@ def analyze_image(image_object, bool_move_processed):
         # Loading image
         img = cv2.imread(image_object.file_path + image_object.file_name)
         img = cv2.resize(img, None, fx=0.4, fy=0.4)
+        img_box = img.copy()
         height, width, channels = img.shape
 
         # Detecting objects
@@ -66,7 +67,6 @@ def analyze_image(image_object, bool_move_processed):
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
-                img_box = img.copy()
                 roi = img_box[y:y + h, x:x + w]
                 label = str(classes[class_ids[i]])
                 color = colors[i]
