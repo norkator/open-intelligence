@@ -18,13 +18,13 @@ def get_camera_image_names(directory_path):
     return os.listdir(directory_path)
 
 
-def get_file_extension(file_name):
-    filename, file_extension = os.path.splitext(path + file_name)
+def get_file_extension(directory_path, file_name):
+    filename, file_extension = os.path.splitext(directory_path + file_name)
     return file_extension
 
 
-def get_file_create_time(file_name):
-    return time.gmtime(os.path.getmtime(path + file_name))
+def get_file_create_time(directory_path, file_name):
+    return time.gmtime(os.path.getmtime(directory_path + file_name))
 
 
 def get_file_create_year(gm_time):

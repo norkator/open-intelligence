@@ -3,6 +3,7 @@
 
 # Project
 images/*
+images2/*
 output/*
 object_detection/*
 models/*

@@ -5,7 +5,10 @@ import sys
 import time
 
 # Configure input image folders
-image_folders = [os.getcwd() + '/images/']
+image_folders = [
+    os.getcwd() + '/images/',
+    os.getcwd() + '/images2/',
+]
 
 
 def app():
@@ -18,11 +21,11 @@ def app():
         fileutils.create_directory(image_folder + 'processed/')
         # Process files
         for file_name in fileutils.get_camera_image_names(image_folder):
-            gm_time = fileutils.get_file_create_time(file_name)
+            gm_time = fileutils.get_file_create_time(image_folder, file_name)
             file = File.File(
                 image_folder,
                 file_name,
-                fileutils.get_file_extension(file_name),
+                fileutils.get_file_extension(image_folder, file_name),
                 fileutils.get_file_create_year(gm_time),
                 fileutils.get_file_create_month(gm_time),
                 fileutils.get_file_create_day(gm_time),
