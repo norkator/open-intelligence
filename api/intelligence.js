@@ -10,6 +10,7 @@ const fs = require('fs');
 const initDb = require('./module/database');
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require('path');
 
 
 if (!utils.ValidNodeJSVersion()) {
@@ -37,7 +38,7 @@ initDb.initDatabase().then(() => {
   });
 
   app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname + 'html/index.html'));
+    response.sendFile(path.join(__dirname + '/html/index.html'));
   });
 
   // -------------------------------------------------------------------------------------------------------------------
