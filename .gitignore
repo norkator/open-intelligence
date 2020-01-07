@@ -1,7 +1,7 @@
 # Idea
 .idea
 
-# Project
+# Python project
 images/*
 images2/*
 output/*
@@ -9,6 +9,9 @@ object_detection/*
 models/*
 database.ini
 classifiers/*
+
+# Api project
+api/node_modules/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
