@@ -6,16 +6,16 @@ import os
 from pathlib import Path
 import cv2
 import numpy as np
-import sys
 import shutil
 from module import database
 
 # Paths
 models_path = os.getcwd() + '/models/'
 output_path = os.getcwd() + '/output/'
+object_detection_image_path = os.getcwd() + '/output/object_detection/'
 
 
-def analyze_image(image_object, bool_move_processed, bool_use_database):
+def analyze_image(image_object, bool_move_processed, bool_use_database, bool_write_object_detection_images):
     try:
         # Load Yolo
         net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
@@ -78,18 +78,24 @@ def analyze_image(image_object, bool_move_processed, bool_use_database):
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
 
+                # Write small image
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
                     cv2.imwrite(output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension,
                                 roi)
-                except:
-                    print('exception imwrite')
+                except Exception as e:
+                    print(e)
 
+                # Insert database intelligence
                 if bool_use_database:
                     try:
-                        database.insert_value(label, image_object.file_name)
-                    except:
-                        print('exception database insert')
+                        database.insert_value(
+                            label, image_object.file_path, image_object.file_name,
+                            image_object.year, image_object.month, image_object.day,
+                            image_object.hours, image_object.minutes, image_object.seconds
+                        )
+                    except Exception as e:
+                        print(e)
 
         # Move processed image
         if bool_move_processed:
@@ -99,7 +105,18 @@ def analyze_image(image_object, bool_move_processed, bool_use_database):
         # Show preview
         cv2.imshow("Image", img)
         cv2.waitKey(1)  # no freeze, refreshes for a millisecond
+
+        # Write full detection image
+        if bool_write_object_detection_images:
+            try:
+                Path(object_detection_image_path).mkdir(parents=True, exist_ok=True)
+                cv2.imwrite(
+                    object_detection_image_path + '/' + image_object.file_name + image_object.file_extension, img
+                )
+            except Exception as e:
+                print(e)
+
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
-    except AssertionError:
-        print('AssertionError at analyzer')
+    except AssertionError as e:
+        print(e)

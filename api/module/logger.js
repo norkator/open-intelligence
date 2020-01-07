@@ -1,5 +1,4 @@
 // Logger class for helping disable normal logging easier way
-const config = require('../config');
 const dotenv = require('dotenv');
 dotenv.config();
 

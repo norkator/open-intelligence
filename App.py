@@ -43,7 +43,8 @@ def app():
             result = object_detection.analyze_image(
                 image_object,
                 configparser.app_config()['move_to_processed'] == 'True',
-                configparser.app_config()['use_database'] == 'True'
+                configparser.app_config()['use_database'] == 'True',
+                configparser.app_config()['write_object_detection_images'] == 'True',
             )
         except:
             print('object_detection.analyze_image exception')
