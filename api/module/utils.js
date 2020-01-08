@@ -36,3 +36,27 @@ function GetNewestFile(files, path) {
 }
 
 exports.GetNewestFile = GetNewestFile;
+
+
+/**
+ * Add leading zeros to string number
+ * @param {string} inputStr
+ * @param {number} zerosCount number
+ * @returns {string}
+ * @constructor
+ */
+function AddLeadingZeros(inputStr = '', zerosCount) {
+  const inputLength = String(inputStr).length;
+  let outputStr = '';
+  if (inputLength < zerosCount) {
+    let requiredCount = (zerosCount - inputLength);
+    for (let i = 0; i < requiredCount; i++) {
+      outputStr += '0';
+    }
+    return outputStr += inputStr;
+  } else {
+    return inputStr;
+  }
+}
+
+exports.AddLeadingZeros = AddLeadingZeros;

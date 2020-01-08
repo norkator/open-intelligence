@@ -115,10 +115,10 @@
   <div class="row mb-2">
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
+        <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-primary">Activity</strong>
           <div id="activity_chart" style="max-width: 400px; max-height: 200px;"></div>
-          <p class="card-text mb-auto">Visualizing today's activity.</p>
+          <p class="card-text mb-auto">Visualizing today's hourly raw activity.</p>
           <div class="mb-1 text-muted">Hover on top to see details.</div>
         </div>
       </div>
@@ -203,18 +203,10 @@
         $('#activity_chart').empty();
         new Morris.Bar({
           element: 'activity_chart',
-          data: [
-            { y: '2006', a: 100, b: 90 },
-            { y: '2007', a: 75,  b: 65 },
-            { y: '2008', a: 50,  b: 40 },
-            { y: '2009', a: 75,  b: 65 },
-            { y: '2010', a: 50,  b: 40 },
-            { y: '2011', a: 75,  b: 65 },
-            { y: '2012', a: 100, b: 90 }
-          ],
-          xkey: 'y',
-          ykeys: ['a', 'b'],
-          labels: ['Series A', 'Series B'],
+          data: data.activity.data,
+          xkey: data.activity.xkey,
+          ykeys: data.activity.ykeys,
+          labels: data.activity.labels,
           resize: true,
           parseTime: false
         });

@@ -15,7 +15,12 @@ function Site(router, sequelizeObjects) {
   router.get('/get/intelligence', function (req, res) {
     const now = moment();
 
-    let activityData = []; // { y: 'qwerty', a: 100, b: 90 },
+    let activityData = {
+      'data': [], // array of { h: '2006', a: 100 }, objects
+      'xkey': 'h',
+      'ykeys': ['a'],
+      'labels': ['Activity']
+    };
     let donutData = [];
 
     sequelizeObjects.Data.findAll({
@@ -37,24 +42,27 @@ function Site(router, sequelizeObjects) {
     }).then(rows => {
       if (rows.length > 0) {
 
+        // Create activity chart data
+        for (let i = 0; i < 24; i++) {
+          const activityHourStr = utils.AddLeadingZeros(String(i), 2);
+          const activity = rows.filter(function (row) {
+            let momentHour = moment(row.file_create_date).utc(false).format('HH');
+            return momentHour === activityHourStr
+          }).length;
+          activityData.data.push({ h: activityHourStr, a: activity });
+        }
 
         // Parse label counts
         rows.forEach(row => {
-
           const label_ = row.label;
-
           const labelIndex = donutData.findIndex(function (dataObj) {
             return dataObj.label === label_;
           });
-
           if (labelIndex === -1) {
             donutData.push({label: label_, value: 1})
           } else {
             donutData[labelIndex].value++;
           }
-
-          // TODO: this donutData is intended to Morris chart: http://jsbin.com/ukaxod/144/embed?js,output
-
         });
 
       }
