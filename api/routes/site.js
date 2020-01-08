@@ -1,5 +1,8 @@
 const moment = require('moment');
+const utils = require('../module/utils');
+const fs = require('fs');
 const {Op} = require('sequelize');
+const path = require('path');
 
 
 function Site(router, sequelizeObjects) {
@@ -74,11 +77,24 @@ function Site(router, sequelizeObjects) {
    * base64 image data output
    */
   router.get('/get/latest/object/detection/image', function (req, res) {
-    res.status(200);
-    res.send('Hello world');
+    const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
+    fs.readdir(filePath, function (err, files) {
+      if (err) {
+        res.status(500);
+        res.send(err);
+      }
+      let objectDetectionFile = utils.GetNewestFile(files, filePath);
+      fs.readFile(filePath + objectDetectionFile, function (err, data) {
+        if (err) {
+          res.status(500);
+          res.send(err);
+        }
+        res.json({
+          'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+        });
+      });
+    });
   });
-
-
 }
 
 exports.Site = Site;

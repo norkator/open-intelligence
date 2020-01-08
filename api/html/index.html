@@ -1,12 +1,228 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Intelligence platform simple web page for basic intelligence">
+  <meta name="author" content="">
+  <!-- <link rel="icon" href=""> -->
+
   <title>Intelligence</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+
+  <style>
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    }
+
+    .display-4 {
+      font-size: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .display-4 {
+        font-size: 3rem;
+      }
+    }
+
+    .card-img-right {
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .box-shadow {
+      box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+
+    .intelligence-footer {
+      padding: 2.5rem 0;
+      color: #999;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: .05rem solid #e5e5e5;
+    }
+
+    .intelligence-footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .zoom {
+      transition: transform .2s;
+      margin: 0 auto;
+    }
+
+    .zoom:hover {
+      transform: scale(1.5);
+    }
+  </style>
+
 </head>
 
 <body>
-  Hello world
-</body>
 
+<div class="container">
+  <header class="py-3" style="line-height: 1; border-bottom: 1px solid #e5e5e5;">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4">
+      </div>
+      <div class="col-4 text-center" style="text-decoration: none;">
+        <a class="text-dark"
+           style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: 2.25rem;">Intelligence</a>
+      </div>
+      <div class="col-4">
+      </div>
+    </div>
+  </header>
+
+  <!--
+  <div class="py-1 mb-2" style="position: relative; z-index: 2; height: 2.75rem; overflow-y: hidden;">
+    <nav class="nav d-flex justify-content-center">
+      <a class="p-2 text-muted" href="#">Option A</a>
+      <a class="p-2 text-muted" href="#">Option B</a>
+      <a class="p-2 text-muted" href="#">Option C</a>
+      <a class="p-2 text-muted" href="#">Option D</a>
+      <a class="p-2 text-muted" href="#">Option E</a>
+      <a class="p-2 text-muted" href="#">Option F</a>
+    </nav>
+  </div>
+  -->
+
+  <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="display-4 font-italic">What I've seen recently</h1>
+        <p class="lead my-3">Here's latest detection image which in I've noticed some interesting objects.
+          Also.. below you can find activity and label statistics.
+        </p>
+        <!-- <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Link...</a></p> -->
+      </div>
+      <div class="col-md-6">
+        <img id="object_detection_image" class="card-img-right zoom"
+             style="width: 100%; height: 100%;"
+             alt="Object detection image">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+          <strong class="d-inline-block mb-2 text-primary">Activity</strong>
+          <div id="activity_chart" style="max-width: 400px; max-height: 200px;"></div>
+          <p class="card-text mb-auto">Visualizing today's activity.</p>
+          <div class="mb-1 text-muted">Hover on top to see details.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-center">
+          <strong class="d-inline-block mb-2 text-success">Labels</strong>
+          <div id="donut_chart" style="max-width: 400px; max-height: 200px;"></div>
+          <p class="card-text mb-auto">Visualizing count of different seen 'labels'.</p>
+          <div class="mb-1 text-muted">You can hover on top of it to see
+            names and counts.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main role="main" class="container">
+</main>
+
+<footer class="intelligence-footer">
+  <p>Intelligence <a href="https://github.com/norkator/Open-Intelligence">Github</a>.</p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- Morris chart -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+        integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function () {
+    loadData();
+
+    // Refresh
+    setInterval(() => {
+      loadData();
+    }, (60 * 1000));
+
+    function loadData() {
+      // Image
+      $.ajax({
+        url: 'http://localhost:4300/get/latest/object/detection/image',
+        type: 'GET',
+      }).done(function (data) {
+        console.log('Loaded object detection image');
+        $("#object_detection_image").attr("src", data.data);
+      });
+
+      // Intelligence, includes all statistics
+      $.ajax({
+        url: 'http://localhost:4300/get/intelligence',
+        type: 'GET',
+      }).done(function (data) {
+        console.log('Loaded intelligence data');
+
+        // Donut labels
+        $('#donut_chart').empty();
+        new Morris.Donut({
+          element: 'donut_chart',
+          data: data.donut,
+          resize: true,
+          parseTime: false
+        });
+
+        // Activity chart
+        $('#activity_chart').empty();
+        new Morris.Bar({
+          element: 'activity_chart',
+          data: [
+            { y: '2006', a: 100, b: 90 },
+            { y: '2007', a: 75,  b: 65 },
+            { y: '2008', a: 50,  b: 40 },
+            { y: '2009', a: 75,  b: 65 },
+            { y: '2010', a: 50,  b: 40 },
+            { y: '2011', a: 75,  b: 65 },
+            { y: '2012', a: 100, b: 90 }
+          ],
+          xkey: 'y',
+          ykeys: ['a', 'b'],
+          labels: ['Series A', 'Series B'],
+          resize: true,
+          parseTime: false
+        });
+
+      });
+    }
+  });
+</script>
+
+</body>
 </html>
