@@ -24,7 +24,6 @@ function Site(router, sequelizeObjects) {
     let donutData = [];
 
     sequelizeObjects.Data.findAll({
-      limit: 100,
       attributes: [
         'label',
         'file_name',
@@ -60,7 +59,7 @@ function Site(router, sequelizeObjects) {
             return dataObj.label === label_;
           });
           if (labelIndex === -1) {
-            donutData.push({label: label_, value: 1})
+            donutData.push({label: label_, value: 1});
           } else {
             donutData[labelIndex].value++;
           }

@@ -107,14 +107,16 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
         cv2.waitKey(1)  # no freeze, refreshes for a millisecond
 
         # Write full detection image
-        if bool_write_object_detection_images:
-            try:
-                Path(object_detection_image_path).mkdir(parents=True, exist_ok=True)
-                cv2.imwrite(
-                    object_detection_image_path + '/' + image_object.file_name + image_object.file_extension, img
-                )
-            except Exception as e:
-                print(e)
+        # only write if there's boxes available
+        if len(boxes) > 0:
+            if bool_write_object_detection_images:
+                try:
+                    Path(object_detection_image_path).mkdir(parents=True, exist_ok=True)
+                    cv2.imwrite(
+                        object_detection_image_path + '/' + image_object.file_name + image_object.file_extension, img
+                    )
+                except Exception as e:
+                    print(e)
 
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
