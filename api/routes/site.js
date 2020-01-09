@@ -92,15 +92,20 @@ function Site(router, sequelizeObjects) {
         res.send(err);
       }
       let objectDetectionFile = utils.GetNewestFile(files, filePath);
-      fs.readFile(filePath + objectDetectionFile, function (err, data) {
-        if (err) {
-          res.status(500);
-          res.send(err);
-        }
-        res.json({
-          'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+      if (files.length > 0) {
+        fs.readFile(filePath + objectDetectionFile, function (err, data) {
+          if (err) {
+            res.status(500);
+            res.send(err);
+          }
+          res.json({
+            'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+          });
         });
-      });
+      } else {
+        res.status(500);
+        res.send('No files available');
+      }
     });
   });
 }
