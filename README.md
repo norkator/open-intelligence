@@ -21,7 +21,7 @@ Steps to get environment running
 
 ###### Api side
 1. Go to `/api` folder and run `npm install`
-2. ...
+2. Run `node intelligence.js` or with PM2 process manager. (more coming later)
 
 
 #### Dependencies list
