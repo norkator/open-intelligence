@@ -81,3 +81,8 @@ Here's some ideas
 ## Authors
 
 * **Norkator** - *Initial work* - [norkator](https://github.com/norkator)
+
+
+### About license
+Current license is not fully suitable. I don't allow commercial use.  
+NonCommercial use only.
