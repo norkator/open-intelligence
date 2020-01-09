@@ -166,6 +166,9 @@
 
 <script>
   $(document).ready(function () {
+
+    const apiUrl = 'http://localhost:4300';
+
     loadData();
 
     // Refresh
@@ -176,7 +179,7 @@
     function loadData() {
       // Image
       $.ajax({
-        url: 'http://localhost:4300/get/latest/object/detection/image',
+        url: apiUrl + '/get/latest/object/detection/image',
         type: 'GET',
       }).done(function (data) {
         console.log('Loaded object detection image');
@@ -185,7 +188,7 @@
 
       // Intelligence, includes all statistics
       $.ajax({
-        url: 'http://localhost:4300/get/intelligence',
+        url: apiUrl + '/get/intelligence',
         type: 'GET',
       }).done(function (data) {
         console.log('Loaded intelligence data');

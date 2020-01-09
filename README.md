@@ -48,19 +48,17 @@ pip install opencv-python  (I have 4.1.2.30)
     └── README.md
 
 
-#### Postgresql table
+#### Postgresql notes
 
-You need table for recognized labels... api->sequelize will make all db tasks soon automatically...
+All datetime fields are inserted without timezone so that:
 
-```database
-CREATE TABLE data
-(
-    id serial PRIMARY KEY,
-    label varchar(50),
-    file_name varchar(100),
-    createdate timestamp DEFAULT now()
-);
 ```
+File     : 2020-01-03 08:51:43
+Database : 2020-01-03 06:51:43.000000
+```
+
+Database timestamp need's to be shifted later to your local timezone. I have that +2 hours difference.
+
 
 #### Trouble shooting
 Got `ImportError: DLL load failed: The specified module could not be found.` ???  
@@ -73,7 +71,8 @@ Got `ImportError: DLL load failed: The specified module could not be found.` ???
 Here's some ideas
 
 - [x] implement usable **base** structure;
-- [ ] api for serving small static statistics/status web page 'command center';
+- [x] basic api for serving small static statistics/status web page 'command center';
+- [ ] license plate recognition from normal camera images;
 - [ ] possibility to train model... maybe coming;
 - [ ] possibility to detect persons, car owners from sub result folders;
 - [ ] camera microphone access and speech to text conversion tools;

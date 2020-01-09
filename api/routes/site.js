@@ -37,16 +37,17 @@ function Site(router, sequelizeObjects) {
         }
       },
       order: [
-        ['createdAt', 'desc']
+        ['createdAt', 'asc']
       ]
     }).then(rows => {
       if (rows.length > 0) {
+
 
         // Create activity chart data
         for (let i = 0; i < 24; i++) {
           const activityHourStr = utils.AddLeadingZeros(String(i), 2);
           const activity = rows.filter(function (row) {
-            let momentHour = moment(row.file_create_date).utc(false).format('HH');
+            let momentHour = moment(row.file_create_date).utc(true).format('HH');
             return momentHour === activityHourStr
           }).length;
           activityData.data.push({ h: activityHourStr, a: activity });

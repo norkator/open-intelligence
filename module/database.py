@@ -14,6 +14,8 @@ def insert_value(label, file_path, file_name, year, month, day, hour, minute, se
     # Datetime format: '2011-05-16 15:36:38'
     file_create_date = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
 
+    # print(file_create_date)
+
     # Query
     postgres_insert_query = """ INSERT INTO data (label, file_path, file_name, file_create_date) VALUES (%s,%s,%s,%s)"""
 
