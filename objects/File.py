@@ -2,7 +2,8 @@
 class File(object):
 
     # Class constructor
-    def __init__(self, file_path, file_name, file_extension, year, month, day, hours, minutes, seconds):
+    def __init__(self, name, file_path, file_name, file_extension, year, month, day, hours, minutes, seconds):
+        self.name = name  # Known as camera name
         self.file_path = file_path
         self.file_name = file_name
         self.file_extension = file_extension

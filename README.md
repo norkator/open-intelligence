@@ -16,7 +16,8 @@ Steps to get environment running
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
 5. Download Postgresql ( https://www.postgresql.org/ )
-6. Rename `database.ini.tpl` to `database.ini` and fill details
+6. Rename `config.ini.tpl` to `config.ini` and fill details
+7. Separate camera and folder names with comma just like at base config template
 
 ###### Api side
 1. Go to `/api` folder and run `npm install`

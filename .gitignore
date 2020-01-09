@@ -7,7 +7,7 @@ images2/*
 output/*
 object_detection/*
 models/*
-database.ini
+config.ini
 classifiers/*
 
 # Api project

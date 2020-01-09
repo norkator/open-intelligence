@@ -4,12 +4,20 @@ from objects import File
 import sys
 import time
 
-# Configure input image folders
-image_folders = [
-    # 'C:/Users/SomeUser/Desktop/image/',
-    os.getcwd() + '/images/',
-    os.getcwd() + '/images2/',
-]
+# Specify your names and folders at config.ini
+# split them by a,b,c,d
+names = ['App1', 'App2']
+folders = [os.getcwd() + '/images/', os.getcwd() + '/images2/']
+
+# Parse camera name and folder config
+camera_config = configparser.camera_config()
+camera_names_config = camera_config['camera_names'].split(',')
+camera_folders_config = camera_config['camera_folders'].split(',')
+
+# Append in names and folders
+for n, f in zip(camera_names_config, camera_folders_config):
+    names.append(n)
+    folders.append(f)
 
 
 def app():
@@ -17,17 +25,18 @@ def app():
     image_file_objects = []
 
     # Create image objects
-    for image_folder in image_folders:
+    for name, folder in zip(names, folders):
         # Check for 'processed' folder existence
-        fileutils.create_directory(image_folder + 'processed/')
+        fileutils.create_directory(folder + 'processed/')
         # Process files
-        for file_name in fileutils.get_camera_image_names(image_folder):
+        for file_name in fileutils.get_camera_image_names(folder):
             if file_name != 'processed':
-                gm_time = fileutils.get_file_create_time(image_folder, file_name)
+                gm_time = fileutils.get_file_create_time(folder, file_name)
                 file = File.File(
-                    image_folder,
+                    name,
+                    folder,
                     file_name,
-                    fileutils.get_file_extension(image_folder, file_name),
+                    fileutils.get_file_extension(folder, file_name),
                     fileutils.get_file_create_year(gm_time),
                     fileutils.get_file_create_month(gm_time),
                     fileutils.get_file_create_day(gm_time),
@@ -40,14 +49,14 @@ def app():
     # Analyze image objects
     for image_object in image_file_objects:
         try:
-            result = object_detection.analyze_image(
+            object_detection.analyze_image(
                 image_object,
                 configparser.app_config()['move_to_processed'] == 'True',
                 configparser.app_config()['use_database'] == 'True',
                 configparser.app_config()['write_object_detection_images'] == 'True',
             )
-        except:
-            print('object_detection.analyze_image exception')
+        except Exception as e:
+            print(e)
 
 
 # ---------------------------------------------------------------------

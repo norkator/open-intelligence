@@ -1,6 +1,7 @@
 # Responsible for first stage object detection
 # then sorts objects to specific categories (labels)
-# which are in corresponding folders
+# which are in corresponding folders,
+# makes database intelligence inserts
 
 import os
 from pathlib import Path
@@ -90,6 +91,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 if bool_use_database:
                     try:
                         database.insert_value(
+                            image_object.name,
                             label, image_object.file_path, image_object.file_name,
                             image_object.year, image_object.month, image_object.day,
                             image_object.hours, image_object.minutes, image_object.seconds
