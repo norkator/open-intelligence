@@ -41,6 +41,11 @@ function Site(router, sequelizeObjects) {
     }).then(rows => {
       if (rows.length > 0) {
 
+        
+
+        let test = moment(rows[0].file_create_date).utc(true).format('HH');
+        console.log(test);
+
 
         // Create activity chart data
         for (let i = 0; i < 24; i++) {
@@ -92,20 +97,22 @@ function Site(router, sequelizeObjects) {
         res.send(err);
       }
       let objectDetectionFile = utils.GetNewestFile(files, filePath);
-      if (files.length > 0) {
-        fs.readFile(filePath + objectDetectionFile, function (err, data) {
-          if (err) {
-            res.status(500);
-            res.send(err);
-          }
-          res.json({
-            'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+      if (files !== undefined) {
+        if (files.length > 0) {
+          fs.readFile(filePath + objectDetectionFile, function (err, data) {
+            if (err) {
+              res.status(500);
+              res.send(err);
+            }
+            res.json({
+              'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+            });
           });
-        });
-      } else {
-        res.status(500);
-        res.send('No files available');
-      }
+        } else {
+          res.status(500);
+          res.send('No files available');
+        }
+      } 
     });
   });
 }

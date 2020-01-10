@@ -23,15 +23,17 @@ exports.ValidNodeJSVersion = ValidNodeJSVersion;
  */
 function GetNewestFile(files, path) {
   let out = [];
-  files.forEach(function (file) {
-    let stats = fs.statSync(path + "/" + file);
-    if (stats.isFile()) {
-      out.push({"file": file, "mtime": stats.mtime.getTime()});
-    }
-  });
-  out.sort(function (a, b) {
-    return b.mtime - a.mtime;
-  });
+  if (files !== undefined) {
+    files.forEach(function (file) {
+      let stats = fs.statSync(path + "/" + file);
+      if (stats.isFile()) {
+        out.push({"file": file, "mtime": stats.mtime.getTime()});
+      }
+    });
+    out.sort(function (a, b) {
+      return b.mtime - a.mtime;
+    });
+  }
   return (out.length > 0) ? out[0].file : "";
 }
 
