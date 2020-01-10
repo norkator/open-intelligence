@@ -41,6 +41,34 @@ exports.GetNewestFile = GetNewestFile;
 
 
 /**
+ * Get files between now and older than x days
+ * @param {Array} files
+ * @param {String} path
+ * @param {Number} days
+ * @returns {Array}
+ * @constructor
+ */
+function GetFilesNotOlderThan(files, path, days=1) {
+  let out = [];
+  const millis = ((new Date().getTime()) - (days * 86400000));
+  if (files !== undefined) {
+    files.forEach(function (file) {
+      let stats = fs.statSync(path + "/" + file);
+      if (stats.isFile()) {
+        const fileTime = stats.mtime.getTime();
+        if (fileTime > millis) {
+          out.push({"file": file, "mtime": fileTime});
+        }
+      }
+    });
+  }
+  return out;
+}
+
+exports.GetFilesNotOlderThan = GetFilesNotOlderThan;
+
+
+/**
  * Add leading zeros to string number
  * @param {string} inputStr
  * @param {number} zerosCount number

@@ -109,8 +109,9 @@
              alt="Object detection image">
       </div>
     </div>
-
   </div>
+
+
 
   <div class="row mb-2">
     <div class="col-md-6">
@@ -127,10 +128,11 @@
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-success">Labels</strong>
-          <div id="donut_chart" style="max-width: 400px; max-height: 200px;"></div>
+          <div id="donut_chart" style="max-width: 400px; max-height: 200px; cursor: pointer;"></div>
           <p class="card-text mb-auto">Visualizing count of different seen 'labels'.</p>
           <div class="mb-1 text-muted">You can hover on top of it to see
-            names and counts.</div>
+            names and counts.
+          </div>
         </div>
       </div>
     </div>
@@ -138,6 +140,18 @@
 </div>
 
 <main role="main" class="container">
+  <!-- Label image viewer -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div id="label_image_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+        </div>
+        <div class="card-footer">
+          <small id="loaded_label_info" class="text-muted">...</small>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 
 <footer class="intelligence-footer">
@@ -167,8 +181,13 @@
 <script>
   $(document).ready(function () {
 
+    // Api url
     const apiUrl = 'http://localhost:4300';
 
+    // jQuery references to elements
+    const label_image_flex_viewer = $('#label_image_flex_viewer');
+
+    // Initial data load
     loadData();
 
     // Refresh
@@ -200,6 +219,10 @@
           data: data.donut,
           resize: true,
           parseTime: false
+        }).on('click', function (i, row) {
+          const label_ = data.donut[i].label;
+          $('#loaded_label_info').text('Loaded ' + label_ + ' label images.');
+          loadLabelImages(label_);
         });
 
         // Activity chart
@@ -213,9 +236,27 @@
           resize: true,
           parseTime: false
         });
-
       });
     }
+
+    function loadLabelImages(label) {
+      label_image_flex_viewer.empty();
+      $.ajax({
+        url: apiUrl + '/get/label/images',
+        type: 'POST',
+        data: {
+          label: label
+        },
+      }).done(function (data) {
+        data.images.forEach(image => {
+          label_image_flex_viewer.append(
+            '<img style="max-width: 120px; max-height: 120px;" class="zoom" src="' + image + '">'
+          );
+        });
+      });
+
+    }
+
   });
 </script>
 
