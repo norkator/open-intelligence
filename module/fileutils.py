@@ -39,8 +39,9 @@ def get_file_create_day(gm_time):
     return time.strftime('%d', gm_time)
 
 
-def get_file_create_hour(gm_time):
-    return time.strftime('%H', gm_time)
+def get_file_create_hour(gm_time, time_offset_hours=0):
+    hours = int(time.strftime('%H', gm_time)) + time_offset_hours
+    return str(hours)
 
 
 def get_file_create_minute(gm_time):

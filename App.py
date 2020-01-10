@@ -4,6 +4,9 @@ from objects import File
 import sys
 import time
 
+time_offset_hours = int(configparser.app_config()['time_offset_hours'])
+print('time offset: ' + str(time_offset_hours))
+
 # Specify your names and folders at config.ini
 # split them by a,b,c,d
 names = ['App1', 'App2']
@@ -40,7 +43,7 @@ def app():
                     fileutils.get_file_create_year(gm_time),
                     fileutils.get_file_create_month(gm_time),
                     fileutils.get_file_create_day(gm_time),
-                    fileutils.get_file_create_hour(gm_time),
+                    fileutils.get_file_create_hour(gm_time, time_offset_hours),
                     fileutils.get_file_create_minute(gm_time),
                     fileutils.get_file_create_second(gm_time)
                 )
