@@ -14,3 +14,8 @@ host=localhost
 database=intelligence
 user=postgres
 password=
+
+[openalpr]
+region=eu
+use_plate_char_length=True
+plate_char_length=6

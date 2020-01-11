@@ -40,12 +40,6 @@ pip install numpy
 pip install matplotlib
 pip install pillow
 pip install opencv-python  (I have 4.1.2.30)
-
-# Person requirements
-...
-
-# Car requirements
-pip install openalpr
 ```  
 
 
