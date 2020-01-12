@@ -16,6 +16,7 @@ user=postgres
 password=
 
 [openalpr]
+enabled=True
 region=eu
 use_plate_char_length=True
 plate_char_length=6

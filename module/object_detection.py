@@ -30,7 +30,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
         # Loading image
         img = cv2.imread(image_object.file_path + image_object.file_name)
         # Storing original img and dimensions
-        [original_h, original_w, c] = img.shape
+        original_h, original_w, original_c = img.shape
         img_full_size = img.copy()
 
         img = cv2.resize(img, None, fx=0.4, fy=0.4)
@@ -46,6 +46,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
         class_ids = []
         confidences = []
         boxes = []
+        original_img_boxes = []
         for out in outs:
             for detection in out:
                 scores = detection[5:]
@@ -64,6 +65,16 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                     confidences.append(float(confidence))
                     class_ids.append(class_id)
 
+                    # For original image boxes
+                    center_x_ = int(detection[0] * original_w)
+                    center_y_ = int(detection[1] * original_h)
+                    w_ = int(detection[2] * original_w)
+                    h_ = int(detection[3] * original_h)
+                    # Rectangle coordinates
+                    x_ = int(center_x_ - w_ / 2)
+                    y_ = int(center_y_ - h_ / 2)
+                    original_img_boxes.append([x_, y_, w_, h_])
+
         # When we perform the detection, it happens that we have more boxes for the same object, so we should use
         # another function to remove this “noise”. It’s called Non maximum suppression.
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
@@ -77,12 +88,18 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
             if i in indexes:
                 detection_result = ''
                 x, y, w, h = boxes[i]
+                x_, y_, w_, h_ = original_img_boxes[i]
                 roi = img_box[y:y + h, x:x + w]
+                roi_ = img_full_size[y:y_ + h_, x:x_ + w_]
                 label = str(classes[class_ids[i]])
                 color = colors[i]
 
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
+
+                # Tests
+                cv2.imshow("OriginalSizeAndCrop", roi_)
+                cv2.waitKey(1)
 
                 # Write small image
                 try:
