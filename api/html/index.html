@@ -112,7 +112,6 @@
   </div>
 
 
-
   <div class="row mb-2">
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
@@ -128,7 +127,7 @@
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-success">Labels</strong>
-          <div id="donut_chart" style="max-width: 400px; max-height: 200px; cursor: pointer;"></div>
+          <div id="donut_chart" style="max-width: 400px; max-height: 200px; height: 200px; cursor: pointer;"></div>
           <p class="card-text mb-auto">Visualizing count of different seen 'labels'.</p>
           <div class="mb-1 text-muted">You can hover on top of it to see
             names and counts.
@@ -140,10 +139,14 @@
 </div>
 
 <main role="main" class="container">
+
   <!-- Label image viewer -->
   <div class="row">
     <div class="col-md-12">
       <div class="card mb-4">
+        <div class="card-header">
+          Label cropped image viewer
+        </div>
         <div id="label_image_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
         </div>
         <div id="label_image_loading_indicator" class="text-center collapse mb-2">
@@ -152,11 +155,25 @@
           </div>
         </div>
         <div class="card-footer">
-          <small id="loaded_label_info" class="text-muted">...</small>
+          <small id="loaded_label_info" class="text-muted">No label selected</small>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-center">
+          <strong class="d-inline-block mb-2 text-primary">Activity (One week)</strong>
+          <div id="activity_week_chart" style="width: 100%; max-height: 200px;"></div>
+          <p class="card-text mb-auto">Visualizing one week hourly raw activity.</p>
+          <div class="mb-1 text-muted">Hover on top to see details.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <footer class="intelligence-footer">
@@ -239,6 +256,18 @@
           xkey: data.activity.xkey,
           ykeys: data.activity.ykeys,
           labels: data.activity.labels,
+          resize: true,
+          parseTime: false
+        });
+
+        // Activity week chart
+        $('#activity_week_chart').empty();
+        new Morris.Bar({
+          element: 'activity_week_chart',
+          data: data.activityWeek.data,
+          xkey: data.activityWeek.xkey,
+          ykeys: data.activityWeek.ykeys,
+          labels: data.activityWeek.labels,
           resize: true,
           parseTime: false
         });

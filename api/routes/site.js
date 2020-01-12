@@ -13,15 +13,11 @@ function Site(router, sequelizeObjects) {
    * http://localhost:4300/get/intelligence
    */
   router.get('/get/intelligence', function (req, res) {
-    const now = moment();
 
-    let activityData = {
-      'data': [], // array of { h: '2006', a: 100 }, objects
-      'xkey': 'h',
-      'ykeys': ['a'],
-      'labels': ['Activity']
-    };
+    // Data is array of { h: '2006', a: 100 }, objects
+    let activityData = {'data': [], 'xkey': 'h', 'ykeys': ['a'], 'labels': ['Activity']};
     let donutData = [];
+    let activityDataWeek = {'data': [], 'xkey': 'h', 'ykeys': ['a'], 'labels': ['Activity']};
 
     sequelizeObjects.Data.findAll({
       attributes: [
@@ -31,14 +27,15 @@ function Site(router, sequelizeObjects) {
       ],
       where: {
         createdAt: {
-          [Op.gt]: now.startOf('day').toISOString(true),
-          [Op.lt]: now.endOf('day').toISOString(true),
+          [Op.gt]: moment().startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment().endOf('day').utc(true).toISOString(true),
         }
       },
       order: [
         ['createdAt', 'asc']
       ]
     }).then(rows => {
+
       if (rows.length > 0) {
 
         // Create activity chart data
@@ -65,14 +62,51 @@ function Site(router, sequelizeObjects) {
         });
 
       }
-      res.json({
-        activity: activityData,
-        donut: donutData,
-
-      });
     }).catch(error => {
       res.status(500);
       res.send(error);
+    }).then(() => {
+
+      const startDay = moment().startOf('day').subtract(7, 'days').utc(true);
+
+      sequelizeObjects.Data.findAll({
+        attributes: [
+          'file_create_date'
+        ],
+        where: {
+          createdAt: {
+            [Op.gt]: startDay.toISOString(true),
+            [Op.lt]: moment().startOf('day').utc(true).toISOString(true),
+          }
+        },
+        order: [
+          ['createdAt', 'asc']
+        ]
+      }).then(rows => {
+        if (rows.length > 0) {
+          // Create week activity chart data
+          for (let d = 0; d < 7; d++) {
+            const parseDay = moment(startDay).add(d, 'days').format('DD');
+            // console.log('parse day: ' + parseDay);
+            for (let h = 0; h < 24; h++) {
+              const activityHourStr = utils.AddLeadingZeros(String(h), 2);
+              const activity = rows.filter(function (row) {
+                let momentDay = moment(row.file_create_date).utc(true).format('DD');
+                let momentHour = moment(row.file_create_date).utc(true).format('HH');
+                return momentDay === parseDay && momentHour === activityHourStr
+              }).length;
+              activityDataWeek.data.push({h: activityHourStr, a: activity});
+            }
+          }
+        }
+
+        // Return results
+        res.json({
+          activity: activityData,
+          donut: donutData,
+          activityWeek: activityDataWeek,
+        });
+      });
     });
 
   });
@@ -130,6 +164,7 @@ function Site(router, sequelizeObjects) {
         // Read file data
         // noinspection JSIgnoredPromiseFromCall
         processImagesSequentially(filesList.length);
+
         async function processImagesSequentially(taskLength) {
 
           // Specify tasks
