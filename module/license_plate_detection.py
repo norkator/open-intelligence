@@ -15,7 +15,7 @@ open_alpr_conf = os.getcwd() + '/libraries/openalpr_64/openalpr.conf'
 open_alpr_runtime_data = os.getcwd() + '/libraries/openalpr_64/runtime_data'
 
 
-def detect_license_plate(image_object):
+def detect_license_plate(image_file_path_name_extension):
     try:
 
         if open_alpr_config['enabled'] == 'True':
@@ -35,7 +35,7 @@ def detect_license_plate(image_object):
             alpr.set_default_region("md")
 
             # Image file is loaded here
-            results = alpr.recognize_file(image_object.file_path + image_object.file_name)
+            results = alpr.recognize_file(image_file_path_name_extension)
 
             i = 0
             for plate in results['results']:

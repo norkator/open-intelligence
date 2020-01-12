@@ -98,10 +98,11 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
 
                 # Write small image
+                image_file_path_name_extension = output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
                     cv2.imwrite(
-                        output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension,
+                        image_file_path_name_extension,
                         roi_full_image
                     )
                 except Exception as e:
@@ -110,7 +111,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 # Label based detection
                 try:
                     if (label == 'car') or (label == 'truck'):
-                        detection_result = license_plate_detection.detect_license_plate(image_object)
+                        detection_result = license_plate_detection.detect_license_plate(image_file_path_name_extension)
                     if label == 'person':
                         print('Label based detection sub process for person not yet specified')
                     # Add more here later and so on...
