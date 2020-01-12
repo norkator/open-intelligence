@@ -1,4 +1,4 @@
-# Responsible for first stage object detection
+# Responsible for first and second stage object detection
 # then sorts objects to specific categories (labels)
 # which are in corresponding folders,
 # makes database intelligence inserts
@@ -8,7 +8,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import shutil
-from module import database
+from module import database, license_plate_detection
 
 # Paths
 models_path = os.getcwd() + '/models/'
@@ -29,6 +29,10 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
 
         # Loading image
         img = cv2.imread(image_object.file_path + image_object.file_name)
+        # Storing original img and dimensions
+        [original_h, original_w, c] = img.shape
+        img_full_size = img.copy()
+
         img = cv2.resize(img, None, fx=0.4, fy=0.4)
         img_box = img.copy()
         height, width, channels = img.shape
@@ -71,6 +75,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
         font = cv2.FONT_HERSHEY_PLAIN
         for i in range(len(boxes)):
             if i in indexes:
+                detection_result = ''
                 x, y, w, h = boxes[i]
                 roi = img_box[y:y + h, x:x + w]
                 label = str(classes[class_ids[i]])
@@ -87,6 +92,16 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 except Exception as e:
                     pass
 
+                # Label based detection
+                try:
+                    if (label == 'car') or (label == 'truck'):
+                        detection_result = license_plate_detection.detect_license_plate(image_object)
+                    if label == 'person':
+                        print('Label based detection sub process for person not yet specified')
+                    # Add more here later and so on...
+                except Exception as e:
+                    print(e)
+
                 # Insert database intelligence
                 if bool_use_database:
                     try:
@@ -94,7 +109,8 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                             image_object.name,
                             label, image_object.file_path, image_object.file_name,
                             image_object.year, image_object.month, image_object.day,
-                            image_object.hours, image_object.minutes, image_object.seconds
+                            image_object.hours, image_object.minutes, image_object.seconds,
+                            detection_result
                         )
                     except Exception as e:
                         print(e)

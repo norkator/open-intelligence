@@ -13,6 +13,7 @@ else:
     unicode = str
     _PYTHON_3 = True
 
+
 def _convert_to_charp(string):
     # Prepares function input for use in c-functions as char*
     if type(string) == unicode:
@@ -22,12 +23,14 @@ def _convert_to_charp(string):
     else:
         raise TypeError("Expected unicode string values or ascii/bytes values. Got: %r" % type(string))
 
+
 def _convert_from_charp(charp):
     # Prepares char* output from c-functions into Python strings
     if _PYTHON_3 and type(charp) == bytes:
         return charp.decode("UTF-8")
     else:
         return charp
+
 
 class Alpr():
     def __init__(self, country, config_file, runtime_dir):
@@ -43,7 +46,7 @@ class Alpr():
         config_file = _convert_to_charp(config_file)
         runtime_dir = _convert_to_charp(runtime_dir)
         try:
-        # Load the .dll for Windows and the .so for Unix-based
+            # Load the .dll for Windows and the .so for Unix-based
             if platform.system().lower().find("windows") != -1:
                 self._openalprpy_lib = ctypes.cdll.LoadLibrary("openalprpy.dll")
             elif platform.system().lower().find("darwin") != -1:
@@ -90,7 +93,6 @@ class Alpr():
         self._set_detect_region_func = self._openalprpy_lib.setDetectRegion
         self._set_detect_region_func.argtypes = [ctypes.c_void_p, ctypes.c_bool]
 
-
         self._set_top_n_func = self._openalprpy_lib.setTopN
         self._set_top_n_func.argtypes = [ctypes.c_void_p, ctypes.c_int]
 
@@ -99,7 +101,6 @@ class Alpr():
         self._get_version_func.restype = ctypes.c_void_p
 
         self.alpr_pointer = self._initialize_func(country, config_file, runtime_dir)
-
 
     def unload(self):
         """
@@ -195,7 +196,6 @@ class Alpr():
         prewarp = _convert_to_charp(prewarp)
         self._set_prewarp_func(self.alpr_pointer, prewarp)
 
-
     def set_default_region(self, region):
         """
         This sets the default region for detecting license plates. For example,
@@ -217,10 +217,12 @@ class Alpr():
         """
         self._set_detect_region_func(self.alpr_pointer, enabled)
 
-
     def __del__(self):
         if self.is_loaded():
-            self.unload()
+            try:
+                self.unload()
+            except Exception as e:
+                pass
 
     def __enter__(self):
         return self
@@ -228,5 +230,3 @@ class Alpr():
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.is_loaded():
             self.unload()
-
-

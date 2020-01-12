@@ -52,6 +52,7 @@ def app():
     # Analyze image objects
     for image_object in image_file_objects:
         try:
+            # Also runs all sub processes
             object_detection.analyze_image(
                 image_object,
                 configparser.app_config()['move_to_processed'] == 'True',

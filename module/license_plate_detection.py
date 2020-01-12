@@ -14,7 +14,7 @@ open_alpr_conf = os.getcwd() + '/libraries/openalpr_64/openalpr.conf'
 open_alpr_runtime_data = os.getcwd() + '/libraries/openalpr_64/runtime_data'
 
 
-def detect_license_plate(image_object, bool_move_processed, bool_use_database):
+def detect_license_plate(image_object):
     try:
 
         result_plate = None
@@ -65,9 +65,12 @@ def detect_license_plate(image_object, bool_move_processed, bool_use_database):
 
         # Final result
         if result_plate is not None:
-            print('Result plate: ' + license_plate)
+            print('Result plate: ' + result_plate)
         else:
-            print('Could not determine license plate!')
+            print('Did not recognize any license plate.')
+
+        return result_plate
 
     except AssertionError as e:
         print(e)
+        return ''
