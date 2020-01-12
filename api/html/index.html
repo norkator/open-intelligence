@@ -209,9 +209,11 @@
     // jQuery references to elements
     const label_image_flex_viewer = $('#label_image_flex_viewer');
     const label_image_loading_indicator = $('#label_image_loading_indicator');
+    const loaded_label_info = $('#loaded_label_info');
 
     // Initial data load
     loadData();
+    loadWeeklyData();
 
     // Refresh
     setInterval(() => {
@@ -228,7 +230,7 @@
         $("#object_detection_image").attr("src", data.data);
       });
 
-      // Intelligence, includes all statistics
+      // Intelligence, includes all one day statistics
       $.ajax({
         url: apiUrl + '/get/intelligence',
         type: 'GET',
@@ -244,7 +246,7 @@
           parseTime: false
         }).on('click', function (i, row) {
           const label_ = data.donut[i].label;
-          $('#loaded_label_info').text('You chose ' + label_ + ' label images.');
+          loaded_label_info.text('You chose ' + label_ + ' label images.');
           loadLabelImages(label_);
         });
 
@@ -259,6 +261,16 @@
           resize: true,
           parseTime: false
         });
+
+      });
+    }
+
+    function loadWeeklyData() {
+
+      $.ajax({
+        url: apiUrl + '/get/weekly/intelligence',
+        type: 'GET',
+      }).done(function (data) {
 
         // Activity week chart
         $('#activity_week_chart').empty();
@@ -289,6 +301,9 @@
             '<img style="max-width: 120px; max-height: 120px;" class="zoom" src="' + image + '">'
           );
         });
+        label_image_loading_indicator.collapse('hide');
+      }).fail(function (error) {
+        loaded_label_info.text(error.status + ' ' + error.statusText);
         label_image_loading_indicator.collapse('hide');
       });
 
