@@ -90,22 +90,20 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 x, y, w, h = boxes[i]
                 x_, y_, w_, h_ = original_img_boxes[i]
                 roi = img_box[y:y + h, x:x + w]
-                roi_ = img_full_size[y:y_ + h_, x:x_ + w_]
+                roi_full_image = img_full_size[y_:y_ + h_, x_:x_ + w_]
                 label = str(classes[class_ids[i]])
                 color = colors[i]
 
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
 
-                # Tests
-                cv2.imshow("OriginalSizeAndCrop", roi_)
-                cv2.waitKey(1)
-
                 # Write small image
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
                     cv2.imwrite(
-                        output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension, roi)
+                        output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension,
+                        roi_full_image
+                    )
                 except Exception as e:
                     pass
 
