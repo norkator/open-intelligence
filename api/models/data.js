@@ -11,6 +11,12 @@ module.exports = (sequelize, type) => {
     file_name: type.STRING,
     file_create_date: type.DATE,
 
+    // Fields for lower level detection processes (alpr, person etc)
+    detection_completed: {
+      type: type.INTEGER, defaultValue: 0
+    },
+    detection_result: type.STRING, // License plate, person etc.
+
     // Normally sequelize manages these
     // but for python side we need also default value
     createdAt: {

@@ -82,10 +82,10 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 # Write small image
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
-                    cv2.imwrite(output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension,
-                                roi)
+                    cv2.imwrite(
+                        output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension, roi)
                 except Exception as e:
-                    print(e)
+                    pass
 
                 # Insert database intelligence
                 if bool_use_database:
