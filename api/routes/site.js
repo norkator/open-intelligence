@@ -3,6 +3,8 @@ const utils = require('../module/utils');
 const fs = require('fs');
 const {Op} = require('sequelize');
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 function Site(router, sequelizeObjects) {
@@ -180,7 +182,7 @@ function Site(router, sequelizeObjects) {
           let t = 0;
           for (const task of promiseTasks) {
             console.log('Loading: ' + filesList[t].file);
-            outputData.images.push(await task(filesList[t].file));
+            outputData.images.push(await task(filesList[t].file, filesList[t].mtime));
             t++;
             if (t === taskLength) {
               res.json(outputData); // All tasks completed, return
@@ -188,11 +190,12 @@ function Site(router, sequelizeObjects) {
           }
         }
 
-        function processImage(file) {
+        function processImage(file, mtime) {
           return new Promise(resolve => {
             fs.readFile(filePath + file, function (err, data) {
               if (!err) {
-                resolve('data:image/png;base64,' + Buffer.from(data).toString('base64'));
+                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
+                resolve({title: datetime, image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')});
               } else {
                 console.log(err);
                 resolve('data:image/png;base64,');

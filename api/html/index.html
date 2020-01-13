@@ -296,9 +296,9 @@
           label: label
         },
       }).done(function (data) {
-        data.images.forEach(image => {
+        data.images.forEach(imageData => {
           label_image_flex_viewer.append(
-            '<img style="max-width: 120px; max-height: 120px;" class="zoom" src="' + image + '">'
+            '<img title="' + imageData.title + '" style="max-width: 120px; max-height: 120px;" class="zoom" src="' + imageData.image + '">'
           );
         });
         label_image_loading_indicator.collapse('hide');
