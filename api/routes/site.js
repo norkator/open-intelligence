@@ -48,17 +48,7 @@ function Site(router, sequelizeObjects) {
         }
 
         // Parse label counts
-        rows.forEach(row => {
-          const label_ = row.label;
-          const labelIndex = donutData.findIndex(function (dataObj) {
-            return dataObj.label === label_;
-          });
-          if (labelIndex === -1) {
-            donutData.push({label: label_, value: 1});
-          } else {
-            donutData[labelIndex].value++;
-          }
-        });
+        donutData = utils.GetLabelCounts(rows);
       }
       // Return results
       res.json({
@@ -206,6 +196,80 @@ function Site(router, sequelizeObjects) {
 
       }
     });
+  });
+
+
+  /**
+   * Get voice intelligence
+   */
+  router.get('/get/voice/intelligence', function (req, res) {
+    let output = {message: ''};
+
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'label', 'file_create_date', 'name', 'detection_result',
+      ],
+      where: {
+        voice_completed: 0,
+        createdAt: {
+          [Op.gt]: moment().startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment().endOf('day').utc(true).toISOString(true),
+        }
+      },
+      order: [
+        ['createdAt', 'asc']
+      ]
+    }).then(rows => {
+      if (rows.length > 0) {
+
+        // Labels
+        output.message += 'I saw ';
+        let labelCounts = utils.GetLabelCounts(rows);
+        labelCounts.forEach(labelObj => {
+          const count = labelObj.value;
+          output.message += String(labelObj.value) + ' ' + labelObj.label + (count > 1 ? 's' : '') + ', '
+        });
+
+        // Detection results
+        const detection_results_count = rows.filter(function (row) {
+          return row.detection_result !== ''
+        }).length;
+        output.message += (detection_results_count > 0 ? 'and have ' + String(detection_results_count) + ' new detection results.'
+          : 'but no new detection results.') + ' ';
+
+        // Latest object detection image recorded
+        const latestRow = rows[rows.length - 1];
+        output.message += 'Latest detection is ' + latestRow.label + ' at time of '
+          + moment(latestRow.file_create_date).utc(true).format('HH:mm') + '. ';
+
+        // Interesting license plates
+        // TODO: Needs feature to value plate into groups of known and unknown to determine what is interesting
+        // output.message += 'No interesting license plates.';
+
+
+        // Mark detections as talked over voice to not say them again
+        sequelizeObjects.Data.update(
+          {
+            voice_completed: 1
+          },
+          {
+            where: {
+              voice_completed: 0,
+              createdAt: {
+                [Op.gt]: moment().startOf('day').utc(true).toISOString(true),
+                [Op.lt]: moment().endOf('day').utc(true).toISOString(true),
+              }
+            }
+          }).then(() => {
+          res.json(output);
+        }).catch(() => {
+          res.json(output);
+        });
+      } else {
+        res.json(output);
+      }
+    });
+
   });
 
 

@@ -71,6 +71,10 @@
   <header class="py-3" style="line-height: 1; border-bottom: 1px solid #e5e5e5;">
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4">
+        <div id="talk_content_div">
+          <button id="activate_talk_btn" type="button" class="btn btn-light btn-sm">Talk</button>
+        </div>
+
       </div>
       <div class="col-4 text-center" style="text-decoration: none;">
         <a class="text-dark"
@@ -206,10 +210,32 @@
     // Api url
     const apiUrl = 'http://localhost:4300';
 
+    // Init voice (text to speech)
+    let msg = new SpeechSynthesisUtterance();
+    let bool_speaking = false;
+    msg.volume = 1; // 0 to 1
+    msg.rate = 1; // 0.1 to 10
+    msg.pitch = 1; //0 to 2
+    msg.lang = 'en-US';
+    window.speechSynthesis.onvoiceschanged = function () {
+      let voices = window.speechSynthesis.getVoices();
+      msg.voice = voices[2];
+      msg.voiceURI = voices[2].voiceURI
+    };
+    msg.onend = function (e) {
+      bool_speaking = false;
+    };
+
     // jQuery references to elements
     const label_image_flex_viewer = $('#label_image_flex_viewer');
     const label_image_loading_indicator = $('#label_image_loading_indicator');
     const loaded_label_info = $('#loaded_label_info');
+    const talk_content_div = $('#talk_content_div');
+    const activate_talk_btn = $('#activate_talk_btn').click(() => {
+      talk_content_div.empty();
+      talk_content_div.append('<span class="badge badge-pill badge-success">Talk enabled</span>');
+      voiceIntelligence();
+    });
 
     // Initial data load
     loadData();
@@ -306,10 +332,35 @@
         loaded_label_info.text(error.status + ' ' + error.statusText);
         label_image_loading_indicator.collapse('hide');
       });
+    }
 
+
+    function voiceIntelligence() {
+      run(); // Initial run
+      setInterval(function () {
+        run();
+      }, (30 * 1000));
+      function run() {
+        if (!bool_speaking) {
+          $.ajax({
+            url: apiUrl + '/get/voice/intelligence',
+            type: 'GET',
+          }).done(function (data) {
+            if (data.message !== '') {
+              bool_speaking = true;
+              msg.text = data.message;
+              speechSynthesis.speak(msg);
+            }
+          }).fail(function (error) {
+            bool_speaking = false;
+          });
+        }
+      }
     }
 
   });
+
+
 </script>
 
 </body>

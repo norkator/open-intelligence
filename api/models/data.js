@@ -17,7 +17,12 @@ module.exports = (sequelize, type) => {
     },
     detection_result: type.STRING, // License plate, person etc.
 
-    // Normally sequelize manages these
+    // For voice output
+    voice_completed: {
+      type: type.INTEGER, defaultValue: 0
+    },
+
+    // Normally Sequelize manages these
     // but for python side we need also default value
     createdAt: {
       type: type.DATE,

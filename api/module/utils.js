@@ -48,7 +48,7 @@ exports.GetNewestFile = GetNewestFile;
  * @returns {Array}
  * @constructor
  */
-function GetFilesNotOlderThan(files, path, days=1) {
+function GetFilesNotOlderThan(files, path, days = 1) {
   let out = [];
   const millis = ((new Date().getTime()) - (days * 86400000));
   if (files !== undefined) {
@@ -90,3 +90,29 @@ function AddLeadingZeros(inputStr = '', zerosCount) {
 }
 
 exports.AddLeadingZeros = AddLeadingZeros;
+
+
+/**
+ * Calculates label counts
+ * returns array of { label: 'truck', value: 137 }, ...
+ * @param {Array} rows
+ * @return {Array}
+ * @constructor
+ */
+function GetLabelCounts(rows) {
+  let output = [];
+  rows.forEach(row => {
+    const label_ = row.label;
+    const labelIndex = output.findIndex(function (dataObj) {
+      return dataObj.label === label_;
+    });
+    if (labelIndex === -1) {
+      output.push({label: label_, value: 1});
+    } else {
+      output[labelIndex].value++;
+    }
+  });
+  return output;
+}
+
+exports.GetLabelCounts = GetLabelCounts;
