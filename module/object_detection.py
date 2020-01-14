@@ -8,7 +8,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import shutil
-from module import database, license_plate_detection
+from module import database, license_plate_detection, person_detection
 
 # Paths
 models_path = os.getcwd() + '/models/'
@@ -89,7 +89,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 detection_result = ''
                 x, y, w, h = boxes[i]
                 x_, y_, w_, h_ = original_img_boxes[i]
-                roi = img_box[y:y + h, x:x + w]
+                # roi = img_box[y:y + h, x:x + w]
                 roi_full_image = img_full_size[y_:y_ + h_, x_:x_ + w_]
                 label = str(classes[class_ids[i]])
                 color = colors[i]
@@ -98,7 +98,8 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
 
                 # Write small image
-                image_file_path_name_extension = output_path + label + '/' + out_file_name + '_' + str(i) + image_object.file_extension
+                image_file_path_name_extension = output_path + label + '/' + out_file_name + '_' + str(
+                    i) + image_object.file_extension
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
                     cv2.imwrite(
@@ -113,7 +114,10 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                     if (label == 'car') or (label == 'truck'):
                         detection_result = license_plate_detection.detect_license_plate(image_file_path_name_extension)
                     if label == 'person':
-                        print('Label based detection sub process for person not yet specified')
+                        person_detection.recognize_face(
+                            image_file_path_name_extension,
+                            label + '_' + out_file_name + '_' + str(i) + image_object.file_extension)
+                        # no return yet here
                     # Add more here later and so on...
                 except Exception as e:
                     print(e)

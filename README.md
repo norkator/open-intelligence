@@ -1,7 +1,7 @@
 # Open-Intelligence
 
 Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects (labels) in different categories. 
-Inserts data into Postgresql database for further processing. For now mostly crafted based on different tutorials.
+Inserts data into Postgresql database for further processing. Simple web page interface with statistics, images, voice.
 
 Goal is to make this fairly easy to setup and powerful so.. say goodbye to privacy.
 
@@ -47,6 +47,7 @@ pip install opencv-python  (I have 4.1.2.30)
 
     .
     ├── api                      # Api which is serving small static web page
+    ├── classifiers              # Classifiers for different detectors like faces
     ├── images                   # Input images to process
     ├── libraries                # Modified third party libraries
     ├── models                   # Yolo and other files
@@ -98,12 +99,14 @@ Here's some ideas
 
 - [x] implement usable **base** structure;
 - [x] basic api for serving small static statistics/status web page 'command center';
-- [ ] license plate recognition from normal camera images;
-- [ ] person/face recognition from normal camera images;
-- [ ] possibility to train model... maybe coming;
-- [ ] possibility to detect persons, car owners from sub result folders;
+- [x] voice intelligence support (web page can talk);
+- [x] license plate recognition from normal camera images;
+- [x] basic face recognition from cropped person images;
+- [ ] identify car owners from license plates (user determines owners);
+- [ ] identify persons from detected faces (user determines persons); 
 - [ ] camera microphone access and speech to text conversion tools;
 - [ ] automatically analyse microphone -> text contents -> find interests;
+- [ ] possibility to train model... maybe coming;
 
 ## Authors
 
