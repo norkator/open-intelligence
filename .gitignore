@@ -8,7 +8,6 @@ output/*
 object_detection/*
 models/*
 config.ini
-classifiers/*
 
 # Api project
 api/node_modules/*
