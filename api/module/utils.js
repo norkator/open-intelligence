@@ -1,4 +1,5 @@
 const fs = require('fs');
+const moment = require('moment');
 
 
 /**
@@ -42,6 +43,7 @@ exports.GetNewestFile = GetNewestFile;
 
 /**
  * Get files between now and older than x days
+ * give it as zero will return only start of today labels
  * @param {Array} files
  * @param {String} path
  * @param {Number} days
@@ -50,7 +52,7 @@ exports.GetNewestFile = GetNewestFile;
  */
 function GetFilesNotOlderThan(files, path, days = 1) {
   let out = [];
-  const millis = ((new Date().getTime()) - (days * 86400000));
+  const millis = days === 0 ? moment().startOf('day').utc(true).valueOf() : ((new Date().getTime()) - (days * 86400000));
   if (files !== undefined) {
     files.forEach(function (file) {
       let stats = fs.statSync(path + "/" + file);

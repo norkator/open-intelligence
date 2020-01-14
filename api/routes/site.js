@@ -89,12 +89,13 @@ function Site(router, sequelizeObjects) {
           // console.log('parse day: ' + parseDay);
           for (let h = 0; h < 24; h++) {
             const activityHourStr = utils.AddLeadingZeros(String(h), 2);
+            const dayActivityHour = parseDay + '-' + activityHourStr;
             const activity = rows.filter(function (row) {
               let momentDay = moment(row.file_create_date).utc(true).format('DD');
               let momentHour = moment(row.file_create_date).utc(true).format('HH');
               return momentDay === parseDay && momentHour === activityHourStr
             }).length;
-            activityDataWeek.data.push({h: activityHourStr, a: activity});
+            activityDataWeek.data.push({h: dayActivityHour, a: activity});
           }
         }
       }
@@ -154,7 +155,7 @@ function Site(router, sequelizeObjects) {
         res.status(500);
         res.send(err);
       } else {
-        let filesList = utils.GetFilesNotOlderThan(files, filePath, 1);
+        let filesList = utils.GetFilesNotOlderThan(files, filePath, 0);
 
         // Read file data
         // noinspection JSIgnoredPromiseFromCall
@@ -222,8 +223,12 @@ function Site(router, sequelizeObjects) {
     }).then(rows => {
       if (rows.length > 0) {
 
+        // Too much data
+        if (rows.length > 10) {
+          output.message += 'I have seen ';
+        }
+
         // Labels
-        output.message += 'I saw ';
         let labelCounts = utils.GetLabelCounts(rows);
         labelCounts.forEach(labelObj => {
           const count = labelObj.value;
@@ -234,12 +239,12 @@ function Site(router, sequelizeObjects) {
         const detection_results_count = rows.filter(function (row) {
           return row.detection_result !== ''
         }).length;
-        output.message += (detection_results_count > 0 ? 'and have ' + String(detection_results_count) + ' new detection results.'
-          : 'but no new detection results.') + ' ';
+        output.message += (detection_results_count > 0 ? '' + String(detection_results_count) + ' new detection results.'
+          : '') + ' ';
 
         // Latest object detection image recorded
         const latestRow = rows[rows.length - 1];
-        output.message += 'Latest detection is ' + latestRow.label + ' at time of '
+        output.message += '' + latestRow.label + ' seen at '
           + moment(latestRow.file_create_date).utc(true).format('HH:mm') + '. ';
 
         // Interesting license plates
