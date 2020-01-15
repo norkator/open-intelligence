@@ -5,6 +5,7 @@ const {Op} = require('sequelize');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
+const os 	= require('os-utils');
 
 
 function Site(router, sequelizeObjects) {
@@ -14,6 +15,11 @@ function Site(router, sequelizeObjects) {
    * Get intelligence
    */
   router.get('/get/intelligence', function (req, res) {
+
+    const performance = {
+      loadAvg: String(os.loadavg(5) + '%'),
+      memUse: String(100 - Math.floor(os.freemem() / os.totalmem() * 100)) + '%'
+    };
 
     // Data is array of { h: '2006', a: 100 }, objects
     let activityData = {'data': [], 'xkey': 'h', 'ykeys': ['a'], 'labels': ['Activity']};
@@ -52,6 +58,7 @@ function Site(router, sequelizeObjects) {
       }
       // Return results
       res.json({
+        performance: performance,
         activity: activityData,
         donut: donutData,
       });

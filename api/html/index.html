@@ -74,7 +74,7 @@
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4">
         <div id="talk_content_div">
-          <button id="activate_talk_btn" type="button" class="btn btn-light btn-sm">Talk</button>
+          <button id="activate_talk_btn" type="button" class="btn btn-outline-secondary btn-sm">Talk</button>
         </div>
 
       </div>
@@ -82,7 +82,8 @@
         <a class="text-dark"
            style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: 2.25rem;">Intelligence</a>
       </div>
-      <div class="col-4">
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a id="resource_monitor" class="badge badge-light" style="cursor: pointer;"></a>
       </div>
     </div>
   </header>
@@ -238,6 +239,7 @@
       talk_content_div.append('<span class="badge badge-pill badge-success">Talk enabled</span>');
       voiceIntelligence();
     });
+    const resource_monitor = $('#resource_monitor');
 
     // Initial data load
     loadData();
@@ -254,7 +256,7 @@
         url: apiUrl + '/get/latest/object/detection/image',
         type: 'GET',
       }).done(function (data) {
-        console.log('Loaded object detection image');
+        // console.log('Loaded object detection image');
         $("#object_detection_image").attr("src", data.data);
       });
 
@@ -263,7 +265,10 @@
         url: apiUrl + '/get/intelligence',
         type: 'GET',
       }).done(function (data) {
-        console.log('Loaded intelligence data');
+        // console.log('Loaded intelligence data');
+
+        resource_monitor.text('CPU ' + data.performance.loadAvg + ' MEM '
+          + data.performance.memUse);
 
         // Donut labels
         $('#donut_chart').empty();
@@ -344,6 +349,7 @@
       setInterval(function () {
         run();
       }, (30 * 1000));
+
       function run() {
         if (!bool_speaking) {
           $.ajax({
