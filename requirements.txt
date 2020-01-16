@@ -4,3 +4,4 @@ Pillow==6.2.0
 opencv-python==4.1.2.30
 tensorflow==2.0.0
 Keras==2.3.1
+protobuf==3.6.0
