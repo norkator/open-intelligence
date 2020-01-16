@@ -5,6 +5,9 @@ Inserts data into Postgresql database for further processing. Simple web page in
 
 Goal is to make this fairly easy to setup and powerful so.. say goodbye to privacy.
 
+Note that `/libraries` folder has Python applications made by other people. 
+I have needed to make small changes to them, that's why those are included here.
+
 
 ### Installing
 
@@ -13,7 +16,7 @@ here's steps to get environment running.
 
 ###### Python side
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
-2. Install dependencies, list is below
+2. Install dependencies `pip install -r requirements.txt`
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
 5. Download Postgresql ( https://www.postgresql.org/ )
@@ -26,21 +29,6 @@ here's steps to get environment running.
 3. Rename `.env_tpl` to `.env` and fill details.
 4. Run `node intelligence.js` or with PM2 process manager.
 5. Access `localhost:4300` unless port modified at .env file. 
-
-
-#### Dependencies list
-
-Install all following dependencies using console.
-I have sectioned requirements for different levels.
- 
-```
-# App requirements
-python -m pip install --upgrade pip
-pip install numpy
-pip install matplotlib
-pip install pillow
-pip install opencv-python  (I have 4.1.2.30)
-```  
 
 
 #### Project folder structure
