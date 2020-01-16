@@ -5,11 +5,13 @@ module.exports = (sequelize, type) => {
       primaryKey: true,
       autoIncrement: true
     },
-    name: type.STRING,
-    label: type.STRING,
-    file_path: type.STRING,
-    file_name: type.STRING,
-    file_create_date: type.DATE,
+    name: type.STRING,              // Unique name like camera position
+    label: type.STRING,             // What is in the detection cropped image
+    file_path: type.STRING,         // Where original image was loaded originally
+    file_name: type.STRING,         // Original file name
+    file_create_date: type.DATE,    // Original file create date time
+    file_name_cropped: type.STRING, // Cropped small label image file name
+
 
     // Fields for lower level detection processes (alpr, person etc)
     detection_completed: {

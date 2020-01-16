@@ -97,13 +97,15 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
 
+                # Small image naming and output path
+                crop_image_name_extension = out_file_name + '_' + str(i) + image_object.file_extension
+                crop_image_file_path_name_extension = output_path + label + '/' + crop_image_name_extension
+
                 # Write small image
-                image_file_path_name_extension = output_path + label + '/' + out_file_name + '_' + str(
-                    i) + image_object.file_extension
                 try:
                     Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
                     cv2.imwrite(
-                        image_file_path_name_extension,
+                        crop_image_file_path_name_extension,
                         roi_full_image
                     )
                 except Exception as e:
@@ -112,10 +114,12 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 # Label based detection
                 try:
                     if (label == 'car') or (label == 'truck'):
-                        detection_result = license_plate_detection.detect_license_plate(image_file_path_name_extension)
+                        detection_result = license_plate_detection.detect_license_plate(
+                            crop_image_file_path_name_extension
+                        )
                     if label == 'person':
                         person_detection.recognize_face(
-                            image_file_path_name_extension,
+                            crop_image_file_path_name_extension,
                             label + '_' + out_file_name + '_' + str(i) + image_object.file_extension)
                         # no return yet here
                     # Add more here later and so on...
@@ -130,7 +134,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                             label, image_object.file_path, image_object.file_name,
                             image_object.year, image_object.month, image_object.day,
                             image_object.hours, image_object.minutes, image_object.seconds,
-                            detection_result
+                            crop_image_name_extension, detection_result
                         )
                     except Exception as e:
                         print(e)

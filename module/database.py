@@ -17,7 +17,7 @@ def db_connected():
         return False
 
 
-def insert_value(name, label, file_path, file_name, year, month, day, hour, minute, second, detection_result):
+def insert_value(name, label, file_path, file_name, year, month, day, hour, minute, second, file_name_cropped, detection_result):
     try:
         cursor = connection.cursor()
 
@@ -27,10 +27,10 @@ def insert_value(name, label, file_path, file_name, year, month, day, hour, minu
         # print(file_create_date)
 
         # Query
-        postgres_insert_query = """ INSERT INTO data (name, label, file_path, file_name, file_create_date, detection_completed, detection_result) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+        postgres_insert_query = """ INSERT INTO data (name, label, file_path, file_name, file_create_date, detection_completed, file_name_cropped, detection_result) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
 
         # Variables
-        record_to_insert = (name, label, file_path, file_name, file_create_date, 1, detection_result)
+        record_to_insert = (name, label, file_path, file_name, file_create_date, 1, file_name_cropped, detection_result)
 
         # Execute insert
         cursor.execute(postgres_insert_query, record_to_insert)
