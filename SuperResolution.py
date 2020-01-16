@@ -10,4 +10,6 @@ model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 # Check path existence
 Path(output_car_path).mkdir(parents=True, exist_ok=True)
 
+# TODO: Needs database implementation
+
 infer.main(image_dir=input_car_path, output_dir=output_car_path, model_path_file_name=model_path_file_name)
