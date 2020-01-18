@@ -5,7 +5,7 @@ const {Op} = require('sequelize');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
-const os 	= require('os-utils');
+const os = require('os-utils');
 
 
 function Site(router, sequelizeObjects) {
@@ -134,10 +134,11 @@ function Site(router, sequelizeObjects) {
             if (err) {
               res.status(500);
               res.send(err);
+            } else {
+              res.json({
+                'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+              });
             }
-            res.json({
-              'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-            });
           });
         } else {
           res.status(500);
@@ -193,7 +194,11 @@ function Site(router, sequelizeObjects) {
             fs.readFile(filePath + file, function (err, data) {
               if (!err) {
                 const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-                resolve({title: datetime, image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')});
+                resolve({
+                  title: datetime,
+                  file: file,
+                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+                });
               } else {
                 console.log(err);
                 resolve('data:image/png;base64,');
@@ -202,6 +207,26 @@ function Site(router, sequelizeObjects) {
           });
         }
 
+      }
+    });
+  });
+
+
+  /**
+   * Loads sr image
+   */
+  router.post('/get/super/resolution/image', function (req, res) {
+    const label = req.body.label;
+    const image_file_name = req.body.imageFile;
+    const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/super_resolution/');
+    fs.readFile(filePath + image_file_name, function (err, data) {
+      if (err) {
+        res.status(500);
+        res.send(err);
+      } else {
+        res.json({
+          'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+        });
       }
     });
   });
