@@ -198,7 +198,8 @@
           <div id="activity_week_chart" style="width: 100%; max-height: 200px;"></div>
           <p class="card-text mb-auto">Visualizing one week hourly raw activity.</p>
           <div class="mb-1 text-muted">Hover on top to see details.</div>
-          <button id="load_weekly_data_btn" type="button" class="btn btn-outline-secondary btn-sm">Load weekly data</button>
+          <button id="load_weekly_data_btn" type="button" class="btn btn-outline-secondary btn-sm">Load weekly data
+          </button>
         </div>
       </div>
     </div>
@@ -230,6 +231,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
         integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
 
+<!-- Adds zooming effect -->
+<script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.js"
+        integrity="sha256-fhru0y6L8Knyrjj57vB7/npV5IUyq6Tvo8g0qoceVwQ=" crossorigin="anonymous"></script>
+
 <script>
   $(document).ready(function () {
 
@@ -255,6 +260,9 @@
       bool_speaking = false;
     };
 
+    // Init zoom effect to all img elements
+    wheelzoom(document.querySelector('img.zoom'));
+
     // jQuery references to elements
     const label_image_flex_viewer = $('#label_image_flex_viewer');
     const loaded_label_info = $('#loaded_label_info');
@@ -277,6 +285,7 @@
     });
     const sr_modal_title = $('#sr_modal_title');
     const sr_modal_image = $('#sr_modal_image');
+
 
     // Initial data load
     loadData();
@@ -380,6 +389,7 @@
           label_image_flex_viewer.append(
             '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width: 120px; max-height: 120px;" class="zoom" src="' + imageData.image + '">'
           );
+          wheelzoom(document.getElementById(imageData.file));
         });
       }).fail(function (error) {
         loaded_label_info.text(error.status + ' ' + error.statusText);
