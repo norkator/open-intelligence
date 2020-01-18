@@ -81,7 +81,10 @@ def process_super_resolution_images(model_path_file_name, sr_image_objects):
         sr = cv2.cvtColor(sr, cv2.COLOR_RGB2BGR)
 
         # Save the results:
-        cv2.imwrite(sr_image_object.output_image, sr)
+        try:
+            cv2.imwrite(sr_image_object.output_image, sr)
+        except Exception as e:
+            pass
 
         # Save sr image data to object
         sr_image_object.set_sr_image_data(sr)
