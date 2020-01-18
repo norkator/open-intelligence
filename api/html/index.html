@@ -69,6 +69,28 @@
 
 <body>
 
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="sr_image_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="container">
   <header class="py-3" style="line-height: 1; border-bottom: 1px solid #e5e5e5;">
     <div class="row flex-nowrap justify-content-between align-items-center">
@@ -171,6 +193,7 @@
           <div id="activity_week_chart" style="width: 100%; max-height: 200px;"></div>
           <p class="card-text mb-auto">Visualizing one week hourly raw activity.</p>
           <div class="mb-1 text-muted">Hover on top to see details.</div>
+          <button id="load_weekly_data_btn" type="button" class="btn btn-outline-secondary btn-sm">Load weekly data</button>
         </div>
       </div>
     </div>
@@ -233,11 +256,20 @@
       talk_content_div.append('<span class="badge badge-pill badge-success">Talk enabled</span>');
       voiceIntelligence();
     });
+    const load_weekly_data_btn = $('#load_weekly_data_btn');
+    load_weekly_data_btn.click(() => {
+      loadWeeklyData();
+      load_weekly_data_btn.remove();
+    });
+
     const resource_monitor = $('#resource_monitor');
+    const sr_image_modal = $('#sr_image_modal');
+    label_image_flex_viewer.on('click', 'img', function () {
+      console.log($(this))
+    });
 
     // Initial data load
     loadData();
-    loadWeeklyData();
 
     // Refresh
     setInterval(() => {
@@ -334,6 +366,7 @@
       }).done(function (data) {
         data.images.forEach(imageData => {
           loading_indicator_place_holder.empty();
+          // TODO: id="" needs to be image name
           label_image_flex_viewer.append(
             '<img title="' + imageData.title + '" style="max-width: 120px; max-height: 120px;" class="zoom" src="' + imageData.image + '">'
           );
