@@ -48,7 +48,7 @@ def insert_value(name, label, file_path, file_name, year, month, day, hour, minu
 def get_super_resolution_images_to_compute():
     try:
         cursor = connection.cursor()
-        sr_work_query = "SELECT id, label, file_name_cropped FROM data WHERE sr_image_computed = 0 ORDER BY id ASC"
+        sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE sr_image_computed = 0 ORDER BY id ASC LIMIT 10"
 
         cursor.execute(sr_work_query)
         sr_work_records = cursor.fetchall()
@@ -56,9 +56,23 @@ def get_super_resolution_images_to_compute():
         # for row in sr_work_records:
         #    print("Id = ", row[0], )
         #    print("Label = ", row[1])
-        #    print("Cropped  = ", row[2], "\n")
+        #    print("Cropped  = ", row[2])
+        #    print("Detection result  = ", row[3], "\n")
 
         return sr_work_records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+
+
+def update_super_resolution_row_result(detection_result, sr_image_name, id):
+    try:
+        cursor = connection.cursor()
+
+        sr_update_query = """UPDATE data SET sr_image_computed = 1, detection_after_sr_completed = 1, detection_result = %s, sr_image_name = %s WHERE id = %s"""
+        cursor.execute(sr_update_query, (detection_result, sr_image_name, id))
+        connection.commit()
+        # count = cursor.rowcount
     except psycopg2.DatabaseError as error:
         connection.rollback()
         print(error)

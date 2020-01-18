@@ -22,5 +22,5 @@ use_plate_char_length=True
 plate_char_length=6
 
 [superresolution]
-root_file_path=Z:/path/to/project/folder/output/
+root_folder_path=Z:/path/to/project/folder/output/
 
