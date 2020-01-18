@@ -59,34 +59,36 @@ def process_super_resolution_images(model_path_file_name, sr_image_objects):
     # Loop over all images
     # Input and output image is full path + filename including extension
     for sr_image_object in sr_image_objects:
-        print(sr_image_object.output_image)
-        print(os.path.basename(sr_image_object.input_image))
+        # print(sr_image_object.output_image)
+        # print(os.path.basename(sr_image_object.input_image))
 
-        # Read image
-        low_res = cv2.imread(sr_image_object.input_image, 1)
-
-        # Convert to RGB (opencv uses BGR as default)
-        low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
-
-        # Rescale to 0-1.
-        low_res = low_res / 255.0
-
-        # Get super resolution image
-        sr = model.predict(np.expand_dims(low_res, axis=0))[0]
-
-        # Rescale values in range 0-255
-        sr = ((sr + 1) / 2.) * 255
-
-        # Convert back to BGR for opencv
-        sr = cv2.cvtColor(sr, cv2.COLOR_RGB2BGR)
-
-        # Save the results:
+        # We may not have image available at all, pass
         try:
+            # Read image
+            low_res = cv2.imread(sr_image_object.input_image, 1)
+
+            # Convert to RGB (opencv uses BGR as default)
+            low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
+
+            # Rescale to 0-1.
+            low_res = low_res / 255.0
+
+            # Get super resolution image
+            sr = model.predict(np.expand_dims(low_res, axis=0))[0]
+
+            # Rescale values in range 0-255
+            sr = ((sr + 1) / 2.) * 255
+
+            # Convert back to BGR for opencv
+            sr = cv2.cvtColor(sr, cv2.COLOR_RGB2BGR)
+
+            # Save the results:
             cv2.imwrite(sr_image_object.output_image, sr)
+
+            # Save sr image data to object
+            sr_image_object.set_sr_image_data(sr)
+
         except Exception as e:
             pass
-
-        # Save sr image data to object
-        sr_image_object.set_sr_image_data(sr)
 
     return sr_image_objects
