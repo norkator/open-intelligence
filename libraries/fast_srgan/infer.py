@@ -60,7 +60,7 @@ def process_super_resolution_images(model_path_file_name, sr_image_objects):
     # Input and output image is full path + filename including extension
     for sr_image_object in sr_image_objects:
         # print(sr_image_object.output_image)
-        # print(os.path.basename(sr_image_object.input_image))
+        print('Processing file: ' + os.path.basename(sr_image_object.input_image))
 
         # We may not have image available at all, pass
         try:
