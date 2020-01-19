@@ -64,6 +64,10 @@ function GetFilesNotOlderThan(files, path, days = 1) {
       }
     });
   }
+  // Sort on order mTime asc
+  out.sort(function (a, b) {
+    return a.mtime - b.mtime
+  });
   return out;
 }
 
