@@ -103,7 +103,6 @@
         <div id="talk_content_div">
           <button id="activate_talk_btn" type="button" class="btn btn-outline-secondary btn-sm">Talk</button>
         </div>
-
       </div>
       <div class="col-4 text-center" style="text-decoration: none;">
         <a class="text-dark"
@@ -147,6 +146,18 @@
 
 
   <div class="row mb-2">
+    <div class="col-md-12">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">Selected day</span>
+        </div>
+        <input id="selected_day_field" type="date" class="form-control" placeholder="Change day"
+               aria-label="Day change">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="load_day_btn">Load</button>
+        </div>
+      </div>
+    </div>
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
         <div class="card-body d-flex flex-column align-items-center">
@@ -287,6 +298,14 @@
     const sr_modal_image = $('#sr_modal_image');
 
 
+    const selected_day_field = $('#selected_day_field');
+    selected_day_field.val(new Date().toISOString().substr(0, 10));
+    const load_day_btn = $('#load_day_btn');
+    load_day_btn.on('click', function () {
+      loadData();
+    });
+
+
     // Initial data load
     loadData();
 
@@ -296,6 +315,7 @@
     }, (60 * 1000));
 
     function loadData() {
+
       // Image
       $.ajax({
         url: apiUrl + '/get/latest/object/detection/image',
@@ -308,7 +328,10 @@
       // Intelligence, includes all one day statistics
       $.ajax({
         url: apiUrl + '/get/intelligence',
-        type: 'GET',
+        type: 'POST',
+        data: {
+          selectedDate: selected_day_field.val()
+        }
       }).done(function (data) {
         // console.log('Loaded intelligence data');
 
@@ -381,6 +404,7 @@
         url: apiUrl + '/get/label/images',
         type: 'POST',
         data: {
+          selectedDate: selected_day_field.val(),
           label: label
         },
       }).done(function (data) {

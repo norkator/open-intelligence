@@ -14,7 +14,10 @@ function Site(router, sequelizeObjects) {
   /**
    * Get intelligence
    */
-  router.get('/get/intelligence', function (req, res) {
+  router.post('/get/intelligence', function (req, res) {
+
+    // Day selection from web interface, default today
+    const selectedDate = req.body.selectedDate;
 
     const performance = {
       loadAvg: String(os.loadavg(5) + '%'),
@@ -33,8 +36,8 @@ function Site(router, sequelizeObjects) {
       ],
       where: {
         createdAt: {
-          [Op.gt]: moment().startOf('day').utc(true).toISOString(true),
-          [Op.lt]: moment().endOf('day').utc(true).toISOString(true),
+          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
         }
       },
       order: [
@@ -154,6 +157,9 @@ function Site(router, sequelizeObjects) {
    * label specified at post body
    */
   router.post('/get/label/images', function (req, res) {
+    // Day selection from web interface, default today
+    const selectedDate = req.body.selectedDate;
+
     let outputData = {images: []};
     const label = req.body.label;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
@@ -163,7 +169,7 @@ function Site(router, sequelizeObjects) {
         res.status(500);
         res.send(err);
       } else {
-        let filesList = utils.GetFilesNotOlderThan(files, filePath, 0);
+        let filesList = utils.GetFilesNotOlderThan(files, filePath, selectedDate);
 
         // Read file data
         // noinspection JSIgnoredPromiseFromCall

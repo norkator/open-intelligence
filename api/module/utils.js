@@ -46,19 +46,20 @@ exports.GetNewestFile = GetNewestFile;
  * give it as zero will return only start of today labels
  * @param {Array} files
  * @param {String} path
- * @param {Number} days
+ * @param {Date} selectedDate
  * @returns {Array}
  * @constructor
  */
-function GetFilesNotOlderThan(files, path, days = 1) {
+function GetFilesNotOlderThan(files, path, selectedDate = moment()) {
   let out = [];
-  const millis = days === 0 ? moment().startOf('day').utc(true).valueOf() : ((new Date().getTime()) - (days * 86400000));
+  const startMillis = moment(selectedDate).startOf('day').utc(true).valueOf();
+  const endMillis = moment(selectedDate).endOf('day').utc(true).valueOf();
   if (files !== undefined) {
     files.forEach(function (file) {
       let stats = fs.statSync(path + "/" + file);
       if (stats.isFile()) {
         const fileTime = stats.mtime.getTime();
-        if (fileTime > millis) {
+        if (fileTime > startMillis && fileTime < endMillis) {
           out.push({"file": file, "mtime": fileTime});
         }
       }
