@@ -33,6 +33,8 @@ function Site(router, sequelizeObjects) {
         'label',
         'file_name',
         'file_create_date',
+        'detection_result',
+        'file_name_cropped',
       ],
       where: {
         createdAt: {
@@ -59,6 +61,7 @@ function Site(router, sequelizeObjects) {
         // Parse label counts
         donutData = utils.GetLabelCounts(rows);
       }
+
       // Return results
       res.json({
         performance: performance,
@@ -313,6 +316,160 @@ function Site(router, sequelizeObjects) {
       }
     });
 
+  });
+
+
+  /**
+   * Get license plate detection results
+   */
+  router.post('/get/license/plate/detections', function (req, res) {
+    // Day selection from web interface, default today
+    const selectedDate = req.body.selectedDate;
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'label',
+        'file_name',
+        'file_create_date',
+        'detection_result',
+        'file_name_cropped',
+      ],
+      where: {
+        createdAt: {
+          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+        },
+        detection_result: {
+          [Op.gt]: '',
+        },
+        [Op.or]: [
+          {label: 'car'}, {label: 'truck'}
+        ],
+      },
+      order: [
+        ['createdAt', 'asc']
+      ]
+    }).then(rows => {
+      if (rows.length > 0) {
+        let licensePlates = [];
+        const filePath = path.join(__dirname + '../../../' + 'output/');
+        // noinspection JSIgnoredPromiseFromCall
+        processImagesSequentially(rows.length);
+
+        async function processImagesSequentially(taskLength) {
+          // Specify tasks
+          const promiseTasks = [];
+          for (let i = 0; i < taskLength; i++) {
+            promiseTasks.push(processImage);
+          }
+          // Execute tasks
+          let t = 0;
+          for (const task of promiseTasks) {
+            licensePlates.push(
+              await task(
+                rows[t].file_name_cropped,
+                rows[t].label,
+                rows[t].file_create_date,
+                rows[t].detection_result
+              )
+            );
+            t++;
+            if (t === taskLength) {
+              // Return results
+              res.json({
+                licensePlates: licensePlates,
+              });
+            }
+          }
+        }
+
+        function processImage(file, label, file_create_date, detection_result) {
+          return new Promise(resolve_ => {
+            fs.readFile(filePath + label + '/' + file, function (err, data) {
+              if (!err) {
+                const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
+                resolve_({
+                  title: datetime,
+                  file: file,
+                  detectionResult: detection_result,
+                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+                });
+              } else {
+                console.log(err);
+                resolve_({
+                  title: '',
+                  file: file,
+                  detectionResult: detection_result,
+                  image: 'data:image/png;base64'
+                });
+              }
+            });
+          });
+        }
+      } else {
+        res.status(500);
+        res.message('No license plates found')
+      }
+    });
+  });
+
+
+  /**
+   * Get faces
+   */
+  router.post('/get/faces', function (req, res) {
+    // Day selection from web interface, default today
+    const selectedDate = req.body.selectedDate;
+    let faces = [];
+    const filePath = path.join(__dirname + '../../../' + 'output/faces/');
+    fs.readdir(filePath, function (err, files) {
+      if (err) {
+        res.status(500);
+        res.send(err);
+      } else {
+        let filesList = utils.GetFilesNotOlderThan(files, filePath, selectedDate);
+        // Read file data
+        // noinspection JSIgnoredPromiseFromCall
+        processImagesSequentially(filesList.length);
+
+        async function processImagesSequentially(taskLength) {
+          // Specify tasks
+          const promiseTasks = [];
+          for (let i = 0; i < taskLength; i++) {
+            promiseTasks.push(processImage);
+          }
+          // Execute tasks
+          let t = 0;
+          for (const task of promiseTasks) {
+            faces.push(await task(filesList[t].file, filesList[t].mtime));
+            t++;
+            if (t === taskLength) {
+              // Return results
+              res.json({
+                faces: faces,
+              });
+            }
+          }
+        }
+
+        function processImage(file, mtime) {
+          return new Promise(resolve => {
+            fs.readFile(filePath + file, function (err, data) {
+              if (!err) {
+                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
+                resolve({
+                  title: datetime,
+                  file: file,
+                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+                });
+              } else {
+                console.log(err);
+                resolve({});
+              }
+            });
+          });
+        }
+      }
+    });
   });
 
 

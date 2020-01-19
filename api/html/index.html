@@ -163,7 +163,7 @@
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-primary">Activity</strong>
           <div id="activity_chart" style="max-width: 400px; max-height: 200px;"></div>
-          <p class="card-text mb-auto">Visualizing today's hourly raw activity.</p>
+          <p class="card-text mb-auto">Visualizing hourly raw activity for selected day.</p>
           <div class="mb-1 text-muted">Hover on top to see details.</div>
         </div>
       </div>
@@ -200,6 +200,30 @@
       </div>
     </div>
   </div>
+
+
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250" style="height: 100%">
+        <div class="card-body d-flex flex-column align-items-center">
+          <strong class="d-inline-block mb-2 text-primary">License plates</strong>
+          <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+          </div>
+          <div class="mb-1 text-muted">License plate detections</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250" style="height: 100%">
+        <div class="card-body d-flex flex-column align-items-center">
+          <strong class="d-inline-block mb-2 text-success">Faces</strong>
+          <div id="faces_flex_viewer" class="d-flex flex-wrap mt-2 mb-2"></div>
+          <div class="mb-1 text-muted">Face detections</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="row">
     <div class="col-md-12">
@@ -288,7 +312,6 @@
       loadWeeklyData();
       load_weekly_data_btn.remove();
     });
-
     const resource_monitor = $('#resource_monitor');
     const sr_image_modal = $('#sr_image_modal');
     label_image_flex_viewer.on('click', 'img', function () {
@@ -296,14 +319,14 @@
     });
     const sr_modal_title = $('#sr_modal_title');
     const sr_modal_image = $('#sr_modal_image');
-
-
     const selected_day_field = $('#selected_day_field');
     selected_day_field.val(new Date().toISOString().substr(0, 10));
     const load_day_btn = $('#load_day_btn');
     load_day_btn.on('click', function () {
       loadData();
     });
+    const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
+    const faces_flex_viewer = $('#faces_flex_viewer');
 
 
     // Initial data load
@@ -325,7 +348,7 @@
         $("#object_detection_image").attr("src", data.data);
       });
 
-      // Intelligence, includes all one day statistics
+      // Intelligence, includes all one day statistics, and valid detections
       $.ajax({
         url: apiUrl + '/get/intelligence',
         type: 'POST',
@@ -364,7 +387,46 @@
           resize: true,
           parseTime: false
         });
+      });
 
+      // License plate detection data, images and plate strings
+      $.ajax({
+        url: apiUrl + '/get/license/plate/detections',
+        type: 'POST',
+        data: {
+          selectedDate: selected_day_field.val()
+        }
+      }).done(function (data) {
+        // Plates
+        licence_plate_flex_viewer.empty();
+        data.licensePlates.forEach(licensePlate => {
+          licence_plate_flex_viewer.append(
+            '<div style="margin: 5px;">' +
+            '<img id="' + licensePlate.file + '" title="' + licensePlate.title + '" style="cursor: zoom-in; max-width: 120px; max-height: 120px;" src="' + licensePlate.image + '">' +
+            '<p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4;">' + licensePlate.detectionResult + '</p>' +
+            '</div>'
+          );
+          wheelzoom(document.getElementById(licensePlate.file));
+        });
+      });
+
+      $.ajax({
+        url: apiUrl + '/get/faces',
+        type: 'POST',
+        data: {
+          selectedDate: selected_day_field.val()
+        }
+      }).done(function (data) {
+        // Faces
+        faces_flex_viewer.empty();
+        data.faces.forEach(face => {
+          faces_flex_viewer.append(
+            '<div style="margin: 5px;">' +
+            '<img id="' + face.file + '" title="' + face.title + '" style="cursor: zoom-in; width: 80px; height: 80px;" src="' + face.image + '">' +
+            '</div>'
+          );
+          wheelzoom(document.getElementById(face.file));
+        });
       });
     }
 
