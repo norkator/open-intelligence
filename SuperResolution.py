@@ -1,10 +1,16 @@
-import sys
-from libraries.fast_srgan import infer
 import os
+import sys
+from argparse import ArgumentParser
+from libraries.fast_srgan import infer
 from pathlib import Path
-from module import configparser, database, license_plate_detection, person_detection
+from module import configparser, database, license_plate_detection
 from objects import SrFile
 import time
+
+# Parse arguments
+parser = ArgumentParser()
+parser.add_argument('--testfile', type=str,
+                    help='Test mode loads image from project /images folder. Specify image name.')
 
 # Parse configs
 process_sleep_seconds = configparser.app_config()['process_sleep_seconds']
@@ -82,7 +88,16 @@ def main_loop():
 
 if __name__ == '__main__':
     try:
-        main_loop()
+        args = parser.parse_args()
+        if args.testfile is None:
+            # Normal process mode
+            main_loop()
+        else:
+            # Test mode
+            sr_test_images = [SrFile.SrFile(
+                None, None, None,
+                os.getcwd() + '/images/' + args.testfile, os.getcwd() + '/images/' + 'sr_' + args.testfile, None)]
+            infer.process_super_resolution_images(sr_test_images)
     except KeyboardInterrupt:
         print >> sys.stderr, '\nExiting by user request.\n'
         sys.exit(0)
