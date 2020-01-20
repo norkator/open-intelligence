@@ -13,7 +13,6 @@ super_resolution_config = configparser.super_resolution_config()
 # Paths
 # Output root folder path can be anything, same computer or smb share
 output_root_folder_path = super_resolution_config['root_folder_path']
-model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
 
 def is_null(input_variable):
@@ -47,7 +46,6 @@ def app():
     if len(sr_image_objects) > 0:
         # Process super resolution images
         sr_image_objects = infer.process_super_resolution_images(
-            model_path_file_name=model_path_file_name,
             sr_image_objects=sr_image_objects
         )
 

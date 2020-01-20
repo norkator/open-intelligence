@@ -8,16 +8,20 @@ parser = ArgumentParser()
 parser.add_argument('--image_dir', type=str, help='Directory where images are kept.')
 parser.add_argument('--output_dir', type=str, help='Directory where to output high res images.')
 
+# Model path
+model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
+
+# Load model to memory
+# Change model input shape to accept all size inputs
+model = keras.models.load_model(model_path_file_name, compile=False)
+inputs = keras.Input((None, None, 3))
+output = model(inputs)
+model = keras.models.Model(inputs, output)
+
 
 def main(image_dir, output_dir, model_path_file_name):
     # Get all image paths
     image_paths = [os.path.join(image_dir, x) for x in os.listdir(image_dir)]
-
-    # Change model input shape to accept all size inputs
-    model = keras.models.load_model(model_path_file_name, compile=False)
-    inputs = keras.Input((None, None, 3))
-    output = model(inputs)
-    model = keras.models.Model(inputs, output)
 
     # Loop over all images
     for image_path in image_paths:
@@ -49,13 +53,7 @@ if __name__ == '__main__':
     main(args.image_dir, args.output_dir, model_path)
 
 
-def process_super_resolution_images(model_path_file_name, sr_image_objects):
-    # Change model input shape to accept all size inputs
-    model = keras.models.load_model(model_path_file_name, compile=False)
-    inputs = keras.Input((None, None, 3))
-    output = model(inputs)
-    model = keras.models.Model(inputs, output)
-
+def process_super_resolution_images(sr_image_objects):
     # Loop over all images
     # Input and output image is full path + filename including extension
     for sr_image_object in sr_image_objects:
