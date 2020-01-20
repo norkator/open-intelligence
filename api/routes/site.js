@@ -407,7 +407,7 @@ function Site(router, sequelizeObjects) {
         }
       } else {
         res.status(500);
-        res.message('No license plates found')
+        res.send('No license plates found');
       }
     });
   });
