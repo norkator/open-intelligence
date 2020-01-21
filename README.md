@@ -36,6 +36,7 @@ here's steps to get environment running.
     .
     ├── api                      # Api which is serving small static web page
     ├── classifiers              # Classifiers for different detectors like faces
+    ├── dataset                  # Images of people to be detected
     ├── images                   # Input images to process
     ├── libraries                # Modified third party libraries
     ├── models                   # Yolo and other files
