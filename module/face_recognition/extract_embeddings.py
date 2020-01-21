@@ -39,7 +39,7 @@ def extract_embeddings(cwd_path, input_confidence=0.5):
     for (i, imagePath) in enumerate(image_paths):
         # extract the person name from the image path
         print("[INFO] processing image {}/{}".format(i + 1, len(image_paths)))
-        name = imagePath.split(os.path.sep)[-2]
+        name = str(imagePath.split(os.path.sep)[-2]).replace('Open-Intelligence/dataset/', '')
 
         # load the image, resize it to have a width of 600 pixels (while
         # maintaining the aspect ratio), and then grab the image
