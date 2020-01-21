@@ -1,5 +1,5 @@
 import os
-from module.face_recognition import extract_embeddings, train_model
+from module.face_recognition import extract_embeddings, train_model, recognize
 
 # ---------------------------------
 # Training part
@@ -10,5 +10,11 @@ from module.face_recognition import extract_embeddings, train_model
 
 # Train model
 # train_model.train_model(cwd_path=os.getcwd())
+
+# ---------------------------------
+# Recolonization part
+# TODO: UNDER DEVELOPMENT!
+# input_image = os.getcwd() + '/images/' + 'a.jpg'
+# recognize.recognize(cwd_path=os.getcwd(), input_confidence=0.7, input_image=input_image)
 
 # ---------------------------------
