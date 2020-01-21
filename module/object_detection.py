@@ -8,7 +8,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import shutil
-from module import database, license_plate_detection, person_detection
+from module import database, license_plate_detection, face_detection
 
 # Paths
 models_path = os.getcwd() + '/models/'
@@ -118,7 +118,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                             crop_image_file_path_name_extension
                         )
                     if label == 'person':
-                        person_detection.recognize_face(
+                        face_detection.recognize_face(
                             crop_image_file_path_name_extension,
                             label + '_' + out_file_name + '_' + str(i) + image_object.file_extension)
                         # no return yet here
