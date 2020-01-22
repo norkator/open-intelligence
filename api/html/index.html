@@ -207,7 +207,7 @@
       <div class="card flex-md-row mb-4 box-shadow h-md-250" style="height: 100%">
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-primary">License plates</strong>
-          <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+          <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
           </div>
           <div class="mb-1 text-muted">License plate detections</div>
         </div>
@@ -217,7 +217,8 @@
       <div class="card flex-md-row mb-4 box-shadow h-md-250" style="height: 100%">
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-success">Faces</strong>
-          <div id="faces_flex_viewer" class="d-flex flex-wrap mt-2 mb-2"></div>
+          <div id="faces_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
+          </div>
           <div class="mb-1 text-muted">Face detections</div>
         </div>
       </div>
@@ -418,11 +419,12 @@
         }
       }).done(function (data) {
         // Faces
-        faces_flex_viewer.empty();
+        // faces_flex_viewer.empty();
         data.faces.forEach(face => {
           faces_flex_viewer.append(
             '<div style="margin: 5px;">' +
-            '<img id="' + face.file + '" title="' + face.title + '" style="cursor: zoom-in; width: 80px; height: 80px;" src="' + face.image + '">' +
+            '<img id="' + face.file + '" title="' + face.title + '" style="cursor: zoom-in; max-width: 120px; max-height: 120px;" src="' + face.image + '">' +
+            '<p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4; font-size: 10pt;">' + face.detectionResult + '</p>' +
             '</div>'
           );
           wheelzoom(document.getElementById(face.file));

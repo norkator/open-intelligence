@@ -419,17 +419,33 @@ function Site(router, sequelizeObjects) {
   router.post('/get/faces', function (req, res) {
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
-    let faces = [];
-    const filePath = path.join(__dirname + '../../../' + 'output/faces/');
-    fs.readdir(filePath, function (err, files) {
-      if (err) {
-        res.status(500);
-        res.send(err);
-      } else {
-        let filesList = utils.GetFilesNotOlderThan(files, filePath, selectedDate);
-        // Read file data
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'label',
+        'file_name',
+        'file_create_date',
+        'detection_result',
+        'file_name_cropped',
+      ],
+      where: {
+        createdAt: {
+          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+        },
+        detection_result: {
+          [Op.gt]: '',
+        },
+        label: 'person',
+      },
+      order: [
+        ['createdAt', 'asc']
+      ]
+    }).then(rows => {
+      if (rows.length > 0) {
+        let faces = [];
+        const filePath = path.join(__dirname + '../../../' + 'output/');
         // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(filesList.length);
+        processImagesSequentially(rows.length);
 
         async function processImagesSequentially(taskLength) {
           // Specify tasks
@@ -440,7 +456,14 @@ function Site(router, sequelizeObjects) {
           // Execute tasks
           let t = 0;
           for (const task of promiseTasks) {
-            faces.push(await task(filesList[t].file, filesList[t].mtime));
+            faces.push(
+              await task(
+                rows[t].file_name_cropped,
+                rows[t].label,
+                rows[t].file_create_date,
+                rows[t].detection_result
+              )
+            );
             t++;
             if (t === taskLength) {
               // Return results
@@ -451,23 +474,32 @@ function Site(router, sequelizeObjects) {
           }
         }
 
-        function processImage(file, mtime) {
-          return new Promise(resolve => {
-            fs.readFile(filePath + file, function (err, data) {
+        function processImage(file, label, file_create_date, detection_result) {
+          return new Promise(resolve_ => {
+            fs.readFile(filePath + label + '/' + file, function (err, data) {
               if (!err) {
-                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-                resolve({
+                const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
+                resolve_({
                   title: datetime,
                   file: file,
+                  detectionResult: detection_result,
                   image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
                 });
               } else {
                 console.log(err);
-                resolve({});
+                resolve_({
+                  title: '',
+                  file: file,
+                  detectionResult: detection_result,
+                  image: 'data:image/png;base64'
+                });
               }
             });
           });
         }
+      } else {
+        res.status(500);
+        res.send('No faces found');
       }
     });
   });
