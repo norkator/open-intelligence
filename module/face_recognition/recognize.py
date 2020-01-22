@@ -1,10 +1,18 @@
+from pathlib import Path
 import numpy as np
 import imutils
 import pickle
 import cv2
+import os
+
+# Paths
+output_faces_path = os.getcwd() + '/output/faces/'
 
 
-def recognize(cwd_path, input_confidence=0.5, input_image=None):
+def recognize(cwd_path, output_file_name=None, input_confidence=0.5, input_image=None):
+    # Output field
+    detection_name_and_probability = None
+
     # load our serialized face detector from disk
     print("[INFO] loading face detector...")
     proto_path = cwd_path + '/models/face_detection_model/' + 'deploy.prototxt'
@@ -55,6 +63,14 @@ def recognize(cwd_path, input_confidence=0.5, input_image=None):
             face = image[startY:endY, startX:endX]
             (fH, fW) = face.shape[:2]
 
+            # Write small images
+            if output_file_name is not None:
+                try:
+                    Path(output_faces_path).mkdir(parents=True, exist_ok=True)
+                    cv2.imwrite(output_faces_path + output_file_name, face)
+                except Exception as e:
+                    print(e)
+
             # ensure the face width and height are sufficiently large
             if fW < 20 or fH < 20:
                 continue
@@ -75,11 +91,15 @@ def recognize(cwd_path, input_confidence=0.5, input_image=None):
             # draw the bounding box of the face along with the associated
             # probability
             text = "{}: {:.2f}%".format(name, proba * 100)
+            detection_name_and_probability = text
             print("[INFO] " + text)
             y = startY - 10 if startY - 10 > 10 else startY + 10
             cv2.rectangle(image, (startX, startY), (endX, endY), (0, 255, 255), 2)
             cv2.putText(image, text, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 255, 255), 2)
 
     # show the output image
-    cv2.imshow("FaceRec", image)
-    cv2.waitKey(0)
+    cv2.imshow("PickleFaceRec", image)
+    cv2.waitKey(1)  # no freeze, refreshes for a millisecond
+
+    # Return result
+    return detection_name_and_probability

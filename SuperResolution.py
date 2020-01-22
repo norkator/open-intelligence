@@ -3,7 +3,7 @@ import sys
 from argparse import ArgumentParser
 from libraries.fast_srgan import infer
 from pathlib import Path
-from module import configparser, database, license_plate_detection
+from module import configparser, database, license_plate_detection, face_detection
 from objects import SrFile
 import time
 
@@ -63,6 +63,11 @@ def app():
                     if (sr_image_object.label == 'car') or (sr_image_object.label == 'truck'):
                         sr_image_object.detection_result = license_plate_detection.detect_license_plate(
                             sr_image_object.output_image
+                        )
+                    if sr_image_object.label == 'person':
+                        sr_image_object.detection_result = face_detection.recognize_person(
+                            sr_image_object.output_image,
+                            sr_image_object.label + '_' + sr_image_object.image_name
                         )
                 except Exception as e:
                     print(e)

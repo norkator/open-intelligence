@@ -15,7 +15,7 @@ from module.face_recognition import extract_embeddings, train_model, recognize, 
 # ---------------------------------
 # Recognition part
 # input_image = os.getcwd() + '/images/' + 'a.jpg'
-# recognize.recognize(cwd_path=os.getcwd(), input_confidence=0.5, input_image=input_image)
+# recognize.recognize(cwd_path=os.getcwd(), output_file_name=None, input_confidence=0.5, input_image=input_image)
 
 # ---------------------------------
 # Sorting face including images tool

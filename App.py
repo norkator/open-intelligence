@@ -9,8 +9,8 @@ print('time offset: ' + str(time_offset_hours))
 
 # Specify your names and folders at config.ini
 # split them by a,b,c,d
-names = ['App1', 'App2']
-folders = [os.getcwd() + '/images/', os.getcwd() + '/images2/']
+names = ['App1']
+folders = [os.getcwd() + '/images/']
 
 # Parse camera name and folder config
 camera_config = configparser.camera_config()

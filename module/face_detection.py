@@ -1,6 +1,7 @@
 import os
 import cv2
 from pathlib import Path
+from module.face_recognition import recognize
 
 # Paths
 person_path = os.getcwd() + '/output/person/'
@@ -8,7 +9,27 @@ output_faces_path = os.getcwd() + '/output/faces/'
 classifier_path = os.getcwd() + '/classifiers/'
 
 
-def recognize_face(image_file_path_name_extension, output_file_name):
+# Main method to call
+def recognize_person(image_file_path_name_extension, output_file_name):
+    # Recognize
+    detection_name_and_probability = None
+    try:
+        detection_name_and_probability = recognize.recognize(
+            cwd_path=os.getcwd(), output_file_name=output_file_name,
+            input_confidence=0.5, input_image=image_file_path_name_extension
+        )
+    except Exception as e:
+        pass
+    if detection_name_and_probability is None:
+        haarcascade_face_detection(image_file_path_name_extension, output_file_name)
+        return ''
+    else:
+        return detection_name_and_probability
+
+
+# If person recognition fails (face + person)
+# then try detect only face with haarcascade, write small image out
+def haarcascade_face_detection(image_file_path_name_extension, output_file_name):
     object_cascade = cv2.CascadeClassifier(classifier_path + 'haarcascade_frontalface_default.xml')
 
     img = cv2.imread(image_file_path_name_extension)
