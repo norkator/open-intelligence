@@ -1,3 +1,5 @@
+![Upper part](https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG)  |  ![Lower part](https://github.com/norkator/Open-Intelligence/blob/master/other/img2.PNG)
+
 # Open-Intelligence
 
 Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects (labels) in different categories. 
