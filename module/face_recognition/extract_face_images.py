@@ -8,9 +8,11 @@ import os
 
 # Paths
 face_extraction_output_path = os.getcwd() + '/output/face_extractions/'
+face_extraction_output_bad_path = os.getcwd() + '/output/face_extractions/rejected/'
 
 # Check path existence
 Path(face_extraction_output_path).mkdir(parents=True, exist_ok=True)
+Path(face_extraction_output_bad_path).mkdir(parents=True, exist_ok=True)
 
 
 # Only sort out images which has face detector
@@ -73,5 +75,11 @@ def extract_face_images(cwd_path, input_confidence=0.5):
                 print('[INFO] Found face from ' + file_name)
                 # Move original image to face including output folder
                 shutil.move(imagePath, face_extraction_output_path + file_name)
+            else:
+                # Bad image
+                shutil.move(imagePath, face_extraction_output_bad_path + file_name)
+        else:
+            # Bad image
+            shutil.move(imagePath, face_extraction_output_bad_path + file_name)
 
     print('[INFO] Processing completed!')
