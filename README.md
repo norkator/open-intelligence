@@ -1,6 +1,5 @@
 <p align="start">
-  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="250">
-  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img2.PNG" width="250">
+  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="280">
 </p>
 
 # Open-Intelligence
