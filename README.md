@@ -37,7 +37,7 @@ here's steps to get environment running.
     ├── api                      # Api which is serving small static web page
     ├── classifiers              # Classifiers for different detectors like faces
     ├── dataset                  # Images of people to be detected
-    ├── images                   # Input images to process
+    ├── images                   # Input images to process 
     ├── libraries                # Modified third party libraries
     ├── models                   # Yolo and other files
     ├── module                   # Source files
@@ -90,12 +90,15 @@ Here's some ideas
 - [x] basic api for serving small static statistics/status web page 'command center';
 - [x] voice intelligence support (web page can talk);
 - [x] license plate recognition from normal camera images;
-- [x] basic face recognition from cropped person images;
-- [ ] identify car owners from license plates (user determines owners);
-- [ ] identify persons from detected faces (user determines persons); 
-- [ ] camera microphone access and speech to text conversion tools;
-- [ ] automatically analyse microphone -> text contents -> find interests;
-- [ ] possibility to train model... maybe coming;
+- [x] basic face detection from cropped person images;
+- [x] detect faces;
+- [ ] recognize faces via user trained person face model;
+- [ ] web interface section for training;
+- [x] basic license plate detection (Automatic number-plate recognition);
+- [ ] identify car owners from license plates (user determines owners at web ui);
+- [ ] camera microphone access;
+- [ ] microphone sound -> heard text contents -> find interests -> collect speech;
+
 
 ## Authors
 
