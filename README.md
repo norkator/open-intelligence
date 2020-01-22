@@ -1,4 +1,7 @@
-![Upper part](https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG)  |  ![Lower part](https://github.com/norkator/Open-Intelligence/blob/master/other/img2.PNG)
+<p align="start">
+  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="250">
+  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img2.PNG" width="250">
+</p>
 
 # Open-Intelligence
 
