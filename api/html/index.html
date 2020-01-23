@@ -359,8 +359,7 @@
       }).done(function (data) {
         // console.log('Loaded intelligence data');
 
-        resource_monitor.text('CPU ' + data.performance.loadAvg + ' MEM '
-          + data.performance.memUse);
+        resource_monitor.text(/*'CPU ' + data.performance.loadAvg +*/'MEM ' + data.performance.memUse);
 
         // Donut labels
         $('#donut_chart').empty();
@@ -419,7 +418,7 @@
         }
       }).done(function (data) {
         // Faces
-        // faces_flex_viewer.empty();
+        faces_flex_viewer.empty();
         data.faces.forEach(face => {
           faces_flex_viewer.append(
             '<div style="margin: 5px;">' +
@@ -475,7 +474,7 @@
         data.images.forEach(imageData => {
           loading_indicator_place_holder.empty();
           label_image_flex_viewer.append(
-            '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width: 120px; max-height: 120px;" class="zoom" src="' + imageData.image + '">'
+            '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width:120px; max-height:120px; width: auto; height: auto;" class="zoom" src="' + imageData.image + '">'
           );
           wheelzoom(document.getElementById(imageData.file));
         });
