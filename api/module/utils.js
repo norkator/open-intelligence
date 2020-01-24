@@ -36,7 +36,16 @@ function GetNewestFile(files, path) {
       return b.mtime - a.mtime;
     });
   }
-  return (out.length > 0) ? out[0].file : "";
+  if (out.length > 0) {
+    if (out[0].file !== 'Thumbs.db') {
+	  return out[0].file;
+	} else if (out.length > 1) {
+	  return out[1].file;
+	} else {
+	  return "";
+	}
+  }
+  return "";
 }
 
 exports.GetNewestFile = GetNewestFile;
