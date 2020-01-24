@@ -23,4 +23,3 @@ plate_char_length=6
 
 [superresolution]
 root_folder_path=Z:/path/to/project/folder/output/
-

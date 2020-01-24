@@ -1,5 +1,6 @@
 from pathlib import Path
 import numpy as np
+import shutil
 import imutils
 import pickle
 import cv2
@@ -7,6 +8,7 @@ import os
 
 # Paths
 output_faces_path = os.getcwd() + '/output/faces/'
+output_faces_dataset = os.getcwd() + '/output/faces_dataset/'
 
 
 def recognize(cwd_path, output_file_name=None, input_confidence=0.5, input_image=None):
@@ -63,13 +65,21 @@ def recognize(cwd_path, output_file_name=None, input_confidence=0.5, input_image
             face = image[startY:endY, startX:endX]
             (fH, fW) = face.shape[:2]
 
-            # Write small images
+            # Write small face images
             if output_file_name is not None:
                 try:
                     Path(output_faces_path).mkdir(parents=True, exist_ok=True)
                     cv2.imwrite(output_faces_path + output_file_name, face)
                 except Exception as e:
                     print(e)
+
+            # Copy original image to faces dataset for later training
+            # TODO: needs optional folder specification for network nodes
+            try:
+                Path(output_faces_dataset).mkdir(parents=True, exist_ok=True)
+                shutil.copy(input_image, output_faces_dataset + output_file_name)
+            except Exception as e:
+                print(e)
 
             # ensure the face width and height are sufficiently large
             if fW < 20 or fH < 20:

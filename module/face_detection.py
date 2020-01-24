@@ -50,7 +50,7 @@ def haarcascade_face_detection(image_file_path_name_extension, output_file_name)
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 0), 1)
         roi = face_img[y:y + h, x:x + w]
 
-        # Write small images
+        # Write small face images
         try:
             Path(output_faces_path).mkdir(parents=True, exist_ok=True)
             cv2.imwrite(output_faces_path + output_file_name, roi)
