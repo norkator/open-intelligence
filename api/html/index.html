@@ -70,7 +70,7 @@
 <body>
 
 
-<!-- Modal -->
+<!-- Super resolution modal -->
 <div class="modal fade bd-example-modal-lg" id="sr_image_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -226,6 +226,23 @@
   </div>
 
 
+  <!-- Face sorting interface -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-center">
+          <strong class="d-inline-block mb-2 text-primary">Person image grouping</strong>
+          <div id="face_grouping_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
+          </div>
+          <div class="mb-1 text-muted">Click image and select who is in the image. This is used on training.</div>
+          <div id="face_grouping_names_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- One week activity -->
   <div class="row">
     <div class="col-md-12">
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
@@ -279,6 +296,8 @@
 
     // Variables
     let loadedLabel = null;
+    let faceGroupingNames = [];
+    let loadedFaceGroupingImage = null;
 
     // Init voice (text to speech)
     let msg = new SpeechSynthesisUtterance();
@@ -328,6 +347,24 @@
     });
     const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
     const faces_flex_viewer = $('#faces_flex_viewer');
+
+    const face_grouping_names_flex_viewer = $('#face_grouping_names_flex_viewer');
+    face_grouping_names_flex_viewer.on('click', 'button', function () {
+      console.log($(this).attr('id'));
+      console.log(loadedFaceGroupingImage);
+      // TODO: run image moving action here
+      face_grouping_flex_viewer.find('img[id="'+loadedFaceGroupingImage+'"]').remove();
+    });
+    const face_grouping_flex_viewer = $('#face_grouping_flex_viewer');
+    face_grouping_flex_viewer.on('click', 'img', function () {
+      loadedFaceGroupingImage = $(this).attr('id');
+      face_grouping_names_flex_viewer.empty();
+      faceGroupingNames.forEach(name => {
+        face_grouping_names_flex_viewer.append(
+          '<button id="' + name + '" type="button" class="btn btn-outline-secondary btn-sm mr-2">' + name + '</button>'
+        )
+      });
+    });
 
 
     // Initial data load
@@ -427,6 +464,24 @@
             '</div>'
           );
           wheelzoom(document.getElementById(face.file));
+        });
+      });
+
+
+      // Load face grouping images
+      $.ajax({
+        url: apiUrl + '/get/face/grouping/images',
+        type: 'GET',
+      }).done(function (data) {
+        console.log(data);
+        // Faces
+        face_grouping_flex_viewer.empty();
+        faceGroupingNames = data.names;
+        data.images.forEach(imageData => {
+          face_grouping_flex_viewer.append(
+            '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width:120px; max-height:120px; width: auto; height: auto;" class="zoom" src="' + imageData.image + '">'
+          );
+          wheelzoom(document.getElementById(imageData.file));
         });
       });
     }

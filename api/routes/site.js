@@ -505,6 +505,70 @@ function Site(router, sequelizeObjects) {
   });
 
 
+  /**
+   * Load non grouped face grouping images
+   * also loads person name folders
+   */
+  router.get('/get/face/grouping/images', function (req, res) {
+    let outputData = {names: [], images: []};
+    const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
+    fs.readdir(filePath, function (err, files) {
+      if (err) {
+        res.status(500);
+        res.send(err);
+      } else {
+        let filesList = [];
+        files.forEach(function(file) {
+          const stat = fs.statSync(filePath + '/' + file);
+          if (stat && stat.isDirectory()) {
+            const split = file.split('/');
+            outputData.names.push(split[split.length-1]);
+          } else {
+            filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+          }
+        });
+        // Read file data
+        // noinspection JSIgnoredPromiseFromCall
+        processImagesSequentially(filesList.length);
+        async function processImagesSequentially(taskLength) {
+          // Specify tasks
+          const promiseTasks = [];
+          for (let i = 0; i < taskLength; i++) {
+            promiseTasks.push(processImage);
+          }
+          // Execute tasks
+          let t = 0;
+          for (const task of promiseTasks) {
+            console.log('Loading: ' + filesList[t].file);
+            outputData.images.push(await task(filesList[t].file, filesList[t].mtime));
+            t++;
+            if (t === taskLength) {
+              res.json(outputData); // All tasks completed, return
+            }
+          }
+        }
+        function processImage(file, mtime) {
+          return new Promise(resolve => {
+            fs.readFile(filePath + file, function (err, data) {
+              if (!err) {
+                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
+                resolve({
+                  title: datetime,
+                  file: file,
+                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+                });
+              } else {
+                console.log(err);
+                resolve('data:image/png;base64,');
+              }
+            });
+          });
+        }
+      }
+    });
+  });
+
+
 }
 
 exports.Site = Site;
