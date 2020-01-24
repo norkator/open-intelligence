@@ -31,28 +31,37 @@ def process_super_resolution_images(sr_image_objects):
             # Read image
             low_res = cv2.imread(sr_image_object.input_image, 1)
 
-            # Convert to RGB (opencv uses BGR as default)
-            low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
+            # Get image size details
+            original_h, original_w, original_c = low_res.shape
+            print('Sr processing img size: ' + str(original_h) + ':' + str(original_w))
 
-            # Rescale to 0-1.
-            low_res = low_res / 255.0
+            # Check if image is not too big
+            if original_w < 1200 and original_h < 1200:
+                # Convert to RGB (opencv uses BGR as default)
+                low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
 
-            # Get super resolution image
-            sr = model.predict(np.expand_dims(low_res, axis=0))[0]
+                # Rescale to 0-1.
+                low_res = low_res / 255.0
 
-            # Rescale values in range 0-255
-            sr = ((sr + 1) / 2.) * 255
+                # Get super resolution image
+                sr = model.predict(np.expand_dims(low_res, axis=0))[0]
 
-            # Convert back to BGR for opencv
-            sr = cv2.cvtColor(sr, cv2.COLOR_RGB2BGR)
+                # Rescale values in range 0-255
+                sr = ((sr + 1) / 2.) * 255
 
-            # Save the results:
-            cv2.imwrite(sr_image_object.output_image, sr)
+                # Convert back to BGR for opencv
+                sr = cv2.cvtColor(sr, cv2.COLOR_RGB2BGR)
 
-            # Save sr image data to object
-            sr_image_object.set_sr_image_data(sr)
+                # Save the results:
+                cv2.imwrite(sr_image_object.output_image, sr)
+
+                # Save sr image data to object
+                sr_image_object.set_sr_image_data(sr)
+            else:
+                # Save original image
+                sr_image_object.set_sr_image_data(low_res)
 
         except Exception as e:
-            pass
+            print(e)
 
     return sr_image_objects
