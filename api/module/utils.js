@@ -66,11 +66,13 @@ function GetFilesNotOlderThan(files, path, selectedDate = moment()) {
   const endMillis = moment(selectedDate).endOf('day').utc(true).valueOf();
   if (files !== undefined) {
     files.forEach(function (file) {
-      let stats = fs.statSync(path + "/" + file);
-      if (stats.isFile()) {
-        const fileTime = stats.mtime.getTime();
-        if (fileTime > startMillis && fileTime < endMillis) {
-          out.push({"file": file, "mtime": fileTime});
+      if (!file.includes('thumbs.db')) {
+        let stats = fs.statSync(path + "/" + file);
+        if (stats.isFile()) {
+          const fileTime = stats.mtime.getTime();
+          if (fileTime > startMillis && fileTime < endMillis) {
+            out.push({"file": file, "mtime": fileTime});
+          }
         }
       }
     });

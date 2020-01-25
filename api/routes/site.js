@@ -519,12 +519,14 @@ function Site(router, sequelizeObjects) {
       } else {
         let filesList = [];
         files.forEach(function (file) {
-          const stat = fs.statSync(filePath + '/' + file);
-          if (stat && stat.isDirectory()) {
-            const split = file.split('/');
-            outputData.names.push(split[split.length - 1]);
-          } else {
-            filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+          if (!file.includes('thumbs.db')) {
+            const stat = fs.statSync(filePath + '/' + file);
+            if (stat && stat.isDirectory()) {
+              const split = file.split('/');
+              outputData.names.push(split[split.length - 1]);
+            } else {
+              filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+            }
           }
         });
         // Read file data

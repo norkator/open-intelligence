@@ -19,7 +19,6 @@ output_faces_dataset = None
 
 # Set paths
 output_root_path = face_recognition_config['output_root_path']
-print(str(output_root_path))
 if str(output_root_path) == 'cwd':
     # Stock paths
     recognizer_path = os.getcwd() + '/output/faces_models/' + 'recognizer.pickle'
