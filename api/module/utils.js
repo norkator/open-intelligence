@@ -38,12 +38,12 @@ function GetNewestFile(files, path) {
   }
   if (out.length > 0) {
     if (out[0].file !== 'Thumbs.db') {
-	  return out[0].file;
-	} else if (out.length > 1) {
-	  return out[1].file;
-	} else {
-	  return "";
-	}
+      return out[0].file;
+    } else if (out.length > 1) {
+      return out[1].file;
+    } else {
+      return "";
+    }
   }
   return "";
 }
@@ -133,3 +133,39 @@ function GetLabelCounts(rows) {
 }
 
 exports.GetLabelCounts = GetLabelCounts;
+
+
+/**
+ * Move file
+ * @param fromPath
+ * @param toPath
+ * @return {Promise<any>}
+ * @constructor
+ */
+function MoveFile(fromPath, toPath) {
+  return new Promise(function (resolve, reject) {
+    fs.rename(fromPath, toPath, function (err) {
+      if (err) {
+        if (err.code === 'EXDEV') {
+          copy();
+        } else {
+          reject();
+        }
+      }
+      resolve();
+    });
+
+    function copy() {
+      let readStream = fs.createReadStream(fromPath);
+      let writeStream = fs.createWriteStream(toPath);
+      readStream.on('error', callback);
+      writeStream.on('error', callback);
+      readStream.on('close', function () {
+        fs.unlink(fromPath, callback);
+      });
+      readStream.pipe(writeStream);
+    }
+  });
+}
+
+exports.MoveFile = MoveFile;

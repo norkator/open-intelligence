@@ -518,11 +518,11 @@ function Site(router, sequelizeObjects) {
         res.send(err);
       } else {
         let filesList = [];
-        files.forEach(function(file) {
+        files.forEach(function (file) {
           const stat = fs.statSync(filePath + '/' + file);
           if (stat && stat.isDirectory()) {
             const split = file.split('/');
-            outputData.names.push(split[split.length-1]);
+            outputData.names.push(split[split.length - 1]);
           } else {
             filesList.push({"file": file, "mtime": stat.mtime.getTime()});
           }
@@ -530,6 +530,7 @@ function Site(router, sequelizeObjects) {
         // Read file data
         // noinspection JSIgnoredPromiseFromCall
         processImagesSequentially(filesList.length);
+
         async function processImagesSequentially(taskLength) {
           // Specify tasks
           const promiseTasks = [];
@@ -547,6 +548,7 @@ function Site(router, sequelizeObjects) {
             }
           }
         }
+
         function processImage(file, mtime) {
           return new Promise(resolve => {
             fs.readFile(filePath + file, function (err, data) {
@@ -566,6 +568,23 @@ function Site(router, sequelizeObjects) {
         }
       }
     });
+  });
+
+
+  /**
+   * Move face grouping image to selected folder
+   */
+  router.post('/move/face/grouping/image', function (req, res) {
+    const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
+    const name = req.body.name;
+    const fileName = req.body.fileName;
+    utils.MoveFile(filePath + fileName, filePath + name + '/' + fileName).then(() => {
+      res.status(200);
+      res.send('Moving file succeeded!');
+    }).catch(() => {
+      res.status(500);
+      res.send('Moving file failed!');
+    })
   });
 
 

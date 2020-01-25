@@ -350,10 +350,21 @@
 
     const face_grouping_names_flex_viewer = $('#face_grouping_names_flex_viewer');
     face_grouping_names_flex_viewer.on('click', 'button', function () {
-      console.log($(this).attr('id'));
+      const name = $(this).attr('id');
       console.log(loadedFaceGroupingImage);
-      // TODO: run image moving action here
-      face_grouping_flex_viewer.find('img[id="'+loadedFaceGroupingImage+'"]').remove();
+      $.ajax({
+        url: apiUrl + '/move/face/grouping/image',
+        type: 'POST',
+        data: {
+          name: name,
+          fileName: loadedFaceGroupingImage
+        },
+      }).done(function (data) {
+        face_grouping_flex_viewer.find('img[id="' + loadedFaceGroupingImage + '"]').remove();
+        face_grouping_names_flex_viewer.empty();
+      }).fail(function (error) {
+        alert(error);
+      });
     });
     const face_grouping_flex_viewer = $('#face_grouping_flex_viewer');
     face_grouping_flex_viewer.on('click', 'img', function () {
