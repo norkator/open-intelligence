@@ -519,7 +519,7 @@ function Site(router, sequelizeObjects) {
       } else {
         let filesList = [];
         files.forEach(function (file) {
-          if (!file.includes('thumbs.db')) {
+          if (!file.includes('Thumbs.db')) {
             const stat = fs.statSync(filePath + '/' + file);
             if (stat && stat.isDirectory()) {
               const split = file.split('/');

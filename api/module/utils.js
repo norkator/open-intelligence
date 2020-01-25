@@ -66,7 +66,7 @@ function GetFilesNotOlderThan(files, path, selectedDate = moment()) {
   const endMillis = moment(selectedDate).endOf('day').utc(true).valueOf();
   if (files !== undefined) {
     files.forEach(function (file) {
-      if (!file.includes('thumbs.db')) {
+      if (!file.includes('Thumbs.db')) {
         let stats = fs.statSync(path + "/" + file);
         if (stats.isFile()) {
           const fileTime = stats.mtime.getTime();
