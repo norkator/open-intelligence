@@ -237,6 +237,8 @@
           <div class="mb-1 text-muted">Click image and select who is in the image. This is used on training.</div>
           <div id="face_grouping_names_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
           </div>
+          <!-- <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm">Train model
+          </button> -->
         </div>
       </div>
     </div>
@@ -376,7 +378,10 @@
         )
       });
     });
-
+    /*const train_face_model_btn = $('#train_face_model_btn');
+    train_face_model_btn.on('click', function () {
+      trainFaceModel();
+    });*/
 
     // Initial data load
     loadData();
@@ -590,6 +595,18 @@
         sr_modal_image.attr("src", data.data);
       }).fail(function (error) {
         bool_speaking = false;
+      });
+    }
+
+
+    function trainFaceModel() {
+      $.ajax({
+        url: apiUrl + '/train/face/model',
+        type: 'GET',
+      }).done(function (data) {
+        console.log(data);
+      }).fail(function (error) {
+        alert(error);
       });
     }
 

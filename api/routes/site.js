@@ -590,6 +590,21 @@ function Site(router, sequelizeObjects) {
   });
 
 
+  /**
+   * Train face model using python training script
+   */
+  router.get('/train/face/model', function (req, res) {
+    const filePath = path.join(__dirname + '../../../');
+    utils.TrainFaceModel(filePath).then(data => {
+      res.status(200);
+      res.send(data.toString());
+    }).catch(error => {
+      res.status(500);
+      res.send(error);
+    })
+  });
+
+
 }
 
 exports.Site = Site;

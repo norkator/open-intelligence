@@ -171,3 +171,45 @@ function MoveFile(fromPath, toPath) {
 }
 
 exports.MoveFile = MoveFile;
+
+
+/**
+ * Train face model using python
+ * @return {Promise<any>}
+ * @constructor
+ */
+function TrainFaceModel(filePath) {
+  return new Promise(function (resolve, reject) {
+    process.chdir(filePath);
+    const {spawn} = require('child_process');
+    // TODO: requires development
+    /*
+    let trainProgress = spawn('python', [filePath + 'TrainFaceRecognition.py']);
+    trainProgress.stdout.on('data', (data) => {
+      console.log(data);
+    });
+    trainProgress.stderr.on('data', (errorData) => {
+      console.log(errorData);
+    });
+    */
+    resolve();
+  });
+}
+
+exports.TrainFaceModel = TrainFaceModel;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
