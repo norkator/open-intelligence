@@ -8,7 +8,7 @@ import os
 
 def extract_embeddings(cwd_path, input_confidence=0.5):
     # Path to output serialized db of facial embeddings
-    embeddings_output_path = cwd_path + '/models/face_detection_model/' + 'embeddings.pickle'
+    embeddings_output_path = cwd_path + '/output/faces_models/' + 'embeddings.pickle'
 
     # load our serialized face detector from disk
     print("[INFO] loading face detector...")
@@ -23,9 +23,10 @@ def extract_embeddings(cwd_path, input_confidence=0.5):
 
     # grab the paths to the input images in our dataset
     print("[INFO] quantifying faces...")
-    input_images_path = cwd_path + '/dataset/'
+    input_images_path = cwd_path + '/output/faces_dataset/'
+    print('[INFO] Input image main path: ' + input_images_path)
     image_paths = list(paths.list_images(input_images_path))
-    print('Image paths: ' + str(image_paths))
+    # print('Image paths: ' + str(image_paths))
 
     # initialize our lists of extracted facial embeddings and
     # corresponding people names

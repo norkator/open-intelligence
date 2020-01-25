@@ -5,12 +5,12 @@ import pickle
 
 def train_model(cwd_path):
     # Output paths
-    recognizer_output_path = cwd_path + '/models/face_detection_model/' + 'recognizer.pickle'
-    label_encoder_output_path = cwd_path + '/models/face_detection_model/' + 'label_encoder.pickle'
+    recognizer_output_path = cwd_path + '/output/faces_models/' + 'recognizer.pickle'
+    label_encoder_output_path = cwd_path + '/output/faces_models/' + 'label_encoder.pickle'
 
     # load the face embeddings
     print("[INFO] loading face embeddings...")
-    embeddings_path = cwd_path + '/models/face_detection_model/' + 'embeddings.pickle'
+    embeddings_path = cwd_path + '/output/faces_models/' + 'embeddings.pickle'
     data = pickle.loads(open(embeddings_path, "rb").read())
 
     # encode the labels
@@ -33,3 +33,6 @@ def train_model(cwd_path):
     f = open(label_encoder_output_path, "wb")
     f.write(pickle.dumps(le))
     f.close()
+
+    # Completion
+    print("[INFO] training completed...")

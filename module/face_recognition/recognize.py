@@ -27,8 +27,8 @@ def recognize(cwd_path, output_file_name=None, input_confidence=0.5, input_image
     embedder = cv2.dnn.readNetFromTorch(embedding_model_path)
 
     # load the actual face recognition model along with the label encoder
-    recognizer_path = cwd_path + '/models/face_detection_model/' + 'recognizer.pickle'
-    label_encoder_path = cwd_path + '/models/face_detection_model/' + 'label_encoder.pickle'
+    recognizer_path = cwd_path + '/output/faces_models/' + 'recognizer.pickle'
+    label_encoder_path = cwd_path + '/output/faces_models/' + 'label_encoder.pickle'
     recognizer = pickle.loads(open(recognizer_path, "rb").read())
     label_encoder = pickle.loads(open(label_encoder_path, "rb").read())
 

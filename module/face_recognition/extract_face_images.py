@@ -1,3 +1,6 @@
+# This is tool to process external image
+# not part of application process
+
 from pathlib import Path
 from imutils import paths
 import shutil
