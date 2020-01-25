@@ -1,16 +1,17 @@
-<p align="start">
-  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="280">
-</p>
-
 # Open-Intelligence
 
 Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects (labels) in different categories. 
 Inserts data into Postgresql database for further processing. Simple web page interface with statistics, images, voice.
 
 Goal is to make this fairly easy to setup and powerful so.. say goodbye to privacy.
+I have been influenced by Person Of Interest tv series. 
 
 Note that `/libraries` folder has Python applications made by other people. 
 I have needed to make small changes to them, that's why those are included here.
+
+<p align="start">
+  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="280">
+</p>
 
 
 ### Installing
@@ -96,7 +97,8 @@ Here's some ideas
 - [x] license plate recognition from normal camera images;
 - [x] basic face detection from cropped person images;
 - [x] detect faces;
-- [ ] recognize faces via user trained person face model;
+- [x] recognize faces via user trained person face model;
+- [x] web interface supports face sorting to provide data for training;
 - [ ] web interface section for training;
 - [x] basic license plate detection (Automatic number-plate recognition);
 - [ ] identify car owners from license plates (user determines owners at web ui);

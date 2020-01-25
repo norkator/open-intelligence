@@ -13,7 +13,7 @@ train_model.train_model(cwd_path=os.getcwd())
 # ---------------------------------
 # Recognition part (only for testing)
 # input_image = os.getcwd() + '/images/' + 'a.jpg'
-# recognize.recognize(cwd_path=os.getcwd(), output_file_name=None, input_confidence=0.5, input_image=input_image)
+# recognize.recognize(output_file_name=None, input_confidence=0.5, input_image=input_image)
 
 # ---------------------------------
 # Sorting face including images tool (only for testing)

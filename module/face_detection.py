@@ -15,11 +15,11 @@ def recognize_person(image_file_path_name_extension, output_file_name):
     detection_name_and_probability = None
     try:
         detection_name_and_probability = recognize.recognize(
-            cwd_path=os.getcwd(), output_file_name=output_file_name,
-            input_confidence=0.5, input_image=image_file_path_name_extension
+            output_file_name=output_file_name, input_confidence=0.5,
+            input_image=image_file_path_name_extension
         )
     except Exception as e:
-        pass
+        print(e)
     if detection_name_and_probability is None:
         haarcascade_face_detection(image_file_path_name_extension, output_file_name)
         return ''
@@ -29,6 +29,7 @@ def recognize_person(image_file_path_name_extension, output_file_name):
 
 # If person recognition fails (face + person)
 # then try detect only face with haarcascade, write small image out
+# TODO: validate later is this section usable anywhere
 def haarcascade_face_detection(image_file_path_name_extension, output_file_name):
     object_cascade = cv2.CascadeClassifier(classifier_path + 'haarcascade_frontalface_default.xml')
 

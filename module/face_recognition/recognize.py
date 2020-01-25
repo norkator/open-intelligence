@@ -1,4 +1,5 @@
 from pathlib import Path
+from module import configparser
 import numpy as np
 import shutil
 import imutils
@@ -6,29 +7,49 @@ import pickle
 import cv2
 import os
 
+# Config
+face_recognition_config = configparser.face_recognition_config()
+file_name_prefix = str(face_recognition_config['file_name_prefix'])
+
 # Paths
-output_faces_path = os.getcwd() + '/output/faces/'
-output_faces_dataset = os.getcwd() + '/output/faces_dataset/'
+recognizer_path = None
+label_encoder_path = None
+output_faces_path = None
+output_faces_dataset = None
+
+# Set paths
+output_root_path = face_recognition_config['output_root_path']
+print(str(output_root_path))
+if str(output_root_path) == 'cwd':
+    # Stock paths
+    recognizer_path = os.getcwd() + '/output/faces_models/' + 'recognizer.pickle'
+    label_encoder_path = os.getcwd() + '/output/faces_models/' + 'label_encoder.pickle'
+    output_faces_path = os.getcwd() + '/output/faces/'
+    output_faces_dataset = os.getcwd() + '/output/faces_dataset/'
+else:
+    # Custom paths
+    recognizer_path = output_root_path + '/faces_models/' + 'recognizer.pickle'
+    label_encoder_path = output_root_path + '/faces_models/' + 'label_encoder.pickle'
+    output_faces_path = output_root_path + '/faces/'
+    output_faces_dataset = output_root_path + '/faces_dataset/'
 
 
-def recognize(cwd_path, output_file_name=None, input_confidence=0.5, input_image=None):
+def recognize(output_file_name=None, input_confidence=0.5, input_image=None):
     # Output field
     detection_name_and_probability = None
 
     # load our serialized face detector from disk
     print("[INFO] loading face detector...")
-    proto_path = cwd_path + '/models/face_detection_model/' + 'deploy.prototxt'
-    model_path = cwd_path + '/models/face_detection_model/' + 'res10_300x300_ssd_iter_140000.caffemodel'
+    proto_path = os.getcwd() + '/models/face_detection_model/' + 'deploy.prototxt'
+    model_path = os.getcwd() + '/models/face_detection_model/' + 'res10_300x300_ssd_iter_140000.caffemodel'
     detector = cv2.dnn.readNetFromCaffe(proto_path, model_path)
 
     # load our serialized face embedding model from disk
     print("[INFO] loading face recognizer...")
-    embedding_model_path = cwd_path + '/models/face_detection_model/' + 'openface_nn4.small2.v1.t7'
+    embedding_model_path = os.getcwd() + '/models/face_detection_model/' + 'openface_nn4.small2.v1.t7'
     embedder = cv2.dnn.readNetFromTorch(embedding_model_path)
 
     # load the actual face recognition model along with the label encoder
-    recognizer_path = cwd_path + '/output/faces_models/' + 'recognizer.pickle'
-    label_encoder_path = cwd_path + '/output/faces_models/' + 'label_encoder.pickle'
     recognizer = pickle.loads(open(recognizer_path, "rb").read())
     label_encoder = pickle.loads(open(label_encoder_path, "rb").read())
 
@@ -69,15 +90,14 @@ def recognize(cwd_path, output_file_name=None, input_confidence=0.5, input_image
             if output_file_name is not None:
                 try:
                     Path(output_faces_path).mkdir(parents=True, exist_ok=True)
-                    cv2.imwrite(output_faces_path + output_file_name, face)
+                    cv2.imwrite(output_faces_path + file_name_prefix + output_file_name, face)
                 except Exception as e:
                     print(e)
 
             # Copy original image to faces dataset for later training
-            # TODO: needs optional folder specification for network nodes
             try:
                 Path(output_faces_dataset).mkdir(parents=True, exist_ok=True)
-                shutil.copy(input_image, output_faces_dataset + output_file_name)
+                shutil.copy(input_image, output_faces_dataset + file_name_prefix + output_file_name)
             except Exception as e:
                 print(e)
 
