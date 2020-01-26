@@ -28,3 +28,6 @@ root_folder_path=Z:/path/to/project/folder/output/
 file_name_prefix=
 output_root_path=cwd
 
+[streamgrab]
+jpegstream=http://0.0.0.0/oneshotimage1
+confidence=0.5
