@@ -33,7 +33,6 @@ def app():
         fileutils.create_directory(folder + 'processed/')
         # Process files
         for file_name in fileutils.get_camera_image_names(folder):
-            print(file_name)
             if file_name != 'processed' and file_name != 'Thumbs.db':
                 gm_time = fileutils.get_file_create_time(folder, file_name)
                 file = File.File(
