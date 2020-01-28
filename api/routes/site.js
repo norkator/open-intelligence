@@ -421,6 +421,7 @@ function Site(router, sequelizeObjects) {
     const selectedDate = req.body.selectedDate;
     sequelizeObjects.Data.findAll({
       attributes: [
+        'id',
         'label',
         'file_name',
         'file_create_date',
@@ -458,6 +459,7 @@ function Site(router, sequelizeObjects) {
           for (const task of promiseTasks) {
             faces.push(
               await task(
+                rows[t].id,
                 rows[t].file_name_cropped,
                 rows[t].label,
                 rows[t].file_create_date,
@@ -474,12 +476,13 @@ function Site(router, sequelizeObjects) {
           }
         }
 
-        function processImage(file, label, file_create_date, detection_result) {
+        function processImage(id, file, label, file_create_date, detection_result) {
           return new Promise(resolve_ => {
             fs.readFile(filePath + label + '/' + file, function (err, data) {
               if (!err) {
                 const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
                 resolve_({
+                  id: id,
                   title: datetime,
                   file: file,
                   detectionResult: detection_result,
@@ -488,6 +491,7 @@ function Site(router, sequelizeObjects) {
               } else {
                 console.log(err);
                 resolve_({
+                  id: 0,
                   title: '',
                   file: file,
                   detectionResult: detection_result,
@@ -623,6 +627,22 @@ function Site(router, sequelizeObjects) {
       res.status(500);
       res.send('Error at fetching training command.');
     });
+  });
+
+
+  /**
+   * Updates data row that face detection is tried again
+   */
+  router.post('/try/face/detection/again', function (req, res) {
+    const id = Number(req.body.id);
+    sequelizeObjects.Data.update({detection_result: null, sr_image_computed: 0}, {where: {id: id,}}
+    ).then(() => {
+      res.status(200);
+      res.send('Updated to be re valuated.');
+    }).catch(() => {
+      res.status(500);
+      res.send('Error updating row.');
+    })
   });
 
 

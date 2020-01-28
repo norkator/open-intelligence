@@ -349,6 +349,12 @@
     });
     const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
     const faces_flex_viewer = $('#faces_flex_viewer');
+    faces_flex_viewer.on('click', 'img', function () {
+      const id = $(this).attr('id');
+      if (confirm("Try detection again for this image?")) {
+        tryFaceDetectionAgain(id);
+      }
+    });
 
     const face_grouping_names_flex_viewer = $('#face_grouping_names_flex_viewer');
     face_grouping_names_flex_viewer.on('click', 'button', function () {
@@ -397,6 +403,10 @@
     }, (60 * 1000));
 
     function loadData() {
+
+      // Clearing
+      faces_flex_viewer.empty();
+      licence_plate_flex_viewer.empty();
 
       // Image
       $.ajax({
@@ -480,11 +490,11 @@
         data.faces.forEach(face => {
           faces_flex_viewer.append(
             '<div style="margin: 5px;">' +
-            '<img id="' + face.file + '" title="' + face.title + '" style="cursor: zoom-in; max-width: 120px; max-height: 120px;" src="' + face.image + '">' +
+            '<img id="' + face.id + '" title="' + face.title + '" style="cursor: zoom-in; max-width: 120px; max-height: 120px;" src="' + face.image + '">' +
             '<p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4; font-size: 10pt;">' + face.detectionResult + '</p>' +
             '</div>'
           );
-          wheelzoom(document.getElementById(face.file));
+          wheelzoom(document.getElementById(face.id));
         });
       });
 
@@ -615,6 +625,19 @@
       });
     }
 
+    function tryFaceDetectionAgain(id) {
+      $.ajax({
+        url: apiUrl + '/try/face/detection/again',
+        type: 'POST',
+        data: {
+          id: id
+        }
+      }).done(function (data) {
+        alert(data);
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
 
   });
 
