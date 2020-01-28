@@ -404,10 +404,6 @@
 
     function loadData() {
 
-      // Clearing
-      faces_flex_viewer.empty();
-      licence_plate_flex_viewer.empty();
-
       // Image
       $.ajax({
         url: apiUrl + '/get/latest/object/detection/image',
@@ -476,6 +472,8 @@
           );
           wheelzoom(document.getElementById(licensePlate.file));
         });
+      }).fail(function (error) {
+        licence_plate_flex_viewer.empty();
       });
 
       $.ajax({
@@ -496,6 +494,8 @@
           );
           wheelzoom(document.getElementById(face.id));
         });
+      }).fail(function (error) {
+        faces_flex_viewer.empty();
       });
 
 
