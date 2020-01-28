@@ -91,3 +91,28 @@ def update_super_resolution_row_result(detection_result, sr_image_name, id):
         print(error)
     finally:
         connection.close()
+
+
+def bool_run_train_face_model():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        face_action_query = "SELECT id FROM apps WHERE action_name = 'train_face_model' AND action_completed = 0 LIMIT 1"
+        cursor.execute(face_action_query)
+        face_action_query_records = cursor.fetchall()
+
+        bool_run_action = len(face_action_query_records) > 0
+
+        if bool_run_action:
+            face_action_update_query = """UPDATE apps SET action_completed = 1 WHERE action_name = 'train_face_model'"""
+            cursor.execute(face_action_update_query)
+            connection.commit()
+
+        cursor.close()
+        return bool_run_action
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+        return False
+    finally:
+        connection.close()

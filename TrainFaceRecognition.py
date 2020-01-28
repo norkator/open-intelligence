@@ -1,3 +1,4 @@
+# Web interface can now process training commands!
 import os
 from module.face_recognition import extract_embeddings, train_model, recognize, extract_face_images
 

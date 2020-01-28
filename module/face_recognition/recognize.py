@@ -85,21 +85,6 @@ def recognize(output_file_name=None, input_confidence=0.5, input_image=None):
             face = image[startY:endY, startX:endX]
             (fH, fW) = face.shape[:2]
 
-            # Write small face images
-            if output_file_name is not None:
-                try:
-                    Path(output_faces_path).mkdir(parents=True, exist_ok=True)
-                    cv2.imwrite(output_faces_path + file_name_prefix + output_file_name, face)
-                except Exception as e:
-                    print(e)
-
-            # Copy original image to faces dataset for later training
-            try:
-                Path(output_faces_dataset).mkdir(parents=True, exist_ok=True)
-                shutil.copy(input_image, output_faces_dataset + file_name_prefix + output_file_name)
-            except Exception as e:
-                print(e)
-
             # ensure the face width and height are sufficiently large
             if fW < 20 or fH < 20:
                 continue
@@ -125,6 +110,23 @@ def recognize(output_file_name=None, input_confidence=0.5, input_image=None):
             y = startY - 10 if startY - 10 > 10 else startY + 10
             cv2.rectangle(image, (startX, startY), (endX, endY), (0, 255, 255), 2)
             cv2.putText(image, text, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 255, 255), 2)
+
+            # Write small face images
+            if output_file_name is not None:
+                try:
+                    Path(output_faces_path).mkdir(parents=True, exist_ok=True)
+                    cv2.imwrite(output_faces_path + file_name_prefix + output_file_name, face)
+                except Exception as e:
+                    print(e)
+
+            # Copy original image to faces dataset for later training,
+            # also create image having bounding box for front end ui validation
+            try:
+                Path(output_faces_dataset).mkdir(parents=True, exist_ok=True)
+                shutil.copy(input_image, output_faces_dataset + file_name_prefix + output_file_name)
+                cv2.imwrite(output_faces_dataset + 'RECT_' + file_name_prefix + output_file_name, image)
+            except Exception as e:
+                print(e)
 
     # show the output image
     cv2.imshow("PickleFaceRec", image)

@@ -1,5 +1,5 @@
 import os
-from module import fileutils, object_detection, configparser
+from module import fileutils, object_detection, configparser, actions
 from objects import File
 import sys
 import time
@@ -68,6 +68,7 @@ def app():
 
 def main_loop():
     while 1:
+        actions.check_for_actions()
         app()
         print('... running')
         time.sleep(int(configparser.app_config()['process_sleep_seconds']))

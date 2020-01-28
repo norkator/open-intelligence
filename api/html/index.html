@@ -237,8 +237,8 @@
           <div class="mb-1 text-muted">Click image and select who is in the image. This is used on training.</div>
           <div id="face_grouping_names_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
           </div>
-          <!-- <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm">Train model
-          </button> -->
+          <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm">Train model
+          </button>
         </div>
       </div>
     </div>
@@ -359,7 +359,7 @@
         type: 'POST',
         data: {
           name: name,
-          fileName: loadedFaceGroupingImage
+          rectFileName: loadedFaceGroupingImage
         },
       }).done(function (data) {
         face_grouping_flex_viewer.find('img[id="' + loadedFaceGroupingImage + '"]').remove();
@@ -377,11 +377,16 @@
           '<button id="' + name + '" type="button" class="btn btn-outline-secondary btn-sm mr-2">' + name + '</button>'
         )
       });
+      face_grouping_names_flex_viewer.append(
+        '<button id="delete" type="button" class="btn btn-outline-danger btn-sm mr-2">delete</button>'
+      )
     });
-    /*const train_face_model_btn = $('#train_face_model_btn');
+    const train_face_model_btn = $('#train_face_model_btn');
     train_face_model_btn.on('click', function () {
-      trainFaceModel();
-    });*/
+      if (confirm("Send train face model training action?")) {
+        trainFaceModel();
+      }
+    });
 
     // Initial data load
     loadData();
@@ -604,7 +609,7 @@
         url: apiUrl + '/train/face/model',
         type: 'GET',
       }).done(function (data) {
-        console.log(data);
+        alert(data);
       }).fail(function (error) {
         alert(error);
       });

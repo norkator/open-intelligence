@@ -523,9 +523,14 @@ function Site(router, sequelizeObjects) {
             const stat = fs.statSync(filePath + '/' + file);
             if (stat && stat.isDirectory()) {
               const split = file.split('/');
-              outputData.names.push(split[split.length - 1]);
+              const splitStr = split[split.length - 1];
+              if (splitStr !== 'box_images') {
+                outputData.names.push(splitStr);
+              }
             } else {
-              filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+              if (file.includes('RECT_')) { // We want only images having rectangle to front end ui
+                filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+              }
             }
           }
         });
@@ -579,29 +584,45 @@ function Site(router, sequelizeObjects) {
   router.post('/move/face/grouping/image', function (req, res) {
     const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
     const name = req.body.name;
-    const fileName = req.body.fileName;
-    utils.MoveFile(filePath + fileName, filePath + name + '/' + fileName).then(() => {
+    const rectFileName = req.body.rectFileName;
+    const originalFileName = String(rectFileName).replace('RECT_', '');
+    if (String(name) === 'delete') {
+      fs.unlinkSync(filePath + rectFileName);
+      fs.unlinkSync(filePath + originalFileName);
       res.status(200);
-      res.send('Moving file succeeded!');
-    }).catch(() => {
-      res.status(500);
-      res.send('Moving file failed!');
-    })
+      res.send('Deleted files.');
+    } else {
+      utils.MoveFile(filePath + originalFileName, filePath + name + '/' + originalFileName).then(() => {
+        try {
+          fs.unlinkSync(filePath + rectFileName);
+          res.status(200);
+          res.send('Moving file succeeded!');
+        } catch (err) {
+          res.status(500);
+          res.send(err);
+        }
+      }).catch(() => {
+        res.status(500);
+        res.send('Moving file failed!');
+      })
+    }
   });
 
 
   /**
-   * Train face model using python training script
+   * Insert train face model using to stack
+   * then python will run training script at 'App' at some point of time
    */
   router.get('/train/face/model', function (req, res) {
-    const filePath = path.join(__dirname + '../../../');
-    utils.TrainFaceModel(filePath).then(data => {
+    sequelizeObjects.App.create({
+      action_name: 'train_face_model'
+    }).then(result => {
       res.status(200);
-      res.send(data.toString());
-    }).catch(error => {
+      res.send('Training command processed.');
+    }).catch(() => {
       res.status(500);
-      res.send(error);
-    })
+      res.send('Error at fetching training command.');
+    });
   });
 
 
