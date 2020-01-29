@@ -1,0 +1,35 @@
+# files for the dex VM
+*.dex
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Android Studio
+*.iml
+.idea
+.gradle
+build/
+.navigation
+captures/
+output.json
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+gradle/
+
+#NDK
+obj/
+.externalNativeBuild
+
+# In some projects we dont want these
+app/release/app-release.apk
+app/app-release.apk

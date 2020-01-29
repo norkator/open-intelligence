@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App main colors -->
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="prefsEditTextColor">#000000</color>
+    <color name="whiteColor">#ffffff</color>
+
+    <!-- Bootstrap like color -->
+    <color name="bootStrapPrimary">#347bb7</color>
+    <color name="bootStrapSuccess">#5db85d</color>
+    <color name="bootStrapInfo">#5cc0de</color>
+    <color name="bootStrapDanger">#dc3646</color>
+    <color name="bootStrapWarning">#ffc109</color>
+
+    <!-- Dot colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_dark_screen1">#d1395c</color>
+
+</resources>

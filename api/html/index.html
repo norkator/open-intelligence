@@ -302,20 +302,25 @@
     let loadedFaceGroupingImage = null;
 
     // Init voice (text to speech)
-    let msg = new SpeechSynthesisUtterance();
-    let bool_speaking = false;
-    msg.volume = 1; // 0 to 1
-    msg.rate = 1; // 0.1 to 10
-    msg.pitch = 1; //0 to 2
-    msg.lang = 'en-US';
-    window.speechSynthesis.onvoiceschanged = function () {
-      let voices = window.speechSynthesis.getVoices();
-      msg.voice = voices[2];
-      msg.voiceURI = voices[2].voiceURI
-    };
-    msg.onend = function (e) {
-      bool_speaking = false;
-    };
+    let msg = null;
+    try {
+      msg = new SpeechSynthesisUtterance();
+      let bool_speaking = false;
+      msg.volume = 1; // 0 to 1
+      msg.rate = 1; // 0.1 to 10
+      msg.pitch = 1; //0 to 2
+      msg.lang = 'en-US';
+      window.speechSynthesis.onvoiceschanged = function () {
+        let voices = window.speechSynthesis.getVoices();
+        msg.voice = voices[2];
+        msg.voiceURI = voices[2].voiceURI
+      };
+      msg.onend = function (e) {
+        bool_speaking = false;
+      };
+    } catch (e) {
+      console.log(e);
+    }
 
     // Init zoom effect to all img elements
     wheelzoom(document.querySelector('img.zoom'));
