@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         // Override thread policy
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         intelligenceWebView.setWebChromeClient(new WebChromeClient());
         intelligenceWebView.setWebViewClient(new WebViewClient());
+
+        // this.intelligenceWebView.loadUrl("http://192.168.1.20:4300/");
 
         createSshTunnel();
     }
