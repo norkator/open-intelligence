@@ -2,6 +2,7 @@
 
 Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects (labels) in different categories. 
 Inserts data into Postgresql database for further processing. Simple web page interface with statistics, images, voice.
+Includes simple Android app which uses private key only SSH tunneling to connect to your open intelligence server API to view same web page securely.
 
 Goal is to make this fairly easy to setup and powerful so.. say goodbye to privacy.
 I have been influenced by Person Of Interest tv series. 
@@ -39,6 +40,7 @@ here's steps to get environment running.
 #### Project folder structure
 
     .
+    ├── android                  # Simple Android viewing client app source code for this project
     ├── api                      # Api which is serving small static web page
     ├── classifiers              # Classifiers for different detectors like faces
     ├── dataset                  # Images of people to be detected
@@ -99,11 +101,12 @@ Here's some ideas
 - [x] detect faces;
 - [x] recognize faces via user trained person face model;
 - [x] web interface supports face sorting to provide data for training;
-- [ ] web interface section for training;
+- [x] web interface section for face data model training;
 - [x] basic license plate detection (Automatic number-plate recognition);
 - [ ] identify car owners from license plates (user determines owners at web ui);
 - [ ] camera microphone access;
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;
+- [ ] better data analysis methods;
 
 
 ## Authors
