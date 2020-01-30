@@ -6,12 +6,24 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/ThemeActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/ThemeActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@color/actionBarTransparency</item>
+        <!-- Support library compatibility -->
+        <item name="background">@color/actionBarTransparency</item>
     </style>
 
     <!-- Preferences theme -->
-    <style name="Theme.Settings" parent="AppTheme">
+    <style name="Theme.Settings" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">false</item>
         <item name="windowActionBar">true</item>
+        <item name="colorAccent">@color/bootStrapPrimary</item>
         <item name="actionBarStyle">@style/AppTheme.actionBarStyle</item>
         <item name="android:editTextColor">@color/prefsEditTextColor</item>
     </style>
