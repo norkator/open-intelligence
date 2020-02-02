@@ -223,15 +223,25 @@ function Site(router, sequelizeObjects) {
 
   /**
    * Loads sr image
+   * if sr not found, load normal image
    */
   router.post('/get/super/resolution/image', function (req, res) {
     const label = req.body.label;
     const image_file_name = req.body.imageFile;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/super_resolution/');
+    const stockFilePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
     fs.readFile(filePath + image_file_name, function (err, data) {
       if (err) {
-        res.status(500);
-        res.send(err);
+        fs.readFile(stockFilePath + image_file_name, function (err, data) {
+          if (err) {
+            res.status(500);
+            res.send(err);
+          } else {
+            res.json({
+              'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+            });
+          }
+        });
       } else {
         res.json({
           'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
