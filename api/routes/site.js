@@ -645,7 +645,7 @@ function Site(router, sequelizeObjects) {
    */
   router.post('/try/face/detection/again', function (req, res) {
     const id = Number(req.body.id);
-    sequelizeObjects.Data.update({detection_result: null, sr_image_computed: 0}, {where: {id: id,}}
+    sequelizeObjects.Data.update({detection_result: null, detection_completed: 0, sr_image_computed: 0}, {where: {id: id,}}
     ).then(() => {
       res.status(200);
       res.send('Updated to be re valuated.');

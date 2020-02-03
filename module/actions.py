@@ -12,4 +12,8 @@ def check_for_actions():
         # Train model
         train_model.train_model(cwd_path=os.getcwd())
 
+    # Detection tasks for re processing
+    detection_tasks = database.get_detection_tasks()
+    # TODO: needs work
+
     # Some other commands...

@@ -116,3 +116,21 @@ def bool_run_train_face_model():
         return False
     finally:
         connection.close()
+
+
+def get_detection_tasks():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        detection_work_query = "SELECT id, label, file_name_cropped FROM data WHERE detection_completed = 0 AND detection_result = NULL ORDER BY id ASC LIMIT 10"
+
+        cursor.execute(detection_work_query)
+        detection_work_records = cursor.fetchall()
+
+        cursor.close()
+        return detection_work_records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
