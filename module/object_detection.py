@@ -113,6 +113,7 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
 
                 # Label based detection
                 try:
+                    # TODO: This needs to be moved to own module
                     if (label == 'car') or (label == 'truck'):
                         detection_result = license_plate_detection.detect_license_plate(
                             crop_image_file_path_name_extension
