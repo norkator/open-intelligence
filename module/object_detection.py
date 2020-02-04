@@ -8,7 +8,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import shutil
-from module import database, license_plate_detection, face_detection
+from module import database, detection_utils
 
 # Paths
 models_path = os.getcwd() + '/models/'
@@ -112,18 +112,11 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                     pass
 
                 # Label based detection
-                try:
-                    if (label == 'car') or (label == 'truck'):
-                        detection_result = license_plate_detection.detect_license_plate(
-                            crop_image_file_path_name_extension
-                        )
-                    if label == 'person':
-                        detection_result = face_detection.recognize_person(
-                            crop_image_file_path_name_extension,
-                            label + '_' + out_file_name + '_' + str(i) + image_object.file_extension)
-                    # Add more here later and so on...
-                except Exception as e:
-                    print(e)
+                detection_result = detection_utils.detect(
+                    label,
+                    crop_image_file_path_name_extension,
+                    label + '_' + out_file_name + '_' + str(i) + image_object.file_extension
+                )
 
                 # Insert database intelligence
                 if bool_use_database:
