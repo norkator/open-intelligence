@@ -122,7 +122,7 @@ def get_detection_tasks():
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
-        detection_work_query = "SELECT id, label, file_name_cropped FROM data WHERE detection_completed = 0 AND detection_result IS NULL ORDER BY id ASC LIMIT 10"
+        detection_work_query = "SELECT id, label, file_name_cropped FROM data WHERE detection_completed = 0 AND detection_result IS NULL AND file_name_cropped IS NOT NULL ORDER BY id ASC LIMIT 10"
 
         cursor.execute(detection_work_query)
         detection_work_records = cursor.fetchall()
