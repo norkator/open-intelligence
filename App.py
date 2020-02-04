@@ -68,7 +68,7 @@ def app():
 
 def main_loop():
     while 1:
-        actions.check_for_actions()
+        actions.check_for_tasks()
         app()
         print('... running')
         time.sleep(int(configparser.app_config()['process_sleep_seconds']))

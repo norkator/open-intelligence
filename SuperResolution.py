@@ -3,7 +3,7 @@ import sys
 from argparse import ArgumentParser
 from libraries.fast_srgan import infer
 from pathlib import Path
-from module import configparser, database, license_plate_detection, face_detection
+from module import configparser, database, detection_utils
 from objects import SrFile
 import time
 
@@ -59,19 +59,11 @@ def app():
         for sr_image_object in sr_image_objects:
             # Label based detection if not detected earlier
             if is_null(sr_image_object.detection_result):
-                try:
-                    if (sr_image_object.label == 'car') or (sr_image_object.label == 'truck'):
-                        sr_image_object.detection_result = license_plate_detection.detect_license_plate(
-                            sr_image_object.output_image
-                        )
-                    if sr_image_object.label == 'person':
-                        sr_image_object.detection_result = face_detection.recognize_person(
-                            sr_image_object.output_image,
-                            sr_image_object.label + '_' + sr_image_object.image_name
-                        )
-                except Exception as e:
-                    print(e)
-
+                sr_image_object.detection_result = detection_utils.detect(
+                    sr_image_object.label,
+                    sr_image_object.output_image,
+                    sr_image_object.label + '_' + sr_image_object.image_name
+                )
             # Write database, row no longer processed later
             database.update_super_resolution_row_result(
                 sr_image_object.detection_result, sr_image_object.image_name,

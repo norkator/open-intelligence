@@ -122,13 +122,30 @@ def get_detection_tasks():
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
-        detection_work_query = "SELECT id, label, file_name_cropped FROM data WHERE detection_completed = 0 AND detection_result = NULL ORDER BY id ASC LIMIT 10"
+        detection_work_query = "SELECT id, label, file_name_cropped FROM data WHERE detection_completed = 0 AND detection_result IS NULL ORDER BY id ASC LIMIT 10"
 
         cursor.execute(detection_work_query)
         detection_work_records = cursor.fetchall()
 
         cursor.close()
         return detection_work_records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def update_detection_task_result(id, detection_result):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        sr_update_query = """UPDATE data SET detection_completed = 1, detection_result = %s WHERE id = %s"""
+        cursor.execute(sr_update_query, (detection_result, id))
+        connection.commit()
+        cursor.close()
+        # count = cursor.rowcount
     except psycopg2.DatabaseError as error:
         connection.rollback()
         print(error)
