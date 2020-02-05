@@ -29,5 +29,6 @@ file_name_prefix=
 output_root_path=cwd
 
 [streamgrab]
-jpegstream=http://0.0.0.0/oneshotimage1
-confidence=0.5
+sleep_seconds=4
+jpeg_stream_names=name
+jpeg_streams=http://127.0.0.1/mjpg/video.mjpg

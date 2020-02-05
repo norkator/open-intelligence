@@ -28,6 +28,7 @@ here's steps to get environment running.
 5. Download Postgresql ( https://www.postgresql.org/ )
 6. Rename `config.ini.tpl` to `config.ini` and fill details
 7. Separate camera and folder names with comma just like at base config template
+8. Run wanted python apps, see `Python Apps` section.
 
 ###### Api side
 1. Go to `/api` folder and run `npm install`
@@ -53,6 +54,26 @@ here's steps to get environment running.
     ├── scripts                  # Scripts to ease things
     ├── LICENSE
     └── README.md
+    
+    
+    
+    
+#### Python Apps
+
+##### `App.py`
+* This is main app which is responsible for processing input images from configured sources.
+* Status: *Mandatory*  
+
+##### `StreamGrab.py`
+* Status: *Optional* 
+* If you don't have cameras which are outputting images, you can configure multiple camera streams using
+this stream grabber tool to create input images.
+
+##### `SuperResolution.py`
+* Status: *Optional* 
+* This tool processes super resolution images and run's new detections for these processed sr images.
+This is no way mandatory for process.
+
 
 
 #### Postgresql notes
