@@ -37,13 +37,13 @@ function Site(router, sequelizeObjects) {
         'file_name_cropped',
       ],
       where: {
-        createdAt: {
+        file_create_date: {
           [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
           [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
         }
       },
       order: [
-        ['createdAt', 'asc']
+        ['file_create_date', 'asc']
       ]
     }).then(rows => {
       if (rows.length > 0) {
@@ -86,13 +86,13 @@ function Site(router, sequelizeObjects) {
         'file_create_date'
       ],
       where: {
-        createdAt: {
+        file_create_date: {
           [Op.gt]: startDay.toISOString(true),
           [Op.lt]: moment().startOf('day').utc(true).toISOString(true),
         }
       },
       order: [
-        ['createdAt', 'asc']
+        ['file_create_date', 'asc']
       ]
     }).then(rows => {
       if (rows.length > 0) {
@@ -263,13 +263,13 @@ function Site(router, sequelizeObjects) {
       ],
       where: {
         voice_completed: 0,
-        createdAt: {
+        file_create_date: {
           [Op.gt]: moment().startOf('day').utc(true).toISOString(true),
           [Op.lt]: moment().endOf('day').utc(true).toISOString(true),
         }
       },
       order: [
-        ['createdAt', 'asc']
+        ['file_create_date', 'asc']
       ]
     }).then(rows => {
       if (rows.length > 0) {
@@ -311,7 +311,7 @@ function Site(router, sequelizeObjects) {
           {
             where: {
               voice_completed: 0,
-              createdAt: {
+              file_create_date: {
                 [Op.gt]: moment().startOf('day').utc(true).toISOString(true),
                 [Op.lt]: moment().endOf('day').utc(true).toISOString(true),
               }
@@ -344,7 +344,7 @@ function Site(router, sequelizeObjects) {
         'file_name_cropped',
       ],
       where: {
-        createdAt: {
+        file_create_date: {
           [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
           [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
         },
@@ -356,7 +356,7 @@ function Site(router, sequelizeObjects) {
         ],
       },
       order: [
-        ['createdAt', 'asc']
+        ['file_create_date', 'asc']
       ]
     }).then(rows => {
       if (rows.length > 0) {
@@ -439,7 +439,7 @@ function Site(router, sequelizeObjects) {
         'file_name_cropped',
       ],
       where: {
-        createdAt: {
+        file_create_date: {
           [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
           [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
         },
@@ -449,7 +449,7 @@ function Site(router, sequelizeObjects) {
         label: 'person',
       },
       order: [
-        ['createdAt', 'asc']
+        ['file_create_date', 'asc']
       ]
     }).then(rows => {
       if (rows.length > 0) {
