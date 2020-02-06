@@ -366,7 +366,7 @@
       const name = $(this).attr('id');
       console.log(loadedFaceGroupingImage);
       $.ajax({
-        url: apiUrl + '/move/face/grouping/image',
+        url: apiUrl + 'move/face/grouping/image',
         type: 'POST',
         data: {
           name: name,
@@ -411,7 +411,7 @@
 
       // Image
       $.ajax({
-        url: apiUrl + '/get/latest/object/detection/image',
+        url: apiUrl + 'get/latest/object/detection/image',
         type: 'GET',
       }).done(function (data) {
         // console.log('Loaded object detection image');
@@ -420,7 +420,7 @@
 
       // Intelligence, includes all one day statistics, and valid detections
       $.ajax({
-        url: apiUrl + '/get/intelligence',
+        url: apiUrl + 'get/intelligence',
         type: 'POST',
         data: {
           selectedDate: selected_day_field.val()
@@ -460,7 +460,7 @@
 
       // License plate detection data, images and plate strings
       $.ajax({
-        url: apiUrl + '/get/license/plate/detections',
+        url: apiUrl + 'get/license/plate/detections',
         type: 'POST',
         data: {
           selectedDate: selected_day_field.val()
@@ -482,7 +482,7 @@
       });
 
       $.ajax({
-        url: apiUrl + '/get/faces',
+        url: apiUrl + 'get/faces',
         type: 'POST',
         data: {
           selectedDate: selected_day_field.val()
@@ -506,7 +506,7 @@
 
       // Load face grouping images
       $.ajax({
-        url: apiUrl + '/get/face/grouping/images',
+        url: apiUrl + 'get/face/grouping/images',
         type: 'GET',
       }).done(function (data) {
         console.log(data);
@@ -525,7 +525,7 @@
     function loadWeeklyData() {
 
       $.ajax({
-        url: apiUrl + '/get/weekly/intelligence',
+        url: apiUrl + 'get/weekly/intelligence',
         type: 'GET',
       }).done(function (data) {
 
@@ -555,7 +555,7 @@
         '</div>' +
         '</div>');
       $.ajax({
-        url: apiUrl + '/get/label/images',
+        url: apiUrl + 'get/label/images',
         type: 'POST',
         data: {
           selectedDate: selected_day_field.val(),
@@ -585,7 +585,7 @@
       function run() {
         if (!bool_speaking) {
           $.ajax({
-            url: apiUrl + '/get/voice/intelligence',
+            url: apiUrl + 'get/voice/intelligence',
             type: 'GET',
           }).done(function (data) {
             if (data.message !== '') {
@@ -603,7 +603,7 @@
 
     function getSrModalData(image_file_name) {
       $.ajax({
-        url: apiUrl + '/get/super/resolution/image',
+        url: apiUrl + 'get/super/resolution/image',
         type: 'POST',
         data: {
           label: loadedLabel,
@@ -621,7 +621,7 @@
 
     function trainFaceModel() {
       $.ajax({
-        url: apiUrl + '/train/face/model',
+        url: apiUrl + 'train/face/model',
         type: 'GET',
       }).done(function (data) {
         alert(data);
@@ -632,7 +632,7 @@
 
     function tryFaceDetectionAgain(id) {
       $.ajax({
-        url: apiUrl + '/try/face/detection/again',
+        url: apiUrl + 'try/face/detection/again',
         type: 'POST',
         data: {
           id: id
