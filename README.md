@@ -25,7 +25,7 @@ here's steps to get environment running.
 2. Install dependencies `pip install -r requirements.txt`
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
-5. Download Postgresql ( https://www.postgresql.org/ )
+5. Download Postgresql ( https://www.postgresql.org/ ) I am using version <b>11.6</b>
 6. Rename `config.ini.tpl` to `config.ini` and fill details
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
