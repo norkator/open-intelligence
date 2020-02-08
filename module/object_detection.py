@@ -8,12 +8,22 @@ from pathlib import Path
 import cv2
 import numpy as np
 import shutil
-from module import database, detection_utils
+from module import database, detection_utils, configparser
 
 # Paths
 models_path = os.getcwd() + '/models/'
 output_path = os.getcwd() + '/output/'
 object_detection_image_path = os.getcwd() + '/output/object_detection/'
+
+# Config
+yolo_ignored_labels = str(configparser.any_config(section='yolo')['ignored_labels']).split(',')
+
+
+def bool_label_is_ignored(label):
+    for ignored_label in yolo_ignored_labels:
+        if ignored_label == label:
+            return True
+    return False
 
 
 def analyze_image(image_object, bool_move_processed, bool_use_database, bool_write_object_detection_images):
@@ -97,39 +107,41 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
                 cv2.putText(img, label, (x, y + 20), font, 2, color, 2)
 
-                # Small image naming and output path
-                crop_image_name_extension = out_file_name + '_' + str(i) + image_object.file_extension
-                crop_image_file_path_name_extension = output_path + label + '/' + crop_image_name_extension
+                if bool_label_is_ignored(label) is False:
 
-                # Write small image
-                try:
-                    Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
-                    cv2.imwrite(
-                        crop_image_file_path_name_extension,
-                        roi_full_image
-                    )
-                except Exception as e:
-                    pass
+                    # Small image naming and output path
+                    crop_image_name_extension = out_file_name + '_' + str(i) + image_object.file_extension
+                    crop_image_file_path_name_extension = output_path + label + '/' + crop_image_name_extension
 
-                # Label based detection
-                detection_result = detection_utils.detect(
-                    label,
-                    crop_image_file_path_name_extension,
-                    label + '_' + out_file_name + '_' + str(i) + image_object.file_extension
-                )
-
-                # Insert database intelligence
-                if bool_use_database:
+                    # Write small image
                     try:
-                        database.insert_value(
-                            image_object.name,
-                            label, image_object.file_path, image_object.file_name,
-                            image_object.year, image_object.month, image_object.day,
-                            image_object.hours, image_object.minutes, image_object.seconds,
-                            crop_image_name_extension, detection_result
+                        Path(output_path + label + '/').mkdir(parents=True, exist_ok=True)
+                        cv2.imwrite(
+                            crop_image_file_path_name_extension,
+                            roi_full_image
                         )
                     except Exception as e:
                         print(e)
+
+                    # Label based detection
+                    detection_result = detection_utils.detect(
+                        label,
+                        crop_image_file_path_name_extension,
+                        label + '_' + out_file_name + '_' + str(i) + image_object.file_extension
+                    )
+
+                    # Insert database intelligence
+                    if bool_use_database:
+                        try:
+                            database.insert_value(
+                                image_object.name,
+                                label, image_object.file_path, image_object.file_name,
+                                image_object.year, image_object.month, image_object.day,
+                                image_object.hours, image_object.minutes, image_object.seconds,
+                                crop_image_name_extension, detection_result
+                            )
+                        except Exception as e:
+                            print(e)
 
         # Move processed image
         if bool_move_processed:

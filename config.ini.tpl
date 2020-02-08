@@ -5,6 +5,9 @@ use_database=True
 write_object_detection_images=True
 time_offset_hours=2
 
+[yolo]
+ignored_labels=pottedplant,tennis racket,umbrella
+
 [camera]
 camera_names=TestCamera1,TestCamera2
 camera_folders=D:/testCamera1Folder/,D:/testCamera2Folder/,

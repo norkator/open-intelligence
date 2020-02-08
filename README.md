@@ -125,6 +125,7 @@ Here's some ideas
 - [x] web interface section for face data model training;
 - [x] basic license plate detection (Automatic number-plate recognition);
 - [ ] identify car owners from license plates (user determines owners at web ui);
+- [ ] main App.py multiple processing nodes support;
 - [ ] camera microphone access;
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;
 - [ ] better data analysis methods;
