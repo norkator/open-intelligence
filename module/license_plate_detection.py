@@ -6,7 +6,7 @@ from libraries.openalpr_64.openalpr import Alpr
 from module import configparser
 
 # Custom config
-open_alpr_config = configparser.open_alpr_config()
+open_alpr_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='openalpr')
 
 # Paths
 car_labels_path = os.getcwd() + '/output/car/'

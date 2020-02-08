@@ -4,7 +4,8 @@ from objects import File
 import sys
 import time
 
-time_offset_hours = int(configparser.app_config()['time_offset_hours'])
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+time_offset_hours = int(app_config['time_offset_hours'])
 print('time offset: ' + str(time_offset_hours))
 
 # Specify your names and folders at config.ini
@@ -13,7 +14,7 @@ names = ['App1']
 folders = [os.getcwd() + '/images/']
 
 # Parse camera name and folder config
-camera_config = configparser.camera_config()
+camera_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='camera')
 camera_names_config = camera_config['camera_names'].split(',')
 camera_folders_config = camera_config['camera_folders'].split(',')
 
@@ -55,9 +56,9 @@ def app():
             # Also runs all sub processes
             object_detection.analyze_image(
                 image_object,
-                configparser.app_config()['move_to_processed'] == 'True',
-                configparser.app_config()['use_database'] == 'True',
-                configparser.app_config()['write_object_detection_images'] == 'True',
+                app_config['move_to_processed'] == 'True',
+                app_config['use_database'] == 'True',
+                app_config['write_object_detection_images'] == 'True',
             )
         except Exception as e:
             print(e)
@@ -71,7 +72,7 @@ def main_loop():
         actions.check_for_tasks()
         app()
         print('... running')
-        time.sleep(int(configparser.app_config()['process_sleep_seconds']))
+        time.sleep(int(app_config['process_sleep_seconds']))
 
 
 if __name__ == '__main__':

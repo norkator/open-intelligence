@@ -13,8 +13,9 @@ parser.add_argument('--testfile', type=str,
                     help='Test mode loads image from project /images folder. Specify image name.')
 
 # Parse configs
-process_sleep_seconds = configparser.app_config()['process_sleep_seconds']
-super_resolution_config = configparser.super_resolution_config()
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+process_sleep_seconds = app_config['process_sleep_seconds']
+super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='superresolution')
 
 # Paths
 # Output root folder path can be anything, same computer or smb share

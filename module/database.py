@@ -1,7 +1,8 @@
+import os
 import psycopg2
 from module import configparser
 
-params = configparser.db_config()
+params = configparser.any_config(filename=os.getcwd() + '/config.ini', section='postgresql')
 
 
 # connection = psycopg2.connect(**params)

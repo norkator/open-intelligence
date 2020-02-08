@@ -8,7 +8,7 @@ import cv2
 import os
 
 # Config
-face_recognition_config = configparser.face_recognition_config()
+face_recognition_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='facerecognition')
 file_name_prefix = str(face_recognition_config['file_name_prefix'])
 
 # Paths
