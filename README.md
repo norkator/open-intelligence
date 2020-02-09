@@ -26,7 +26,7 @@ here's steps to get environment running.
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
 5. Download Postgresql ( https://www.postgresql.org/ ) I am using version <b>11.6</b>
-6. Rename `config.ini.tpl` to `config.ini` and fill details
+6. Rename `config.ini.tpl` to `config.ini` and fill details. (for multi nodes, see own section)
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
 
@@ -74,6 +74,13 @@ this stream grabber tool to create input images.
 * This tool processes super resolution images and run's new detections for these processed sr images.
 This is no way mandatory for process.
 
+
+#### Multi node support
+Multi node support requires little bit more work to configure but it's doable. Follow instructions below.
+1. Each node needs to have access to source files hosted by one main node via network share.
+2. Create configuration file `config_slave.ini` from template `config_slave.ini.tpl`
+3. Fill in postgres connection details having server running postgres as target location.
+4. On each slave node run `App.py` via giving argument: `\.App.py --bool_slave_node True`
 
 
 #### Postgresql notes
@@ -125,7 +132,7 @@ Here's some ideas
 - [x] web interface section for face data model training;
 - [x] basic license plate detection (Automatic number-plate recognition);
 - [ ] identify car owners from license plates (user determines owners at web ui);
-- [ ] main App.py multiple processing nodes support;
+- [x] main App.py multiple processing nodes support;
 - [ ] camera microphone access;
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;
 - [ ] better data analysis methods;

@@ -1,8 +1,19 @@
 import os
 import psycopg2
 from module import configparser
+from argparse import ArgumentParser
 
-params = configparser.any_config(filename=os.getcwd() + '/config.ini', section='postgresql')
+# Process arguments
+parser = ArgumentParser()
+parser.add_argument('--bool_slave_node', type=str, help='Multi node support, give string True as input if slave.')
+args = parser.parse_args()
+if args.bool_slave_node == 'True':
+    print('[INFO] Process running in slave mode!')
+
+params = configparser.any_config(
+    filename=os.getcwd() + ('/config_slave.ini' if args.bool_slave_node == 'True' else '/config.ini'),
+    section='postgresql'
+)
 
 
 # connection = psycopg2.connect(**params)

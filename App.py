@@ -4,6 +4,7 @@ from objects import File
 import sys
 import time
 
+# Config
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
 time_offset_hours = int(app_config['time_offset_hours'])
 print('time offset: ' + str(time_offset_hours))
@@ -33,22 +34,35 @@ def app():
         # Check for 'processed' folder existence
         fileutils.create_directory(folder + 'processed/')
         # Process files
+        count = 0
         for file_name in fileutils.get_camera_image_names(folder):
-            if file_name != 'processed' and file_name != 'Thumbs.db':
-                gm_time = fileutils.get_file_create_time(folder, file_name)
-                file = File.File(
-                    name,
-                    folder,
-                    file_name,
-                    fileutils.get_file_extension(folder, file_name),
-                    fileutils.get_file_create_year(gm_time),
-                    fileutils.get_file_create_month(gm_time),
-                    fileutils.get_file_create_day(gm_time),
-                    fileutils.get_file_create_hour(gm_time, time_offset_hours),
-                    fileutils.get_file_create_minute(gm_time),
-                    fileutils.get_file_create_second(gm_time)
-                )
-                image_file_objects.append(file)
+            if file_name != 'processed' and file_name != 'Thumbs.db' and file_name.find('.lock') is -1:
+
+                # File locking check and locking
+                if os.path.isfile(folder + file_name + '.lock'):
+                    print('')
+                else:
+                    # Take five files at the time
+                    count = count + 1
+                    if count > 5:
+                        break
+                    # Lock file and process
+                    open(folder + file_name + '.lock', 'a').close()
+                    # Append for processing
+                    gm_time = fileutils.get_file_create_time(folder, file_name)
+                    file = File.File(
+                        name,
+                        folder,
+                        file_name,
+                        fileutils.get_file_extension(folder, file_name),
+                        fileutils.get_file_create_year(gm_time),
+                        fileutils.get_file_create_month(gm_time),
+                        fileutils.get_file_create_day(gm_time),
+                        fileutils.get_file_create_hour(gm_time, time_offset_hours),
+                        fileutils.get_file_create_minute(gm_time),
+                        fileutils.get_file_create_second(gm_time)
+                    )
+                    image_file_objects.append(file)
 
     # Analyze image objects
     for image_object in image_file_objects:
@@ -62,6 +76,9 @@ def app():
             )
         except Exception as e:
             print(e)
+        finally:
+            # Finally remove lock file so those don't pile up
+            os.remove(image_object.file_path + image_object.file_name + '.lock')
 
 
 # ---------------------------------------------------------------------

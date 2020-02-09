@@ -7,6 +7,7 @@ images2/*
 output/*
 object_detection/*
 config.ini
+config_slave.ini
 dataset/*
 
 # Exclude some model related files
