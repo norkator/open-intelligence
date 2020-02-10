@@ -267,6 +267,7 @@
   <p>
     <a href="#">Back to top</a>
   </p>
+  <button id="disable_polls_btn" style="font-size: 10px;" type="button" class="btn btn-outline-danger btn-sm">Disable polls</button>
 </footer>
 
 <!-- Bootstrap core JavaScript
@@ -297,6 +298,7 @@
     const apiUrl = window.location.href;
 
     // Variables
+    let pollInterval = null;
     let loadedLabel = null;
     let faceGroupingNames = [];
     let loadedFaceGroupingImage = null;
@@ -398,12 +400,17 @@
         trainFaceModel();
       }
     });
+    const disable_polls_btn = $('#disable_polls_btn');
+    disable_polls_btn.on('click', function () {
+      disable_polls_btn.remove();
+      clearInterval(pollInterval);
+    });
 
     // Initial data load
     loadData();
 
     // Refresh
-    setInterval(() => {
+    pollInterval = setInterval(() => {
       loadData();
     }, (60 * 1000));
 
