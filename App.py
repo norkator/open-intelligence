@@ -1,4 +1,5 @@
 import os
+from argparse import ArgumentParser
 from module import fileutils, object_detection, configparser, actions
 from objects import File
 import sys
@@ -14,8 +15,16 @@ print('time offset: ' + str(time_offset_hours))
 names = ['App1']
 folders = [os.getcwd() + '/images/']
 
+# Process arguments
+parser = ArgumentParser()
+parser.add_argument('--bool_slave_node', type=str, help='Multi node support, give string True as input if slave.')
+args = parser.parse_args()
+
 # Parse camera name and folder config
-camera_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='camera')
+camera_config = configparser.any_config(
+    filename=os.getcwd() + ('/config_slave.ini' if args.bool_slave_node == 'True' else '/config.ini'),
+    section='camera'
+)
 camera_names_config = camera_config['camera_names'].split(',')
 camera_folders_config = camera_config['camera_folders'].split(',')
 
