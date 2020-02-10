@@ -532,13 +532,8 @@ function Site(router, sequelizeObjects) {
         res.send(err);
       } else {
         let filesList = [];
-        let c = 0;
         for (let file of files) {
           if (!file.includes('Thumbs.db')) {
-            c++;
-            if (c > 20) { // Load 20 at the time
-              break;
-            }
             const stat = fs.statSync(filePath + '/' + file);
             if (stat && stat.isDirectory()) {
               const split = file.split('/');
@@ -555,7 +550,7 @@ function Site(router, sequelizeObjects) {
         }
         // Read file data
         // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(filesList.length);
+        processImagesSequentially(filesList.length > 30 ? 30 : filesList.length);
 
         async function processImagesSequentially(taskLength) {
           // Specify tasks
