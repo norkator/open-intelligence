@@ -239,6 +239,8 @@
           </div>
           <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm">Train model
           </button>
+          <button id="load_more_face_btn" type="button" class="btn btn-outline-primary btn-sm">Load more
+          </button>
           <button id="delete_all_visible_faces_btn" style="font-size: 10px;" type="button"
                   class="btn btn-outline-danger btn-sm mt-2">
             Delete all visible
@@ -390,15 +392,21 @@
     });
     const delete_all_visible_faces_btn = $('#delete_all_visible_faces_btn');
     delete_all_visible_faces_btn.on('click', function () {
-      face_grouping_flex_viewer.find('img').each(function() {
-        moveFaceGroupingImage('delete', this.id);
-      });
+      if (confirm("Delete all remaining visible items, are you sure?")) {
+        face_grouping_flex_viewer.find('img').each(function () {
+          moveFaceGroupingImage('delete', this.id);
+        });
+      }
     });
     const train_face_model_btn = $('#train_face_model_btn');
     train_face_model_btn.on('click', function () {
       if (confirm("Send train face model training action?")) {
         trainFaceModel();
       }
+    });
+    const load_more_face_btn = $('#load_more_face_btn');
+    load_more_face_btn.on('click', function () {
+      getFaceGroupingImages();
     });
     const disable_polls_btn = $('#disable_polls_btn');
     disable_polls_btn.on('click', function () {
@@ -510,7 +518,10 @@
         faces_flex_viewer.empty();
       });
 
+      getFaceGroupingImages();
+    }
 
+    function getFaceGroupingImages() {
       // Load face grouping images
       $.ajax({
         url: apiUrl + 'get/face/grouping/images',
