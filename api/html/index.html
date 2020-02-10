@@ -239,6 +239,10 @@
           </div>
           <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm">Train model
           </button>
+          <button id="delete_all_visible_faces_btn" style="font-size: 10px;" type="button"
+                  class="btn btn-outline-danger btn-sm mt-2">
+            Delete all visible
+          </button>
         </div>
       </div>
     </div>
@@ -267,7 +271,9 @@
   <p>
     <a href="#">Back to top</a>
   </p>
-  <button id="disable_polls_btn" style="font-size: 10px;" type="button" class="btn btn-outline-danger btn-sm">Disable polls</button>
+  <button id="disable_polls_btn" style="font-size: 10px;" type="button" class="btn btn-outline-danger btn-sm">Disable
+    polls
+  </button>
 </footer>
 
 <!-- Bootstrap core JavaScript
@@ -366,20 +372,8 @@
     const face_grouping_names_flex_viewer = $('#face_grouping_names_flex_viewer');
     face_grouping_names_flex_viewer.on('click', 'button', function () {
       const name = $(this).attr('id');
-      console.log(loadedFaceGroupingImage);
-      $.ajax({
-        url: apiUrl + 'move/face/grouping/image',
-        type: 'POST',
-        data: {
-          name: name,
-          rectFileName: loadedFaceGroupingImage
-        },
-      }).done(function (data) {
-        face_grouping_flex_viewer.find('img[id="' + loadedFaceGroupingImage + '"]').remove();
-        face_grouping_names_flex_viewer.empty();
-      }).fail(function (error) {
-        alert(error);
-      });
+      console.log('Name: ' + name + ' loadedFaceImg: ' + loadedFaceGroupingImage);
+      moveFaceGroupingImage(name, loadedFaceGroupingImage);
     });
     const face_grouping_flex_viewer = $('#face_grouping_flex_viewer');
     face_grouping_flex_viewer.on('click', 'img', function () {
@@ -393,6 +387,12 @@
       face_grouping_names_flex_viewer.append(
         '<button id="delete" type="button" class="btn btn-outline-danger btn-sm mr-2">delete</button>'
       )
+    });
+    const delete_all_visible_faces_btn = $('#delete_all_visible_faces_btn');
+    delete_all_visible_faces_btn.on('click', function () {
+      face_grouping_flex_viewer.find('img').each(function() {
+        moveFaceGroupingImage('delete', this.id);
+      });
     });
     const train_face_model_btn = $('#train_face_model_btn');
     train_face_model_btn.on('click', function () {
@@ -646,6 +646,23 @@
         }
       }).done(function (data) {
         alert(data);
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    function moveFaceGroupingImage(name, loadedFaceGroupingImage) {
+      $.ajax({
+        url: apiUrl + 'move/face/grouping/image',
+        type: 'POST',
+        data: {
+          name: name,
+          rectFileName: loadedFaceGroupingImage
+        },
+      }).done(function (data) {
+        face_grouping_flex_viewer.find('img[id="' + loadedFaceGroupingImage + '"]').remove();
+        face_grouping_names_flex_viewer.empty();
       }).fail(function (error) {
         alert(error);
       });
