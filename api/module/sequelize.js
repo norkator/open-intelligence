@@ -7,6 +7,7 @@ dotenv.config();
 // Models
 const DataModel = require('../models/data');
 const AppModel = require('../models/app');
+const PlatesModel = require('../models/plate');
 
 
 // Sequelize instance
@@ -30,6 +31,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
 // Initialize models
 const Data = DataModel(sequelize, Sequelize);
 const App = AppModel(sequelize, Sequelize);
+const Plate = PlatesModel(sequelize, Sequelize);
 
 
 // Sync with database
@@ -42,4 +44,5 @@ sequelize.sync(/*{force: (process.env.SEQ_FORCE_SYNC === 'true')}*/) // Do not u
 module.exports = {
   Data,
   App,
+  Plate,
 };

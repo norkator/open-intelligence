@@ -96,6 +96,68 @@
 </div>
 
 
+<!-- Licence plate manager modal -->
+<div class="modal fade bd-example-modal-lg" id="licence_plate_manager_modal" tabindex="-1" role="dialog"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="licence_plate_manager_modal_title">Manage licence plates</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Licence plate</th>
+            <th>Owner name</th>
+            <th>Enabled</th>
+            <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody id="licence_plate_manager_modal_table">
+          <!-- Content is appended here dynamically -->
+          </tbody>
+        </table>
+        <div class="mb-2">
+          <a data-toggle="collapse" href="#add_licence_plate_collapse" role="button" aria-expanded="false"
+             aria-controls="collapseExample">
+            Add new licence plate
+          </a>
+          <div class="collapse" id="add_licence_plate_collapse">
+            <form class="mt-2">
+              <div class="form-group">
+                <label for="new_plate_licence_plate">Licence plate</label>
+                <input type="email" class="form-control" id="new_plate_licence_plate" aria-describedby="emailHelp">
+                <small class="form-text text-muted">Input without lines, example ABC123
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="new_plate_owner_name">Owner name</label>
+                <input type="email" class="form-control" id="new_plate_owner_name" aria-describedby="emailHelp">
+                <small class="form-text text-muted">Give full owner name
+                </small>
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="new_plate_enabled">
+                <label class="form-check-label" for="new_plate_enabled">Enabled</label>
+              </div>
+              <button class="btn btn-primary">Add plate</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="container">
   <header class="py-3" style="line-height: 1; border-bottom: 1px solid #e5e5e5;">
     <div class="row flex-nowrap justify-content-between align-items-center">
@@ -204,17 +266,22 @@
 
   <div class="row mb-2">
     <div class="col-md-6 mt-2">
-      <div class="card flex-md-row mb-4 box-shadow h-md-250" style="height: 100%; max-height: 500px; overflow-y: scroll;">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250"
+           style="height: 100%; max-height: 500px; overflow-y: scroll;">
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-primary">License plates</strong>
           <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
           </div>
           <div class="mb-1 text-muted">License plate detections</div>
+          <button id="manage_licence_plates_btn" type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                  style="font-size: 10px;">Manage licence plates
+          </button>
         </div>
       </div>
     </div>
     <div class="col-md-6 mt-2">
-      <div class="card flex-md-row mb-4 box-shadow h-md-250" style="height: 100%; max-height: 500px; overflow-y: scroll;">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250"
+           style="height: 100%; max-height: 500px; overflow-y: scroll;">
         <div class="card-body d-flex flex-column align-items-center">
           <strong class="d-inline-block mb-2 text-success">Faces</strong>
           <div id="faces_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
@@ -237,9 +304,11 @@
           <div class="mb-1 text-muted">Click image and select who is in the image. This is used on training.</div>
           <div id="face_grouping_names_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
           </div>
-          <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm">Train model
+          <button id="train_face_model_btn" type="button" class="btn btn-outline-secondary btn-sm"
+                  style="font-size: 10px;">Train model
           </button>
-          <button id="load_more_face_btn" type="button" class="btn btn-outline-primary btn-sm mt-2">Load more
+          <button id="load_more_face_btn" type="button" class="btn btn-outline-primary btn-sm mt-2"
+                  style="font-size: 10px;">Load more
           </button>
           <button id="delete_all_visible_faces_btn" style="font-size: 10px;" type="button"
                   class="btn btn-outline-danger btn-sm mt-2">
@@ -259,7 +328,8 @@
           <div id="activity_week_chart" style="width: 100%; max-height: 200px;"></div>
           <p class="card-text mb-auto">Visualizing one week hourly raw activity.</p>
           <div class="mb-1 text-muted">Hover on top to see details.</div>
-          <button id="load_weekly_data_btn" type="button" class="btn btn-outline-secondary btn-sm">Load weekly data
+          <button id="load_weekly_data_btn" type="button" class="btn btn-outline-secondary btn-sm"
+                  style="font-size: 10px;">Load weekly data
           </button>
         </div>
       </div>
@@ -412,7 +482,17 @@
     disable_polls_btn.on('click', function () {
       disable_polls_btn.remove();
       clearInterval(pollInterval);
+      pollInterval = null;
     });
+
+    const licence_plate_manager_modal = $('#licence_plate_manager_modal');
+    const licence_plate_manager_modal_table = $('#licence_plate_manager_modal_table');
+    const manage_licence_plates_btn = $('#manage_licence_plates_btn');
+    manage_licence_plates_btn.on('click', function () {
+      licence_plate_manager_modal.modal('show');
+      getLicencePlates();
+    });
+
 
     // Initial data load
     loadData();
@@ -481,17 +561,18 @@
           selectedDate: selected_day_field.val()
         }
       }).done(function (data) {
-        // Plates
         licence_plate_flex_viewer.empty();
-        data.licensePlates.forEach(licensePlate => {
-          licence_plate_flex_viewer.append(
-            '<div style="margin: 5px;">' +
-            '<img id="' + licensePlate.file + '" title="' + licensePlate.title + '" style="cursor: zoom-in; max-width: 120px; max-height: 120px;" src="' + licensePlate.image + '">' +
-            '<p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4;">' + licensePlate.detectionResult + '</p>' +
-            '</div>'
-          );
-          wheelzoom(document.getElementById(licensePlate.file));
-        });
+        if (data.licensePlates.length > 0) {
+          data.licensePlates.forEach(licensePlate => {
+            licence_plate_flex_viewer.append(
+              '<div style="margin: 5px;">' +
+              '<img id="' + licensePlate.file + '" title="' + licensePlate.title + '" style="cursor: zoom-in; max-width: 120px; max-height: 120px;" src="' + licensePlate.image + '">' +
+              '<p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4;">' + licensePlate.detectionResult + '</p>' +
+              '</div>'
+            );
+            wheelzoom(document.getElementById(licensePlate.file));
+          });
+        }
       }).fail(function (error) {
         licence_plate_flex_viewer.empty();
       });
@@ -676,6 +757,31 @@
         face_grouping_names_flex_viewer.empty();
       }).fail(function (error) {
         alert(error);
+      });
+    }
+
+
+    function getLicencePlates() {
+      licence_plate_manager_modal_table.empty();
+      $.ajax({
+        url: apiUrl + 'get/licence/plates',
+        type: 'GET',
+      }).done(function (data) {
+        if (data.plates.length > 0) {
+          data.plates.forEach(function (plate) {
+            licence_plate_manager_modal_table.append(
+              '<tr>' +
+              '<th scope="row" class="id">' + plate.id + '</th>' +
+              '<td><input class="form-control" type="text" value="' + plate.licence_plate + '"></td>' +
+              '<td><input class="form-control" type="text" value="' + plate.owner_name + '"></td>' +
+              '<td style="text-align: center"><input class="form-check-input" type="checkbox" value="option1" ' + (plate.enabled === 1 ? 'checked' : '') + '></td>' +
+              '<td><button type="button" value="' + plate.id + '" class="btn btn-danger" role="button">Delete</button></td>' +
+              '</tr>'
+            );
+          });
+        }
+      }).fail(function (error) {
+        console.log(error);
       });
     }
 

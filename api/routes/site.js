@@ -333,6 +333,7 @@ function Site(router, sequelizeObjects) {
    * Get license plate detection results
    */
   router.post('/get/license/plate/detections', function (req, res) {
+    let licensePlates = [];
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
     sequelizeObjects.Data.findAll({
@@ -360,7 +361,6 @@ function Site(router, sequelizeObjects) {
       ]
     }).then(rows => {
       if (rows.length > 0) {
-        let licensePlates = [];
         const filePath = path.join(__dirname + '../../../' + 'output/');
         // noinspection JSIgnoredPromiseFromCall
         processImagesSequentially(rows.length);
@@ -416,8 +416,8 @@ function Site(router, sequelizeObjects) {
           });
         }
       } else {
-        res.status(500);
-        res.send('No license plates found');
+        res.status(200);
+        res.json({licensePlates: licensePlates});
       }
     });
   });
@@ -427,6 +427,7 @@ function Site(router, sequelizeObjects) {
    * Get faces
    */
   router.post('/get/faces', function (req, res) {
+    let faces = [];
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
     sequelizeObjects.Data.findAll({
@@ -453,7 +454,6 @@ function Site(router, sequelizeObjects) {
       ]
     }).then(rows => {
       if (rows.length > 0) {
-        let faces = [];
         const filePath = path.join(__dirname + '../../../' + 'output/');
         // noinspection JSIgnoredPromiseFromCall
         processImagesSequentially(rows.length);
@@ -512,8 +512,8 @@ function Site(router, sequelizeObjects) {
           });
         }
       } else {
-        res.status(500);
-        res.send('No faces found');
+        res.status(200);
+        res.json({faces: faces});
       }
     });
   });
@@ -645,7 +645,11 @@ function Site(router, sequelizeObjects) {
    */
   router.post('/try/face/detection/again', function (req, res) {
     const id = Number(req.body.id);
-    sequelizeObjects.Data.update({detection_result: null, detection_completed: 0, sr_image_computed: 0}, {where: {id: id,}}
+    sequelizeObjects.Data.update({
+        detection_result: null,
+        detection_completed: 0,
+        sr_image_computed: 0
+      }, {where: {id: id,}}
     ).then(() => {
       res.status(200);
       res.send('Updated to be re valuated.');
@@ -653,6 +657,31 @@ function Site(router, sequelizeObjects) {
       res.status(500);
       res.send('Error updating row.');
     })
+  });
+
+
+  /**
+   * Get licence plates
+   */
+  router.get('/get/licence/plates', function (req, res) {
+    sequelizeObjects.Plate.findAll({
+      attributes: [
+        'id',
+        'licence_plate',
+        'owner_name',
+        'enabled',
+      ],
+      order: [
+        ['createdAt', 'asc']
+      ]
+    }).then(rows => {
+      if (rows.length > 0) {
+        res.json({plates: rows});
+      } else {
+        res.status(200);
+        res.json({plates: []});
+      }
+    });
   });
 
 
