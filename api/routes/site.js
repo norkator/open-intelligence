@@ -385,6 +385,9 @@ function Site(router, sequelizeObjects) {
             t++;
             if (t === taskLength) {
               // Return results
+              licensePlates = licensePlates.filter(function (plate) {
+                return plate !== null;
+              });
               res.json({
                 licensePlates: licensePlates,
               });
@@ -406,13 +409,8 @@ function Site(router, sequelizeObjects) {
                   image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
                 });
               } else {
-                console.log(err);
-                resolve_({
-                  title: '',
-                  file: file,
-                  detectionResult: noRead(detection_result),
-                  image: 'data:image/png;base64'
-                });
+                // console.log(err);
+                resolve_(null);
               }
             });
           });
