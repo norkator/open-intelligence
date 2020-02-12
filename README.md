@@ -1,14 +1,18 @@
 # Open-Intelligence
 
-Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects (labels) in different categories. 
-Inserts data into Postgresql database for further processing. Simple web page interface with statistics, images, voice.
-Includes simple Android app which uses private key only SSH tunneling to connect to your open intelligence server API to view same web page securely.
+Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects in different categories. 
+Inserts data into Postgresql database for further processing. 
+Simple web page interface with statistics, images, voice and tools.
+Includes simple Android app which uses private key only SSH tunneling to connect to your open intelligence server 
+API to view same web page securely.
 
-Goal is to make this fairly easy to setup and powerful so.. say goodbye to privacy.
-I have been influenced by Person Of Interest tv series. 
+Open Intelligence is suitable from private properties to small businesses. Not capable to work well with huge
+crowded places yet.
 
-Note that `/libraries` folder has Python applications made by other people. 
-I have needed to make small changes to them, that's why those are included here.
+Target goal is to make this useful information gathering tool to provide data for
+better front end application which will be closed source product.
+
+Influenced by Person Of Interest TV series. 
 
 <p align="start">
   <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="280">
@@ -136,11 +140,17 @@ Here's some ideas
 - [ ] camera microphone access;
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;
 - [ ] better data analysis methods;
+- [ ] email intelligence statistics;
+- [ ] make own ALPR based on deep neural nets and TensorFlow.;
 
 
 ## Authors
 
 * **Norkator** - *Initial work* - [norkator](https://github.com/norkator)
+
+
+Note that `/libraries` folder has Python applications made by other people. 
+I have needed to make small changes to them, that's why those are included here.
 
 
 ### About license
