@@ -349,11 +349,11 @@ function Site(router, sequelizeObjects) {
           [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
           [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
         },
-        detection_result: {
+        /*detection_result: {
           [Op.gt]: '',
-        },
+        },*/
         [Op.or]: [
-          {label: 'car'}, {label: 'truck'}
+          {label: 'car'}, {label: 'truck'}, {label: 'bus'}
         ],
       },
       order: [
@@ -391,7 +391,9 @@ function Site(router, sequelizeObjects) {
             }
           }
         }
-
+        function noRead(detection_result) {
+          return detection_result == null || detection_result === '' ? 'NO-READ' : detection_result
+        }
         function processImage(file, label, file_create_date, detection_result) {
           return new Promise(resolve_ => {
             fs.readFile(filePath + label + '/' + file, function (err, data) {
@@ -400,7 +402,7 @@ function Site(router, sequelizeObjects) {
                 resolve_({
                   title: datetime,
                   file: file,
-                  detectionResult: detection_result,
+                  detectionResult: noRead(detection_result),
                   image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
                 });
               } else {
@@ -408,7 +410,7 @@ function Site(router, sequelizeObjects) {
                 resolve_({
                   title: '',
                   file: file,
-                  detectionResult: detection_result,
+                  detectionResult: noRead(detection_result),
                   image: 'data:image/png;base64'
                 });
               }

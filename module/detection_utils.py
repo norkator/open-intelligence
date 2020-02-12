@@ -5,7 +5,7 @@ def detect(label, crop_image_file_path_name_extension, output_file_name):
     # Label based detection
     detection_result = ''
     try:
-        if (label == 'car') or (label == 'truck'):
+        if (label == 'car') or (label == 'truck') or (label == 'bus'):
             detection_result = license_plate_detection.detect_license_plate(
                 crop_image_file_path_name_extension
             )
