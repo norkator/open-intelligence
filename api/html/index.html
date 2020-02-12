@@ -131,13 +131,13 @@
             <form class="mt-2">
               <div class="form-group">
                 <label for="new_plate_licence_plate">Licence plate</label>
-                <input type="email" class="form-control" id="new_plate_licence_plate" aria-describedby="emailHelp">
+                <input type="text" class="form-control" id="new_plate_licence_plate" aria-describedby="emailHelp">
                 <small class="form-text text-muted">Input without lines, example ABC123
                 </small>
               </div>
               <div class="form-group">
                 <label for="new_plate_owner_name">Owner name</label>
-                <input type="email" class="form-control" id="new_plate_owner_name" aria-describedby="emailHelp">
+                <input type="text" class="form-control" id="new_plate_owner_name" aria-describedby="emailHelp">
                 <small class="form-text text-muted">Give full owner name
                 </small>
               </div>
@@ -145,12 +145,15 @@
                 <input type="checkbox" class="form-check-input" id="new_plate_enabled">
                 <label class="form-check-label" for="new_plate_enabled">Enabled</label>
               </div>
-              <button class="btn btn-primary">Add plate</button>
             </form>
+            <button id="new_plate_add_btn" class="btn btn-primary">Add plate</button>
           </div>
         </div>
       </div>
       <div class="modal-footer">
+        <button id="licence_plate_manager_modal_save_changes_btn" type="button" class="btn btn-primary"
+                data-dismiss="modal">Save and close
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -493,6 +496,41 @@
       getLicencePlates();
     });
 
+    const add_licence_plate_collapse = $('#add_licence_plate_collapse');
+    const new_plate_licence_plate = $('#new_plate_licence_plate');
+    const new_plate_owner_name = $('#new_plate_owner_name');
+    const new_plate_enabled = $('#new_plate_enabled');
+    const new_plate_add_btn = $('#new_plate_add_btn');
+    new_plate_add_btn.on('click', function () {
+      manageLicencePlates(
+        'add', null,
+        String(new_plate_licence_plate.val()).replace('-', ''),
+        new_plate_owner_name.val(),
+        new_plate_enabled.is(':checked') === true ? 1 : 0,
+        null
+      );
+    });
+    const licence_plate_manager_modal_save_changes_btn = $('#licence_plate_manager_modal_save_changes_btn');
+    licence_plate_manager_modal_save_changes_btn.on('click', function () {
+      let changesArray = [];
+      licence_plate_manager_modal_table.find('tr').each(function () {
+        const element = $(this);
+        const change = {
+          id: Number(element.find('.pId').text()),
+          licence_plate: element.find('.pLp').val(),
+          owner_name: element.find('.pOn').val(),
+          enabled: element.find('.pE').is(':checked') === true ? 1 : 0,
+        };
+        changesArray.push(change);
+      });
+      manageLicencePlates('changes', null, null, null, null, changesArray);
+    });
+    licence_plate_manager_modal_table.on('click', '.btn', function () {
+      if (confirm("Sure to delete this licence plate record?")) {
+        manageLicencePlates('remove', this.value, null, null, null, null);
+      }
+    });
+
 
     // Initial data load
     loadData();
@@ -771,10 +809,10 @@
           data.plates.forEach(function (plate) {
             licence_plate_manager_modal_table.append(
               '<tr>' +
-              '<th scope="row" class="id">' + plate.id + '</th>' +
-              '<td><input class="form-control" type="text" value="' + plate.licence_plate + '"></td>' +
-              '<td><input class="form-control" type="text" value="' + plate.owner_name + '"></td>' +
-              '<td style="text-align: center"><input class="form-check-input" type="checkbox" value="option1" ' + (plate.enabled === 1 ? 'checked' : '') + '></td>' +
+              '<th scope="row" class="pId">' + plate.id + '</th>' +
+              '<td><input class="form-control pLp" type="text" value="' + plate.licence_plate + '"></td>' +
+              '<td><input class="form-control pOn" type="text" value="' + plate.owner_name + '"></td>' +
+              '<td style="text-align: center"><input class="form-check-input pE" type="checkbox" value="option1" ' + (plate.enabled === 1 ? 'checked' : '') + '></td>' +
               '<td><button type="button" value="' + plate.id + '" class="btn btn-danger" role="button">Delete</button></td>' +
               '</tr>'
             );
@@ -784,6 +822,38 @@
         console.log(error);
       });
     }
+
+
+    /**
+     *
+     * @param {String} action_type ['add', 'remove', 'changes']
+     * @param {Number} id
+     * @param {String} licence_plate
+     * @param {String} owner_name
+     * @param {Number} enabled
+     * @param {Array} saveChangesArray
+     */
+    function manageLicencePlates(action_type = 'add', id, licence_plate, owner_name, enabled, saveChangesArray) {
+      $.ajax({
+        url: apiUrl + 'manage/licence/plates',
+        type: 'POST',
+        data: {
+          action_type: action_type,
+          id: id,
+          licence_plate: licence_plate,
+          owner_name: owner_name,
+          enabled: enabled,
+          save_change_array: JSON.stringify(saveChangesArray),
+        },
+      }).done(function (data) {
+        console.log(data);
+        add_licence_plate_collapse.collapse('hide');
+        getLicencePlates();
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
 
   });
 

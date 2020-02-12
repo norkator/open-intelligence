@@ -19,6 +19,8 @@ module.exports = (sequelize, type) => {
     },
     detection_result: type.STRING, // License plate, person etc.
 
+    color: type.STRING,   // Vehicle color or any other color property for label use
+
     // For voice output
     voice_completed: {
       type: type.INTEGER, defaultValue: 0
