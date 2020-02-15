@@ -349,9 +349,9 @@ function Site(router, sequelizeObjects) {
           [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
           [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
         },
-        /*detection_result: {
+        detection_result: {
           [Op.gt]: '',
-        },*/
+        },
         [Op.or]: [
           {label: 'car'}, {label: 'truck'}, {label: 'bus'}
         ],
