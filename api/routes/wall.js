@@ -39,11 +39,13 @@ function Wall(router, sequelizeObjects) {
       if (rows.length > 0) {
 
         let filesList = [];
-        rows.forEach(function (row) {
+
+        for (let i = (rows.length > 80 ? rows.length - 80 : 0); i < rows.length; i++) {
+          let row = rows[i];
           if (utils.ImageNotInImages(row.file_name_cropped, myImages)) {
             filesList.push({"path": basePath, "label": row.label + '/', "file": row.file_name_cropped, "mtime": row.file_create_date})
           }
-        });
+        }
 
         // Read file data
         // noinspection JSIgnoredPromiseFromCall
