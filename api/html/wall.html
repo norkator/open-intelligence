@@ -111,6 +111,7 @@
 
     const image_wall_flex_viewer = $('#image_wall_flex_viewer');
     let images = []; // Image names we already have
+    let loadingImages = false;
 
     // Initial data load
     loadData();
@@ -118,25 +119,29 @@
     // Refresh
     setInterval(() => {
       loadData();
-    }, (30 * 1000));
+    }, (60 * 1000));
 
     function loadData() {
-      $.ajax({
-        url: apiUrl + '/get/images',
-        type: 'POST',
-        data: {
-          images: JSON.stringify(images)
-        }
-      }).done(function (data) {
-        data.images.forEach(imageData => {
-          if (notInImages(imageData.file))
-            image_wall_flex_viewer.append(
-              '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width:120px; max-height:120px; width: auto; height: auto;" class="zoom" src="' + imageData.image + '">'
-            );
+      if (!loadingImages) {
+        loadingImages = true;
+        $.ajax({
+          url: apiUrl + '/get/images',
+          type: 'POST',
+          data: {
+            images: JSON.stringify(images)
+          }
+        }).done(function (data) {
+          data.images.forEach(imageData => {
+            if (notInImages(imageData.file))
+              image_wall_flex_viewer.append(
+                '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width:120px; max-height:120px; width: auto; height: auto;" class="zoom" src="' + imageData.image + '">'
+              );
             wheelzoom(document.getElementById(imageData.file));
             images.push(imageData.file);
+          });
+          loadingImages = false;
         });
-      });
+      }
     }
 
 

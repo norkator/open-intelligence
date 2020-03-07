@@ -40,8 +40,8 @@ function Wall(router, sequelizeObjects) {
 
         let filesList = [];
         rows.forEach(function (row) {
-          if (utils.ImageNotInImages(row.file_name, myImages)) {
-            filesList.push({"file": basePath + row.label + '/' + row.file_name_cropped, "mtime": row.file_create_date})
+          if (utils.ImageNotInImages(row.file_name_cropped, myImages)) {
+            filesList.push({"path": basePath, "label": row.label + '/', "file": row.file_name_cropped, "mtime": row.file_create_date})
           }
         });
 
@@ -60,8 +60,8 @@ function Wall(router, sequelizeObjects) {
           // Execute tasks
           let t = 0;
           for (const task of promiseTasks) {
-            console.log('Loading: ' + filesList[t].file);
-            outputData.images.push(await task(filesList[t].file, filesList[t].mtime));
+            // console.log('Loading: ' + filesList[t].file);
+            outputData.images.push(await task(filesList[t].path, filesList[t].label, filesList[t].file, filesList[t].mtime));
             t++;
             if (t === taskLength) {
               res.json(outputData); // All tasks completed, return
@@ -69,9 +69,9 @@ function Wall(router, sequelizeObjects) {
           }
         }
 
-        function processImage(file, mtime) {
+        function processImage(path, label, file, mtime) {
           return new Promise(resolve => {
-            fs.readFile(file, function (err, data) {
+            fs.readFile(basePath + label + file, function (err, data) {
               if (!err) {
                 const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
                 resolve({
