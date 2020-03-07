@@ -172,3 +172,18 @@ function MoveFile(fromPath, toPath) {
 
 exports.MoveFile = MoveFile;
 
+
+/**
+ * Database image not in image array
+ * @param rowImage
+ * @param imageArray
+ * @constructor
+ * @return {boolean}
+ */
+function ImageNotInImages(rowImage, imageArray) {
+  return imageArray.filter(function (image) {
+    return image !== rowImage;
+  }).length === 0;
+}
+
+exports.ImageNotInImages = ImageNotInImages;

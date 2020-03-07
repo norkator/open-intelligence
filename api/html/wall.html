@@ -69,10 +69,9 @@
 
 <body>
 
-<div class="flex-md-row mb-4 h-md-250"
-     style="height: 100%; max-height: 500px; overflow-y: scroll;">
+<div class="flex-md-row mb-4"
+     style="height: 100%;">
   <div class="d-flex flex-column align-items-center">
-    <strong class="d-inline-block mb-2 text-primary">Real time images</strong>
     <div id="image_wall_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
     </div>
   </div>
@@ -107,7 +106,7 @@
   $(document).ready(function () {
 
     // Api url
-    const apiUrl = window.location.href;
+    const apiUrl = String(window.location.href).replace('/wall', '');
 
 
     const image_wall_flex_viewer = $('#image_wall_flex_viewer');
@@ -123,10 +122,10 @@
 
     function loadData() {
       $.ajax({
-        url: apiUrl + 'wall/get/images',
+        url: apiUrl + '/get/images',
         type: 'POST',
         data: {
-          images: images
+          images: JSON.stringify(images)
         }
       }).done(function (data) {
         data.images.forEach(imageData => {
