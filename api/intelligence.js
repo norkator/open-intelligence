@@ -45,6 +45,7 @@ initDb.initDatabase().then(() => {
   // Register routes
 
   require('./routes/site').Site(app, sequelizeObjects);
+  require('./routes/wall').Wall(app, sequelizeObjects);
 
   // -------------------------------------------------------------------------------------------------------------------
   // Start web server

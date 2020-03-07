@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Intelligence platform simple web page for basic intelligence">
+  <meta name="author" content="">
+  <!-- <link rel="icon" href=""> -->
+
+  <title>Image Wall</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+  <!-- Morris css -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+  <style>
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    }
+
+    .display-4 {
+      font-size: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .display-4 {
+        font-size: 3rem;
+      }
+    }
+
+    .card-img-right {
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .box-shadow {
+      box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+
+    .intelligence-footer {
+      padding: 2.5rem 0;
+      color: #999;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: .05rem solid #e5e5e5;
+    }
+
+    .intelligence-footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .zoom {
+      transition: transform .2s;
+      margin: 0 auto;
+    }
+
+    .zoom:hover {
+      transform: scale(1.5);
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div class="flex-md-row mb-4 h-md-250"
+     style="height: 100%; max-height: 500px; overflow-y: scroll;">
+  <div class="d-flex flex-column align-items-center">
+    <strong class="d-inline-block mb-2 text-primary">Real time images</strong>
+    <div id="image_wall_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+    </div>
+  </div>
+</div>
+
+<footer class="intelligence-footer">
+  <p>Intelligence <a href="https://github.com/norkator/Open-Intelligence">Github</a>.</p>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- Morris chart -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+        integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+
+<!-- Adds zooming effect -->
+<script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.js"
+        integrity="sha256-fhru0y6L8Knyrjj57vB7/npV5IUyq6Tvo8g0qoceVwQ=" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function () {
+
+    // Api url
+    const apiUrl = window.location.href;
+
+
+    const image_wall_flex_viewer = $('#image_wall_flex_viewer');
+    let images = []; // Image names we already have
+
+    // Initial data load
+    loadData();
+
+    // Refresh
+    setInterval(() => {
+      loadData();
+    }, (30 * 1000));
+
+    function loadData() {
+      $.ajax({
+        url: apiUrl + 'wall/get/images',
+        type: 'POST',
+        data: {
+          images: images
+        }
+      }).done(function (data) {
+        data.images.forEach(imageData => {
+          if (notInImages(imageData.file))
+            image_wall_flex_viewer.append(
+              '<img id="' + imageData.file + '" title="' + imageData.title + '" style="cursor: pointer; max-width:120px; max-height:120px; width: auto; height: auto;" class="zoom" src="' + imageData.image + '">'
+            );
+            wheelzoom(document.getElementById(imageData.file));
+            images.push(imageData.file);
+        });
+      });
+    }
+
+
+    function notInImages(file) {
+      return images.filter(function (image) {
+        return image === file;
+      }).length === 0
+    }
+
+  });
+
+
+</script>
+
+</body>
+</html>
