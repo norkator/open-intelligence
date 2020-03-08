@@ -47,6 +47,11 @@ function Wall(router, sequelizeObjects) {
           }
         }
 
+        if (filesList.length === 0) {
+          console.log('No new images..');
+          res.json(outputData);
+        }
+
         // Read file data
         // noinspection JSIgnoredPromiseFromCall
         processImagesSequentially(filesList.length);
@@ -90,6 +95,8 @@ function Wall(router, sequelizeObjects) {
         }
 
 
+      } else {
+        res.json(outputData);
       }
     });
 

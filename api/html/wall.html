@@ -140,6 +140,8 @@
             images.push(imageData.file);
           });
           loadingImages = false;
+        }).fail(function (error) {
+          loadingImages = false;
         });
       }
     }
