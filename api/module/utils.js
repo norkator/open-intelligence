@@ -233,9 +233,8 @@ function GetPlateOwner(plates, inPlate) {
         return String(plate.owner_name);
       }
     }
-  } else {
-    return '';
   }
+  return '';
 }
 
 exports.GetPlateOwner = GetPlateOwner;
