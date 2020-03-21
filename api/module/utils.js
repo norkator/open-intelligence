@@ -227,9 +227,12 @@ exports.GetLicensePlates = GetLicensePlates;
  */
 function GetPlateOwner(plates, inPlate) {
   if (plates.length > 0) {
-    return plates.filter(function (plate) {
-      return String(plate.licence_plate) === String(inPlate);
-    })[0].owner_name;
+    for (let i = 0; i < plates.length; i++) {
+      const plate = plates[i];
+      if (String(plate.licence_plate) === String(inPlate)) {
+        return String(plate.owner_name);
+      }
+    }
   } else {
     return '';
   }

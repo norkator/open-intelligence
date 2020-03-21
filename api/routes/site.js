@@ -386,10 +386,12 @@ function Site(router, sequelizeObjects) {
               );
               t++;
               if (t === taskLength) {
+                /*
                 // Return results
                 licensePlates = licensePlates.filter(function (plate) {
                   return plate !== null;
                 });
+                */
                 res.json({
                   licensePlates: licensePlates,
                 });
