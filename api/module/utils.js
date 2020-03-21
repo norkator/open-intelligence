@@ -187,3 +187,52 @@ function ImageNotInImages(rowImage, imageArray) {
 }
 
 exports.ImageNotInImages = ImageNotInImages;
+
+
+/**
+ * Get license plate added by user
+ * @param {Object} sequelizeObjects
+ * @return {Promise<Array>}
+ * @constructor
+ */
+function GetLicensePlates(sequelizeObjects) {
+  return new Promise(function (resolve, reject) {
+    sequelizeObjects.Plate.findAll({
+      attributes: [
+        'id',
+        'licence_plate',
+        'owner_name',
+        'enabled',
+      ],
+      order: [
+        ['createdAt', 'asc']
+      ]
+    }).then(rows => {
+      resolve(rows);
+    }).catch(() => {
+      resolve([]);
+    });
+  });
+}
+
+exports.GetLicensePlates = GetLicensePlates;
+
+
+/**
+ * Get plate owner from records
+ * @param plates
+ * @param inPlate
+ * @return {*}
+ * @constructor
+ */
+function GetPlateOwner(plates, inPlate) {
+  if (plates.length > 0) {
+    return plates.filter(function (plate) {
+      return plate === inPlate;
+    })[0];
+  } else {
+    return '';
+  }
+}
+
+exports.GetPlateOwner = GetPlateOwner;

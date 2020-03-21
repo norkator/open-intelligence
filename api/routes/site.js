@@ -361,60 +361,65 @@ function Site(router, sequelizeObjects) {
       ]
     }).then(rows => {
       if (rows.length > 0) {
-        const filePath = path.join(__dirname + '../../../' + 'output/');
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(rows.length);
+        // Load plates
+        utils.GetLicensePlates(sequelizeObjects).then(plates => {
+          const filePath = path.join(__dirname + '../../../' + 'output/');
+          // noinspection JSIgnoredPromiseFromCall
+          processImagesSequentially(rows.length);
 
-        async function processImagesSequentially(taskLength) {
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            licensePlates.push(
-              await task(
-                rows[t].file_name_cropped,
-                rows[t].label,
-                rows[t].file_create_date,
-                rows[t].detection_result
-              )
-            );
-            t++;
-            if (t === taskLength) {
-              // Return results
-              licensePlates = licensePlates.filter(function (plate) {
-                return plate !== null;
-              });
-              res.json({
-                licensePlates: licensePlates,
-              });
+          async function processImagesSequentially(taskLength) {
+            // Specify tasks
+            const promiseTasks = [];
+            for (let i = 0; i < taskLength; i++) {
+              promiseTasks.push(processImage);
+            }
+            // Execute tasks
+            let t = 0;
+            for (const task of promiseTasks) {
+              licensePlates.push(
+                await task(
+                  rows[t].file_name_cropped,
+                  rows[t].label,
+                  rows[t].file_create_date,
+                  rows[t].detection_result
+                )
+              );
+              t++;
+              if (t === taskLength) {
+                // Return results
+                licensePlates = licensePlates.filter(function (plate) {
+                  return plate !== null;
+                });
+                res.json({
+                  licensePlates: licensePlates,
+                });
+              }
             }
           }
-        }
-        function noRead(detection_result) {
-          return detection_result == null || detection_result === '' ? 'NO-READ' : detection_result
-        }
-        function processImage(file, label, file_create_date, detection_result) {
-          return new Promise(resolve_ => {
-            fs.readFile(filePath + label + '/' + file, function (err, data) {
-              if (!err) {
-                const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
-                resolve_({
-                  title: datetime,
-                  file: file,
-                  detectionResult: noRead(detection_result),
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+          function noRead(detection_result) {
+            return detection_result == null || detection_result === '' ? 'NO-READ' : detection_result
+          }
+          function processImage(file, label, file_create_date, detection_result) {
+            return new Promise(resolve_ => {
+              fs.readFile(filePath + label + '/' + file, function (err, data) {
+                if (!err) {
+                  const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
+                  const detectionResult = noRead(detection_result);
+                  resolve_({
+                    title: datetime,
+                    file: file,
+                    detectionResult: detectionResult,
+                    ownerName: utils.GetPlateOwner(plates, detectionResult),
+                    image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
                 });
-              } else {
-                // console.log(err);
-                resolve_(null);
-              }
+                } else {
+                  // console.log(err);
+                  resolve_(null);
+                }
+              });
             });
-          });
-        }
+          }
+        });
       } else {
         res.status(200);
         res.json({licensePlates: licensePlates});
@@ -664,23 +669,8 @@ function Site(router, sequelizeObjects) {
    * Get licence plates
    */
   router.get('/get/licence/plates', function (req, res) {
-    sequelizeObjects.Plate.findAll({
-      attributes: [
-        'id',
-        'licence_plate',
-        'owner_name',
-        'enabled',
-      ],
-      order: [
-        ['createdAt', 'asc']
-      ]
-    }).then(rows => {
-      if (rows.length > 0) {
-        res.json({plates: rows});
-      } else {
-        res.status(200);
-        res.json({plates: []});
-      }
+    utils.GetLicensePlates(sequelizeObjects).then(plates => {
+      res.json({plates: plates});
     });
   });
 

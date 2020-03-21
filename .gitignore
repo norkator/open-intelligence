@@ -8,6 +8,7 @@ output/*
 object_detection/*
 config.ini
 config_slave.ini
+config_tre.ini
 dataset/*
 
 # Exclude some model related files
