@@ -22,6 +22,8 @@ def detect_license_plate(image_file_path_name_extension):
 
             # Validate file path
             if os.path.exists(image_file_path_name_extension):
+			
+                # image_file_path_name_extension = str(image_file_path_name_extension).replace("\\", "")
 
                 result_plate = None
 
@@ -32,19 +34,20 @@ def detect_license_plate(image_file_path_name_extension):
                 alpr = Alpr(open_alpr_config['region'], open_alpr_conf, open_alpr_runtime_data)
                 if not alpr.is_loaded():
                     print("Error loading OpenALPR")
-                    sys.exit(1)
+                    return ''
 
                 alpr.set_top_n(20)
                 alpr.set_default_region("md")
 
                 # Image file is loaded here
                 results = alpr.recognize_file(image_file_path_name_extension)
+                print("Run ALPR for: " + image_file_path_name_extension)
 
                 i = 0
                 for plate in results['results']:
                     i += 1
-                    # print("Plate #%d" % i)
-                    # print("   %12s %12s" % ("Plate", "Confidence"))
+                    print("Plate #%d" % i)
+                    print("   %12s %12s" % ("Plate", "Confidence"))
                     for candidate in plate['candidates']:
                         prefix = "-"
                         if candidate['matches_template']:

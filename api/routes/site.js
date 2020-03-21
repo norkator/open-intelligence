@@ -407,11 +407,13 @@ function Site(router, sequelizeObjects) {
                 if (!err) {
                   const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
                   const detectionResult = noRead(detection_result);
+                  const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
                   resolve_({
                     title: datetime,
                     file: file,
                     detectionResult: detectionResult,
-                    ownerName: utils.GetPlateOwner(plates, detectionResult),
+                    detectionCorrected: vehicleDetails.plate,
+                    ownerName: vehicleDetails.owner_name,
                     image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
                 });
                 } else {

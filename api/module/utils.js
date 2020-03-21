@@ -225,16 +225,64 @@ exports.GetLicensePlates = GetLicensePlates;
  * @return {*}
  * @constructor
  */
-function GetPlateOwner(plates, inPlate) {
-  if (plates.length > 0) {
-    for (let i = 0; i < plates.length; i++) {
-      const plate = plates[i];
-      if (String(plate.licence_plate) === String(inPlate)) {
-        return String(plate.owner_name);
-      }
-    }
-  }
-  return '';
+function GetVehicleDetails(plates, inPlate) {
+  return GetClosestPlateOwner(plates, inPlate);
 }
 
-exports.GetPlateOwner = GetPlateOwner;
+exports.GetVehicleDetails = GetVehicleDetails;
+
+
+/**
+ * Get vehicle most probable owner name
+ * @param {Array} knownPlates, array of user added plates
+ * @param {String} inPlate, detected plate
+ * @return {Object}
+ */
+function GetClosestPlateOwner(knownPlates, inPlate) {
+  let results = [];
+  knownPlates.forEach(knownPlate => {
+    results.push({
+      plate: knownPlate.licence_plate,
+      owner_name: knownPlate.owner_name,
+      levenstein: Number(String(knownPlate.licence_plate).levenstein(inPlate))
+    });
+  });
+  // Sort asc
+  results.sort(function (a, b) {
+    return a.levenstein - b.levenstein
+  });
+  // Get only good results
+  results = results.filter(function (result) {
+    return result.levenstein <= 2;
+  });
+  // Return first
+  // console.log(results);
+  if (results.length > 0) {
+    return results[0];
+  } else {
+    return {plate: '', owner_name: ''};
+  }
+}
+
+
+/**
+ * Matching license plate strings
+ * @param {String} string
+ * @return {*}
+ */
+String.prototype.levenstein = function (string) {
+  let a = this, b = string + "", m = [], i, j, min = Math.min;
+  if (!(a && b)) return (b || a).length;
+  for (i = 0; i <= b.length; m[i] = [i++]) ;
+  for (j = 0; j <= a.length; m[0][j] = j++) ;
+  for (i = 1; i <= b.length; i++) {
+    for (j = 1; j <= a.length; j++) {
+      m[i][j] = b.charAt(i - 1) === a.charAt(j - 1)
+        ? m[i - 1][j - 1]
+        : m[i][j] = min(
+          m[i - 1][j - 1] + 1,
+          min(m[i][j - 1] + 1, m[i - 1][j] + 1))
+    }
+  }
+  return m[b.length][a.length];
+};
