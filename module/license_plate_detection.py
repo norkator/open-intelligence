@@ -21,7 +21,7 @@ def detect_license_plate(image_file_path_name_extension):
         if open_alpr_config['enabled'] == 'True':
 
             # Validate file path
-            if not os.path.exists(image_file_path_name_extension):
+            if os.path.exists(image_file_path_name_extension):
 
                 result_plate = None
 
