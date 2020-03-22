@@ -22,7 +22,7 @@ def detect_license_plate(image_file_path_name_extension):
 
             # Validate file path
             if os.path.exists(image_file_path_name_extension):
-			
+
                 # image_file_path_name_extension = str(image_file_path_name_extension).replace("\\", "")
 
                 result_plate = None
