@@ -238,12 +238,14 @@ function Site(router, sequelizeObjects) {
             res.send(err);
           } else {
             res.json({
+              'srImage': false,
               'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
             });
           }
         });
       } else {
         res.json({
+          'srImage': true,
           'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
         });
       }
