@@ -70,22 +70,22 @@
 <body>
 
 
-<!-- Super resolution modal -->
-<div class="modal fade bd-example-modal-lg" id="sr_image_modal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Generic image view modal -->
+<div class="modal fade bd-example-modal-lg" id="generic_image_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="sr_modal_title">...</h5>
+        <h5 class="modal-title" id="generic_modal_title">...</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p id="sr_modal_description" class="text-muted">
+        <p id="generic_modal_description" class="text-muted">
         </p>
-        <img id="sr_modal_image" class="card-img-right"
+        <img id="generic_modal_image" class="card-img-right"
              style="width: 100%; height: 100%;"
-             alt="Object detection image">
+             alt="Generic modal image">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -424,13 +424,13 @@
       load_weekly_data_btn.remove();
     });
     const resource_monitor = $('#resource_monitor');
-    const sr_image_modal = $('#sr_image_modal');
+    const generic_image_modal = $('#generic_image_modal');
     label_image_flex_viewer.on('click', 'img', function () {
       getSrModalData($(this).attr('id'));
     });
-    const sr_modal_title = $('#sr_modal_title');
-    const sr_modal_description = $('#sr_modal_description');
-    const sr_modal_image = $('#sr_modal_image');
+    const generic_modal_title = $('#generic_modal_title');
+    const generic_modal_description = $('#generic_modal_description');
+    const generic_modal_image = $('#generic_modal_image');
     const selected_day_field = $('#selected_day_field');
     selected_day_field.val(new Date().toISOString().substr(0, 10));
     const load_day_btn = $('#load_day_btn');
@@ -454,6 +454,12 @@
     });
 
     const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
+    licence_plate_flex_viewer.on('click', 'img', function () {
+      const id = $(this).attr('id');
+      console.log(id);
+      getObjectDetectionImage(id);
+    });
+
     const faces_flex_viewer = $('#faces_flex_viewer');
     faces_flex_viewer.on('click', 'img', function () {
       const id = $(this).attr('id');
@@ -633,13 +639,13 @@
               + licensePlate.ownerName + '</p>' +
               '    </div>\n' +
               '    <div class="col mr-0 ml-0 pr-0 pl-0">' +
-              '     <img id="' + licensePlate.file + '" title="' + licensePlate.title + '" style="cursor: zoom-in; width: 120px; height: 80px; max-width: 120px; max-height: 120px;" src="' + licensePlate.image + '">' +
+              '     <img id="' + licensePlate.objectDetectionFileName + '" title="' + licensePlate.title + '" style="cursor: zoom-in; width: 120px; height: 80px; max-width: 120px; max-height: 120px;" src="' + licensePlate.image + '">' +
               '    </div>' +
               '  </div>' +
               '</div>' +
               '<hr>'
             );
-            wheelzoom(document.getElementById(licensePlate.file));
+            wheelzoom(document.getElementById(licensePlate.objectDetectionFileName));
           });
         }
       }).fail(function (error) {
@@ -778,13 +784,13 @@
           imageFile: image_file_name
         },
       }).done(function (data) {
-        sr_image_modal.modal('show');
-        sr_modal_title.text(loadedLabel + ' - ' + image_file_name);
-        sr_modal_description.text(
+        generic_image_modal.modal('show');
+        generic_modal_title.text(loadedLabel + ' - ' + image_file_name);
+        generic_modal_description.text(
           data.srImage ? 'This image is computed super resolution version.' :
             'No super resolution image computed yet, this is normal version!'
         );
-        sr_modal_image.attr("src", data.data);
+        generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
         bool_speaking = false;
       });
@@ -884,6 +890,28 @@
         console.log(data);
         add_licence_plate_collapse.collapse('hide');
         getLicencePlates();
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    /**
+     * Load object_detection image for given file name
+     * @param object_detection_image_file_name
+     */
+    function getObjectDetectionImage(object_detection_image_file_name) {
+      $.ajax({
+        url: apiUrl + 'get/object/detection/image',
+        type: 'POST',
+        data: {
+          objectDetectionImageFileName: object_detection_image_file_name
+        },
+      }).done(function (data) {
+        generic_image_modal.modal('show');
+        generic_modal_title.text(object_detection_image_file_name);
+        generic_modal_description.text('');
+        generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
         alert(error);
       });

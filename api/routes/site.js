@@ -380,6 +380,7 @@ function Site(router, sequelizeObjects) {
             for (const task of promiseTasks) {
               licensePlates.push(
                 await task(
+                  rows[t].file_name,
                   rows[t].file_name_cropped,
                   rows[t].label,
                   rows[t].file_create_date,
@@ -400,10 +401,12 @@ function Site(router, sequelizeObjects) {
               }
             }
           }
+
           function noRead(detection_result) {
             return detection_result == null || detection_result === '' ? 'NO-READ' : detection_result
           }
-          function processImage(file, label, file_create_date, detection_result) {
+
+          function processImage(object_detection_file_name, file, label, file_create_date, detection_result) {
             return new Promise(resolve_ => {
               fs.readFile(filePath + label + '/' + file, function (err, data) {
                 if (!err) {
@@ -411,13 +414,14 @@ function Site(router, sequelizeObjects) {
                   const detectionResult = noRead(detection_result);
                   const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
                   resolve_({
+                    objectDetectionFileName: object_detection_file_name,
                     title: datetime,
                     file: file,
                     detectionResult: detectionResult,
                     detectionCorrected: vehicleDetails.plate,
                     ownerName: vehicleDetails.owner_name,
                     image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
+                  });
                 } else {
                   // console.log(err);
                   resolve_(null);
@@ -736,6 +740,27 @@ function Site(router, sequelizeObjects) {
         res.send('Supported action type was not specified.');
         break;
     }
+  });
+
+
+  /**
+   * Load object_detection folder image file with given name
+   */
+  router.post('/get/object/detection/image', function (req, res) {
+    const object_detection_image_file_name = String(req.body.objectDetectionImageFileName)
+      .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png'); // TODO: Not good, re-think later.
+    const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
+    fs.readFile(filePath + object_detection_image_file_name, function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+        res.send('Error on loading image file.');
+      } else {
+        res.json({
+          'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+        });
+      }
+    });
   });
 
 
