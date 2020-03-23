@@ -35,6 +35,10 @@ module.exports = (sequelize, type) => {
       type: type.INTEGER, defaultValue: 0
     },
 
+    email_sent: {
+      type: type.INTEGER, defaultValue: 0
+    },
+
     // Normally Sequelize manages these
     // but for python side we need also default value
     createdAt: {

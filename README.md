@@ -29,14 +29,14 @@ here's steps to get environment running.
 2. Install dependencies `pip install -r requirements.txt`
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
-5. Download Postgresql ( https://www.postgresql.org/ ) I am using version <b>11.6</b>
+5. Download Postgresql server ( https://www.postgresql.org/ ) I am using version <b>11.6</b>
 6. Rename `config.ini.tpl` to `config.ini` and fill details. (for multi nodes, see own section)
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
 
 ###### Api side
 1. Go to `/api` folder and run `npm install`
-2. Install Postgresql server: https://www.postgresql.org/
+2. Install Postgresql server: https://www.postgresql.org/ (if you didn't at upper python section)
 3. Rename `.env_tpl` to `.env` and fill details.
 4. Run `node intelligence.js` or with PM2 process manager.
 5. Access `localhost:4300` unless port modified at .env file. 
@@ -136,6 +136,7 @@ Here's some ideas
 - [x] web interface section for face data model training;
 - [x] basic license plate detection (Automatic number-plate recognition);
 - [x] identify car owners from license plates (user determines owners at web ui);
+- [x] send emails on new license plate detections based on known plate records;
 - [x] main App.py multiple processing nodes support;
 - [ ] camera microphone access;
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;

@@ -1,6 +1,8 @@
 const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
+const email = require('./email');
+const {Op} = require('sequelize');
 
 
 /**
@@ -286,3 +288,130 @@ String.prototype.levenstein = function (string) {
   }
   return m[b.length][a.length];
 };
+
+
+/**
+ * Send email
+ * @param {Object} sequelizeObjects
+ * @constructor
+ */
+function SendEmail(sequelizeObjects) {
+  GetLicensePlates(sequelizeObjects).then(knownPlates => {
+    if (knownPlates.length > 0) {
+      new GetNonSentEmailVehicleLicensePlateData(sequelizeObjects).then(nonSentData => {
+        if (nonSentData.length > 0) {
+          // Get id's and clear plates
+          let nonSentIds = [];
+          let correctedData = [];
+          nonSentData.forEach(nonSent => {
+            const closestPlateOwner = GetClosestPlateOwner(knownPlates, nonSent.detection_result);
+            nonSentIds.push(nonSent.id); // We want to update them all as sent
+            correctedData.push({
+              plate: closestPlateOwner.plate,
+              ownerName: closestPlateOwner.owner_name,
+              label: nonSent.label,
+              fileCreateDate: nonSent.file_create_date,
+              fileNameCropped: nonSent.file_name_cropped
+            });
+          });
+
+          // Clean bad results
+          correctedData = correctedData.filter(d => {
+            return d.plate !== '';
+          });
+
+          // Clean duplicates and empty results
+          let filteredData = [];
+          correctedData.forEach(corrected => {
+            if (filteredData.length === 0) {
+              filteredData.push(corrected);
+            } else {
+              if (filteredData.filter(f => {
+                return f.plate === corrected.plate;
+              }).length === 0) {
+                filteredData.push(corrected);
+              }
+            }
+          });
+
+          let emailContent = '<table>' +
+            '<tr>' +
+            '<th>Plate</th>' +
+            '<th>Owner</th>' +
+            '<th>Seen time</th>' +
+            '</tr>';
+          filteredData.forEach(data => {
+            emailContent +=
+              '<tr>' +
+              '<td>' + data.plate + '</td>' +
+              '<td>' + data.ownerName + '</td>' +
+              '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+              '</tr>';
+          });
+          emailContent += '</table>';
+
+          // Send email
+          email.SendMail('Seen license plates', emailContent).then(() => {
+            sequelizeObjects.Data.update({
+                email_sent: 1,
+              }, {where: {id: nonSentIds}}
+            ).then(() => {
+              console.log('Updated license plate email sent fields as sent.')
+            }).catch(error => {
+              console.log(error);
+            })
+          }).catch(error => {
+            console.log(error);
+          });
+        }
+      }).catch(() => {
+      });
+    }
+  }).then(() => {
+  });
+}
+
+exports.SendEmail = SendEmail;
+
+
+/**
+ * Return non sent email vehicle license plate data
+ * @param {Object} sequelizeObjects
+ * @constructor
+ */
+function GetNonSentEmailVehicleLicensePlateData(sequelizeObjects) {
+  return new Promise(function (resolve, reject) {
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'id',
+        'label',
+        'file_name',
+        'file_create_date',
+        'detection_result',
+        'file_name_cropped',
+      ],
+      where: {
+        file_create_date: {
+          [Op.gt]: new moment().startOf('day').utc(true).toISOString(true),
+          [Op.lt]: new moment().endOf('day').utc(true).toISOString(true),
+        },
+        detection_result: {
+          [Op.gt]: '',
+        },
+        email_sent: 0,
+        [Op.or]: [
+          {label: 'car'}, {label: 'truck'}, {label: 'bus'}
+        ],
+      },
+      order: [
+        ['file_create_date', 'asc']
+      ]
+    }).then(rows => {
+      resolve(rows);
+    }).catch(() => {
+      resolve([]);
+    });
+  });
+}
+
+exports.GetNonSentEmailVehicleLicensePlateData = GetNonSentEmailVehicleLicensePlateData;

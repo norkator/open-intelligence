@@ -8,9 +8,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const initDb = require('./module/database');
-const dotenv = require('dotenv');
-dotenv.config();
+const dotEnv = require('dotenv');
+dotEnv.config();
 const path = require('path');
+const schedule = require('node-schedule');
 
 
 if (!utils.ValidNodeJSVersion()) {
@@ -60,5 +61,13 @@ initDb.initDatabase().then(() => {
   });
 
   // -------------------------------------------------------------------------------------------------------------------
+  // Register scheduled tasks
+
+  schedule.scheduleJob('* * 1 * * *', () => { // Every 1 hours
+    if (process.env.EMAIL_ENABLED === 'True') {
+      utils.SendEmail(sequelizeObjects);
+    }
+  });
+  console.info('Emailing feature is ' + (process.env.EMAIL_ENABLED === 'True' ? 'enabled' : 'disabled'));
 
 });
