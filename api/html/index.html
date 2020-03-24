@@ -425,9 +425,22 @@
     });
     const resource_monitor = $('#resource_monitor');
     const generic_image_modal = $('#generic_image_modal');
+    let startTime, endTime, longPress;
     label_image_flex_viewer.on('click', 'img', function () {
-      getSrModalData($(this).attr('id'));
+      if (longPress) {
+        getObjectDetectionImageFileNameForCroppedImageName($(this).attr('id'));
+      } else {
+        getSrModalData($(this).attr('id'));
+      }
     });
+    label_image_flex_viewer.on('mousedown', 'img', function () {
+      startTime = new Date().getTime();
+    });
+    label_image_flex_viewer.on('mouseup', 'img', function () {
+      endTime = new Date().getTime();
+      longPress = (endTime - startTime > 500);
+    });
+
     const generic_modal_title = $('#generic_modal_title');
     const generic_modal_description = $('#generic_modal_description');
     const generic_modal_image = $('#generic_modal_image');
@@ -693,6 +706,8 @@
           );
           wheelzoom(document.getElementById(imageData.file));
         });
+      }).fail(function (error) {
+        face_grouping_flex_viewer.empty();
       });
     }
 
@@ -912,6 +927,26 @@
         generic_modal_title.text(object_detection_image_file_name);
         generic_modal_description.text('');
         generic_modal_image.attr("src", data.data);
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    /**
+     * Get object detection image name
+     * @param cropped_image_name
+     */
+    function getObjectDetectionImageFileNameForCroppedImageName(cropped_image_name) {
+      $.ajax({
+        url: apiUrl + 'get/object/detection/image/for/cropped/image',
+        type: 'POST',
+        data: {
+          croppedImageName: cropped_image_name
+        },
+      }).done(function (data) {
+        console.log(data);
+        getObjectDetectionImage(data.file_name);
       }).fail(function (error) {
         alert(error);
       });

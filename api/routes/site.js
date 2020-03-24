@@ -764,6 +764,30 @@ function Site(router, sequelizeObjects) {
   });
 
 
+  /**
+   * Get object detection image file name for cropped image
+   */
+  router.post('/get/object/detection/image/for/cropped/image', function (req, res) {
+    const croppedImageName = req.body.croppedImageName;
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'id',
+        'file_name',
+      ],
+      where: {
+        file_name_cropped: croppedImageName
+      }
+    }).then(rows => {
+      if (rows.length > 0) {
+        res.json(rows[0]);
+      } else {
+        res.status(500);
+        res.send('Error on loading image file.');
+      }
+    });
+  });
+
+
 }
 
 exports.Site = Site;
