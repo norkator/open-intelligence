@@ -11,6 +11,7 @@ config_slave.ini
 config_tre.ini
 config_temp.ini
 dataset/*
+libraries/tesserocr/tessdata_fast-master/*
 
 # Exclude some model related files
 models/coco.names
