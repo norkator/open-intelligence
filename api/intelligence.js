@@ -63,7 +63,8 @@ initDb.initDatabase().then(() => {
   // -------------------------------------------------------------------------------------------------------------------
   // Register scheduled tasks
 
-  schedule.scheduleJob('* * 1 * * *', () => { // Every 1 hours
+  utils.SendEmail(sequelizeObjects);
+  schedule.scheduleJob('* 30 * * * *', () => {
     if (process.env.EMAIL_ENABLED === 'True') {
       utils.SendEmail(sequelizeObjects);
     }
