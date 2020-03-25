@@ -87,7 +87,10 @@ def app():
             print(e)
         finally:
             # Finally remove lock file so those don't pile up
-            os.remove(image_object.file_path + image_object.file_name + '.lock')
+            try:
+                os.remove(image_object.file_path + image_object.file_name + '.lock')
+            except FileNotFoundError as e:
+                print('No locking file was found to be deleted')
 
 
 # ---------------------------------------------------------------------
