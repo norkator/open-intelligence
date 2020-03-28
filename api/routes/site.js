@@ -338,6 +338,8 @@ function Site(router, sequelizeObjects) {
     let licensePlates = [];
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
+    const selectedDateStart = req.body.selectedDateStart;
+    const selectedDateEnd = req.body.selectedDateEnd;
     sequelizeObjects.Data.findAll({
       attributes: [
         'label',
@@ -348,8 +350,8 @@ function Site(router, sequelizeObjects) {
       ],
       where: {
         file_create_date: {
-          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
-          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+          [Op.gt]: moment(selectedDate === '' ? selectedDateStart : selectedDate).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDate === '' ? selectedDateEnd : selectedDate).endOf('day').utc(true).toISOString(true),
         },
         detection_result: {
           [Op.gt]: '',

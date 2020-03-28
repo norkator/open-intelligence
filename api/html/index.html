@@ -175,7 +175,7 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link active" style="cursor: pointer;">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" id="wallBtn" style="cursor: pointer;">Wall</a>
-      <a class="nav-item nav-link disabled" style="cursor: pointer;">Plates</a>
+      <a class="nav-item nav-link" id="platesBtn" style="cursor: pointer;">Plates</a>
       <a class="nav-item nav-link disabled" style="cursor: pointer;">Person lookup</a>
     </div>
   </div>
@@ -412,6 +412,9 @@
     $('#wallBtn').click(() => {
       document.location.href = apiUrl + "wall";
     });
+    $('#platesBtn').click(() => {
+      document.location.href = apiUrl + "plates";
+    });
     const label_image_flex_viewer = $('#label_image_flex_viewer');
     const loaded_label_info = $('#loaded_label_info');
     const talk_content_div = $('#talk_content_div');
@@ -638,7 +641,9 @@
         url: apiUrl + 'get/license/plate/detections',
         type: 'POST',
         data: {
-          selectedDate: selected_day_field.val()
+          selectedDate: selected_day_field.val(),
+          selectedDateStart: null,
+          selectedDateEnd: null,
         }
       }).done(function (data) {
         licence_plate_flex_viewer.empty();
