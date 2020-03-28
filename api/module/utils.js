@@ -345,14 +345,25 @@ function SendEmail(sequelizeObjects) {
               '<th>Owner</th>' +
               '<th>Seen time</th>' +
               '</tr>';
-            filteredData.forEach(data => {
-              emailContent +=
-                '<tr>' +
-                '<td>' + data.plate + '</td>' +
-                '<td>' + data.ownerName + '</td>' +
-                '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
-                '</tr>';
-            });
+            if (filteredData.length > 0) {
+              filteredData.forEach(data => {
+                emailContent +=
+                  '<tr>' +
+                  '<td>' + data.plate + '</td>' +
+                  '<td>' + data.ownerName + '</td>' +
+                  '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                  '</tr>';
+              });
+            } else {
+              nonSentData.forEach(nonSent => {
+                emailContent +=
+                  '<tr>' +
+                  '<td>' + nonSent.detection_result + '</td>' +
+                  '<td>' + 'New plate needs owner detail' + '</td>' +
+                  '<td>' + moment(nonSent.file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                  '</tr>';
+              });
+            }
             emailContent += '</table>';
 
             // Send email
