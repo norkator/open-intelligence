@@ -4,6 +4,9 @@ const path = require('path');
 const email = require('./email');
 const {Op} = require('sequelize');
 
+// Variables
+let emailFunctionRunning = false;
+
 
 /**
  * Check for minimum NodeJS requirement
@@ -296,79 +299,91 @@ String.prototype.levenstein = function (string) {
  * @constructor
  */
 function SendEmail(sequelizeObjects) {
-  GetLicensePlates(sequelizeObjects).then(knownPlates => {
-    if (knownPlates.length > 0) {
-      new GetNonSentEmailVehicleLicensePlateData(sequelizeObjects).then(nonSentData => {
-        if (nonSentData.length > 0) {
-          // Get id's and clear plates
-          let nonSentIds = [];
-          let correctedData = [];
-          nonSentData.forEach(nonSent => {
-            const closestPlateOwner = GetClosestPlateOwner(knownPlates, nonSent.detection_result);
-            nonSentIds.push(nonSent.id); // We want to update them all as sent
-            correctedData.push({
-              plate: closestPlateOwner.plate,
-              ownerName: closestPlateOwner.owner_name,
-              label: nonSent.label,
-              fileCreateDate: nonSent.file_create_date,
-              fileNameCropped: nonSent.file_name_cropped
+  if (!emailFunctionRunning) {
+    emailFunctionRunning = true;
+    GetLicensePlates(sequelizeObjects).then(knownPlates => {
+      if (knownPlates.length > 0) {
+        new GetNonSentEmailVehicleLicensePlateData(sequelizeObjects).then(nonSentData => {
+          if (nonSentData.length > 0) {
+            // Get id's and clear plates
+            let nonSentIds = [];
+            let correctedData = [];
+            nonSentData.forEach(nonSent => {
+              const closestPlateOwner = GetClosestPlateOwner(knownPlates, nonSent.detection_result);
+              nonSentIds.push(nonSent.id); // We want to update them all as sent
+              correctedData.push({
+                plate: closestPlateOwner.plate,
+                ownerName: closestPlateOwner.owner_name === undefined ? 'N/A' : closestPlateOwner.owner_name,
+                label: nonSent.label,
+                fileCreateDate: nonSent.file_create_date,
+                fileNameCropped: nonSent.file_name_cropped
+              });
             });
-          });
 
-          // Clean bad results
-          correctedData = correctedData.filter(d => {
-            return d.plate !== '';
-          });
+            // Clean bad results
+            correctedData = correctedData.filter(d => {
+              return d.plate !== '';
+            });
 
-          // Clean duplicates and empty results
-          let filteredData = [];
-          correctedData.forEach(corrected => {
-            if (filteredData.length === 0) {
-              filteredData.push(corrected);
-            } else {
-              if (filteredData.filter(f => {
-                return f.plate === corrected.plate;
-              }).length === 0) {
+            // Clean duplicates and empty results
+            let filteredData = [];
+            correctedData.forEach(corrected => {
+              if (filteredData.length === 0) {
                 filteredData.push(corrected);
+              } else {
+                if (filteredData.filter(f => {
+                  return f.plate === corrected.plate;
+                }).length === 0) {
+                  filteredData.push(corrected);
+                }
               }
-            }
-          });
+            });
 
-          let emailContent = '<table>' +
-            '<tr>' +
-            '<th>Plate</th>' +
-            '<th>Owner</th>' +
-            '<th>Seen time</th>' +
-            '</tr>';
-          filteredData.forEach(data => {
-            emailContent +=
+            let emailContent = '<table>' +
               '<tr>' +
-              '<td>' + data.plate + '</td>' +
-              '<td>' + data.ownerName + '</td>' +
-              '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+              '<th>Plate</th>' +
+              '<th>Owner</th>' +
+              '<th>Seen time</th>' +
               '</tr>';
-          });
-          emailContent += '</table>';
+            filteredData.forEach(data => {
+              emailContent +=
+                '<tr>' +
+                '<td>' + data.plate + '</td>' +
+                '<td>' + data.ownerName + '</td>' +
+                '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                '</tr>';
+            });
+            emailContent += '</table>';
 
-          // Send email
-          email.SendMail('Seen license plates', emailContent).then(() => {
-            sequelizeObjects.Data.update({
-                email_sent: 1,
-              }, {where: {id: nonSentIds}}
-            ).then(() => {
-              console.log('Updated license plate email sent fields as sent.')
+            // Send email
+            email.SendMail('Seen license plates', emailContent).then(() => {
+              sequelizeObjects.Data.update({
+                  email_sent: 1,
+                }, {where: {id: nonSentIds}}
+              ).then(() => {
+                console.log('Updated license plate email sent fields as sent.');
+                emailFunctionRunning = false;
+              }).catch(error => {
+                console.log(error);
+                emailFunctionRunning = false;
+              })
             }).catch(error => {
               console.log(error);
-            })
-          }).catch(error => {
-            console.log(error);
-          });
-        }
-      }).catch(() => {
-      });
-    }
-  }).then(() => {
-  });
+              emailFunctionRunning = false;
+            });
+          } else {
+            emailFunctionRunning = false;
+          }
+        }).catch(() => {
+          emailFunctionRunning = false;
+        });
+      } else {
+        emailFunctionRunning = false;
+      }
+    }).then(() => {
+      emailFunctionRunning = false;
+    });
+  }
 }
 
 exports.SendEmail = SendEmail;
