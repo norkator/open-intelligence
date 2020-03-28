@@ -8,3 +8,4 @@ protobuf==3.6.0
 scikit-learn==0.22.1
 imutils==0.5.3
 psycopg2==2.8.4
+tesserocr==2.4.0
