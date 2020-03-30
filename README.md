@@ -3,7 +3,11 @@
 Open Intelligence processes <b>any camera</b> motion triggered images and sorts seen objects using Yolo, 
 it provides easy to use front end web interface with rich features so that you can have up to date
 intel what is the current status on your property. Open Intelligence also uses license plate detection (ALPR) 
-and face detection to detect people which user can sort into folders so be able to recognize specific people.
+to detect vehicle plates and face detection to detect people faces which then can be sorted into person folders
+and then can be trained so that Open Intelligence can try to identify seen people. All this can be done from front end interface.
+
+Open Intelligence also uses super resolution neural network to process super resolution images for improved 
+license plate detection.
 
 Target goal is to make this useful information gathering tool to provide data for easy property monitoring without
 need for expensive camera systems because any existing cameras are suitable. 
@@ -34,8 +38,9 @@ here's steps to get environment running.
 1. Go to `/api` folder and run `npm install`
 2. Install Postgresql server: https://www.postgresql.org/ (if you didn't at upper python section)
 3. Rename `.env_tpl` to `.env` and fill details.
-4. Run `node intelligence.js` or with PM2 process manager.
-5. Access `localhost:4300` unless port modified at .env file. 
+4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
+5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
+6. Access `localhost:4300` unless port modified at .env file. 
 
 
 #### Project folder structure
