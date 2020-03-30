@@ -3,8 +3,8 @@ const utils = require('../module/utils');
 const fs = require('fs');
 const {Op} = require('sequelize');
 const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config();
+const dotEnv = require('dotenv');
+dotEnv.config();
 const os = require('os-utils');
 
 
@@ -21,7 +21,8 @@ function Site(router, sequelizeObjects) {
 
     const performance = {
       loadAvg: String(os.loadavg(5) + '%'),
-      memUse: String(100 - Math.floor(os.freemem() / os.totalmem() * 100)) + '%'
+      memUse: String(100 - Math.floor(os.freemem() / os.totalmem() * 100)) + '%',
+      storageUse: 'N/A GB',
     };
 
     // Data is array of { h: '2006', a: 100 }, objects
@@ -62,11 +63,14 @@ function Site(router, sequelizeObjects) {
         donutData = utils.GetLabelCounts(rows);
       }
 
-      // Return results
-      res.json({
-        performance: performance,
-        activity: activityData,
-        donut: donutData,
+      utils.GetStorageUsage().then(storageUsage => {
+        performance.storageUse = storageUsage;
+        // Return results
+        res.json({
+          performance: performance,
+          activity: activityData,
+          donut: donutData,
+        });
       });
     }).catch(error => {
       res.status(500);

@@ -180,6 +180,7 @@
     </div>
   </div>
   <form class="form-inline my-2 my-lg-0">
+    <a id="storage_use_monitor" class="badge badge-light mr-2" style="cursor: pointer;"></a>
     <a id="resource_monitor" class="badge badge-light mr-4" style="cursor: pointer;"></a>
     <div id="talk_content_div">
       <button id="activate_talk_btn" type="button" class="btn btn-outline-light btn-sm">Talk</button>
@@ -428,6 +429,7 @@
       loadWeeklyData();
       load_weekly_data_btn.remove();
     });
+    const storage_use_monitor = $('#storage_use_monitor');
     const resource_monitor = $('#resource_monitor');
     const generic_image_modal = $('#generic_image_modal');
     let startTime, endTime, longPress;
@@ -604,9 +606,9 @@
           selectedDate: selected_day_field.val()
         }
       }).done(function (data) {
-        // console.log('Loaded intelligence data');
 
-        resource_monitor.text(/*'CPU ' + data.performance.loadAvg +*/'MEM ' + data.performance.memUse);
+        resource_monitor.text('MEM ' + data.performance.memUse);
+        storage_use_monitor.text('ST ' + data.performance.storageUse);
 
         // Donut labels
         $('#donut_chart').empty();

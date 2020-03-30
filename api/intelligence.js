@@ -1,3 +1,4 @@
+// NOTE: This task can have multiple instances, pm2 start intelligence.js -i 2
 'use strict';
 
 // Components
@@ -11,7 +12,6 @@ const initDb = require('./module/database');
 const dotEnv = require('dotenv');
 dotEnv.config();
 const path = require('path');
-const schedule = require('node-schedule');
 
 
 if (!utils.ValidNodeJSVersion()) {
@@ -63,16 +63,5 @@ initDb.initDatabase().then(() => {
   app.listen(process.env.API_PORT, () => {
     logger.log(`Development api listening on port ${process.env.API_PORT}.`, logger.LOG_YELLOW);
   });
-
-  // -------------------------------------------------------------------------------------------------------------------
-  // Register scheduled tasks
-  
-  utils.SendEmail(sequelizeObjects);
-  schedule.scheduleJob('* 30 * * * *', () => {
-    if (process.env.EMAIL_ENABLED === 'True') {
-      utils.SendEmail(sequelizeObjects);
-    }
-  });
-  console.info('Emailing feature is ' + (process.env.EMAIL_ENABLED === 'True' ? 'enabled' : 'disabled'));
 
 });

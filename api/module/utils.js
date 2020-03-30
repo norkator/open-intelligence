@@ -3,9 +3,13 @@ const moment = require('moment');
 const path = require('path');
 const email = require('./email');
 const {Op} = require('sequelize');
+const getFolderSize = require('get-folder-size');
+
 
 // Variables
 let emailFunctionRunning = false;
+const outputFolderPath = path.join(__dirname + '../../../' + 'output/');
+const storageFilePathName = __dirname + '/../' + "/storage.txt";
 
 
 /**
@@ -441,3 +445,36 @@ function GetNonSentEmailVehicleLicensePlateData(sequelizeObjects) {
 }
 
 exports.GetNonSentEmailVehicleLicensePlateData = GetNonSentEmailVehicleLicensePlateData;
+
+
+/**
+ * Write storage usage in file for front end statistics
+ * pulling this takes time, so it's run by scheduler
+ * @constructor
+ */
+exports.SetStorageUsage = function () {
+  getFolderSize(outputFolderPath, (error, size) => {
+    if (!error) {
+      const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+      console.info('Current storage usage: ' + storageUsage);
+      fs.writeFile(storageFilePathName, storageUsage, function (err) {
+        if (err) {
+          return console.log(err);
+        }
+      });
+    }
+  });
+};
+
+/**
+ * Get storage usage detail from file system
+ * @constructor
+ * @return {Promise<any>}
+ */
+exports.GetStorageUsage = function () {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(storageFilePathName, {encoding: 'utf-8'}, function (error, data) {
+      resolve(error ? resolve('N/A GB') : resolve(data));
+    });
+  });
+};
