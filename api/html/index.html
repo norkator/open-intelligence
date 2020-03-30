@@ -364,6 +364,11 @@
       console.log(e);
     }
 
+    // Sound files
+    let launch01 = new Audio("/sounds/launch_01.wav");
+    let cursorClick01Sound = new Audio("/sounds/cursor_click_01.wav");
+    launch01.play();
+
     // Init zoom effect to all img elements
     wheelzoom(document.querySelector('img.zoom'));
 
@@ -384,6 +389,7 @@
     });
     const load_weekly_data_btn = $('#load_weekly_data_btn');
     load_weekly_data_btn.click(() => {
+      
       loadWeeklyData();
       load_weekly_data_btn.remove();
     });
@@ -413,6 +419,7 @@
     selected_day_field.val(new Date().toISOString().substr(0, 10));
     const load_day_btn = $('#load_day_btn');
     load_day_btn.on('click', function () {
+      
       loadData();
     });
 
@@ -485,6 +492,7 @@
     });
     const disable_polls_btn = $('#disable_polls_btn');
     disable_polls_btn.on('click', function () {
+      cursorClick01Sound.play();
       pollsEnabled = (!pollsEnabled);
       disable_polls_btn.text(pollsEnabled ? 'Disable polls' : 'Enable polls');
     });
@@ -527,6 +535,7 @@
       manageLicencePlates('changes', null, null, null, null, changesArray);
     });
     licence_plate_manager_modal_table.on('click', '.btn', function () {
+      
       if (confirm("Sure to delete this licence plate record?")) {
         manageLicencePlates('remove', this.value, null, null, null, null);
       }
