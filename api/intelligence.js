@@ -38,17 +38,7 @@ initDb.initDatabase().then(() => {
     next();
   });
 
-  app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname + '/html/index.html'));
-  });
-
-  app.get('/wall', (request, response) => {
-    response.sendFile(path.join(__dirname + '/html/wall.html'));
-  });
-
-  app.get('/plates', (request, response) => {
-    response.sendFile(path.join(__dirname + '/html/plates.html'));
-  });
+  app.use('/', express.static(path.join(__dirname, '/html/')));
 
   // -------------------------------------------------------------------------------------------------------------------
   // Register routes
