@@ -1,22 +1,18 @@
 # Open-Intelligence
 
-Tools to process security camera (<b>any camera</b>) motion triggered images and sort seen objects in different categories. 
-Inserts data into Postgresql database for further processing. 
-Simple web page interface with statistics, images, voice and tools.
-Includes simple Android app which uses private key only SSH tunneling to connect to your open intelligence server 
-API to view same web page securely.
+Open Intelligence processes <b>any camera</b> motion triggered images and sorts seen objects using Yolo, 
+it provides easy to use front end web interface with rich features so that you can have up to date
+intel what is the current status on your property. Open Intelligence also uses license plate detection (ALPR) 
+and face detection to detect people which user can sort into folders so be able to recognize specific people.
 
-Open Intelligence is suitable from private properties to small businesses. Not capable to work well with huge
-crowded places yet.
-
-Target goal is to make this useful information gathering tool to provide data for
-better front end application which will be closed source product.
-
-Influenced by Person Of Interest TV series. 
+Target goal is to make this useful information gathering tool to provide data for easy property monitoring without
+need for expensive camera systems because any existing cameras are suitable. 
 
 <p align="start">
-  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/img1.PNG" width="280">
+  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/frontpage_1.png">
 </p>
+
+Open Intelligence is suitable from private properties to small businesses with medium activity.
 
 
 ### Installing
