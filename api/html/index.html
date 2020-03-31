@@ -132,6 +132,7 @@
   <div class="collapse navbar-collapse">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" style="cursor: pointer;">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" id="camerasBtn" style="cursor: pointer;">Cameras</a>
       <a class="nav-item nav-link" id="wallBtn" style="cursor: pointer;">Wall</a>
       <a class="nav-item nav-link" id="platesBtn" style="cursor: pointer;">Plates</a>
       <a class="nav-item nav-link disabled" style="cursor: pointer;">Person lookup</a>
@@ -373,6 +374,9 @@
     wheelzoom(document.querySelector('img.zoom'));
 
     // jQuery references to elements
+    $('#camerasBtn').click(() => {
+      document.location.href = apiUrl + "cameras.html";
+    });
     $('#wallBtn').click(() => {
       document.location.href = apiUrl + "wall.html";
     });

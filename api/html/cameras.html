@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Intelligence platform simple web page for basic intelligence">
+  <meta name="author" content="">
+  <link rel="icon"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACA0lEQVR4Ae3VAYQiURjA8cNgEMIiDMJicQiLMDgWh0UIixAOh8VgsTgMQoBwCLAIIYTFASCEMDiEEMIghMUifPfHw+fx6s2YHHf75wcY9Z733vfpf+mjFgaYY4WtscAMz7jGRQuRYAfxtEYfldfBBlJShhiVNIBY9nhBF200jRg9TPEGUY74htIFmEGUHI8IcK4QKQ4QZYhSDSHKK+ooWoQlRCm8Uw8QZYQAZQut3T4iLvJxDjHmqKLQ2qkMXqUQY4saqiqyzlQfJwvPfPCEDGM04eozpliif2LBa5zsDmJsoGtDlDFc/bLOS2QtWj8J13A2PnE9E4jyG64OEKUL3RRiPMPZCmLE0DVwhBhPcPXTekRD6HoQYwZnO4gRwa6BBG2c6yu+ow67GGIs4EyUS9a0bvJf/0MRxNjBWQ4xGrhU+sYu4SyDGLe4VF3fSfACMVLng1Zcz/d37DonZk0dO0hBS+gC7CFGC85qeIcY99DFeIN4ynED3aPXgVaNrNc4gK7luVNrNKGrWxcnwdnqOJyZWSES5BDLDj8QQhfg1ZqVAbxKIJ4ruUKML7jx2nmgg0JNIMoYAYpWwxyipChciAXsCX8P3/rYQpQpShdiArFkSHFrvegRYgyxgVgGqKQEB0hJOR5QaVcY4R3i6YAUIS5WDR1MkGFvXfkVxrhDiI/+7f4AfdpSa7k2LiwAAAAASUVORK5CYII=">
+
+  <title>Intelligence - Cameras</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+  <!-- Morris css -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+  <!-- App own theme -->
+  <!--suppress HtmlUnknownTarget -->
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+
+
+<!-- sticky-top -->
+<nav class="navbar navbar-dark sticky-top navbar-expand-lg bg-dark">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0"
+     style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: 1.8rem;">
+    <img
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACHklEQVR4Ae3WAWTjUBjA8UNRFMVQFMUwHIahCI7hMBTFUBTDYQiG4RAUBRSHAIaiKIrhAFAURVAURREERVAMRe+PfTzP+faSJsy2Pz9M0rcvSdPk26foq+PxeIkBZlhi+2qOKR5xXvYQVfiI4doa/TKG6WCDvEXwihpmALsdntBFG61XHnqYYA+zA+5OGaSCKcwS3KPieIkDpDAb5h1oCLNn1HOs08QCZndZF7mF2QiVE2+IqXX5vCwfTiDNCrxLF5Ai1w8GkLaoFXi3NpFC6r99FMoH+PsBEUK0lHW+Y4IF+soBr98a6BrSxtrWhlmorPMX0gFN66D3kM61gUJIQ2ubD7OVsk4Ks661fQLpURtoCcmztjVwgPSgrPMH0g5Va3sP0lQbKIYkp9keykfb4Qv8E79Q/882D9JcW4SISn5QtyBt38NATUixtmMCqVHiQG1IC23HCNJViQN1Ic20HZ8gBcoPWtZ6+v/RX8SkyNpWR4ysLezXGuwgXWoD1fAC6ca+XbGHawkurDXuIcUu13cEaYWK/YLveKbWaNlnGQkk32WgOlJIofLCn8Auxm9U7UuFZ0gb/R1Lf275yr5n8PADFw5nXupkvTXHMAv1I1K/lzOYBXnf8OYwW+Emwxp9bGE2OfW1cwy7CAGu0LAeCR6G2MBuUNQvq48UeUtwW/TP/RlGeIFrKQJUy3xS19DBGBF2kGIsEeJaBvnqQ/cPDxGlXpRi3oIAAAAASUVORK5CYII="
+      width="36" height="36" class="d-inline-block align-top" alt="">
+    Intelligence</a>
+  <div class="collapse navbar-collapse">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" id="homeBtn" style="cursor: pointer;">Home</a>
+      <a class="nav-item nav-link active" style="cursor: pointer;">Cameras <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" id="wallBtn" style="cursor: pointer;">Wall</a>
+      <a class="nav-item nav-link" style="cursor: pointer;">Plates</a>
+      <a class="nav-item nav-link disabled" style="cursor: pointer;">Person lookup</a>
+    </div>
+  </div>
+  <form class="form-inline my-2 my-lg-0">
+  </form>
+</nav>
+
+<main role="main" class="container">
+  <div id="cameras_flex_viewer" class="d-flex flex-wrap mt-2 mb-2" style="height: 100%">
+  </div>
+</main>
+
+<footer class="intelligence-footer">
+  <p>Intelligence <a href="https://github.com/norkator/Open-Intelligence">Github</a>.</p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- Morris chart -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+        integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+
+<!-- Adds zooming effect -->
+<script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.js"
+        integrity="sha256-fhru0y6L8Knyrjj57vB7/npV5IUyq6Tvo8g0qoceVwQ=" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function () {
+
+    // Api url
+    const apiUrl = String(window.location.href).replace('cameras.html', '');
+
+    $('#homeBtn').click(() => {
+      document.location.href = apiUrl;
+    });
+
+  });
+
+
+</script>
+
+</body>
+</html>

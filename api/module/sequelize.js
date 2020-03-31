@@ -1,7 +1,7 @@
 // Components
 const Sequelize = require('sequelize');
-const dotenv = require('dotenv');
-dotenv.config();
+const dotEnv = require('dotenv');
+dotEnv.config();
 
 
 // Models
@@ -42,6 +42,7 @@ sequelize.sync(/*{force: (process.env.SEQ_FORCE_SYNC === 'true')}*/) // Do not u
 
 // Export models
 module.exports = {
+  sequelize,
   Data,
   App,
   Plate,
