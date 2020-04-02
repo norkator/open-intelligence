@@ -34,44 +34,74 @@ for n, f in zip(camera_names_config, camera_folders_config):
     folders.append(f)
 
 
-def app():
-    # Image objects stored here
-    image_file_objects = []
-
-    # Create image objects
+# Return source folder files but from old to last
+def get_time_sorted_files():
+    time_sorted_files = []
     for name, folder in zip(names, folders):
-        # Check for 'processed' folder existence
         fileutils.create_directory(folder + 'processed/')
-        # Process files
-        count = 0
         for file_name in fileutils.get_camera_image_names(folder):
             if file_name != 'processed' and file_name != 'Thumbs.db' and file_name.find('.lock') is -1:
-
-                # File locking check and locking
-                if os.path.isfile(folder + file_name + '.lock'):
-                    print('')
-                else:
-                    # Take five files at the time
-                    count = count + 1
-                    if count > 5:
-                        break
-                    # Lock file and process
-                    open(folder + file_name + '.lock', 'a').close()
-                    # Append for processing
-                    gm_time = fileutils.get_file_create_time(folder, file_name)
-                    file = File.File(
+                time_sorted_files.append(
+                    File.File(
                         name,
                         folder,
                         file_name,
-                        fileutils.get_file_extension(folder, file_name),
-                        fileutils.get_file_create_year(gm_time),
-                        fileutils.get_file_create_month(gm_time),
-                        fileutils.get_file_create_day(gm_time),
-                        fileutils.get_file_create_hour(gm_time, time_offset_hours),
-                        fileutils.get_file_create_minute(gm_time),
-                        fileutils.get_file_create_second(gm_time)
+                        None,
+                        None,
+                        None,
+                        None,
+                        None,
+                        None,
+                        None,
+                        fileutils.get_file_mtime(folder, file_name)
                     )
-                    image_file_objects.append(file)
+                )
+
+    time_sorted_files.sort(key=lambda x: x.getmtime, reverse=False)
+    return time_sorted_files
+
+
+# Pick files for processing, lock and process them
+def app():
+    # Files for processing
+    sorted_files = get_time_sorted_files()
+
+    # Image objects ready for processing are stored here
+    image_file_objects = []
+
+    # Count of files taken / to take
+    taken_files_count = 0
+    max_files_to_take = 4
+
+    # Create image objects
+    for sorted_file in sorted_files:
+
+        # File locking check and locking
+        if not os.path.isfile(sorted_file.file_path + sorted_file.file_name + '.lock'):
+
+            # Limited amount of files
+            taken_files_count = taken_files_count + 1
+            if taken_files_count > max_files_to_take:
+                break
+
+            # Lock file and process
+            open(sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
+            # Append for processing
+            gm_time = fileutils.get_file_create_time(sorted_file.file_path, sorted_file.file_name)
+            file = File.File(
+                sorted_file.name,
+                sorted_file.file_path,
+                sorted_file.file_name,
+                fileutils.get_file_extension(sorted_file.file_path, sorted_file.file_name),
+                fileutils.get_file_create_year(gm_time),
+                fileutils.get_file_create_month(gm_time),
+                fileutils.get_file_create_day(gm_time),
+                fileutils.get_file_create_hour(gm_time, time_offset_hours),
+                fileutils.get_file_create_minute(gm_time),
+                fileutils.get_file_create_second(gm_time),
+                None
+            )
+            image_file_objects.append(file)
 
     # Analyze image objects
     for image_object in image_file_objects:

@@ -52,6 +52,10 @@ def get_file_create_second(gm_time):
     return time.strftime('%S', gm_time)
 
 
+def get_file_mtime(directory_path, file_name):
+    return os.path.getmtime(directory_path + file_name)
+
+
 # -----------------------------------------
 # Directory tools
 
