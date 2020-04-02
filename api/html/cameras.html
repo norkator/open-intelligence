@@ -89,6 +89,12 @@
     $('#homeBtn').click(() => {
       document.location.href = apiUrl;
     });
+    $('#wallBtn').click(() => {
+      document.location.href = apiUrl + "wall.html";
+    });
+    $('#platesBtn').click(() => {
+      document.location.href = apiUrl + "plates.html";
+    });
 
     // Components
     let cameras_flex_viewer = $('#cameras_flex_viewer');
@@ -105,10 +111,11 @@
         type: 'POST',
         data: {},
       }).done(function (data) {
+        const width = cameras_flex_viewer.width() / 2;
         cameras_flex_viewer.empty();
         data.images.forEach(imageData => {
           cameras_flex_viewer.append(
-            '<img id="' + imageData.id + '" title="' + imageData.name + '" style="cursor: pointer; width:640px; height:360px;" src="' + imageData.image + '">'
+            '<img id="' + imageData.id + '" title="' + imageData.name + '" style="cursor: pointer; width:' + width + 'px; height:' + (width * 50 / 100) + 'px;" src="' + imageData.image + '">'
           );
         });
       }).fail(function (error) {

@@ -25,6 +25,7 @@ initDb.initDatabase().then(() => {
 
   console.info('Emailing feature is ' + (process.env.EMAIL_ENABLED === 'True' ? 'enabled' : 'disabled'));
   utils.SendEmail(sequelizeObjects);
+
   schedule.scheduleJob('* 30 * * * *', () => {
     if (process.env.EMAIL_ENABLED === 'True') {
       utils.SendEmail(sequelizeObjects);

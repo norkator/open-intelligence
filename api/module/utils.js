@@ -395,7 +395,7 @@ function SendEmail(sequelizeObjects) {
       } else {
         emailFunctionRunning = false;
       }
-    }).then(() => {
+    }).catch(() => {
       emailFunctionRunning = false;
     });
   }
