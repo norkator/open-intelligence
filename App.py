@@ -41,21 +41,24 @@ def get_time_sorted_files():
         fileutils.create_directory(folder + 'processed/')
         for file_name in fileutils.get_camera_image_names(folder):
             if file_name != 'processed' and file_name != 'Thumbs.db' and file_name.find('.lock') is -1:
-                time_sorted_files.append(
-                    File.File(
-                        name,
-                        folder,
-                        file_name,
-                        None,
-                        None,
-                        None,
-                        None,
-                        None,
-                        None,
-                        None,
-                        fileutils.get_file_mtime(folder, file_name)
+                try:
+                    time_sorted_files.append(
+                        File.File(
+                            name,
+                            folder,
+                            file_name,
+                            None,
+                            None,
+                            None,
+                            None,
+                            None,
+                            None,
+                            None,
+                            fileutils.get_file_mtime(folder, file_name)
+                        )
                     )
-                )
+                except Exception as e:
+                    print(file_name + ' file is already taken.') 
 
     time_sorted_files.sort(key=lambda x: x.getmtime, reverse=False)
     return time_sorted_files
