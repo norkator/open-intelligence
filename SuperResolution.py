@@ -1,7 +1,7 @@
 import os
 import sys
 from argparse import ArgumentParser
-from libraries.fast_srgan import infer
+from libraries.fast_srgan import infer_oi
 from pathlib import Path
 from module import configparser, database, detection_utils
 from objects import SrFile
@@ -52,7 +52,7 @@ def app():
     # Super resolution image
     if len(sr_image_objects) > 0:
         # Process super resolution images
-        sr_image_objects = infer.process_super_resolution_images(
+        sr_image_objects = infer_oi.process_super_resolution_images(
             sr_image_objects=sr_image_objects
         )
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
             sr_test_images = [SrFile.SrFile(
                 None, None, None,
                 os.getcwd() + '/images/' + args.testfile, os.getcwd() + '/images/' + 'sr_' + args.testfile, None)]
-            infer.process_super_resolution_images(sr_test_images)
+            infer_oi.process_super_resolution_images(sr_test_images)
     except KeyboardInterrupt:
         print >> sys.stderr, '\nExiting by user request.\n'
         sys.exit(0)
