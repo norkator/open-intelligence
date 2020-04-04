@@ -1,9 +1,9 @@
 import os
 import sys
 from argparse import ArgumentParser
-from libraries.fast_srgan import infer
+from libraries.fast_srgan import infer_oi
 from pathlib import Path
-from module import configparser, database, detection_utils
+from module import configparser, database, detection_utils, gpu_utils
 from objects import SrFile
 import time
 
@@ -11,6 +11,9 @@ import time
 parser = ArgumentParser()
 parser.add_argument('--testfile', type=str,
                     help='Test mode loads image from project /images folder. Specify image name.')
+
+# Check does system has GPU support
+print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
@@ -52,7 +55,7 @@ def app():
     # Super resolution image
     if len(sr_image_objects) > 0:
         # Process super resolution images
-        sr_image_objects = infer.process_super_resolution_images(
+        sr_image_objects = infer_oi.process_super_resolution_images(
             sr_image_objects=sr_image_objects
         )
 
@@ -96,7 +99,7 @@ if __name__ == '__main__':
             sr_test_images = [SrFile.SrFile(
                 None, None, None,
                 os.getcwd() + '/images/' + args.testfile, os.getcwd() + '/images/' + 'sr_' + args.testfile, None)]
-            infer.process_super_resolution_images(sr_test_images)
+            infer_oi.process_super_resolution_images(sr_test_images)
     except KeyboardInterrupt:
         print >> sys.stderr, '\nExiting by user request.\n'
         sys.exit(0)
