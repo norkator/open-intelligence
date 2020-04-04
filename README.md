@@ -121,6 +121,13 @@ Got `ImportError: DLL load failed: The specified module could not be found.` ???
 => try `import cv2`, not working -> packages missing, vc redistributable etc?  
 => Windows Server for example requires desktop experience features installed.
 
+Got `Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found`
+=> Check that you have correct Cuda toolkit version.
+=> Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
+
+=> Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0"
+https://developer.nvidia.com/rdp/cudnn-archive
+
 
 #### Todo
 
