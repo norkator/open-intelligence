@@ -1,5 +1,4 @@
 import tensorflow
-# from tensorflow import keras
 from tensorflow.python.client import device_lib
 
 
@@ -13,4 +12,4 @@ def is_gpu_available():
     return tensorflow.test.is_gpu_available()
 
 
-print(is_gpu_available())
+# print(is_gpu_available())

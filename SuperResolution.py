@@ -3,7 +3,7 @@ import sys
 from argparse import ArgumentParser
 from libraries.fast_srgan import infer_oi
 from pathlib import Path
-from module import configparser, database, detection_utils
+from module import configparser, database, detection_utils, gpu_utils
 from objects import SrFile
 import time
 
@@ -11,6 +11,9 @@ import time
 parser = ArgumentParser()
 parser.add_argument('--testfile', type=str,
                     help='Test mode loads image from project /images folder. Specify image name.')
+
+# Check does system has GPU support
+print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')

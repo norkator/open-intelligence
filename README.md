@@ -88,6 +88,12 @@ Multi node support requires little bit more work to configure but it's doable. F
 4. On each slave node run `App.py` via giving argument: `\.App.py --bool_slave_node True`
 
 
+### Cuda GPU Support
+Cuda only works for Super Resolution image processing at the moment. Requirements are:
+1. NVIDIA only; GPU hardware compute capability: The minimum required Cuda capability is 3.5 so old GPU's won't work.  
+2. CUDA toolkit version. Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
+
+
 #### Postgresql notes
 
 All datetime fields are inserted without timezone so that:
@@ -122,9 +128,10 @@ Got `ImportError: DLL load failed: The specified module could not be found.` ???
 => Windows Server for example requires desktop experience features installed.
 
 Got `Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found`
-=> Check that you have correct Cuda toolkit version.
+=> Check that you have correct CUDA toolkit version.
 => Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
 
+May not be needed? needs clarification!  
 => Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0"
 https://developer.nvidia.com/rdp/cudnn-archive
 
