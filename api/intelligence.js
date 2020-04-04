@@ -15,7 +15,7 @@ const path = require('path');
 
 
 if (!utils.ValidNodeJSVersion()) {
-  console.log('# WARNING, NODEJS VERSION DOES NOT MEET MINIMUM REQUIREMENT #');
+  console.error('# WARNING, NODEJS VERSION DOES NOT MEET MINIMUM REQUIREMENT #');
   process.exit(0);
 }
 

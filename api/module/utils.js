@@ -8,8 +8,13 @@ const getFolderSize = require('get-folder-size');
 
 // Variables
 let emailFunctionRunning = false;
+let setStorageUsageRunning = false;
 const outputFolderPath = path.join(__dirname + '../../../' + 'output/');
 const storageFilePathName = __dirname + '/../' + "/storage.txt";
+
+
+exports.emailFunctionRunning = emailFunctionRunning;
+exports.setStorageUsageRunning = setStorageUsageRunning;
 
 
 /**
@@ -453,17 +458,28 @@ exports.GetNonSentEmailVehicleLicensePlateData = GetNonSentEmailVehicleLicensePl
  * @constructor
  */
 exports.SetStorageUsage = function () {
-  getFolderSize(outputFolderPath, (error, size) => {
-    if (!error) {
-      const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
-      console.info('Current storage usage: ' + storageUsage);
-      fs.writeFile(storageFilePathName, storageUsage, function (err) {
-        if (err) {
-          return console.log(err);
+	return new Promise(function (resolve, reject) {
+    if (!setStorageUsageRunning) {
+      setStorageUsageRunning = true;
+      getFolderSize(outputFolderPath, (error, size) => {
+        if (!error) {
+          const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+          console.info('Current storage usage: ' + storageUsage);
+          fs.writeFile(storageFilePathName, storageUsage, function (err) {
+            console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
+          });
+          setStorageUsageRunning = false;
+          resolve();
+        } else {
+          setStorageUsageRunning = false;
+          reject();
         }
       });
+    } else {
+      setStorageUsageRunning = false;
+      reject();
     }
-  });
+	});
 };
 
 /**

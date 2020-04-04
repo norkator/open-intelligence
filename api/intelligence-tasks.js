@@ -12,7 +12,7 @@ const siteRoute = require('./routes/site');
 
 
 if (!utils.ValidNodeJSVersion()) {
-  console.log('# WARNING, NODEJS VERSION DOES NOT MEET MINIMUM REQUIREMENT #');
+  console.error('# WARNING, NODEJS VERSION DOES NOT MEET MINIMUM REQUIREMENT #');
   process.exit(0);
 }
 
@@ -28,13 +28,19 @@ initDb.initDatabase().then(() => {
 
   schedule.scheduleJob('* 30 * * * *', () => {
     if (process.env.EMAIL_ENABLED === 'True') {
-      utils.SendEmail(sequelizeObjects);
+      if (!utils.emailFunctionRunning) {
+        utils.SendEmail(sequelizeObjects);
+      }
     }
   });
 
-  utils.SetStorageUsage();
-  schedule.scheduleJob('* * 12 * * *', () => {
-    utils.SetStorageUsage();
+  utils.SetStorageUsage().then(() => {
+  });
+  schedule.scheduleJob('* * 6 * * *', () => {
+    if (!utils.setStorageUsageRunning) {
+      utils.SetStorageUsage().then(() => {
+      });
+    }
   });
 
 });
