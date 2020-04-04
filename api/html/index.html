@@ -546,6 +546,7 @@
 
     // Initial data load
     loadData();
+    appendLoadingIndicator(object_detection_image_container);
 
     // Refresh
     pollInterval = setInterval(() => {
@@ -558,7 +559,6 @@
 
     function loadData() {
 
-      appendLoadingIndicator(object_detection_image_container);
       // Image
       $.ajax({
         url: apiUrl + 'get/latest/object/detection/image',
