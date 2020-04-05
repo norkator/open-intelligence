@@ -92,6 +92,8 @@ Multi node support requires little bit more work to configure but it's doable. F
 Cuda only works for Super Resolution image processing at the moment. Requirements are:
 1. NVIDIA only; GPU hardware compute capability: The minimum required Cuda capability is 3.5 so old GPU's won't work.  
 2. CUDA toolkit version. Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
+3. Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0" https://developer.nvidia.com/rdp/cudnn-archive
+4. Place cuDNN files inside proper Cuda toolkit installation folders. cuDNN archive has folder structure.
 
 
 #### Postgresql notes
@@ -128,10 +130,8 @@ Got `ImportError: DLL load failed: The specified module could not be found.` ???
 => Windows Server for example requires desktop experience features installed.
 
 Got `Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found`
-=> Check that you have correct CUDA toolkit version.
+=> Check that you have correct CUDA toolkit version with cuDNN.
 => Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
-
-May not be needed? needs clarification!  
 => Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0"
 https://developer.nvidia.com/rdp/cudnn-archive
 
