@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import tensorflow as tf
 from tensorflow import keras
+from keras import backend as kb
 import numpy as np
 import cv2
 import os
@@ -78,6 +79,7 @@ def process_super_resolution_images(sr_image_objects):
 
     # Clear model
     model = None
-    tf.compat.v1.reset_default_graph()
+    tf.compat.v1.reset_default_graph()  # Try free memory from Tensorflow
+    kb.clear_session()  # Clear Keras session
 
     return sr_image_objects
