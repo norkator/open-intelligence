@@ -70,7 +70,7 @@ def get_super_resolution_images_to_compute():
     try:
         cursor = connection.cursor()
         # Load specific label image not older than one day from now
-        sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE file_create_date > now() - interval '1 day' AND sr_image_computed = 0 AND label in ('car', 'truck', 'bus') ORDER BY id ASC LIMIT 10"
+        sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE file_create_date > now() - interval '1 day' AND sr_image_computed = 0 ORDER BY id ASC LIMIT 10"
 
         cursor.execute(sr_work_query)
         sr_work_records = cursor.fetchall()
