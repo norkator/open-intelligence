@@ -14,25 +14,25 @@ model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
 # Set Keras TensorFlow session config
 config = tf.compat.v1.ConfigProto()
-# config.gpu_options.per_process_gpu_memory_fraction = 0.4
+config.gpu_options.per_process_gpu_memory_fraction = 0.9  # Use 90%
 config.gpu_options.allow_growth = True
 tf_session = tf.compat.v1.Session(config=config)
 tf.compat.v1.keras.backend.set_session(tf_session)
 
 
 def process_super_resolution_images(sr_image_objects):
+    # Load model to memory
+    # Change model input shape to accept all size inputs
+    model = keras.models.load_model(model_path_file_name, compile=False)
+    inputs = keras.Input((None, None, 3))
+    output = model(inputs)
+    model = keras.models.Model(inputs, output)
+
     # Loop over all images
     # Input and output image is full path + filename including extension
     for sr_image_object in sr_image_objects:
         # print(sr_image_object.output_image)
         print('Processing file: ' + os.path.basename(sr_image_object.input_image))
-
-        # Load model to memory
-        # Change model input shape to accept all size inputs
-        model = keras.models.load_model(model_path_file_name, compile=False)
-        inputs = keras.Input((None, None, 3))
-        output = model(inputs)
-        model = keras.models.Model(inputs, output)
 
         # We may not have image available at all, pass
         try:
@@ -44,7 +44,8 @@ def process_super_resolution_images(sr_image_objects):
             print('Sr processing img size: ' + str(original_h) + ':' + str(original_w))
 
             # Check if image is not too big
-            if original_w < 1200 and original_h < 1200:
+            # Original size was 1200 but testing with smaller
+            if original_w < 1000 and original_h < 1000:
                 # Convert to RGB (opencv uses BGR as default)
                 low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
 
@@ -75,7 +76,7 @@ def process_super_resolution_images(sr_image_objects):
         except Exception as e:
             print(e)
 
-        # Clear model
-        model = None
+    # Clear model
+    model = None
 
     return sr_image_objects
