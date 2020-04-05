@@ -1,7 +1,7 @@
 from module import license_plate_detection, face_detection
 
 
-def detect(label, crop_image_file_path_name_extension, output_file_name, use_rotation=False):
+def detect(label, crop_image_file_path_name_extension, output_file_name, use_rotation=True):
     # Label based detection
     detection_result = ''
     try:
