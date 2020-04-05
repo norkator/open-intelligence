@@ -5,6 +5,7 @@ from keras import backend as kb
 import numpy as np
 import cv2
 import os
+import gc
 
 parser = ArgumentParser()
 parser.add_argument('--image_dir', type=str, help='Directory where images are kept.')
@@ -78,8 +79,10 @@ def process_super_resolution_images(sr_image_objects):
             print(e)
 
     # Clear model
-    model = None
     tf.compat.v1.reset_default_graph()  # Try free memory from Tensorflow
     kb.clear_session()  # Clear Keras session
+    # model = None
+    del model
+    gc.collect()
 
     return sr_image_objects
