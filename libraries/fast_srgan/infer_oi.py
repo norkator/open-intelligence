@@ -78,5 +78,6 @@ def process_super_resolution_images(sr_image_objects):
 
     # Clear model
     model = None
+    tf.compat.v1.reset_default_graph()
 
     return sr_image_objects
