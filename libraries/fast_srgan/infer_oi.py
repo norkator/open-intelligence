@@ -1,8 +1,10 @@
 from argparse import ArgumentParser
+import tensorflow
 from tensorflow import keras
 import numpy as np
 import cv2
 import os
+import keras.backend.tensorflow_backend as ktf
 
 parser = ArgumentParser()
 parser.add_argument('--image_dir', type=str, help='Directory where images are kept.')
@@ -11,20 +13,24 @@ parser.add_argument('--output_dir', type=str, help='Directory where to output hi
 # Model path
 model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
-# Tensorflow config
-# config = tensorflow.ConfigProto()
-# config.gpu_options.allow_growth = True
-# sess = tensorflow.Session(config=config)
 
-# Load model to memory
-# Change model input shape to accept all size inputs
-model = keras.models.load_model(model_path_file_name, compile=False)
-inputs = keras.Input((None, None, 3))
-output = model(inputs)
-model = keras.models.Model(inputs, output)
+def get_session(gpu_fraction=0.333):
+    gpu_options = tensorflow.GPUOptions(per_process_gpu_memory_fraction=gpu_fraction, allow_growth=True)
+    return tensorflow.Session(config=tensorflow.ConfigProto(gpu_options=gpu_options))
+
+
+# Tensorflow config
+ktf.set_session(get_session())
 
 
 def process_super_resolution_images(sr_image_objects):
+    # Load model to memory
+    # Change model input shape to accept all size inputs
+    model = keras.models.load_model(model_path_file_name, compile=False)
+    inputs = keras.Input((None, None, 3))
+    output = model(inputs)
+    model = keras.models.Model(inputs, output)
+
     # Loop over all images
     # Input and output image is full path + filename including extension
     for sr_image_object in sr_image_objects:
@@ -71,5 +77,8 @@ def process_super_resolution_images(sr_image_objects):
 
         except Exception as e:
             print(e)
+
+    # Clear model
+    model = None
 
     return sr_image_objects
