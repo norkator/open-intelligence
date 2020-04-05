@@ -14,7 +14,7 @@ model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
 # Set Keras TensorFlow session config
 config = tf.compat.v1.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.4
+# config.gpu_options.per_process_gpu_memory_fraction = 0.4
 config.gpu_options.allow_growth = True
 tf_session = tf.compat.v1.Session(config=config)
 tf.compat.v1.keras.backend.set_session(tf_session)
