@@ -14,15 +14,6 @@ parser.add_argument('--output_dir', type=str, help='Directory where to output hi
 model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
 
-def get_session(gpu_fraction=0.333):
-    gpu_options = tensorflow.GPUOptions(per_process_gpu_memory_fraction=gpu_fraction, allow_growth=True)
-    return tensorflow.Session(config=tensorflow.ConfigProto(gpu_options=gpu_options))
-
-
-# Tensorflow config
-ktf.set_session(get_session())
-
-
 def process_super_resolution_images(sr_image_objects):
     # Load model to memory
     # Change model input shape to accept all size inputs
