@@ -21,18 +21,18 @@ tf.compat.v1.keras.backend.set_session(tf_session)
 
 
 def process_super_resolution_images(sr_image_objects):
-    # Load model to memory
-    # Change model input shape to accept all size inputs
-    model = keras.models.load_model(model_path_file_name, compile=False)
-    inputs = keras.Input((None, None, 3))
-    output = model(inputs)
-    model = keras.models.Model(inputs, output)
-
     # Loop over all images
     # Input and output image is full path + filename including extension
     for sr_image_object in sr_image_objects:
         # print(sr_image_object.output_image)
         print('Processing file: ' + os.path.basename(sr_image_object.input_image))
+
+        # Load model to memory
+        # Change model input shape to accept all size inputs
+        model = keras.models.load_model(model_path_file_name, compile=False)
+        inputs = keras.Input((None, None, 3))
+        output = model(inputs)
+        model = keras.models.Model(inputs, output)
 
         # We may not have image available at all, pass
         try:
@@ -75,7 +75,7 @@ def process_super_resolution_images(sr_image_objects):
         except Exception as e:
             print(e)
 
-    # Clear model
-    model = None
+        # Clear model
+        model = None
 
     return sr_image_objects
