@@ -11,6 +11,11 @@ parser.add_argument('--output_dir', type=str, help='Directory where to output hi
 # Model path
 model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
+# Tensorflow config
+# config = tensorflow.ConfigProto()
+# config.gpu_options.allow_growth = True
+# sess = tensorflow.Session(config=config)
+
 # Load model to memory
 # Change model input shape to accept all size inputs
 model = keras.models.load_model(model_path_file_name, compile=False)
@@ -57,6 +62,9 @@ def process_super_resolution_images(sr_image_objects):
 
                 # Save sr image data to object
                 sr_image_object.set_sr_image_data(sr)
+
+                # Clear sr object
+                sr = None
             else:
                 # Save original image
                 sr_image_object.set_sr_image_data(low_res)
