@@ -133,9 +133,11 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
 
                     # Label based detection
                     detection_result = detection_utils.detect(
-                        label,
-                        crop_image_file_path_name_extension,
-                        label + '_' + out_file_name + '_' + str(i) + image_object.file_extension
+                        label=label,
+                        crop_image_file_path_name_extension=crop_image_file_path_name_extension,
+                        file_name=out_file_name,
+                        output_file_name=label + '_' + out_file_name + '_' + str(i) + image_object.file_extension,
+                        use_rotation=True
                     )
 
                     # Insert database intelligence

@@ -66,6 +66,7 @@ def app():
                 sr_image_object.detection_result = detection_utils.detect(
                     label=sr_image_object.label,
                     crop_image_file_path_name_extension=sr_image_object.output_image,
+                    file_name=sr_image_object.image_name,
                     output_file_name=sr_image_object.label + '_' + sr_image_object.image_name,
                     use_rotation=True
                 )

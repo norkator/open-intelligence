@@ -13,19 +13,19 @@ open_alpr_config = configparser.any_config(filename=os.getcwd() + '/config.ini',
 
 # Paths
 car_labels_path = os.getcwd() + '/output/car/'
-rotation_temp_images_path = os.getcwd() + '/output/car/rotation_temp/'
+rotation_temp_images_path = os.getcwd() + '/output/rotation_temp/'
 alpr_dir = os.getcwd() + '/libraries/openalpr_64'
 open_alpr_conf = os.getcwd() + '/libraries/openalpr_64/openalpr.conf'
 open_alpr_runtime_data = os.getcwd() + '/libraries/openalpr_64/runtime_data'
 
 
-def detect_license_plate(image_file_path_name_extension, use_rotation=False):
+def detect_license_plate(input_image, file_name, use_rotation=False):
     try:
 
         if open_alpr_config['enabled'] == 'True':
 
             # Validate file path
-            if os.path.exists(image_file_path_name_extension):
+            if os.path.exists(input_image):
 
                 result_plates = []  # From here we pick one with highest confidence
                 result_plate = None
@@ -33,7 +33,10 @@ def detect_license_plate(image_file_path_name_extension, use_rotation=False):
                 # Set path for alpr
                 environ['PATH'] = alpr_dir + ';' + environ['PATH']
 
-                for image in get_images(use_rotation, image_file_path_name_extension):
+                all_images = [input_image]
+                rotation_images = get_rotation_images(use_rotation, input_image, file_name)
+                all_images = all_images + rotation_images  # append together
+                for image in all_images:
 
                     # Initialize openalpr
                     alpr = Alpr(open_alpr_config['region'], open_alpr_conf, open_alpr_runtime_data)
@@ -88,6 +91,11 @@ def detect_license_plate(image_file_path_name_extension, use_rotation=False):
                     except Exception as e:
                         print(e)
 
+                # Delete temporary rotation images
+                if len(rotation_images) > 0:
+                    for ri in rotation_images:
+                        os.remove(ri)
+
                 # Sort array
                 result_plates.sort(key=lambda x: x.confidence, reverse=True)
 
@@ -116,20 +124,21 @@ def detect_license_plate(image_file_path_name_extension, use_rotation=False):
         return ''
 
 
-def get_images(use_rotation, input_image):
-    images = [input_image]
+def get_rotation_images(use_rotation, input_image, image_name):
+    rotation_images = []
     if use_rotation is True:
+        # Check temp folder existence
+        Path(rotation_temp_images_path).mkdir(parents=True, exist_ok=True)
         # Rotation with no part of the image is cut off
         image = cv2.imread(input_image)
         i = 0
         for angle in np.arange(-30, 30, 4):
             rotated = imutils.rotate_bound(image, angle)
             try:
-                Path(rotation_temp_images_path).mkdir(parents=True, exist_ok=True)
-                file_name = rotation_temp_images_path + 'rotation_' + str(i) + '.jpg'
+                file_name = rotation_temp_images_path + 'rotation_' + image_name + '_' + str(i) + '.jpg'
                 cv2.imwrite(file_name, rotated)
-                images.append(file_name)
+                rotation_images.append(file_name)
                 i = i + 1
             except Exception as e:
                 print(e)
-    return images
+    return rotation_images
