@@ -3,6 +3,9 @@ import insightface
 import cv2
 import os
 
+# Testing to get speedup
+os.environ["MXNET_CUDNN_AUTOTUNE_DEFAULT"] = "0"
+
 # Paths
 input_images_path = os.getcwd() + '/output/person/'
 output_images_path = os.getcwd() + '/output/insightface/faces/'
@@ -10,8 +13,8 @@ output_images_path = os.getcwd() + '/output/insightface/faces/'
 # Check folder existence
 fileutils.create_directory(output_images_path)
 
-# If GPU available, use GPU else CPU
-ctx_id = -1 if gpu_utils.is_gpu_available() is False else 1
+# If GPU available, use GPU else CPU (0 = GPU0)
+ctx_id = -1 if gpu_utils.is_gpu_available() is False else 0
 
 # Load model
 model = insightface.model_zoo.get_model('retinaface_r50_v1')
