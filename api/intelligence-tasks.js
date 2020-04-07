@@ -20,11 +20,11 @@ if (!utils.ValidNodeJSVersion()) {
 initDb.initDatabase().then(() => {
   let sequelizeObjects = require('./module/sequelize');
 
-// -------------------------------------------------------------------------------------------------------------------
-// Register scheduled tasks
+  // -------------------------------------------------------------------------------------------------------------------
+  // Register scheduled tasks
 
   console.info('Emailing feature is ' + (process.env.EMAIL_ENABLED === 'True' ? 'enabled' : 'disabled'));
-  schedule.scheduleJob('* 59 * * * *', () => {
+  schedule.scheduleJob('*/60 * * * *', () => {
     new RunScheduledProcesses();
   });
 

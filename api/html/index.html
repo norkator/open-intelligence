@@ -40,8 +40,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <p id="generic_modal_description" class="text-muted">
-        </p>
+        <div id="generic_modal_description">
+        </div>
         <img id="generic_modal_image" class="card-img-right"
              style="width: 100%; height: 100%;"
              alt="Generic modal image">
@@ -379,6 +379,7 @@
     $('#platesBtn').click(() => {
       document.location.href = apiUrl + "plates.html";
     });
+
     const object_detection_image_container = $('#object_detection_image_container');
     const label_image_flex_viewer = $('#label_image_flex_viewer');
     const loaded_label_info = $('#loaded_label_info');
@@ -566,8 +567,8 @@
         object_detection_image_container.empty();
         object_detection_image_container.append(
           '<img class="card-img-right zoom"' +
-          'style="width: 100%; height: 100%;"' +
-          'alt="Object detection image" src="' + data.data + '">'
+          ' style="width: 100%; height: 100%;"' +
+          ' alt="Object detection image" src="' + data.data + '">'
         );
       });
 
@@ -786,9 +787,11 @@
       }).done(function (data) {
         generic_image_modal.modal('show');
         generic_modal_title.text(loadedLabel + ' - ' + image_file_name);
-        generic_modal_description.text(
-          data.srImage ? 'This image is computed super resolution version.' :
-            'No super resolution image computed yet, this is normal version!'
+        generic_modal_description.empty();
+        generic_modal_description.append(
+          data.srImage ?
+            '<span class="badge badge-success">Super resolution</span>' + ' <p class="text-muted">This image is computed super resolution version.</p>' :
+            '<span class="badge badge-warning">Normal version</span>' + ' <p class="text-muted">No super resolution image.</p>'
         );
         generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
@@ -910,7 +913,7 @@
       }).done(function (data) {
         generic_image_modal.modal('show');
         generic_modal_title.text(object_detection_image_file_name);
-        generic_modal_description.text('');
+        generic_modal_description.empty();
         generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
         alert(error);
