@@ -7,14 +7,8 @@ const getFolderSize = require('get-folder-size');
 
 
 // Variables
-let emailFunctionRunning = false;
-let setStorageUsageRunning = false;
 const outputFolderPath = path.join(__dirname + '../../../' + 'output/');
 const storageFilePathName = __dirname + '/../' + "/storage.txt";
-
-
-exports.emailFunctionRunning = emailFunctionRunning;
-exports.setStorageUsageRunning = setStorageUsageRunning;
 
 
 /**
@@ -309,100 +303,97 @@ String.prototype.levenstein = function (string) {
  */
 function SendEmail(sequelizeObjects) {
   return new Promise(function (resolve, reject) {
-    if (!emailFunctionRunning) {
-      emailFunctionRunning = true;
-      GetLicensePlates(sequelizeObjects).then(knownPlates => {
-        if (knownPlates.length > 0) {
-          new GetNonSentEmailVehicleLicensePlateData(sequelizeObjects).then(nonSentData => {
-            if (nonSentData.length > 0) {
-              // Get id's and clear plates
-              let nonSentIds = [];
-              let correctedData = [];
-              nonSentData.forEach(nonSent => {
-                const closestPlateOwner = GetClosestPlateOwner(knownPlates, nonSent.detection_result);
-                nonSentIds.push(nonSent.id); // We want to update them all as sent
-                correctedData.push({
-                  plate: closestPlateOwner.plate,
-                  ownerName: closestPlateOwner.owner_name === undefined ? 'N/A' : closestPlateOwner.owner_name,
-                  label: nonSent.label,
-                  fileCreateDate: nonSent.file_create_date,
-                  fileNameCropped: nonSent.file_name_cropped
-                });
+    GetLicensePlates(sequelizeObjects).then(knownPlates => {
+      if (knownPlates.length > 0) {
+        new GetNonSentEmailVehicleLicensePlateData(sequelizeObjects).then(nonSentData => {
+          if (nonSentData.length > 0) {
+            // Get id's and clear plates
+            let nonSentIds = [];
+            let correctedData = [];
+            nonSentData.forEach(nonSent => {
+              const closestPlateOwner = GetClosestPlateOwner(knownPlates, nonSent.detection_result);
+              nonSentIds.push(nonSent.id); // We want to update them all as sent
+              correctedData.push({
+                plate: closestPlateOwner.plate,
+                ownerName: closestPlateOwner.owner_name === undefined ? 'N/A' : closestPlateOwner.owner_name,
+                label: nonSent.label,
+                fileCreateDate: nonSent.file_create_date,
+                fileNameCropped: nonSent.file_name_cropped
               });
+            });
 
-              // Clean bad results
-              correctedData = correctedData.filter(d => {
-                return d.plate !== '';
-              });
+            // Clean bad results
+            correctedData = correctedData.filter(d => {
+              return d.plate !== '';
+            });
 
-              // Clean duplicates and empty results
-              let filteredData = [];
-              correctedData.forEach(corrected => {
-                if (filteredData.length === 0) {
-                  filteredData.push(corrected);
-                } else {
-                  if (filteredData.filter(f => {
-                    return f.plate === corrected.plate;
-                  }).length === 0) {
-                    filteredData.push(corrected);
-                  }
-                }
-              });
-
-              let emailContent = '<table>' +
-                '<tr>' +
-                '<th>Plate</th>' +
-                '<th>Owner</th>' +
-                '<th>Seen time</th>' +
-                '</tr>';
-              if (filteredData.length > 0) {
-                filteredData.forEach(data => {
-                  emailContent +=
-                    '<tr>' +
-                    '<td>' + data.plate + '</td>' +
-                    '<td>' + data.ownerName + '</td>' +
-                    '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
-                    '</tr>';
-                });
+            // Clean duplicates and empty results
+            let filteredData = [];
+            correctedData.forEach(corrected => {
+              if (filteredData.length === 0) {
+                filteredData.push(corrected);
               } else {
-                nonSentData.forEach(nonSent => {
-                  emailContent +=
-                    '<tr>' +
-                    '<td>' + nonSent.detection_result + '</td>' +
-                    '<td>' + 'New plate needs owner detail' + '</td>' +
-                    '<td>' + moment(nonSent.file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
-                    '</tr>';
-                });
+                if (filteredData.filter(f => {
+                  return f.plate === corrected.plate;
+                }).length === 0) {
+                  filteredData.push(corrected);
+                }
               }
-              emailContent += '</table>';
+            });
 
-              // Send email
-              email.SendMail('Seen license plates', emailContent).then(() => {
-                sequelizeObjects.Data.update({
-                    email_sent: 1,
-                  }, {where: {id: nonSentIds}}
-                ).then(() => {
-                  console.log('Updated license plate email sent fields as sent.');
-                  resolve();
-                }).catch(error => {
-                  reject();
-                })
-              }).catch(error => {
-                reject();
+            let emailContent = '<table>' +
+              '<tr>' +
+              '<th>Plate</th>' +
+              '<th>Owner</th>' +
+              '<th>Seen time</th>' +
+              '</tr>';
+            if (filteredData.length > 0) {
+              filteredData.forEach(data => {
+                emailContent +=
+                  '<tr>' +
+                  '<td>' + data.plate + '</td>' +
+                  '<td>' + data.ownerName + '</td>' +
+                  '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                  '</tr>';
               });
             } else {
-              resolve();
+              nonSentData.forEach(nonSent => {
+                emailContent +=
+                  '<tr>' +
+                  '<td>' + nonSent.detection_result + '</td>' +
+                  '<td>' + 'New plate needs owner detail' + '</td>' +
+                  '<td>' + moment(nonSent.file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                  '</tr>';
+              });
             }
-          }).catch(() => {
-            reject();
-          });
-        } else {
-          resolve();
-        }
-      }).catch(() => {
-        reject();
-      });
-    }
+            emailContent += '</table>';
+
+            // Send email
+            email.SendMail('Seen license plates', emailContent).then(() => {
+              sequelizeObjects.Data.update({
+                  email_sent: 1,
+                }, {where: {id: nonSentIds}}
+              ).then(() => {
+                console.log('Updated license plate email sent fields as sent.');
+                resolve();
+              }).catch(error => {
+                reject();
+              })
+            }).catch(error => {
+              reject();
+            });
+          } else {
+            resolve();
+          }
+        }).catch(() => {
+          reject();
+        });
+      } else {
+        resolve();
+      }
+    }).catch(() => {
+      reject();
+    });
   });
 }
 
@@ -458,25 +449,20 @@ exports.GetNonSentEmailVehicleLicensePlateData = GetNonSentEmailVehicleLicensePl
  * @constructor
  */
 exports.SetStorageUsage = function () {
-	return new Promise(function (resolve, reject) {
-    if (!setStorageUsageRunning) {
-      setStorageUsageRunning = true;
-      getFolderSize(outputFolderPath, (error, size) => {
-        if (!error) {
-          const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
-          console.info('Current storage usage: ' + storageUsage);
-          fs.writeFile(storageFilePathName, storageUsage, function (err) {
-            console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
-          });
-          resolve();
-        } else {
-          reject();
-        }
-      });
-    } else {
-      reject();
-    }
-	});
+  return new Promise(function (resolve, reject) {
+    getFolderSize(outputFolderPath, (error, size) => {
+      if (!error) {
+        const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+        console.info('Current storage usage: ' + storageUsage);
+        fs.writeFile(storageFilePathName, storageUsage, function (err) {
+          console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
+        });
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  });
 };
 
 /**
