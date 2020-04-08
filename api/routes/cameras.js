@@ -10,9 +10,6 @@ const os = require('os-utils');
 function Cameras(router, sequelizeObjects) {
 
 
-  /**
-   * Get intelligence
-   */
   router.post('/get/latest/camera/images', function (req, res) {
     let outputData = {images: []};
     const objectDetectionImagesPath = path.join(__dirname + '../../../' + 'output/object_detection/');
