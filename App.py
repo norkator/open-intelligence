@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from argparse import ArgumentParser
 from module import fileutils, object_detection, configparser, actions
 from objects import File
@@ -7,8 +8,12 @@ import time
 
 # Config
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-time_offset_hours = int(app_config['time_offset_hours'])
-print('time offset: ' + str(time_offset_hours))
+
+# Get current time offset
+ts = time.time()
+utc_offset = (datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)).total_seconds()
+time_offset_hours = int(utc_offset / 60 / 60)
+print('Time offset: ' + str(time_offset_hours))
 
 # Specify your names and folders at config.ini
 # split them by a,b,c,d
@@ -58,7 +63,7 @@ def get_time_sorted_files():
                         )
                     )
                 except Exception as e:
-                    print(file_name + ' file is already taken.') 
+                    print(file_name + ' file is already taken.')
 
     time_sorted_files.sort(key=lambda x: x.getmtime, reverse=False)
     return time_sorted_files

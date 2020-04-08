@@ -8,7 +8,7 @@
   <link rel="icon"
         href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACA0lEQVR4Ae3VAYQiURjA8cNgEMIiDMJicQiLMDgWh0UIixAOh8VgsTgMQoBwCLAIIYTFASCEMDiEEMIghMUifPfHw+fx6s2YHHf75wcY9Z733vfpf+mjFgaYY4WtscAMz7jGRQuRYAfxtEYfldfBBlJShhiVNIBY9nhBF200jRg9TPEGUY74htIFmEGUHI8IcK4QKQ4QZYhSDSHKK+ooWoQlRCm8Uw8QZYQAZQut3T4iLvJxDjHmqKLQ2qkMXqUQY4saqiqyzlQfJwvPfPCEDGM04eozpliif2LBa5zsDmJsoGtDlDFc/bLOS2QtWj8J13A2PnE9E4jyG64OEKUL3RRiPMPZCmLE0DVwhBhPcPXTekRD6HoQYwZnO4gRwa6BBG2c6yu+ow67GGIs4EyUS9a0bvJf/0MRxNjBWQ4xGrhU+sYu4SyDGLe4VF3fSfACMVLng1Zcz/d37DonZk0dO0hBS+gC7CFGC85qeIcY99DFeIN4ynED3aPXgVaNrNc4gK7luVNrNKGrWxcnwdnqOJyZWSES5BDLDj8QQhfg1ZqVAbxKIJ4ruUKML7jx2nmgg0JNIMoYAYpWwxyipChciAXsCX8P3/rYQpQpShdiArFkSHFrvegRYgyxgVgGqKQEB0hJOR5QaVcY4R3i6YAUIS5WDR1MkGFvXfkVxrhDiI/+7f4AfdpSa7k2LiwAAAAASUVORK5CYII=">
 
-  <title>Intelligence - Plates</title>
+  <title>Intelligence - Faces</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -26,7 +26,7 @@
 
 </head>
 
-<body>
+<body style="background-color: #343a40">
 
 
 <!-- Generic image view modal -->
@@ -66,50 +66,19 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link" id="homeBtn" style="cursor: pointer;">Home</a>
       <a class="nav-item nav-link" id="camerasBtn" style="cursor: pointer;">Cameras</a>
-      <a class="nav-item nav-link active" style="cursor: pointer;">Plates <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" id="facesBtn" style="cursor: pointer;">Faces</a>
+      <a class="nav-item nav-link" id="platesBtn" style="cursor: pointer;">Plates</a>
+      <a class="nav-item nav-link active" id="facesBtn" style="cursor: pointer;">Faces <span
+        class="sr-only">(current)</span></a>
     </div>
   </div>
   <form class="form-inline my-2 my-lg-0">
   </form>
 </nav>
 
-<main role="main" class="container">
 
-  <div class="col-md-12 mt-2">
+<div id="faces_flex_viewer" class="d-flex justify-content-center flex-wrap" style="height: 100%">
+</div>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Day's between</span>
-      </div>
-      <input id="selected_day_field_start" type="date" class="form-control" placeholder="Change day"
-             aria-label="Day change">
-      <input id="selected_day_field_end" type="date" class="form-control" placeholder="Change day"
-             aria-label="Day change">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="load_day_btn">Load</button>
-      </div>
-    </div>
-
-    <div class="card flex-md-row mb-4 box-shadow h-md-250"
-         style="height: 100%;">
-      <div class="card-body d-flex flex-column align-items-center">
-        <strong class="d-inline-block mb-2 text-primary">Vehicles | License plates</strong>
-        <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</main>
-
-<footer class="intelligence-footer">
-  <p>Intelligence <a href="https://github.com/norkator/Open-Intelligence">Github</a>.</p>
-  <p>
-    <a href="#">Back to top</a>
-  </p>
-</footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -128,15 +97,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
         integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
 
-<!-- Adds zooming effect -->
-<script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.js"
-        integrity="sha256-fhru0y6L8Knyrjj57vB7/npV5IUyq6Tvo8g0qoceVwQ=" crossorigin="anonymous"></script>
-
 <script>
   $(document).ready(function () {
 
     // Api url
-    const apiUrl = String(window.location.href).replace('plates.html', '');
+    const apiUrl = String(window.location.href).replace('faces.html', '');
 
     $('#homeBtn').click(() => {
       document.location.href = apiUrl;
@@ -144,8 +109,8 @@
     $('#camerasBtn').click(() => {
       document.location.href = apiUrl + "cameras.html";
     });
-    $('#facesBtn').click(() => {
-      document.location.href = apiUrl + "faces.html";
+    $('#platesBtn').click(() => {
+      document.location.href = apiUrl + "plates.html";
     });
 
     const generic_image_modal = $('#generic_image_modal');
@@ -153,81 +118,55 @@
     const generic_modal_description = $('#generic_modal_description');
     const generic_modal_image = $('#generic_modal_image');
 
-    const selected_day_field_start = $('#selected_day_field_start');
-    selected_day_field_start.val( new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().substr(0, 10) );
-    const selected_day_field_end = $('#selected_day_field_end');
-    selected_day_field_end.val(new Date().toISOString().substr(0, 10));
 
-    const load_day_btn = $('#load_day_btn');
-    load_day_btn.on('click', function () {
-      getPlateDetectionData();
-    });
-
-    const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
-    licence_plate_flex_viewer.on('click', 'img', function () {
-      const id = $(this).attr('id');
-      console.log(id);
-      getObjectDetectionImage(id);
+    // Components
+    let faces_flex_viewer = $('#faces_flex_viewer');
+    faces_flex_viewer.on('click', 'img', function () {
+      getObjectDetectionImageFileNameForCroppedImageName($(this).attr('id'));
     });
 
 
-    // getPlateDetectionData();
+    // Refresh
+    loadFaceImages();
+    setInterval(() => {
+      loadFaceImages();
+    }, (60 * 1000));
 
-    // License plate detection data, images and plate strings
-    function getPlateDetectionData() {
-      appendLoadingIndicator(licence_plate_flex_viewer);
+    function loadFaceImages() {
       $.ajax({
-        url: apiUrl + 'get/license/plate/detections',
-        type: 'POST',
-        data: {
-          selectedDate: null,
-          selectedDateStart: selected_day_field_start.val(),
-          selectedDateEnd: selected_day_field_end.val(),
-        }
+        url: apiUrl + 'get/faces/for/day',
+        type: 'GET',
       }).done(function (data) {
-        licence_plate_flex_viewer.empty();
-        if (data.licensePlates.length > 0) {
-          data.licensePlates.forEach(licensePlate => {
-            licence_plate_flex_viewer.append(
-              '<div class="container mb-2">' +
-              '  <div class="row">' +
-              '    <div class="col mr-0 ml-0 pr-0 pl-0">' +
-              '     <p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4; width: 100%; height: 100%">'
-              + licensePlate.detectionResult +
-              '<br><a style="color: darkgreen; font-size: 12px;">' + licensePlate.detectionCorrected + '</a></p>' +
-              '    </div>' +
-              '    <div class="col mr-0 ml-0 pr-0 pl-0">' +
-              '     <p class="lead text-center" style="font-weight: bold; background-color: #f4f4f4; width: 100%; height: 100%">'
-              + licensePlate.ownerName + '</p>' +
-              '    </div>\n' +
-              '    <div class="col mr-0 ml-0 pr-0 pl-0">' +
-              '     <img id="' + licensePlate.objectDetectionFileName + '" title="' + licensePlate.title + '" style="cursor: zoom-in; width: 120px; height: 80px; max-width: 120px; max-height: 120px;" src="' + licensePlate.image + '">' +
-              '    </div>' +
-              '  </div>' +
-              '</div>' +
-              '<hr>'
-            );
-            wheelzoom(document.getElementById(licensePlate.objectDetectionFileName));
-          });
-        }
+        faces_flex_viewer.empty();
+        data.images.forEach(imageData => {
+          faces_flex_viewer.append(
+            '<img id="' + imageData.file + '" title="' + imageData.title + '" src="' + imageData.image +
+            '" style="max-height: 120px; max-width: 120px; cursor: pointer;" class="mr-1 ml-1 mt-1">'
+          );
+        });
       }).fail(function (error) {
-        licence_plate_flex_viewer.empty();
       });
     }
 
 
-    function appendLoadingIndicator(jqueryElement) {
-      jqueryElement.append('<div id="loading_indicator_place_holder" style="width: 100%"></div>');
-      const loading_indicator_place_holder = $('#loading_indicator_place_holder');
-      loading_indicator_place_holder.append('<div id="label_image_loading_indicator" ' +
-        'style="width: 100%" class="text-center">' +
-        '<div class="spinner-border" role="status">' +
-        '<span class="sr-only">Loading...</span>' +
-        '</div>' +
-        '</div>');
+    /**
+     * Get object detection image name
+     * @param cropped_image_name
+     */
+    function getObjectDetectionImageFileNameForCroppedImageName(cropped_image_name) {
+      $.ajax({
+        url: apiUrl + 'get/object/detection/image/for/cropped/image',
+        type: 'POST',
+        data: {
+          croppedImageName: cropped_image_name
+        },
+      }).done(function (data) {
+        console.log(data);
+        getObjectDetectionImage(data.file_name);
+      }).fail(function (error) {
+        alert(error);
+      });
     }
-
-
 
     /**
      * Load object_detection image for given file name

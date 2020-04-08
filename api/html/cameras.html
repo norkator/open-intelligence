@@ -41,9 +41,9 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link" id="homeBtn" style="cursor: pointer;">Home</a>
       <a class="nav-item nav-link active" style="cursor: pointer;">Cameras <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" id="wallBtn" style="cursor: pointer;">Wall</a>
       <a class="nav-item nav-link" id="platesBtn" style="cursor: pointer;">Plates</a>
-      <a class="nav-item nav-link disabled" style="cursor: pointer;">Person lookup</a>
+      <a class="nav-item nav-link" id="facesBtn" style="cursor: pointer;">Faces</a>
+      <!--<a class="nav-item nav-link disabled" style="cursor: pointer;">Person lookup</a>-->
     </div>
   </div>
   <form class="form-inline my-2 my-lg-0">
@@ -89,11 +89,11 @@
     $('#homeBtn').click(() => {
       document.location.href = apiUrl;
     });
-    $('#wallBtn').click(() => {
-      document.location.href = apiUrl + "wall.html";
-    });
     $('#platesBtn').click(() => {
       document.location.href = apiUrl + "plates.html";
+    });
+    $('#facesBtn').click(() => {
+      document.location.href = apiUrl + "faces.html";
     });
 
     // Components
@@ -117,6 +117,7 @@
           cameras_flex_viewer.append(
             '<img id="' + imageData.id + '" title="' + imageData.name + '" style="cursor: pointer; width:' + width + 'px; height:' + (width * 50 / 100) + 'px;" src="' + imageData.image + '">'
           );
+          wheelzoom(document.getElementById(imageData.id));
         });
       }).fail(function (error) {
       });

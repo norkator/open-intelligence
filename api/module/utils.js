@@ -61,7 +61,7 @@ exports.GetNewestFile = GetNewestFile;
 
 /**
  * Get files between now and older than x days
- * give it as zero will return only start of today labels
+ * By not giving selectedDate, default will return only start of today labels
  * @param {Array} files
  * @param {String} path
  * @param {Date} selectedDate

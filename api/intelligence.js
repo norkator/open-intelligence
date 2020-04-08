@@ -46,6 +46,7 @@ initDb.initDatabase().then(() => {
   require('./routes/site').Site(app, sequelizeObjects);
   require('./routes/wall').Wall(app, sequelizeObjects);
   require('./routes/cameras').Cameras(app, sequelizeObjects);
+  require('./routes/faces').Faces(app, sequelizeObjects);
 
   // -------------------------------------------------------------------------------------------------------------------
   // Start web server
