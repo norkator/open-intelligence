@@ -39,6 +39,10 @@ module.exports = (sequelize, type) => {
       type: type.INTEGER, defaultValue: 0
     },
 
+    insight_face_computed: {                    // Is insightface model face detection image computed
+      type: type.INTEGER, defaultValue: 0
+    },
+
     // Normally Sequelize manages these
     // but for python side we need also default value
     createdAt: {

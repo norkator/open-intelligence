@@ -164,3 +164,35 @@ def update_detection_task_result(id, detection_result):
         print(error)
     finally:
         connection.close()
+
+
+def get_insight_face_images_to_compute():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE file_create_date > now() - interval '1 day' AND insight_face_computed = 0 ORDER BY id ASC LIMIT 10"
+        cursor.execute(sr_work_query)
+        sr_work_records = cursor.fetchall()
+        cursor.close()
+        return sr_work_records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def update_insight_face_as_computed(detection_result, id):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        sr_update_query = """UPDATE data SET insight_face_computed = 1 WHERE id = %s"""
+        cursor.execute(sr_update_query, (id,))
+        connection.commit()
+        cursor.close()
+        # count = cursor.rowcount
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()

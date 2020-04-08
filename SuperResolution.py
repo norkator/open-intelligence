@@ -3,7 +3,7 @@ import sys
 from argparse import ArgumentParser
 from libraries.fast_srgan import infer_oi
 from pathlib import Path
-from module import configparser, database, detection_utils, gpu_utils, insightface_utils
+from module import configparser, database, detection_utils, gpu_utils
 from objects import SrFile
 import time
 
@@ -75,18 +75,6 @@ def app():
                 sr_image_object.detection_result, sr_image_object.image_name,
                 sr_image_object.id
             )
-
-        # Insightface model face detection
-        for sr_image_object in sr_image_objects:
-            try:
-                insightface_utils.face_detection(
-                    image_path_name_extension=sr_image_object.output_image,
-                    file_name=sr_image_object.image_name
-                )
-            except Exception as e:
-                print(e)
-
-
     else:
         print('No new sr image objects to process')
 
