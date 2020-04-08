@@ -1,4 +1,4 @@
-from module import gpu_utils, fileutils
+from module import fileutils
 import insightface
 import cv2
 import os

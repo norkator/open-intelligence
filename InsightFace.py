@@ -44,7 +44,7 @@ def app():
         for if_image_object in if_image_objects:
             try:
                 insightface_utils.face_detection(
-                    image_path_name_extension=if_image_object.output_image,
+                    image_path_name_extension=if_image_object.input_image,
                     file_name=if_image_object.image_name
                 )
             except Exception as e:
