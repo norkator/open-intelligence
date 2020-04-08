@@ -16,6 +16,8 @@ fileutils.create_directory(output_images_path)
 # If GPU available, use GPU else CPU (0 = GPU0)
 ctx_id = -1 if gpu_utils.is_gpu_available() is False else 0
 
+ctx_id = -1
+
 # Load model
 model = insightface.model_zoo.get_model('retinaface_r50_v1')
 model.prepare(ctx_id=ctx_id, nms=0.4)
