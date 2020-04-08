@@ -4,7 +4,7 @@ import cv2
 import os
 
 # Testing to get speedup
-os.environ["MXNET_CUDNN_AUTOTUNE_DEFAULT"] = "0"
+# os.environ["MXNET_CUDNN_AUTOTUNE_DEFAULT"] = "0"
 
 # Paths
 input_images_path = os.getcwd() + '/output/person/'
@@ -16,6 +16,7 @@ fileutils.create_directory(output_images_path)
 # If GPU available, use GPU else CPU (0 = GPU0)
 ctx_id = -1 if gpu_utils.is_gpu_available() is False else 0
 
+# noinspection PyRedeclaration
 ctx_id = -1
 
 # Load model
