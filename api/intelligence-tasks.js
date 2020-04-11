@@ -24,18 +24,31 @@ initDb.initDatabase().then(() => {
   // Register scheduled tasks
 
   console.info('Emailing feature is ' + (process.env.EMAIL_ENABLED === 'True' ? 'enabled' : 'disabled'));
+
   schedule.scheduleJob('*/60 * * * *', () => {
-    new RunScheduledProcesses();
+    new SetStorageUsage();
   });
 
-  function RunScheduledProcesses() {
-    console.info('Running RunScheduledProcesses');
+  schedule.scheduleJob('*/15 * * * *', () => {
+    new SendEmail();
+  });
+
+
+  function SendEmail() {
     if (process.env.EMAIL_ENABLED === 'True') {
       utils.SendEmail(sequelizeObjects).then(() => {
+        console.info('Email function run completed.')
+      }).catch(error => {
+        console.error(error);
       });
     }
+  }
+
+  function SetStorageUsage() {
     utils.SetStorageUsage().then(() => {
-    }).catch(() => {
+      console.info('Storage usage updated.')
+    }).catch(error => {
+      console.error(error);
     });
   }
 

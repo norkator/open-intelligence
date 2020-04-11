@@ -341,13 +341,21 @@ function SendEmail(sequelizeObjects) {
               }
             });
 
-            let emailContent = '<table>' +
-              '<tr>' +
-              '<th>Plate</th>' +
-              '<th>Owner</th>' +
-              '<th>Seen time</th>' +
-              '</tr>';
-            if (filteredData.length > 0) {
+            GetBase64Images(filteredData).then(lpImageData => {
+
+              const tableLpTr = '<tr>' +
+                '<th>Plate</th>' +
+                '<th>Owner</th>' +
+                '<th>Seen time</th>' +
+                '</tr>';
+              const tableClosingTag = '</table>';
+
+              let emailContent = '';
+
+              // New table
+              emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Seen known plates</h2>';
+              emailContent += '<table>';
+              emailContent += tableLpTr;
               filteredData.forEach(data => {
                 emailContent +=
                   '<tr>' +
@@ -356,7 +364,12 @@ function SendEmail(sequelizeObjects) {
                   '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
                   '</tr>';
               });
-            } else {
+              emailContent += tableClosingTag + '<br>';
+
+              // New table
+              emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Unknown plates</h2>';
+              emailContent += '<table>';
+              emailContent += tableLpTr;
               nonSentData.forEach(nonSent => {
                 emailContent +=
                   '<tr>' +
@@ -365,34 +378,46 @@ function SendEmail(sequelizeObjects) {
                   '<td>' + moment(nonSent.file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
                   '</tr>';
               });
-            }
-            emailContent += '</table>';
+              emailContent += tableClosingTag + '<br>';
 
-            // Send email
-            email.SendMail('Seen license plates', emailContent).then(() => {
-              sequelizeObjects.Data.update({
-                  email_sent: 1,
-                }, {where: {id: nonSentIds}}
-              ).then(() => {
-                console.log('Updated license plate email sent fields as sent.');
-                resolve();
+
+              emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Known plate images</h2>';
+              lpImageData.forEach(lpData => {
+                emailContent += '<br>' +
+                  '<img alt="Vehicle" title="Vehicle" style="display:block" width="400" height="300" src="' + lpData.image + '"/>' +
+                  '<h4 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">' + lpData.ownerName + ' - ' + lpData.plate + '</h4>' +
+                  +'<br>'
+              });
+
+              // Send email
+              email.SendMail('Seen license plates', emailContent).then(() => {
+                sequelizeObjects.Data.update({
+                    email_sent: 1,
+                  }, {where: {id: nonSentIds}}
+                ).then(() => {
+                  console.log('Updated license plate email sent fields as sent.');
+                  resolve();
+                }).catch(error => {
+                  reject();
+                })
               }).catch(error => {
-                reject();
-              })
+                reject(error);
+              });
+
             }).catch(error => {
-              reject();
+              reject(error);
             });
           } else {
             resolve();
           }
-        }).catch(() => {
-          reject();
+        }).catch(error => {
+          reject(error);
         });
       } else {
         resolve();
       }
-    }).catch(() => {
-      reject();
+    }).catch(error => {
+      reject(error);
     });
   });
 }
@@ -441,6 +466,68 @@ function GetNonSentEmailVehicleLicensePlateData(sequelizeObjects) {
 }
 
 exports.GetNonSentEmailVehicleLicensePlateData = GetNonSentEmailVehicleLicensePlateData;
+
+
+/**
+ * Return Base64 images for email
+ * @param filteredData
+ * @return {Promise<Array>}
+ * @constructor
+ */
+function GetBase64Images(filteredData = []) {
+  return new Promise(function (resolve, reject) {
+    console.log(filteredData);
+    let imageData = [];
+    const filePath = path.join(__dirname + '../../../' + 'output/');
+
+    // noinspection JSIgnoredPromiseFromCall
+    processImagesSequentially(filteredData.length).catch(error => {
+      reject(error);
+    });
+
+    async function processImagesSequentially(taskLength) {
+      // Specify tasks
+      const promiseTasks = [];
+      for (let i = 0; i < taskLength; i++) {
+        promiseTasks.push(processImage);
+      }
+      // Execute tasks
+      let t = 0;
+      for (const task of promiseTasks) {
+        imageData.push(
+          await task(
+            filteredData[t].fileNameCropped,
+            filteredData[t].label,
+            filteredData[t].plate,
+            filteredData[t].ownerName,
+          )
+        );
+        t++;
+        if (t === taskLength) {
+          resolve(imageData);
+        }
+      }
+    }
+
+    function processImage(file, label, plate, ownerName) {
+      return new Promise(resolve_ => {
+        fs.readFile(filePath + label + '/' + file, function (err, data) {
+          if (!err) {
+            resolve_({
+              image: 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
+              plate: plate,
+              ownerName: ownerName,
+            });
+          } else {
+            resolve_(null);
+          }
+        });
+      });
+    }
+  });
+}
+
+exports.GetBase64Images = GetBase64Images;
 
 
 /**
