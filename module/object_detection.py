@@ -37,6 +37,12 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
     try:
         # Load Yolo
         net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
+
+        # Set Cuda as preferred, not working yet on Windows
+        # TODO: this needs testing on Linux
+        # net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+        # net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+
         classes = []
         with open(models_path + "coco.names", "r") as f:
             classes = [line.strip() for line in f.readlines()]
