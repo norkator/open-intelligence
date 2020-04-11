@@ -5,6 +5,8 @@ import pickle
 import cv2
 import os
 
+faces_dataset_folder = '/output/faces_dataset/'
+
 
 def extract_embeddings(cwd_path, input_confidence=0.5):
     # Path to output serialized db of facial embeddings
@@ -23,7 +25,7 @@ def extract_embeddings(cwd_path, input_confidence=0.5):
 
     # grab the paths to the input images in our dataset
     print("[INFO] quantifying faces...")
-    input_images_path = cwd_path + '/output/faces_dataset/'
+    input_images_path = cwd_path + faces_dataset_folder
     print('[INFO] Input image main path: ' + input_images_path)
     image_paths = list(paths.list_images(input_images_path))
     # print('Image paths: ' + str(image_paths))
@@ -40,7 +42,9 @@ def extract_embeddings(cwd_path, input_confidence=0.5):
     for (i, imagePath) in enumerate(image_paths):
         # extract the person name from the image path
         print("[INFO] processing image {}/{}".format(i + 1, len(image_paths)))
-        name = str(imagePath.split(os.path.sep)[-2]).replace('Open-Intelligence/output/faces_dataset/', '')
+        name = str(imagePath.split(os.path.sep)[-2]).replace(cwd_path, '').replace('Open-Intelligence', '').replace(
+            faces_dataset_folder, '')
+        print("[INFO] Face dataset input folder after replace functions: " + name)
 
         # load the image, resize it to have a width of 600 pixels (while
         # maintaining the aspect ratio), and then grab the image
