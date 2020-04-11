@@ -11,15 +11,16 @@ const os = require('os-utils');
 function Faces(router, sequelizeObjects) {
 
 
-  router.get('/get/faces/for/day', function (req, res) {
+  router.post('/get/faces/for/day', function (req, res) {
     let outputData = {images: []};
+    const selectedDate = req.body.selectedDate;
     const filePath = path.join(__dirname + '../../../' + 'output/insightface/faces/');
     fs.readdir(filePath, function (err, files) {
       if (err) {
         res.status(500);
         res.send(err);
       } else {
-        let filesList = utils.GetFilesNotOlderThan(files, filePath);
+        let filesList = utils.GetFilesNotOlderThan(files, filePath, selectedDate);
 
         // Read file data
         // noinspection JSIgnoredPromiseFromCall

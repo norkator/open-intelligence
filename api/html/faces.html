@@ -28,7 +28,6 @@
 
 <body style="background-color: #343a40">
 
-
 <!-- Generic image view modal -->
 <div class="modal fade bd-example-modal-lg" id="generic_image_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -53,7 +52,6 @@
   </div>
 </div>
 
-
 <!-- sticky-top -->
 <nav class="navbar navbar-dark sticky-top navbar-expand-lg bg-dark">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0"
@@ -76,6 +74,19 @@
 </nav>
 
 
+<!-- Face image loading date control -->
+<div class="d-flex justify-content-center flex-wrap mb-2" style="height: 100%">
+  <div class="input-group mb-2" style="max-width: 300px;">
+    <input id="selected_day_field" type="text" style="background-color: #343a40; color: #999999;" disabled class="form-control">
+    <div class="input-group-append">
+      <button class="btn btn-outline-info" type="button" id="load_earlier_day_btn">← Earlier</button>
+      <button class="btn btn-outline-info" type="button" id="load_next_day_btn">Next →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Face image viewer -->
 <div id="faces_flex_viewer" class="d-flex justify-content-center flex-wrap" style="height: 100%">
 </div>
 
@@ -118,6 +129,24 @@
     const generic_modal_description = $('#generic_modal_description');
     const generic_modal_image = $('#generic_modal_image');
 
+    const selected_day_field = $('#selected_day_field');
+    const load_earlier_day_btn = $('#load_earlier_day_btn');
+    const load_next_day_btn = $('#load_next_day_btn');
+    selected_day_field.val(new Date().toISOString().substr(0, 10));
+    load_earlier_day_btn.on('click', function () {
+      let date = new Date(selected_day_field.val());
+      date.setDate(date.getDate() - 1);
+      selected_day_field.val(date.toISOString().substr(0, 10));
+      faces_flex_viewer.empty();
+      loadFaceImages();
+    });
+    load_next_day_btn.on('click', function () {
+      let date = new Date(selected_day_field.val());
+      date.setDate(date.getDate() + 1);
+      selected_day_field.val(date.toISOString().substr(0, 10));
+      faces_flex_viewer.empty();
+      loadFaceImages();
+    });
 
     // Components
     let faces_flex_viewer = $('#faces_flex_viewer');
@@ -129,13 +158,20 @@
     // Refresh
     loadFaceImages();
     setInterval(() => {
-      loadFaceImages();
+      if (String(selected_day_field.val()) === String(new Date().toISOString().substring(0, 10))) {
+        loadFaceImages();
+      } else {
+        console.info('Not current day, skipping auto loading run');
+      }
     }, (60 * 1000));
 
     function loadFaceImages() {
       $.ajax({
         url: apiUrl + 'get/faces/for/day',
-        type: 'GET',
+        type: 'POST',
+        data: {
+          selectedDate: selected_day_field.val()
+        }
       }).done(function (data) {
         faces_flex_viewer.empty();
         data.images.forEach(imageData => {
