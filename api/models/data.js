@@ -43,6 +43,10 @@ module.exports = (sequelize, type) => {
       type: type.INTEGER, defaultValue: 0
     },
 
+    similarity_checked: {                       // Used for similar data cleaning / similarity checks
+      type: type.INTEGER, defaultValue: 0
+    },
+
     // Normally Sequelize manages these
     // but for python side we need also default value
     createdAt: {

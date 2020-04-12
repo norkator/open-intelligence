@@ -45,6 +45,7 @@ def insert_value(name, label, file_path, file_name, year, month, day, hour, minu
         # print(file_create_date)
 
         # Query
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         postgres_insert_query = """ INSERT INTO data (name, label, file_path, file_name, file_create_date, detection_completed, file_name_cropped, detection_result) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
 
         # Variables
@@ -70,6 +71,7 @@ def get_super_resolution_images_to_compute():
     try:
         cursor = connection.cursor()
         # Load specific label image not older than one day from now
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE file_create_date > now() - interval '1 day' AND sr_image_computed = 0 ORDER BY id ASC LIMIT 10"
 
         cursor.execute(sr_work_query)
@@ -94,6 +96,7 @@ def update_super_resolution_row_result(detection_result, sr_image_name, id):
     try:
         cursor = connection.cursor()
 
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         sr_update_query = """UPDATE data SET sr_image_computed = 1, detection_after_sr_completed = 1, detection_result = %s, sr_image_name = %s WHERE id = %s"""
         cursor.execute(sr_update_query, (detection_result, sr_image_name, id))
         connection.commit()
@@ -110,6 +113,7 @@ def bool_run_train_face_model():
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         face_action_query = "SELECT id FROM apps WHERE action_name = 'train_face_model' AND action_completed = 0 LIMIT 1"
         cursor.execute(face_action_query)
         face_action_query_records = cursor.fetchall()
@@ -117,6 +121,7 @@ def bool_run_train_face_model():
         bool_run_action = len(face_action_query_records) > 0
 
         if bool_run_action:
+            # noinspection SqlDialectInspection,SqlNoDataSourceInspection
             face_action_update_query = """UPDATE apps SET action_completed = 1 WHERE action_name = 'train_face_model'"""
             cursor.execute(face_action_update_query)
             connection.commit()
@@ -135,6 +140,7 @@ def get_detection_tasks():
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         detection_work_query = "SELECT id, label, file_name_cropped FROM data WHERE detection_completed = 0 AND detection_result IS NULL AND file_name_cropped IS NOT NULL ORDER BY id ASC LIMIT 10"
 
         cursor.execute(detection_work_query)
@@ -154,6 +160,7 @@ def update_detection_task_result(id, detection_result):
     try:
         cursor = connection.cursor()
 
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         sr_update_query = """UPDATE data SET detection_completed = 1, detection_result = %s WHERE id = %s"""
         cursor.execute(sr_update_query, (detection_result, id))
         connection.commit()
@@ -170,6 +177,7 @@ def get_insight_face_images_to_compute():
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE label = 'person' AND file_create_date > now() - interval '1 day' AND insight_face_computed = 0 ORDER BY id ASC LIMIT 10"
         cursor.execute(sr_work_query)
         sr_work_records = cursor.fetchall()
@@ -186,11 +194,57 @@ def update_insight_face_as_computed(detection_result, id):
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         sr_update_query = """UPDATE data SET insight_face_computed = 1 WHERE id = %s"""
         cursor.execute(sr_update_query, (id,))
         connection.commit()
         cursor.close()
         # count = cursor.rowcount
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def get_images_for_similarity_check_process():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        query = """SELECT id, label, file_name_cropped, file_create_date
+            FROM data
+            WHERE file_create_date > DATE(now()) AND detection_result IS NULL AND similarity_checked = 0
+            AND extract(hour from file_create_date) = (
+              SELECT distinct extract(hour from file_create_date)
+              FROM data
+              WHERE file_create_date > DATE(now()) AND detection_result IS NULL AND similarity_checked = 0
+              LIMIT 1
+            )
+            ORDER BY id ASC;"""
+
+        cursor.execute(query)
+        records = cursor.fetchall()
+
+        cursor.close()
+        return records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def update_similarity_check_row_checked(id):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        update_query = """UPDATE data SET similarity_checked = 1 WHERE id = %s"""
+        cursor.execute(update_query, (id,))
+        connection.commit()
+        cursor.close()
     except psycopg2.DatabaseError as error:
         connection.rollback()
         print(error)
