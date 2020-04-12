@@ -384,7 +384,7 @@ function SendEmail(sequelizeObjects) {
               emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Known plate images</h2>';
               lpImageData.forEach(lpData => {
                 emailContent += '<br>' +
-                  '<img alt="Vehicle" title="Vehicle" style="display:block" width="400" height="300" src="' + lpData.image + '"/>' +
+                  '<img alt="Logo" title="Logo" style="display:block" width="300" height="200" src="' + lpData.image + '"/>' +
                   '<h4 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">' + lpData.ownerName + ' - ' + lpData.plate + '</h4>' +
                   +'<br>'
               });
