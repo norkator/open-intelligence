@@ -215,7 +215,8 @@ def get_images_for_similarity_check_process():
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         query = """SELECT id, label, file_name_cropped, file_create_date
             FROM data
-            WHERE file_create_date > DATE(now()) AND detection_result IS NULL AND similarity_checked = 0
+            WHERE file_create_date > DATE(now()) AND detection_result IS NULL AND similarity_checked = 0 
+            AND detection_after_sr_completed = 1 
             AND extract(hour from file_create_date) = (
               SELECT distinct extract(hour from file_create_date)
               FROM data
