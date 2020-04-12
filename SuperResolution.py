@@ -18,11 +18,9 @@ print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
 process_sleep_seconds = app_config['process_sleep_seconds']
-super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='superresolution')
 
-# Paths
-# Output root folder path can be anything, same computer or smb share
-output_root_folder_path = super_resolution_config['root_folder_path']
+# Output path
+output_root_folder_path = os.getcwd() + '/output/'
 
 
 def is_null(input_variable):

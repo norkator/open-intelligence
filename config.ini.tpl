@@ -23,9 +23,6 @@ region=eu
 use_plate_char_length=True
 plate_char_length=6
 
-[superresolution]
-root_folder_path=Z:/path/to/project/folder/output/
-
 [facerecognition]
 file_name_prefix=
 output_root_path=cwd

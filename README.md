@@ -66,18 +66,27 @@ here's steps to get environment running.
 #### Python Apps
 
 ##### `App.py`
-* This is main app which is responsible for processing input images from configured sources.
 * Status: *Mandatory*  
+* This is main app which is responsible for processing input images from configured sources.
+* Cluster support: Yes.
+* Multi instance command: `\.App.py --bool_slave_node True`
 
 ##### `StreamGrab.py`
 * Status: *Optional* 
 * If you don't have cameras which are outputting images, you can configure multiple camera streams using
 this stream grabber tool to create input images.
+* Cluster support: No.
 
 ##### `SuperResolution.py`
 * Status: *Optional* 
 * This tool processes super resolution images and run's new detections for these processed sr images.
 This is no way mandatory for process.
+* Cluster support: No.
+
+##### `InsightFace.py`
+* Status: *Optional* 
+* Processes faces page images using InsightFace retina model. This is currently for testing use.
+* Cluster support: No.
 
 
 #### Multi node support
@@ -85,7 +94,8 @@ Multi node support requires little bit more work to configure but it's doable. F
 1. Each node needs to have access to source files hosted by one main node via network share.
 2. Create configuration file `config_slave.ini` from template `config_slave.ini.tpl`
 3. Fill in postgres connection details having server running postgres as target location.
-4. On each slave node run `App.py` via giving argument: `\.App.py --bool_slave_node True`
+4. Point your command prompt into network share folder containing `App.py` and other files.
+5. On each slave node run `App.py` via giving argument: `\.App.py --bool_slave_node True`
 
 
 ### Cuda GPU Support
