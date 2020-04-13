@@ -168,7 +168,8 @@ def recognize_for_insight_face(input_face, input_confidence=0.5):
 
     # draw the bounding box of the face along with the associated
     # probability
-    text = "{}: {:.2f}%".format(name, proba * 100)
+    text = "{}: {:.2f}%".format(name,
+                                proba * 100) + ' (if)'  # Added 'if' to the end to detect that this is from insightface
     detection_name_and_probability = text
 
     # Return result
