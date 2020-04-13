@@ -222,7 +222,7 @@ def get_images_for_similarity_check_process():
               FROM data
               WHERE file_create_date > DATE(now())
                 AND file_create_date < now() - interval '1 hour'
-                AND (detection_result IS NULL OR detection_result = '') AND similarity_checked = 0
+                AND (detection_result IS NULL OR detection_result = ' ') AND similarity_checked = 0
               LIMIT 1
             )
             ORDER BY id ASC;"""
