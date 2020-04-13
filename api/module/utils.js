@@ -4,6 +4,7 @@ const path = require('path');
 const email = require('./email');
 const {Op} = require('sequelize');
 const getFolderSize = require('get-folder-size');
+const imageThumbnail = require('image-thumbnail');
 
 
 // Variables
@@ -341,7 +342,7 @@ function SendEmail(sequelizeObjects) {
               }
             });
 
-            GetBase64Images(filteredData).then(lpImageData => {
+            GetBase64ImagesForEmail(filteredData).then(lpImageData => {
 
               const tableLpTr = '<tr>' +
                 '<th>Plate</th>' +
@@ -384,7 +385,7 @@ function SendEmail(sequelizeObjects) {
               emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Known plate images</h2>';
               lpImageData.forEach(lpData => {
                 emailContent += '<br>' +
-                  '<img alt="Vehicle" title="Vehicle" style="display:block" width="400" height="300" src="' + lpData.image + '"/>' +
+                  '<img alt="Logo" title="Logo" style="display:block" width="300" height="200" src="' + lpData.image + '"/>' +
                   '<h4 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">' + lpData.ownerName + ' - ' + lpData.plate + '</h4>' +
                   +'<br>'
               });
@@ -474,9 +475,10 @@ exports.GetNonSentEmailVehicleLicensePlateData = GetNonSentEmailVehicleLicensePl
  * @return {Promise<Array>}
  * @constructor
  */
-function GetBase64Images(filteredData = []) {
+function GetBase64ImagesForEmail(filteredData = []) {
   return new Promise(function (resolve, reject) {
     console.log(filteredData);
+    let thumbnailOptions = {width: 250, height: 100, responseType: 'base64', jpegOptions: {force: true, quality: 90}};
     let imageData = [];
     const filePath = path.join(__dirname + '../../../' + 'output/');
 
@@ -511,23 +513,21 @@ function GetBase64Images(filteredData = []) {
 
     function processImage(file, label, plate, ownerName) {
       return new Promise(resolve_ => {
-        fs.readFile(filePath + label + '/' + file, function (err, data) {
-          if (!err) {
-            resolve_({
-              image: 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
-              plate: plate,
-              ownerName: ownerName,
-            });
-          } else {
-            resolve_(null);
-          }
+        imageThumbnail(filePath + label + '/' + file).then(thumbnail => {
+          resolve_({
+            image: 'data:image/png;base64,' + thumbnail,
+            plate: plate,
+            ownerName: ownerName,
+          });
+        }).catch(err => {
+          resolve_(null);
         });
       });
     }
   });
 }
 
-exports.GetBase64Images = GetBase64Images;
+exports.GetBase64ImagesForEmail = GetBase64ImagesForEmail;
 
 
 /**

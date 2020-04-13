@@ -134,3 +134,43 @@ def recognize(output_file_name=None, input_confidence=0.5, input_image=None):
 
     # Return result
     return detection_name_and_probability
+
+
+# Customized to suit for insight face
+def recognize_for_insight_face(input_face, input_confidence=0.5):
+    # Output field
+    detection_name_and_probability = None
+
+    # Resize input image
+    input_face = imutils.resize(input_face, width=600)
+
+    # load our serialized face embedding model from disk
+    print("[INFO] loading face recognizer...")
+    embedding_model_path = os.getcwd() + '/models/face_detection_model/' + 'openface_nn4.small2.v1.t7'
+    embedder = cv2.dnn.readNetFromTorch(embedding_model_path)
+
+    # load the actual face recognition model along with the label encoder
+    recognizer = pickle.loads(open(recognizer_path, "rb").read())
+    label_encoder = pickle.loads(open(label_encoder_path, "rb").read())
+
+    # construct a blob for the face ROI, then pass the blob
+    # through our face embedding model to obtain the 128-d
+    # quantification of the face
+    face_blob = cv2.dnn.blobFromImage(input_face, 1.0 / 255, (96, 96), (0, 0, 0), swapRB=True, crop=False)
+    embedder.setInput(face_blob)
+    vec = embedder.forward()
+
+    # perform classification to recognize the face
+    preds = recognizer.predict_proba(vec)[0]
+    j = np.argmax(preds)
+    proba = preds[j]
+    name = label_encoder.classes_[j]
+
+    # draw the bounding box of the face along with the associated
+    # probability
+    text = "{}: {:.2f}%".format(name,
+                                proba * 100) + ' (if)'  # Added 'if' to the end to detect that this is from insightface
+    detection_name_and_probability = text
+
+    # Return result
+    return detection_name_and_probability

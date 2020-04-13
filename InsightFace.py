@@ -10,11 +10,13 @@ print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
 process_sleep_seconds = app_config['process_sleep_seconds']
-super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='superresolution')
 
-# Paths
-# Output root folder path can be anything, same computer or smb share
-output_root_folder_path = super_resolution_config['root_folder_path']
+# Output path
+output_root_folder_path = os.getcwd() + '/output/'
+
+
+def is_null(input_variable):
+    return input_variable is None or input_variable == '' or input_variable == ' '
 
 
 def app():
@@ -40,15 +42,22 @@ def app():
     # Super resolution image
     if len(if_image_objects) > 0:
 
+        temp_detection_result = None
+
         # Process insightface
         for if_image_object in if_image_objects:
             try:
-                insightface_utils.face_detection(
+                temp_detection_result = insightface_utils.face_detection(
                     image_path_name_extension=if_image_object.input_image,
                     file_name=if_image_object.image_name
                 )
             except Exception as e:
                 print(e)
+
+            # Save result if specified conditions are true
+            # if is_null(if_image_object.detection_result):
+            if temp_detection_result is not None:
+                if_image_object.detection_result = temp_detection_result
 
             # Write database, set as computed
             database.update_insight_face_as_computed(if_image_object.detection_result, if_image_object.id)
