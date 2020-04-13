@@ -220,7 +220,9 @@ def get_images_for_similarity_check_process():
             AND extract(hour from file_create_date) = (
               SELECT distinct extract(hour from file_create_date)
               FROM data
-              WHERE file_create_date > DATE(now()) AND detection_result IS NULL AND similarity_checked = 0
+              WHERE file_create_date > DATE(now())
+                AND file_create_date < now() - interval '1 hour'
+                AND (detection_result IS NULL OR detection_result = '') AND similarity_checked = 0
               LIMIT 1
             )
             ORDER BY id ASC;"""
