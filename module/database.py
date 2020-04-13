@@ -195,8 +195,8 @@ def update_insight_face_as_computed(detection_result, id):
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
-        sr_update_query = """UPDATE data SET insight_face_computed = 1 WHERE id = %s"""
-        cursor.execute(sr_update_query, (id,))
+        sr_update_query = """UPDATE data SET insight_face_computed = 1, detection_result = %s WHERE id = %s"""
+        cursor.execute(sr_update_query, (detection_result, id))
         connection.commit()
         cursor.close()
         # count = cursor.rowcount

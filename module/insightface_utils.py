@@ -1,4 +1,5 @@
 from module import fileutils
+from module.face_detection import recognize
 import insightface
 import cv2
 import os
@@ -16,6 +17,9 @@ model.prepare(ctx_id=-1, nms=0.4)
 
 # Process images
 def face_detection(image_path_name_extension, file_name):
+    # Output result
+    detection_name_and_probability = None
+
     # Loading image
     image = cv2.imread(image_path_name_extension)
 
@@ -40,3 +44,8 @@ def face_detection(image_path_name_extension, file_name):
                     cv2.imwrite(output_images_path + file_name, img_crop)
                 except Exception as e:
                     print(e)
+
+                # Try recognize face
+                detection_name_and_probability = recognize.recognize_for_insight_face(img_crop)
+
+    return detection_name_and_probability

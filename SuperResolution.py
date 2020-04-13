@@ -24,7 +24,7 @@ output_root_folder_path = os.getcwd() + '/output/'
 
 
 def is_null(input_variable):
-    return input_variable is None or input_variable == ''
+    return input_variable is None or input_variable == '' or input_variable == ' '
 
 
 def app():
