@@ -55,9 +55,9 @@ def app():
                 print(e)
 
             # Save result if specified conditions are true
-            if is_null(if_image_object.detection_result):
-                if temp_detection_result is not None:
-                    if_image_object.detection_result = temp_detection_result
+            # if is_null(if_image_object.detection_result):
+            if temp_detection_result is not None:
+                if_image_object.detection_result = temp_detection_result
 
             # Write database, set as computed
             database.update_insight_face_as_computed(if_image_object.detection_result, if_image_object.id)
