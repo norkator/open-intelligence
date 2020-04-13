@@ -60,8 +60,8 @@ here's steps to get environment running.
     ├── LICENSE
     └── README.md
     
-    
-    
+        
+<br>
     
 #### Python Apps
 
@@ -88,6 +88,13 @@ This is no way mandatory for process.
 * Processes faces page images using InsightFace retina model. This is currently for testing use.
 * Cluster support: No.
 
+##### `SimilarityProcess.py`
+* Status: *Optional* 
+* Compares current running day images for close duplicates and deletes images determined as duplicate
+having no higher value (no detection result). Processes images in one hour chunks.
+* Cluster support: No.
+
+<br>
 
 #### Multi node support
 Multi node support requires little bit more work to configure but it's doable. Follow instructions below.
@@ -115,7 +122,7 @@ File     : 2020-01-03 08:51:43
 Database : 2020-01-03 06:51:43.000000
 ```
 
-Database timestamp need's to be shifted later to your local timezone. I have that +2 hours difference.
+Database timestamps are shifted on use based on local time offset.
 
 
 #### Openalpr notes
@@ -134,7 +141,7 @@ Now works without any python site-package installation.
 
 
 
-#### Trouble shooting
+#### Troubleshooting
 Got `ImportError: DLL load failed: The specified module could not be found.` ???  
 => try `import cv2`, not working -> packages missing, vc redistributable etc?  
 => Windows Server for example requires desktop experience features installed.
@@ -163,11 +170,13 @@ Here's some ideas
 - [x] identify car owners from license plates (user determines owners at web ui);
 - [x] send emails on new license plate detections based on known plate records;
 - [x] main App.py multiple processing nodes support;
+- [x] email intelligence statistics (partially implemented, plates for now);
 - [ ] camera microphone access;
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;
-- [ ] better data analysis methods;
-- [ ] email intelligence statistics;
+- [ ] better data analysis methods, needs defining;
 - [ ] make own ALPR based on deep neural nets and TensorFlow.;
+- [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once;
+- [ ] api's for multi site combining to be able to request seen plates, person face lookup, analysis;
 
 
 ## Authors
