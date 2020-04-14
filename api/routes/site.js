@@ -794,6 +794,32 @@ function Site(router, sequelizeObjects) {
   });
 
 
+  /**
+   * Load object_detection folder image file with given name
+   */
+  router.post('/download/image', function (req, res) {
+    const image_file_type = String(req.body.imageFileType);
+    const label = String(req.body.label);
+    const image_file_name = String(req.body.imageFileName);
+
+    const filePath = path.join(__dirname + '../../../' + 'output/');
+    const fullPath = filePath + label + '/' + (image_file_type === 'super_resolution' ? 'super_resolution' : '') + '/' + image_file_name;
+
+    fs.readFile(fullPath, function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+        res.send('Error on loading image file.');
+      } else {
+        console.info('Sending requested image data');
+        res.json({
+          'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+        });
+      }
+    });
+  });
+
+
 }
 
 exports.Site = Site;

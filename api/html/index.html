@@ -47,6 +47,12 @@
              alt="Generic modal image">
       </div>
       <div class="modal-footer">
+        <button id="downloadGenericModalImageBtn" type="button" class="btn btn-outline-secondary">
+          Download
+        </button>
+        <button id="downloadGenericModalSrImageBtn" type="button" class="btn btn-outline-secondary">
+          Download SR
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -141,7 +147,8 @@
     <div id="talk_content_div">
       <button id="activate_talk_btn" type="button" class="btn btn-outline-light btn-sm">Talk</button>
     </div>
-    <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   </form>
@@ -342,6 +349,8 @@
     let loadedLabel = null;
     let faceGroupingNames = [];
     let loadedFaceGroupingImage = null;
+    let genericModalOpenedImageLabelName = null;
+    let genericModalOpenedImageFileName = null;
 
     // Init voice (text to speech)
     let msg = null;
@@ -418,12 +427,19 @@
     const generic_modal_title = $('#generic_modal_title');
     const generic_modal_description = $('#generic_modal_description');
     const generic_modal_image = $('#generic_modal_image');
+    const downloadGenericModalImageBtn = $('#downloadGenericModalImageBtn');
+    const downloadGenericModalSrImageBtn = $('#downloadGenericModalSrImageBtn');
     const selected_day_field = $('#selected_day_field');
     selected_day_field.val(new Date().toISOString().substr(0, 10));
     const load_day_btn = $('#load_day_btn');
     load_day_btn.on('click', function () {
-
       loadData();
+    });
+    downloadGenericModalImageBtn.on('click', function () {
+      downloadImage('original', genericModalOpenedImageLabelName, genericModalOpenedImageFileName);
+    });
+    downloadGenericModalSrImageBtn.on('click', function () {
+      downloadImage('super_resolution', genericModalOpenedImageLabelName, genericModalOpenedImageFileName);
     });
 
     const load_earlier_day_btn = $('#load_earlier_day_btn');
@@ -788,6 +804,8 @@
       }).done(function (data) {
         generic_image_modal.modal('show');
         generic_modal_title.text(loadedLabel + ' - ' + image_file_name);
+        genericModalOpenedImageLabelName = loadedLabel;
+        genericModalOpenedImageFileName = image_file_name;
         generic_modal_description.empty();
         generic_modal_description.append(
           data.srImage ?
@@ -914,6 +932,7 @@
       }).done(function (data) {
         generic_image_modal.modal('show');
         generic_modal_title.text(object_detection_image_file_name);
+        genericModalOpenedImageFileName = null;
         generic_modal_description.empty();
         generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
@@ -951,6 +970,32 @@
         '<span class="sr-only">Loading...</span>' +
         '</div>' +
         '</div>');
+    }
+
+
+    /**
+     * Download image
+     * @param image_file_type ( original / super_resolution )
+     * @param label
+     * @param image_file_name
+     */
+    function downloadImage(image_file_type, label, image_file_name) {
+      $.ajax({
+        url: apiUrl + 'download/image',
+        type: 'POST',
+        data: {
+          imageFileType: image_file_type,
+          label: label,
+          imageFileName: image_file_name,
+        },
+      }).done(function (data) {
+        let a = document.createElement("a");
+        a.href = data.data;
+        a.download = image_file_name;
+        a.click();
+      }).fail(function (error) {
+        alert(error);
+      });
     }
 
 
