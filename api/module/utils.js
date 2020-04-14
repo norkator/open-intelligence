@@ -513,7 +513,7 @@ function GetBase64ImagesForEmail(filteredData = []) {
 
     function processImage(file, label, plate, ownerName) {
       return new Promise(resolve_ => {
-        imageThumbnail(filePath + label + '/' + file).then(thumbnail => {
+        imageThumbnail(filePath + label + '/' + file, thumbnailOptions).then(thumbnail => {
           resolve_({
             image: 'data:image/png;base64,' + thumbnail,
             plate: plate,
