@@ -33,7 +33,7 @@ def filter_negative_values(array_boxes):
     return result
 
 
-def analyze_image(image_object, bool_move_processed, bool_use_database, bool_write_object_detection_images):
+def analyze_image(image_object, bool_move_processed):
     try:
         # Load Yolo
         net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
@@ -147,17 +147,16 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
                     )
 
                     # Insert database intelligence
-                    if bool_use_database:
-                        try:
-                            database.insert_value(
-                                image_object.name,
-                                label, image_object.file_path, image_object.file_name,
-                                image_object.year, image_object.month, image_object.day,
-                                image_object.hours, image_object.minutes, image_object.seconds,
-                                crop_image_name_extension, detection_result
-                            )
-                        except Exception as e:
-                            print(e)
+                    try:
+                        database.insert_value(
+                            image_object.name,
+                            label, image_object.file_path, image_object.file_name,
+                            image_object.year, image_object.month, image_object.day,
+                            image_object.hours, image_object.minutes, image_object.seconds,
+                            crop_image_name_extension, detection_result
+                        )
+                    except Exception as e:
+                        print(e)
 
         # Move processed image
         if bool_move_processed:
@@ -171,14 +170,13 @@ def analyze_image(image_object, bool_move_processed, bool_use_database, bool_wri
         # Write full detection image
         # only write if there's boxes available
         if len(boxes) > 0:
-            if bool_write_object_detection_images:
-                try:
-                    Path(object_detection_image_path).mkdir(parents=True, exist_ok=True)
-                    cv2.imwrite(
-                        object_detection_image_path + '/' + image_object.file_name + image_object.file_extension, img
-                    )
-                except Exception as e:
-                    print(e)
+            try:
+                Path(object_detection_image_path).mkdir(parents=True, exist_ok=True)
+                cv2.imwrite(
+                    object_detection_image_path + '/' + image_object.file_name + image_object.file_extension, img
+                )
+            except Exception as e:
+                print(e)
 
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()

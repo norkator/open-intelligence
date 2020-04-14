@@ -118,8 +118,6 @@ def app():
             object_detection.analyze_image(
                 image_object,
                 app_config['move_to_processed'] == 'True',
-                app_config['use_database'] == 'True',
-                app_config['write_object_detection_images'] == 'True',
             )
         except Exception as e:
             print(e)
