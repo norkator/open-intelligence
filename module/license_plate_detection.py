@@ -24,6 +24,8 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
 
         if open_alpr_config['enabled'] == 'True':
 
+            region = open_alpr_config['region']
+
             # Validate file path
             if os.path.exists(input_image):
 
@@ -39,7 +41,7 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
                 for image in all_images:
 
                     # Initialize openalpr
-                    alpr = Alpr(open_alpr_config['region'], open_alpr_conf, open_alpr_runtime_data)
+                    alpr = Alpr(region, open_alpr_conf, open_alpr_runtime_data)
                     if not alpr.is_loaded():
                         print("Error loading OpenALPR")
                         return ''
@@ -70,7 +72,7 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
                                     # Take specified length one
                                     result_plates.append(
                                         Plate.Plate(
-                                            license_plate,
+                                            region_filter(license_plate, region),
                                             confidence
                                         )
                                     )
@@ -79,7 +81,7 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
                                 # Take first one (highest confidence)
                                 result_plates.append(
                                     Plate.Plate(
-                                        license_plate,
+                                        region_filter(license_plate, region),
                                         confidence
                                     )
                                 )
@@ -124,6 +126,7 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
         return ''
 
 
+# Rotate image to boost plate finding probability
 def get_rotation_images(use_rotation, input_image, image_name):
     rotation_images = []
     if use_rotation is True:
@@ -142,3 +145,21 @@ def get_rotation_images(use_rotation, input_image, image_name):
             except Exception as e:
                 print(e)
     return rotation_images
+
+
+# Filter plate based on region
+def region_filter(license_plate, region='eu'):
+    # Europe
+    if region == 'eu':
+        if len(license_plate) >= 6:
+            a = license_plate[0:3]
+            b = license_plate[3:len(license_plate)] \
+                .replace('I', '1') \
+                .replace('O', '0') \
+                .replace('S', '5') \
+                .replace('B', '8') \
+                .replace('D', '0') \
+                .replace('Z', '2')
+            license_plate = a + b
+    # More region specific rules?
+    return license_plate
