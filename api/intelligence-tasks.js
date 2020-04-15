@@ -29,7 +29,7 @@ initDb.initDatabase().then(() => {
     new SetStorageUsage();
   });
 
-  schedule.scheduleJob('* * 22 * * *', () => {
+  schedule.scheduleJob('* 0 22 * * *', () => {
     new SendEmail();
   });
 
