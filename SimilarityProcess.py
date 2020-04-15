@@ -27,7 +27,7 @@ def image_is_similar(image_a, image_b):
     if image_a is not None or image_b is not None:
         s = ssim(image_a, image_b)
         print('Similarity: ' + str(s))
-        return True if s > 0.5 else False
+        return True if s > 0.42 else False
     else:
         return False
 
