@@ -564,3 +564,11 @@ exports.GetStorageUsage = function () {
     });
   });
 };
+
+
+/**
+ * @return {string}
+ */
+exports.NoRead = function (detection_result) {
+  return detection_result == null || detection_result === ' ' ? '' : detection_result
+};

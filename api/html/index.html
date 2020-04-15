@@ -237,7 +237,7 @@
       <div class="card flex-md-row mb-4 box-shadow h-md-250"
            style="height: 100%; max-height: 500px; overflow-y: scroll;">
         <div class="card-body d-flex flex-column align-items-center">
-          <strong class="d-inline-block mb-2 text-primary">Vehicles | License plates</strong>
+          <strong class="d-inline-block mb-2 text-primary">Some known license plates</strong>
           <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
           </div>
           <div class="mb-1 text-muted">License plate detections</div>
@@ -634,6 +634,7 @@
         url: apiUrl + 'get/license/plate/detections',
         type: 'POST',
         data: {
+          resultOption: 'limited_known',
           selectedDate: selected_day_field.val(),
           selectedDateStart: null,
           selectedDateEnd: null,

@@ -339,11 +339,18 @@ function Site(router, sequelizeObjects) {
    * Get license plate detection results
    */
   router.post('/get/license/plate/detections', function (req, res) {
+
+    // Variables
+    const filePath = path.join(__dirname + '../../../' + 'output/');
     let licensePlates = [];
-    // Day selection from web interface, default today
+
+    // Parameters from front end
+    const resultOption = req.body.resultOption;
     const selectedDate = req.body.selectedDate;
     const selectedDateStart = req.body.selectedDateStart;
     const selectedDateEnd = req.body.selectedDateEnd;
+
+    // Get all detections
     sequelizeObjects.Data.findAll({
       attributes: [
         'label',
@@ -369,11 +376,78 @@ function Site(router, sequelizeObjects) {
       ]
     }).then(rows => {
       if (rows.length > 0) {
-        // Load plates
+
+        // Load known plates
         utils.GetLicensePlates(sequelizeObjects).then(plates => {
-          const filePath = path.join(__dirname + '../../../' + 'output/');
+
+          // Fetch data here before loading images
+          rows.forEach(row => {
+            const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+            const detectionResult = utils.NoRead(row.detection_result);
+            const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
+            licensePlates.push({
+              objectDetectionFileName: row.file_name,
+              title: datetime,
+              label: row.label,
+              file: row.file_name_cropped,
+              detectionResult: detectionResult,
+              detectionCorrected: vehicleDetails.plate,
+              ownerName: vehicleDetails.owner_name,
+            })
+          });
+
+          // Filter data before image loading
+          if (resultOption === 'limited_known') {
+            // Must have owner detail
+            licensePlates = licensePlates.filter(plate => {
+              return String(plate.ownerName).length > 0
+            });
+            // Limit count
+            let tempValues = [];
+            licensePlates.forEach(plate => {
+              if (tempValues.filter(a => {
+                return a.detectionCorrected === plate.detectionCorrected;
+              }).length <= 3) { // Only few of each seen
+                tempValues.push(plate);
+              }
+            });
+            licensePlates = tempValues;
+          } else if (resultOption === 'distinct_detection') {
+            // Filter corrected empty ones
+            licensePlates = licensePlates.filter(plate => {
+              return String(plate.detectionCorrected).length > 0
+            });
+            // Load with distinct detection corrected, one of each
+            let tempValues = [];
+            licensePlates.forEach(plate => {
+              if (tempValues.filter(a => {
+                return a.detectionCorrected === plate.detectionCorrected;
+              }).length === 0) {
+                tempValues.push(plate);
+              }
+            });
+            licensePlates = tempValues;
+          } else if (resultOption === 'owner_detail_needed') {
+            // No owner name
+            licensePlates = licensePlates.filter(plate => {
+              return String(plate.ownerName).length === 0
+            });
+            // Distinct non corrected plate
+            let tempValues = [];
+            licensePlates.forEach(plate => {
+              if (tempValues.filter(a => {
+                return a.detectionResult === plate.detectionResult;
+              }).length === 0) {
+                tempValues.push(plate);
+              }
+            });
+            licensePlates = tempValues;
+          }
+
           // noinspection JSIgnoredPromiseFromCall
-          processImagesSequentially(rows.length);
+          processImagesSequentially(licensePlates.length).catch(error => {
+            console.error(error);
+          });
 
           async function processImagesSequentially(taskLength) {
             // Specify tasks
@@ -384,23 +458,9 @@ function Site(router, sequelizeObjects) {
             // Execute tasks
             let t = 0;
             for (const task of promiseTasks) {
-              licensePlates.push(
-                await task(
-                  rows[t].file_name,
-                  rows[t].file_name_cropped,
-                  rows[t].label,
-                  rows[t].file_create_date,
-                  rows[t].detection_result
-                )
-              );
+              licensePlates[t] = await task(licensePlates[t]);
               t++;
               if (t === taskLength) {
-                /*
-                // Return results
-                licensePlates = licensePlates.filter(function (plate) {
-                  return plate !== null;
-                });
-                */
                 res.json({
                   licensePlates: licensePlates,
                 });
@@ -408,33 +468,21 @@ function Site(router, sequelizeObjects) {
             }
           }
 
-          function noRead(detection_result) {
-            return detection_result == null || detection_result === '' ? 'NO-READ' : detection_result
-          }
-
-          function processImage(object_detection_file_name, file, label, file_create_date, detection_result) {
+          function processImage(lpObj) {
             return new Promise(resolve_ => {
-              fs.readFile(filePath + label + '/' + file, function (err, data) {
+              fs.readFile(filePath + lpObj.label + '/' + lpObj.file, function (err, data) {
                 if (!err) {
-                  const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
-                  const detectionResult = noRead(detection_result);
-                  const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
-                  resolve_({
-                    objectDetectionFileName: object_detection_file_name,
-                    title: datetime,
-                    file: file,
-                    detectionResult: detectionResult,
-                    detectionCorrected: vehicleDetails.plate,
-                    ownerName: vehicleDetails.owner_name,
-                    image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                  });
+                  lpObj.image = 'data:image/png;base64,' + Buffer.from(data).toString('base64');
+                  resolve_(lpObj);
                 } else {
-                  // console.log(err);
                   resolve_(null);
                 }
               });
             });
           }
+        }).catch(error => {
+          res.status(500);
+          res.send(error);
         });
       } else {
         res.status(200);

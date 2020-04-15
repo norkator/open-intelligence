@@ -62,7 +62,8 @@
       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACHklEQVR4Ae3WAWTjUBjA8UNRFMVQFMUwHIahCI7hMBTFUBTDYQiG4RAUBRSHAIaiKIrhAFAURVAURREERVAMRe+PfTzP+faSJsy2Pz9M0rcvSdPk26foq+PxeIkBZlhi+2qOKR5xXvYQVfiI4doa/TKG6WCDvEXwihpmALsdntBFG61XHnqYYA+zA+5OGaSCKcwS3KPieIkDpDAb5h1oCLNn1HOs08QCZndZF7mF2QiVE2+IqXX5vCwfTiDNCrxLF5Ai1w8GkLaoFXi3NpFC6r99FMoH+PsBEUK0lHW+Y4IF+soBr98a6BrSxtrWhlmorPMX0gFN66D3kM61gUJIQ2ubD7OVsk4Ks661fQLpURtoCcmztjVwgPSgrPMH0g5Va3sP0lQbKIYkp9keykfb4Qv8E79Q/882D9JcW4SISn5QtyBt38NATUixtmMCqVHiQG1IC23HCNJViQN1Ic20HZ8gBcoPWtZ6+v/RX8SkyNpWR4ysLezXGuwgXWoD1fAC6ca+XbGHawkurDXuIcUu13cEaYWK/YLveKbWaNlnGQkk32WgOlJIofLCn8Auxm9U7UuFZ0gb/R1Lf275yr5n8PADFw5nXupkvTXHMAv1I1K/lzOYBXnf8OYwW+Emwxp9bGE2OfW1cwy7CAGu0LAeCR6G2MBuUNQvq48UeUtwW/TP/RlGeIFrKQJUy3xS19DBGBF2kGIsEeJaBvnqQ/cPDxGlXpRi3oIAAAAASUVORK5CYII="
       width="36" height="36" class="d-inline-block align-top" alt="">
     Intelligence</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -79,7 +80,7 @@
 
   <div class="col-md-12 mt-2">
 
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Day's between</span>
       </div>
@@ -92,7 +93,22 @@
       </div>
     </div>
 
-    <div class="card flex-md-row mb-4 box-shadow h-md-250"
+    <div class="d-flex justify-content-center">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input checked type="radio" id="optionLoadAll" name="optionInlineRadio1" class="custom-control-input">
+        <label class="custom-control-label" for="optionLoadAll">Load all</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="optionDistinctDetection" name="optionInlineRadio1" class="custom-control-input">
+        <label class="custom-control-label" for="optionDistinctDetection">Distinct detection</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="optionOwnerDetailNeeded" name="optionInlineRadio1" class="custom-control-input">
+        <label class="custom-control-label" for="optionOwnerDetailNeeded">Owner detail needed</label>
+      </div>
+    </div>
+
+    <div class="card flex-md-row mb-4 box-shadow h-md-250 mt-2"
          style="height: 100%;">
       <div class="card-body d-flex flex-column align-items-center">
         <strong class="d-inline-block mb-2 text-primary">Vehicles | License plates</strong>
@@ -155,7 +171,7 @@
     const generic_modal_image = $('#generic_modal_image');
 
     const selected_day_field_start = $('#selected_day_field_start');
-    selected_day_field_start.val( new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().substr(0, 10) );
+    selected_day_field_start.val(new Date(new Date().setDate(new Date().getDate()/* - 7*/)).toISOString().substr(0, 10));
     const selected_day_field_end = $('#selected_day_field_end');
     selected_day_field_end.val(new Date().toISOString().substr(0, 10));
 
@@ -172,6 +188,20 @@
     });
 
 
+    const optionLoadAll = $('#optionLoadAll');
+    const optionDistinctDetection = $('#optionDistinctDetection');
+    const optionOwnerDetailNeeded = $('#optionOwnerDetailNeeded');
+
+    function getResultOption() {
+      console.info(optionDistinctDetection.is(":checked"));
+      if (optionDistinctDetection.is(":checked")) {
+        return 'distinct_detection';
+      } else if (optionOwnerDetailNeeded.is(":checked")) {
+        return 'owner_detail_needed';
+      }
+      return 'load_all';
+    }
+
     // getPlateDetectionData();
 
     // License plate detection data, images and plate strings
@@ -181,6 +211,7 @@
         url: apiUrl + 'get/license/plate/detections',
         type: 'POST',
         data: {
+          resultOption: getResultOption(),
           selectedDate: null,
           selectedDateStart: selected_day_field_start.val(),
           selectedDateEnd: selected_day_field_end.val(),
@@ -227,7 +258,6 @@
         '</div>' +
         '</div>');
     }
-
 
 
     /**
