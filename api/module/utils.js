@@ -371,14 +371,23 @@ function SendEmail(sequelizeObjects) {
               emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Unknown plates</h2>';
               emailContent += '<table>';
               emailContent += tableLpTr;
-              nonSentData.forEach(nonSent => {
-                emailContent +=
-                  '<tr>' +
-                  '<td>' + nonSent.detection_result + '</td>' +
-                  '<td>' + 'New plate needs owner detail' + '</td>' +
-                  '<td>' + moment(nonSent.file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
-                  '</tr>';
-              });
+              
+              for (let n = 0; n < nonSentData.length; n++) {
+                if (n < 5) {
+                  emailContent +=
+                    '<tr>' +
+                    '<td>' + nonSentData[n].detection_result + '</td>' +
+                    '<td>' + 'New plate needs owner detail' + '</td>' +
+                    '<td>' + moment(nonSentData[n].file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                    '</tr>';
+                }
+              }
+              emailContent +=
+                '<tr>' +
+                '<td>...</td>' +
+                '<td>' + String(nonSentData.length) + ' more unknown detections' + '</td>' +
+                '<td>...</td>' +
+                '</tr>';
               emailContent += tableClosingTag + '<br>';
 
 
