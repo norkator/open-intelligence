@@ -54,6 +54,46 @@
 </div>
 
 
+<!-- Licence plate add new modal -->
+<div class="modal fade bd-example-modal-lg" id="licence_plate_add_modal" tabindex="-1" role="dialog"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add plate</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="mt-2">
+          <div class="form-group">
+            <label for="new_plate_licence_plate">Licence plate</label>
+            <input type="text" class="form-control" id="new_plate_licence_plate" aria-describedby="emailHelp">
+            <small class="form-text text-muted">Input without lines, example ABC123
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="new_plate_owner_name">Owner name</label>
+            <input type="text" class="form-control" id="new_plate_owner_name" aria-describedby="emailHelp">
+            <small class="form-text text-muted">Give full owner name
+            </small>
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="new_plate_enabled">
+            <label class="form-check-label" for="new_plate_enabled">Enabled</label>
+          </div>
+        </form>
+        <button id="new_plate_add_btn" class="btn btn-primary">Add plate</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- sticky-top -->
 <nav class="navbar navbar-dark sticky-top navbar-expand-lg bg-dark">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0"
@@ -180,11 +220,30 @@
       getPlateDetectionData();
     });
 
+    const licence_plate_add_modal = $('#licence_plate_add_modal');
+    const new_plate_licence_plate = $('#new_plate_licence_plate');
+    const new_plate_owner_name = $('#new_plate_owner_name');
+    const new_plate_enabled = $('#new_plate_enabled');
+    const new_plate_add_btn = $('#new_plate_add_btn');
+    new_plate_add_btn.on('click', function () {
+      manageLicencePlates(
+        'add', null,
+        String(new_plate_licence_plate.val()).replace('-', ''),
+        new_plate_owner_name.val(),
+        new_plate_enabled.is(':checked') === true ? 1 : 0,
+        null
+      );
+    });
+
     const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
     licence_plate_flex_viewer.on('click', 'img', function () {
       const id = $(this).attr('id');
       console.log(id);
       getObjectDetectionImage(id);
+    });
+    licence_plate_flex_viewer.on('click', 'p', function () {
+      licence_plate_add_modal.modal('show');
+      new_plate_licence_plate.val($(this).text());
     });
 
 
@@ -193,7 +252,6 @@
     const optionOwnerDetailNeeded = $('#optionOwnerDetailNeeded');
 
     function getResultOption() {
-      console.info(optionDistinctDetection.is(":checked"));
       if (optionDistinctDetection.is(":checked")) {
         return 'distinct_detection';
       } else if (optionOwnerDetailNeeded.is(":checked")) {
@@ -280,6 +338,35 @@
         alert(error);
       });
     }
+
+    /**
+     *
+     * @param {String} action_type ['add', 'remove', 'changes']
+     * @param {Number} id
+     * @param {String} licence_plate
+     * @param {String} owner_name
+     * @param {Number} enabled
+     * @param {Array} saveChangesArray
+     */
+    function manageLicencePlates(action_type = 'add', id, licence_plate, owner_name, enabled, saveChangesArray) {
+      $.ajax({
+        url: apiUrl + 'manage/licence/plates',
+        type: 'POST',
+        data: {
+          action_type: action_type,
+          id: id,
+          licence_plate: licence_plate,
+          owner_name: owner_name,
+          enabled: enabled,
+          save_change_array: JSON.stringify(saveChangesArray),
+        },
+      }).done(function (data) {
+        alert('New plate ' + licence_plate + ' added.');
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
   });
 
 
