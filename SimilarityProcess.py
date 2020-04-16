@@ -19,15 +19,18 @@ test_move_path = output_root_folder_path + 'recycle/'
 # Check directory existence
 Path(test_move_path).mkdir(parents=True, exist_ok=True)
 
+# Similarity level
+similarity_level = 0.40
+
 
 # Image compare process
-def image_is_similar(image_a, image_b):
+def image_is_similar(image_a, image_b, file_name):
     # compute the mean squared error and structural similarity
     # m = mse(image_a, image_b)
     if image_a is not None or image_b is not None:
         s = ssim(image_a, image_b)
-        print('Similarity: ' + str(s))
-        return True if s > 0.40 else False
+        print('Similarity: ' + str(s) + (' del ' + file_name if s > similarity_level else ''))
+        return True if s > similarity_level else False
     else:
         return False
 
@@ -59,15 +62,13 @@ def app():
         for similarity_image_object in similarity_image_objects:
             try:
                 if index % 2:
-                    print('Loading img1 ' + similarity_image_object.image_name)
                     img1 = cv2.imread(similarity_image_object.input_image)
                     img1 = cv2.resize(img1, (200, 200))
                     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-                    if image_is_similar(img1, img2):
+                    if image_is_similar(img1, img2, similarity_image_object.image_name):
                         # os.remove(similarity_image_object.input_image)  # Todo: take in use after working is verified
                         shutil.move(similarity_image_object.input_image,
                                     test_move_path + similarity_image_object.image_name)
-                        print('Similar image removed: ' + similarity_image_object.image_name)
                         try:
                             # Try delete also super resolution image
                             os.remove(
@@ -76,7 +77,6 @@ def app():
                         except Exception as e:
                             print(e)
                 else:
-                    print('Loading img2 ' + similarity_image_object.image_name)
                     img2 = cv2.imread(similarity_image_object.input_image)
                     img2 = cv2.resize(img2, (200, 200))
                     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
