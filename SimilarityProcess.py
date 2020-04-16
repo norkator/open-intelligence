@@ -27,7 +27,7 @@ def image_is_similar(image_a, image_b):
     if image_a is not None or image_b is not None:
         s = ssim(image_a, image_b)
         print('Similarity: ' + str(s))
-        return True if s > 0.42 else False
+        return True if s > 0.40 else False
     else:
         return False
 
@@ -59,6 +59,7 @@ def app():
         for similarity_image_object in similarity_image_objects:
             try:
                 if index % 2:
+                    print('Loading img1 ' + similarity_image_object.image_name)
                     img1 = cv2.imread(similarity_image_object.input_image)
                     img1 = cv2.resize(img1, (200, 200))
                     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -70,10 +71,12 @@ def app():
                         try:
                             # Try delete also super resolution image
                             os.remove(
-                                output_root_folder_path + similarity_image_object.label + '/super_resolution/' + similarity_image_object.image_name)
+                                output_root_folder_path + similarity_image_object.label + '/super_resolution/' +
+                                similarity_image_object.image_name)
                         except Exception as e:
                             print(e)
                 else:
+                    print('Loading img2 ' + similarity_image_object.image_name)
                     img2 = cv2.imread(similarity_image_object.input_image)
                     img2 = cv2.resize(img2, (200, 200))
                     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
