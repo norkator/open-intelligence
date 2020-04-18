@@ -20,7 +20,7 @@ test_move_path = output_root_folder_path + 'recycle/'
 Path(test_move_path).mkdir(parents=True, exist_ok=True)
 
 # Similarity level
-similarity_level = 0.40
+similarity_level = 0.30
 
 
 # Image compare process
