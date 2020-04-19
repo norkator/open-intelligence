@@ -149,7 +149,7 @@ def train_color_net():
     # initialise model
     model = color_net(num_classes)
 
-    filepath = 'color_weights.hdf5'
+    filepath = os.getcwd() + '/color_weights.hdf5'
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     tensor_board = TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False,
                                write_images=False, embeddings_freq=0, embeddings_layer_names=None,
