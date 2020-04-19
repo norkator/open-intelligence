@@ -19,6 +19,7 @@ models/coco.names
 models/yolov3.cfg
 models/yolov3.weights
 models/car_CNN_13AUGM_CMCMCMCMF.h5py
+models/color_model.h5
 
 # Api project
 api/node_modules/*
