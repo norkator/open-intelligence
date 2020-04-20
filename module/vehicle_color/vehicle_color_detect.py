@@ -1,10 +1,17 @@
 import numpy as np
 import cv2
 from keras.models import load_model
+import tensorflow as tf
 from module import fileutils
 import os
 
 labels = ['black', 'blue', 'brown', 'green', 'pink', 'red', 'silver', 'white', 'yellow']
+
+# Set Keras TensorFlow session config
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True
+tf_session = tf.compat.v1.Session(config=config)
+tf.compat.v1.keras.backend.set_session(tf_session)
 
 
 def detect_color(input_image_path_label_file_name):
