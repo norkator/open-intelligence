@@ -12,6 +12,7 @@ from keras.layers.merge import Concatenate
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, TensorBoard
 from pathlib import Path
+import math
 import os
 
 # Paths
@@ -130,6 +131,7 @@ def color_net(num_classes):
     output = Dense(units=num_classes, activation='softmax')(FC_2)
 
     model = Model(inputs=input_image, outputs=output)
+    # Note: lr => learning rate
     sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
     # sgd = SGD(lr=0.01, momentum=0.9, decay=0.0005, nesterov=True)
     model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -143,8 +145,8 @@ def train_color_net():
 
     img_rows, img_cols = 224, 224
     num_classes = 9
-    batch_size = 32
-    nb_epoch = 5
+    batch_size = 48  # Note: (image_x * image_y * 3) * batch_size  => (3 = num. of channels) GPU OOM?
+    nb_epoch = 75
 
     # initialise model
     model = color_net(num_classes)
@@ -183,10 +185,10 @@ def train_color_net():
 
     model.fit_generator(
         training_set,
-        steps_per_epoch=2892,
+        steps_per_epoch=math.ceil((len(training_set.filenames)) / batch_size),  # Original: 2892
         epochs=nb_epoch,
         validation_data=test_set,
-        validation_steps=665,
+        validation_steps=math.ceil((len(test_set.filenames)) / batch_size),  # Original: 665
         callbacks=callbacks_list)
 
     model.save('color_model.h5')
