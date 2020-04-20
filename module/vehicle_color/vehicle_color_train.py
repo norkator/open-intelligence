@@ -11,6 +11,7 @@ from keras.layers import BatchNormalization, Lambda, Input, Dense, Convolution2D
 from keras.layers.merge import Concatenate
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, TensorBoard
+import tensorflow as tf
 from pathlib import Path
 import math
 import os
@@ -18,6 +19,13 @@ import os
 # Paths
 logs_path = os.getcwd() + '/logs'
 train_plugins_profile_path = os.getcwd() + '/logs/train/plugins/profile/'
+
+# Set Keras TensorFlow session config
+config = tf.compat.v1.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.9  # Use 90%
+config.gpu_options.allow_growth = True
+tf_session = tf.compat.v1.Session(config=config)
+tf.compat.v1.keras.backend.set_session(tf_session)
 
 
 def color_net(num_classes):
@@ -145,8 +153,8 @@ def train_color_net():
 
     img_rows, img_cols = 224, 224
     num_classes = 9
-    batch_size = 48  # Note: (image_x * image_y * 3) * batch_size  => (3 = num. of channels) GPU OOM?
-    nb_epoch = 75
+    batch_size = 1  # Note: (image_x * image_y * 3) * batch_size  => (3 = num. of channels) GPU OOM?
+    nb_epoch = 200
 
     # initialise model
     model = color_net(num_classes)
