@@ -265,7 +265,7 @@ function Site(router, sequelizeObjects) {
 
     sequelizeObjects.Data.findAll({
       attributes: [
-        'label', 'file_create_date', 'name', 'detection_result',
+        'name', 'label', 'file_create_date', 'name', 'detection_result',
       ],
       where: {
         voice_completed: 0,
@@ -296,12 +296,12 @@ function Site(router, sequelizeObjects) {
         const detection_results_count = rows.filter(function (row) {
           return row.detection_result !== ''
         }).length;
-        output.message += (detection_results_count > 0 ? '' + String(detection_results_count) + ' new detection results.'
+        output.message += (detection_results_count > 10 ? '' + String(detection_results_count) + ' new detection results.'
           : '') + ' ';
 
         // Latest object detection image recorded
         const latestRow = rows[rows.length - 1];
-        output.message += '' + latestRow.label + ' seen at '
+        output.message += '' + latestRow.label + ' at ' + latestRow.name + ' at '
           + moment(latestRow.file_create_date).utc(true).format('HH:mm') + '. ';
 
         // Interesting license plates
