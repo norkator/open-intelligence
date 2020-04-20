@@ -9,9 +9,7 @@ labels = ['black', 'blue', 'brown', 'green', 'pink', 'red', 'silver', 'white', '
 
 def detect_color(input_image_path_label_file_name):
     # init of keras model for color recognition
-    sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
     model = load_model(os.getcwd() + '/models/color_model.h5')  # color_weights.hdf5
-    model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Load image
     input_image = cv2.imread(input_image_path_label_file_name)
