@@ -61,7 +61,7 @@ def app():
         for sr_image_object in sr_image_objects:
             # Label based detection if not detected earlier
             if is_null(sr_image_object.detection_result):
-                sr_image_object.detection_result = detection_utils.detect(
+                sr_image_object.detection_result, sr_image_object.color = detection_utils.detect(
                     label=sr_image_object.label,
                     crop_image_file_path_name_extension=sr_image_object.output_image,
                     file_name=sr_image_object.image_name,

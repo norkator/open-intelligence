@@ -25,7 +25,7 @@ def detect(label, crop_image_file_path_name_extension, file_name, output_file_na
         # Add more here later and so on...
 
         # Return result
-        return detection_result
+        return detection_result, color
     except Exception as e:
         print(e)
         return detection_result, color
