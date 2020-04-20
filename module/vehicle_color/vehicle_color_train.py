@@ -161,7 +161,7 @@ def train_color_net():
 
     filepath = os.getcwd() + '/color_weights.hdf5'
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    tensor_board = TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False,
+    tensor_board = TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=batch_size, write_graph=True, write_grads=False,
                                write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                embeddings_metadata=None,
                                embeddings_data=None, update_freq='batch')
@@ -200,5 +200,5 @@ def train_color_net():
         callbacks=callbacks_list)
 
     model.save('color_model.h5')
-
-    print('[INFO] done!')
+    print('[INFO] Process done')
+    print('[NOTICE] Remember to move your new model to /models folder!')
