@@ -5,6 +5,7 @@ from libraries.fast_srgan import infer_oi
 from pathlib import Path
 from module import configparser, database, detection_utils, gpu_utils
 from objects import SrFile
+from module.vehicle_color import vehicle_color_detect
 import time
 
 # Parse arguments
@@ -68,6 +69,13 @@ def app():
                     output_file_name=sr_image_object.label + '_' + sr_image_object.image_name,
                     use_rotation=True
                 )
+
+            # Try to detect color
+            try:
+                sr_image_object.color = vehicle_color_detect.detect_color(sr_image_object.output_image)
+            except Exception as e:
+                print(e)
+
             # Write database, row no longer processed later
             database.update_super_resolution_row_result(
                 sr_image_object.detection_result,
