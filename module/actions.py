@@ -30,10 +30,11 @@ def check_for_tasks():
         output_image = output_root_folder_path + label + '/' + file_name_cropped
 
         # Label based detection if not detected earlier
-        detection_result = detection_utils.detect(
-            label,
-            output_image,
-            label + '_' + file_name_cropped
+        detection_result, color = detection_utils.detect(
+            label=label,
+            crop_image_file_path_name_extension=output_image,
+            file_name=label + '_' + file_name_cropped,
+            output_file_name=None
         )
 
         # Write new detection result

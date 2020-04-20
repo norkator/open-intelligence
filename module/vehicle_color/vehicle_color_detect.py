@@ -15,21 +15,24 @@ tf.compat.v1.keras.backend.set_session(tf_session)
 
 
 def detect_color(input_image_path_label_file_name):
-    # init of keras model for color recognition
-    model = load_model(os.getcwd() + '/models/color_model.h5')  # color_weights.hdf5
+    try:
+        # init of keras model for color recognition
+        model = load_model(os.getcwd() + '/models/color_model.h5')  # color_weights.hdf5
 
-    # Load image
-    input_image = cv2.imread(input_image_path_label_file_name)
+        # Load image
+        input_image = cv2.imread(input_image_path_label_file_name)
 
-    # Process image
-    img = cv2.resize(input_image, (224, 224))
-    x = np.expand_dims(img, axis=0)
+        # Process image
+        img = cv2.resize(input_image, (224, 224))
+        x = np.expand_dims(img, axis=0)
 
-    classes = model.predict(x, batch_size=1)
-    # noinspection PyTypeChecker
-    color_label = labels[np.argmax(classes)]
-    print('Detected color: ' + color_label)
-    return color_label
+        classes = model.predict(x, batch_size=1)
+        # noinspection PyTypeChecker
+        color_label = labels[np.argmax(classes)]
+        print('Detected color: ' + color_label)
+        return color_label
+    except Exception as e:
+        return ''
 
 
 # For testing

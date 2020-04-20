@@ -47,7 +47,7 @@ def app():
         Path(output_image_path).mkdir(parents=True, exist_ok=True)
 
         # Make objects
-        sr_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result)
+        sr_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result, '')
         sr_image_objects.append(sr_image_object)
 
     # Super resolution image
@@ -70,7 +70,9 @@ def app():
                 )
             # Write database, row no longer processed later
             database.update_super_resolution_row_result(
-                sr_image_object.detection_result, sr_image_object.image_name,
+                sr_image_object.detection_result,
+                sr_image_object.color,
+                sr_image_object.image_name,
                 sr_image_object.id
             )
     else:
