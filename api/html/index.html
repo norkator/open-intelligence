@@ -20,6 +20,9 @@
   <!-- Morris css -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
+  <!-- Jcrop image cropper -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.min.css">
+
   <!-- App own theme -->
   <!--suppress HtmlUnknownTarget -->
   <link rel="stylesheet" href="style.css">
@@ -337,6 +340,9 @@
 <script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.js"
         integrity="sha256-fhru0y6L8Knyrjj57vB7/npV5IUyq6Tvo8g0qoceVwQ=" crossorigin="anonymous"></script>
 
+<!-- Jcrop image cropper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
+
 <script>
   $(document).ready(function () {
 
@@ -351,6 +357,7 @@
     let loadedFaceGroupingImage = null;
     let genericModalOpenedImageLabelName = null;
     let genericModalOpenedImageFileName = null;
+    let jcrop_reference = null;
 
     // Init voice (text to speech)
     let msg = null;
@@ -408,6 +415,21 @@
     const storage_use_monitor = $('#storage_use_monitor');
     const resource_monitor = $('#resource_monitor');
     const generic_image_modal = $('#generic_image_modal');
+    generic_image_modal.on('shown.bs.modal', function () {
+      generic_modal_image.Jcrop({
+        boxWidth: generic_modal_image.width(),
+        onChange: function (c) {
+        },
+        onSelect: function (c) {
+          // console.log('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
+          // console.log('w=' + c.w + ' h=' + c.h)
+        }
+      });
+    });
+    generic_image_modal.on('hidden.bs.modal', function () {
+      jcrop_reference = generic_modal_image.data('Jcrop');
+      jcrop_reference.destroy();
+    });
     let startTime, endTime, longPress;
     label_image_flex_viewer.on('click', 'img', function () {
       if (longPress) {
