@@ -832,8 +832,19 @@
         generic_modal_description.empty();
         generic_modal_description.append(
           data.srImage ?
-            '<span class="badge badge-success">Super resolution</span>' + ' <p class="text-muted">This image is computed super resolution version.</p>' :
-            '<span class="badge badge-warning">Normal version</span>' + ' <p class="text-muted">No super resolution image.</p>'
+            '<div class="d-flex flex-row bd-highlight">' +
+            '<div class="bd-highlight"><span class="badge badge-success">Super resolution</span></div>' +
+            '<div class="ml-2 bd-highlight"><span class="badge badge-info">' + data.detectionResult + '</span></div>' +
+            '<div class="ml-2 bd-highlight"><span class="badge badge-secondary">' + data.color + '</span></div>' +
+            '</div>' +
+            ' <p class="text-muted">This image is computed super resolution version.</p>'
+            :
+            '<div class="d-flex flex-row bd-highlight">' +
+            '<div class="bd-highlight"><span class="badge badge-warning">Normal version</span></div>' +
+            '<div class="ml-2 bd-highlight"><span class="badge badge-info">' + data.detectionResult + '</span></div>' +
+            '<div class="ml-2 bd-highlight"><span class="badge badge-secondary">' + data.color + '</span></div>' +
+            '</div>' +
+            ' <p class="text-muted">No super resolution image.</p>'
         );
         generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
