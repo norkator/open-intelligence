@@ -49,7 +49,7 @@ def app():
         input_image = output_root_folder_path + label + '/' + cropped_file_name
 
         # Make objects
-        similarity_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, None, None)
+        similarity_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, None, None, None)
         similarity_image_objects.append(similarity_image_object)
 
     # Super resolution image

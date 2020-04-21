@@ -371,7 +371,7 @@ function SendEmail(sequelizeObjects) {
               emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Unknown plates</h2>';
               emailContent += '<table>';
               emailContent += tableLpTr;
-              
+
               for (let n = 0; n < nonSentData.length; n++) {
                 if (n < 5) {
                   emailContent +=
@@ -581,3 +581,4 @@ exports.GetStorageUsage = function () {
 exports.NoRead = function (detection_result) {
   return detection_result == null || detection_result === ' ' ? '' : detection_result
 };
+

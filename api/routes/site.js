@@ -234,24 +234,48 @@ function Site(router, sequelizeObjects) {
     const image_file_name = req.body.imageFile;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/super_resolution/');
     const stockFilePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
-    fs.readFile(filePath + image_file_name, function (err, data) {
-      if (err) {
-        fs.readFile(stockFilePath + image_file_name, function (err, data) {
+
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'id',
+        'file_name',
+        'detection_result',
+        'color',
+      ],
+      where: {
+        file_name_cropped: image_file_name
+      }
+    }).then(rows => {
+      if (rows.length === 1) {
+        const row = rows[0];
+        const detection_result = row.detection_result === null ? '' : row.detection_result;
+        fs.readFile(filePath + image_file_name, function (err, data) {
           if (err) {
-            res.status(500);
-            res.send(err);
+            fs.readFile(stockFilePath + image_file_name, function (err, data) {
+              if (err) {
+                res.status(500);
+                res.send(err);
+              } else {
+                res.json({
+                  'srImage': false,
+                  'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
+                  'detectionResult': detection_result,
+                  'color': row.color,
+                });
+              }
+            });
           } else {
             res.json({
-              'srImage': false,
-              'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+              'srImage': true,
+              'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
+              'detectionResult': detection_result,
+              'color': row.color,
             });
           }
         });
       } else {
-        res.json({
-          'srImage': true,
-          'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-        });
+        res.status(500);
+        res.send('Error on loading image file.');
       }
     });
   });

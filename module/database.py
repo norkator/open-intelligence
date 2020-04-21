@@ -34,7 +34,7 @@ def db_connected():
 
 
 def insert_value(name, label, file_path, file_name, year, month, day, hour, minute, second, file_name_cropped,
-                 detection_result):
+                 detection_result, color):
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
@@ -46,10 +46,10 @@ def insert_value(name, label, file_path, file_name, year, month, day, hour, minu
 
         # Query
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
-        postgres_insert_query = """ INSERT INTO data (name, label, file_path, file_name, file_create_date, detection_completed, file_name_cropped, detection_result) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
+        postgres_insert_query = """ INSERT INTO data (name, label, file_path, file_name, file_create_date, detection_completed, file_name_cropped, detection_result, color) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 
         # Variables
-        record_to_insert = (name, label, file_path, file_name, file_create_date, 1, file_name_cropped, detection_result)
+        record_to_insert = (name, label, file_path, file_name, file_create_date, 1, file_name_cropped, detection_result, color)
 
         # Execute insert
         cursor.execute(postgres_insert_query, record_to_insert)
@@ -91,14 +91,14 @@ def get_super_resolution_images_to_compute():
         connection.close()
 
 
-def update_super_resolution_row_result(detection_result, sr_image_name, id):
+def update_super_resolution_row_result(detection_result, color, sr_image_name, id):
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
 
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
-        sr_update_query = """UPDATE data SET sr_image_computed = 1, detection_after_sr_completed = 1, detection_result = %s, sr_image_name = %s WHERE id = %s"""
-        cursor.execute(sr_update_query, (detection_result, sr_image_name, id))
+        sr_update_query = """UPDATE data SET sr_image_computed = 1, detection_after_sr_completed = 1, detection_result = %s, color = %s, sr_image_name = %s WHERE id = %s"""
+        cursor.execute(sr_update_query, (detection_result, color, sr_image_name, id))
         connection.commit()
         cursor.close()
         # count = cursor.rowcount

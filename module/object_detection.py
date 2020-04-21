@@ -110,6 +110,7 @@ def analyze_image(image_object, bool_move_processed):
         for i in range(len(boxes)):
             if i in indexes:
                 detection_result = ''
+                color = ''
                 x, y, w, h = filter_negative_values(boxes[i])
                 x_, y_, w_, h_ = filter_negative_values(original_img_boxes[i])
 
@@ -138,7 +139,7 @@ def analyze_image(image_object, bool_move_processed):
                         print(e)
 
                     # Label based detection
-                    detection_result = detection_utils.detect(
+                    detection_result, color = detection_utils.detect(
                         label=label,
                         crop_image_file_path_name_extension=crop_image_file_path_name_extension,
                         file_name=out_file_name,
@@ -153,7 +154,7 @@ def analyze_image(image_object, bool_move_processed):
                             label, image_object.file_path, image_object.file_name,
                             image_object.year, image_object.month, image_object.day,
                             image_object.hours, image_object.minutes, image_object.seconds,
-                            crop_image_name_extension, detection_result
+                            crop_image_name_extension, detection_result, color
                         )
                     except Exception as e:
                         print(e)

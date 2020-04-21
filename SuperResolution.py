@@ -5,6 +5,7 @@ from libraries.fast_srgan import infer_oi
 from pathlib import Path
 from module import configparser, database, detection_utils, gpu_utils
 from objects import SrFile
+from module.vehicle_color import vehicle_color_detect
 import time
 
 # Parse arguments
@@ -47,7 +48,7 @@ def app():
         Path(output_image_path).mkdir(parents=True, exist_ok=True)
 
         # Make objects
-        sr_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result)
+        sr_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result, '')
         sr_image_objects.append(sr_image_object)
 
     # Super resolution image
@@ -61,16 +62,25 @@ def app():
         for sr_image_object in sr_image_objects:
             # Label based detection if not detected earlier
             if is_null(sr_image_object.detection_result):
-                sr_image_object.detection_result = detection_utils.detect(
+                sr_image_object.detection_result, sr_image_object.color = detection_utils.detect(
                     label=sr_image_object.label,
                     crop_image_file_path_name_extension=sr_image_object.output_image,
                     file_name=sr_image_object.image_name,
                     output_file_name=sr_image_object.label + '_' + sr_image_object.image_name,
                     use_rotation=True
                 )
+
+            # Try to detect color
+            try:
+                sr_image_object.color = vehicle_color_detect.detect_color(sr_image_object.output_image)
+            except Exception as e:
+                print(e)
+
             # Write database, row no longer processed later
             database.update_super_resolution_row_result(
-                sr_image_object.detection_result, sr_image_object.image_name,
+                sr_image_object.detection_result,
+                sr_image_object.color,
+                sr_image_object.image_name,
                 sr_image_object.id
             )
     else:

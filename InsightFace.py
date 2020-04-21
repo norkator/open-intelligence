@@ -36,7 +36,7 @@ def app():
         output_image = output_image_path + cropped_file_name
 
         # Make objects
-        if_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result)
+        if_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result, '')
         if_image_objects.append(if_image_object)
 
     # Super resolution image
