@@ -29,3 +29,6 @@ output_root_path=cwd
 sleep_seconds=4
 jpeg_stream_names=name
 jpeg_streams=http://127.0.0.1/mjpg/video.mjpg
+
+[similarity]
+delete_files=False

@@ -10,7 +10,9 @@ import time
 
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+similarity_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='similarity')
 process_sleep_seconds = app_config['process_sleep_seconds']
+delete_files = similarity_config['delete_files'] == 'True'
 
 # Define paths
 output_root_folder_path = os.getcwd() + '/output/'
@@ -66,9 +68,11 @@ def app():
                     img1 = cv2.resize(img1, (200, 200))
                     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
                     if image_is_similar(img1, img2, similarity_image_object.image_name):
-                        # os.remove(similarity_image_object.input_image)  # Todo: take in use after working is verified
-                        shutil.move(similarity_image_object.input_image,
-                                    test_move_path + similarity_image_object.image_name)
+                        if delete_files:
+                            os.remove(similarity_image_object.input_image)
+                        else:
+                            shutil.move(similarity_image_object.input_image,
+                                        test_move_path + similarity_image_object.image_name)
                         try:
                             # Try delete also super resolution image
                             os.remove(
