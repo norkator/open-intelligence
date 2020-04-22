@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://github.com/norkator/Open-Intelligence/blob/master/other/oi_title_logo.png" alt="Open-Intelligence"></a>
+  <a href="http://www.nitramite.com/"><img src="https://github.com/norkator/Open-Intelligence/blob/master/other/oi_title_logo.png" alt="Open-Intelligence"></a>
 </h1>
 
 # Open-Intelligence
