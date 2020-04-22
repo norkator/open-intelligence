@@ -1,3 +1,7 @@
+<h1 align="center">
+  <a href="https://github.com/norkator/Open-Intelligence/blob/master/other/oi_title_logo.png" alt="Open-Intelligence"></a>
+</h1>
+
 # Open-Intelligence
 
 Open Intelligence processes <b>any camera</b> motion triggered images and sorts seen objects using Yolo, 
@@ -13,7 +17,7 @@ Target goal is to make this useful information gathering tool to provide data fo
 need for expensive camera systems because any existing cameras are suitable. 
 
 <p align="start">
-  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/frontpage_1.png">
+  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/frontpage_1.png" alt="oi-frontpage">
 </p>
 
 Open Intelligence is suitable from private properties to small businesses with medium activity.
