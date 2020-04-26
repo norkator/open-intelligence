@@ -127,6 +127,10 @@ def app():
                 os.remove(image_object.file_path + image_object.file_name + '.lock')
             except FileNotFoundError as e:
                 print('No locking file was found to be deleted')
+            except PermissionError as e:
+                print('No permission, access denied for deletion')
+            except Exception as e:
+                print(e)
 
 
 # ---------------------------------------------------------------------
