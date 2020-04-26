@@ -49,7 +49,8 @@ def insert_value(name, label, file_path, file_name, year, month, day, hour, minu
         postgres_insert_query = """ INSERT INTO data (name, label, file_path, file_name, file_create_date, detection_completed, file_name_cropped, detection_result, color) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 
         # Variables
-        record_to_insert = (name, label, file_path, file_name, file_create_date, 1, file_name_cropped, detection_result, color)
+        record_to_insert = (
+            name, label, file_path, file_name, file_create_date, 1, file_name_cropped, detection_result, color)
 
         # Execute insert
         cursor.execute(postgres_insert_query, record_to_insert)
@@ -218,7 +219,7 @@ def get_images_for_similarity_check_process():
             WHERE /*file_create_date > DATE(now()) AND*/
               label in ('car', 'truck', 'bus') AND
               detection_result IS NULL AND similarity_checked = 0
-              AND detection_after_sr_completed = 1
+              AND (detection_after_sr_completed = 1 OR file_create_date < DATE(now()) )
               AND extract(hour from file_create_date) = (
                 SELECT distinct extract(hour from file_create_date)
                 FROM data
@@ -226,6 +227,7 @@ def get_images_for_similarity_check_process():
                   /*file_create_date > DATE(now()) AND*/
                   label in ('car', 'truck', 'bus') AND
                   file_create_date < now() - interval '1 hour'
+                  AND (detection_after_sr_completed = 1 OR file_create_date < DATE(now()) )
                   AND (detection_result IS NULL OR detection_result = ' ')
                   AND similarity_checked = 0
                 LIMIT 1
