@@ -178,7 +178,7 @@ def get_insight_face_images_to_compute():
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
-        sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE label = 'person' AND file_create_date > now() - interval '1 day' AND insight_face_computed = 0 ORDER BY id ASC LIMIT 10"
+        sr_work_query = "SELECT id, label, file_name_cropped, detection_result FROM data WHERE label = 'person' AND insight_face_computed = 0 ORDER BY id ASC LIMIT 10"
         cursor.execute(sr_work_query)
         sr_work_records = cursor.fetchall()
         cursor.close()
