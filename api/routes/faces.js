@@ -15,53 +15,74 @@ function Faces(router, sequelizeObjects) {
     let outputData = {images: []};
     const selectedDate = req.body.selectedDate;
     const filePath = path.join(__dirname + '../../../' + 'output/insightface/faces/');
-    fs.readdir(filePath, function (err, files) {
-      if (err) {
-        res.status(500);
-        res.send(err);
-      } else {
-        let filesList = utils.GetFilesNotOlderThan(files, filePath, selectedDate);
 
-        // Read file data
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'id',
+        'label',
+        'file_create_date',
+        'file_name_cropped',
+      ],
+      where: {
+        file_create_date: {
+          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+        },
+        label: 'person',
+      },
+      order: [
+        ['file_create_date', 'asc']
+      ]
+    }).then(rows => {
+      if (rows.length > 0) {
         // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(filesList.length);
-        async function processImagesSequentially(taskLength) {
+        processImagesSequentially(rows.length);
 
+        async function processImagesSequentially(taskLength) {
           // Specify tasks
           const promiseTasks = [];
           for (let i = 0; i < taskLength; i++) {
             promiseTasks.push(processImage);
           }
-
           // Execute tasks
           let t = 0;
           for (const task of promiseTasks) {
-            outputData.images.push(await task(filesList[t].file, filesList[t].mtime));
+            outputData.images.push(
+              await task(
+                rows[t].id,
+                rows[t].label,
+                rows[t].file_create_date,
+                rows[t].file_name_cropped
+              )
+            );
             t++;
             if (t === taskLength) {
-              res.json(outputData); // All tasks completed, return
+              outputData.images = outputData.images.filter(a => {
+                return a !== null;
+              });
+              res.json(outputData);
             }
           }
         }
 
-        function processImage(file, mtime) {
-          return new Promise(resolve => {
-            fs.readFile(filePath + file, function (err, data) {
+        function processImage(id, label, file_create_date, file_name_cropped) {
+          return new Promise(resolve_ => {
+            fs.readFile(filePath + file_name_cropped, function (err, data) {
               if (!err) {
-                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-                resolve({
+                const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
+                resolve_({
                   title: datetime,
-                  file: file,
+                  file: file_name_cropped,
                   image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
                 });
               } else {
-                console.log(err);
-                resolve('data:image/png;base64,');
+                resolve_(null);
               }
             });
           });
         }
-
+      } else {
+        res.json(outputData);
       }
     });
   });
