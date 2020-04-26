@@ -79,7 +79,7 @@ def app():
                                 output_root_folder_path + similarity_image_object.label + '/super_resolution/' +
                                 similarity_image_object.image_name)
                         except Exception as e:
-                            print(e)
+                            pass
                 else:
                     img2 = cv2.imread(similarity_image_object.input_image)
                     img2 = cv2.resize(img2, (200, 200))
