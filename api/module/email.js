@@ -11,9 +11,36 @@ dotEnv.config();
  * @return {Promise<void>}
  * @constructor
  */
-async function SendMail(mailTitle, mailBodyHtmlContent,
-) {
-  console.log('Executing mail send to: ' + process.env.EMAIL_TO_ADDRESS);
+function SendMail(mailTitle, mailBodyHtmlContent) {
+  return new Promise(function (resolve, reject) {
+    const emailAddresses = getEmailAddresses();
+    const len = emailAddresses.length;
+    sendEmailsSequentially(len).then(result => {
+    }).catch(error => {
+    });
+
+    async function sendEmailsSequentially(len) {
+      // Execute email tasks
+      for (let i = 0; i < len; i++) {
+        await emailSender(emailAddresses[i], mailTitle, mailBodyHtmlContent).then(result => {
+        }).catch(error => {
+          console.error(error);
+        });
+      }
+    }
+  });
+}
+
+exports.SendMail = SendMail;
+
+
+function getEmailAddresses() {
+  return String(process.env.EMAIL_TO_ADDRESS).split(",");
+}
+
+
+async function emailSender(toEmailAddress, mailTitle, mailBodyHtmlContent) {
+  console.log('Executing mail send to: ' + toEmailAddress);
   let transporter = nodeMailer.createTransport({
     host: String(process.env.EMAIL_HOST), // hostname
     secureConnection: false, // TLS requires secureConnection to be false
@@ -29,7 +56,7 @@ async function SendMail(mailTitle, mailBodyHtmlContent,
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '<' + String(process.env.EMAIL_USER) + '>', // sender address
-    to: process.env.EMAIL_TO_ADDRESS,
+    to: toEmailAddress,
     subject: mailTitle,
     // text: mailTextContent, // plain text body
     html:
@@ -60,5 +87,3 @@ async function SendMail(mailTitle, mailBodyHtmlContent,
   });
   console.log("Email message sent: %s", info.messageId);
 }
-
-exports.SendMail = SendMail;
