@@ -344,76 +344,104 @@ function SendEmail(sequelizeObjects) {
 
             GetBase64ImagesForEmail(filteredData).then(lpImageData => {
 
-              const tableLpTr = '<tr>' +
-                '<th>Plate</th>' +
-                '<th>Owner</th>' +
-                '<th>Seen time</th>' +
-                '</tr>';
-              const tableClosingTag = '</table>';
+              GetInstances(sequelizeObjects).then(instances => {
 
-              let emailContent = '';
 
-              // New table
-              emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Seen known plates</h2>';
-              emailContent += '<table>';
-              emailContent += tableLpTr;
-              filteredData.forEach(data => {
-                emailContent +=
-                  '<tr>' +
-                  '<td>' + data.plate + '</td>' +
-                  '<td>' + data.ownerName + '</td>' +
-                  '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                const tableLpTr = '<tr>' +
+                  '<th>Plate</th>' +
+                  '<th>Owner</th>' +
+                  '<th>Seen time</th>' +
                   '</tr>';
-              });
-              emailContent += tableClosingTag + '<br>';
+                const tableClosingTag = '</table>';
 
-              // New table
-              emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Unknown plates</h2>';
-              emailContent += '<table>';
-              emailContent += tableLpTr;
+                let emailContent = '';
 
-              for (let n = 0; n < nonSentData.length; n++) {
-                if (n < 5) {
+                // New table
+                emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Seen known plates</h2>';
+                emailContent += '<table>';
+                emailContent += tableLpTr;
+                filteredData.forEach(data => {
                   emailContent +=
                     '<tr>' +
-                    '<td>' + nonSentData[n].detection_result + '</td>' +
-                    '<td>' + 'New plate needs owner detail' + '</td>' +
-                    '<td>' + moment(nonSentData[n].file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                    '<td>' + data.plate + '</td>' +
+                    '<td>' + data.ownerName + '</td>' +
+                    '<td>' + moment(data.fileCreateDate).format(process.env.DATE_TIME_FORMAT) + '</td>' +
                     '</tr>';
+                });
+                emailContent += tableClosingTag;
+                emailContent += '<br>';
+
+                // New table
+                emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Unknown plates</h2>';
+                emailContent += '<table>';
+                emailContent += tableLpTr;
+
+                for (let n = 0; n < nonSentData.length; n++) {
+                  if (n < 5) {
+                    emailContent +=
+                      '<tr>' +
+                      '<td>' + nonSentData[n].detection_result + '</td>' +
+                      '<td>' + 'New plate needs owner detail' + '</td>' +
+                      '<td>' + moment(nonSentData[n].file_create_date).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                      '</tr>';
+                  }
                 }
-              }
-              emailContent +=
-                '<tr>' +
-                '<td>...</td>' +
-                '<td>' + String(nonSentData.length) + ' more unknown detections' + '</td>' +
-                '<td>...</td>' +
-                '</tr>';
-              emailContent += tableClosingTag + '<br>';
+                emailContent +=
+                  '<tr>' +
+                  '<td>...</td>' +
+                  '<td>' + String(nonSentData.length) + ' more unknown detections' + '</td>' +
+                  '<td>...</td>' +
+                  '</tr>';
+                emailContent += tableClosingTag;
+                emailContent += '<br>';
 
 
-              emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Known plate images</h2>';
-              lpImageData.forEach(lpData => {
-                emailContent += '<br>' +
-                  '<img alt="Logo" title="Logo" style="display:block" width="300" height="200" src="' + lpData.image + '"/>' +
-                  '<h4 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">' + lpData.ownerName + ' - ' + lpData.plate + '</h4>' +
-                  +'<br>'
-              });
+                emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Known plate images</h2>';
+                lpImageData.forEach(lpData => {
+                  emailContent += '<br>' +
+                    '<img alt="Logo" title="Logo" style="display:block" width="300" height="200" src="' + lpData.image + '"/>' +
+                    '<h4 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">' + lpData.ownerName + ' - ' + lpData.plate + '</h4>' +
+                    +'<br>'
+                });
 
-              // Send email
-              email.SendMail('Seen license plates', emailContent).then(() => {
-                sequelizeObjects.Data.update({
-                    email_sent: 1,
-                  }, {where: {id: nonSentIds}}
-                ).then(() => {
-                  console.log('Updated license plate email sent fields as sent.');
-                  resolve();
+
+                // New table for instances
+                emailContent += '<h2 style="font-family: Arial Bold, Arial, sans-serif; font-weight: bold;">Process instances</h2>';
+                emailContent += '<table>';
+                emailContent += '<tr>' +
+                  '<th>Id</th>' +
+                  '<th>Name</th>' +
+                  '<th>Updated</th>' +
+                  '</tr>';
+                instances.forEach(instance => {
+                  emailContent +=
+                    '<tr>' +
+                    '<td>' + instance.id + '</td>' +
+                    '<td>' + instance.process_name + '</td>' +
+                    '<td>' + moment(instance.updatedAt).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                    '</tr>';
+                });
+                emailContent += tableClosingTag;
+                emailContent += '<br>';
+
+                // Send email
+                email.SendMail('Seen license plates', emailContent).then(() => {
+                  sequelizeObjects.Data.update({
+                      email_sent: 1,
+                    }, {where: {id: nonSentIds}}
+                  ).then(() => {
+                    console.log('Updated license plate email sent fields as sent.');
+                    resolve();
+                  }).catch(error => {
+                    reject();
+                  })
                 }).catch(error => {
-                  reject();
-                })
+                  reject(error);
+                });
+
               }).catch(error => {
                 reject(error);
               });
-
             }).catch(error => {
               reject(error);
             });
@@ -582,3 +610,32 @@ exports.NoRead = function (detection_result) {
   return detection_result == null || detection_result === ' ' ? '' : detection_result
 };
 
+
+/**
+ * Get all running OI python process instances
+ * @param sequelizeObjects
+ * @return {Promise<Array>}
+ * @constructor
+ */
+function GetInstances(sequelizeObjects) {
+  return new Promise(function (resolve, reject) {
+    sequelizeObjects.Instance.findAll({
+      attributes: [
+        'id',
+        'process_name',
+        'createdAt',
+        'updatedAt',
+      ],
+      order: [
+        ['createdAt', 'asc']
+      ],
+      raw: true,
+    }).then(instances => {
+      resolve(instances);
+    }).catch(() => {
+      resolve([]);
+    });
+  });
+}
+
+exports.GetInstances = GetInstances;

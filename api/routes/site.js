@@ -23,6 +23,7 @@ function Site(router, sequelizeObjects) {
       loadAvg: String(os.loadavg(5) + '%'),
       memUse: String(100 - Math.floor(os.freemem() / os.totalmem() * 100)) + '%',
       storageUse: 'N/A GB',
+      instanceCount: 'N/A',
     };
 
     // Data is array of { h: '2006', a: 100 }, objects
@@ -63,13 +64,16 @@ function Site(router, sequelizeObjects) {
         donutData = utils.GetLabelCounts(rows);
       }
 
-      utils.GetStorageUsage().then(storageUsage => {
-        performance.storageUse = storageUsage;
-        // Return results
-        res.json({
-          performance: performance,
-          activity: activityData,
-          donut: donutData,
+      utils.GetInstances(sequelizeObjects).then(instances => {
+        performance.instanceCount = instances.length;
+        utils.GetStorageUsage().then(storageUsage => {
+          performance.storageUse = storageUsage;
+          // Return results
+          res.json({
+            performance: performance,
+            activity: activityData,
+            donut: donutData,
+          });
         });
       });
     }).catch(error => {

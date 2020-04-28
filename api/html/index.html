@@ -145,6 +145,7 @@
     </div>
   </div>
   <form class="form-inline my-2 my-lg-0">
+    <a id="show_instances_btn" class="badge badge-light mr-2" style="cursor: pointer;"></a>
     <a id="storage_use_monitor" class="badge badge-light mr-2" style="cursor: pointer;"></a>
     <a id="resource_monitor" class="badge badge-light mr-4" style="cursor: pointer;"></a>
     <div id="talk_content_div">
@@ -412,6 +413,7 @@
       loadWeeklyData();
       load_weekly_data_btn.remove();
     });
+    const show_instances_btn = $('#show_instances_btn');
     const storage_use_monitor = $('#storage_use_monitor');
     const resource_monitor = $('#resource_monitor');
     const generic_image_modal = $('#generic_image_modal');
@@ -620,6 +622,7 @@
         }
       }).done(function (data) {
 
+        show_instances_btn.text('IC ' + data.performance.instanceCount);
         resource_monitor.text('MEM ' + data.performance.memUse);
         storage_use_monitor.text('ST ' + data.performance.storageUse);
 
