@@ -1,6 +1,6 @@
 import os
 import sys
-from module import configparser, database, gpu_utils, insightface_utils
+from module import configparser, database, gpu_utils, insightface_utils, process_utils
 from objects import SrFile
 import time
 
@@ -71,6 +71,7 @@ def app():
 
 def main_loop():
     while 1:
+        process_utils.set_instance_status()
         app()
         print('... running')
         time.sleep(int(process_sleep_seconds))

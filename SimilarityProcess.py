@@ -1,6 +1,6 @@
 from skimage.metrics import structural_similarity as ssim
 from pathlib import Path
-from module import configparser, database
+from module import configparser, database, process_utils
 from objects import SrFile
 import shutil
 import os
@@ -101,6 +101,7 @@ def app():
 
 def main_loop():
     while 1:
+        process_utils.set_instance_status()
         app()
         print('... running')
         time.sleep(int(process_sleep_seconds))

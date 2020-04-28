@@ -3,7 +3,7 @@ import sys
 from argparse import ArgumentParser
 from libraries.fast_srgan import infer_oi
 from pathlib import Path
-from module import configparser, database, detection_utils, gpu_utils
+from module import configparser, database, detection_utils, gpu_utils, process_utils
 from objects import SrFile
 from module.vehicle_color import vehicle_color_detect
 import time
@@ -92,6 +92,7 @@ def app():
 
 def main_loop():
     while 1:
+        process_utils.set_instance_status()
         app()
         print('... running')
         time.sleep(int(process_sleep_seconds))

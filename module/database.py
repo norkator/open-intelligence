@@ -260,3 +260,58 @@ def update_similarity_check_row_checked(id):
         print(error)
     finally:
         connection.close()
+
+
+def clean_instances():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        cursor.execute("""DELETE FROM instances WHERE "updatedAt" < NOW() - interval '15 minutes'""")
+        connection.commit()
+        cursor.close()
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def new_instance(process_name):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        postgres_insert_query = """ INSERT INTO instances (process_name) VALUES (%s) RETURNING id;"""
+
+        # Execute insert
+        cursor.execute(postgres_insert_query, (process_name,))
+        inserted_id = cursor.fetchone()[0]
+        connection.commit()
+        cursor.close()
+
+        return inserted_id
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+        return None
+    finally:
+        connection.close()
+
+
+# noinspection PyShadowingBuiltins
+def update_instance(id):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        update_query = """UPDATE instances SET "updatedAt" = NOW() WHERE id = %s"""
+        cursor.execute(update_query, (id,))
+        connection.commit()
+        cursor.close()
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
