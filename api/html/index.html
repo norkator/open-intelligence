@@ -32,6 +32,38 @@
 <body>
 
 
+<!-- Instance modal -->
+<div class="modal" tabindex="-1" id="instance_modal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Instances</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Process name</th>
+            <th scope="col">Hardware</th>
+            <th scope="col">Updated</th>
+          </tr>
+          </thead>
+          <tbody id="instance_modal_content">
+          <!-- Content is appended here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Generic image view modal -->
 <div class="modal fade bd-example-modal-lg" id="generic_image_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -413,7 +445,14 @@
       loadWeeklyData();
       load_weekly_data_btn.remove();
     });
+
     const show_instances_btn = $('#show_instances_btn');
+    show_instances_btn.on('click', function () {
+      getInstanceDetails();
+    });
+    const instance_modal = $('#instance_modal');
+    const instance_modal_content = $('#instance_modal_content');
+
     const storage_use_monitor = $('#storage_use_monitor');
     const resource_monitor = $('#resource_monitor');
     const generic_image_modal = $('#generic_image_modal');
@@ -1030,6 +1069,29 @@
         a.href = data.data;
         a.download = image_file_name;
         a.click();
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    function getInstanceDetails() {
+      $.ajax({
+        url: apiUrl + 'get/instance/details',
+        type: 'GET',
+      }).done(function (data) {
+        instance_modal.modal('show');
+        instance_modal_content.empty();
+        data.forEach(instance => {
+          instance_modal_content.append(
+            '<tr>' +
+            '<th scope="row">' + instance.id + '</th>' +
+            '<td>' + instance.process_name + '</td>' +
+            '<td>N/A</td>' +
+            '<td>' + instance.updatedAt + '</td>' +
+            '</tr>'
+          )
+        });
       }).fail(function (error) {
         alert(error);
       });

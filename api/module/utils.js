@@ -418,7 +418,7 @@ function SendEmail(sequelizeObjects) {
                     '<tr>' +
                     '<td>' + instance.id + '</td>' +
                     '<td>' + instance.process_name + '</td>' +
-                    '<td>' + moment(instance.updatedAt).format(process.env.DATE_TIME_FORMAT) + '</td>' +
+                    '<td>' + instance.updatedAt + '</td>' +
                     '</tr>';
                 });
                 emailContent += tableClosingTag;
@@ -629,9 +629,17 @@ function GetInstances(sequelizeObjects) {
       order: [
         ['createdAt', 'asc']
       ],
-      raw: true,
     }).then(instances => {
-      resolve(instances);
+      let filteredInstances = [];
+      for (let i = 0; i < instances.length; i++) {
+        filteredInstances.push({
+          id: instances[i].id,
+          process_name: instances[i].process_name,
+          createdAt: moment(instances[i].createdAt).format(process.env.DATE_TIME_FORMAT),
+          updatedAt: moment(instances[i].updatedAt).format(process.env.DATE_TIME_FORMAT),
+        });
+      }
+      resolve(filteredInstances);
     }).catch(() => {
       resolve([]);
     });

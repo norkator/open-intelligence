@@ -896,6 +896,19 @@ function Site(router, sequelizeObjects) {
   });
 
 
+  /**
+   * Get instance status details
+   */
+  router.get('/get/instance/details', function (req, res) {
+    utils.GetInstances(sequelizeObjects).then(instances => {
+      res.json(instances);
+    }).catch(error => {
+      res.status(500);
+      res.send('Error loading instance details.');
+    })
+  });
+
+
 }
 
 exports.Site = Site;
