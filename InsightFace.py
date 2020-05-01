@@ -30,14 +30,20 @@ def app():
         cropped_file_name = row[2]
         detection_result = row[3]
 
-        # Construct paths
-        input_image = output_root_folder_path + label + '/' + cropped_file_name
-        output_image_path = output_root_folder_path + label + '/' + 'super_resolution/'
-        output_image = output_image_path + cropped_file_name
+        print(str(row))
 
-        # Make objects
-        if_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result, '')
-        if_image_objects.append(if_image_object)
+        # Construct paths
+        try:
+            input_image = output_root_folder_path + label + '/' + cropped_file_name
+            output_image_path = output_root_folder_path + label + '/' + 'super_resolution/'
+            output_image = output_image_path + cropped_file_name
+
+            # Make objects
+            if_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result, '')
+            if_image_objects.append(if_image_object)
+        except Exception as e:
+            database.update_insight_face_as_computed('', id)  # Problem with input data, skip
+            print(e)
 
     # Super resolution image
     if len(if_image_objects) > 0:
