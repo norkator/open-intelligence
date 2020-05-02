@@ -14,7 +14,8 @@ function Arduino(router, sequelizeObjects) {
   router.post('/arduino/display/data', function (req, res) {
     let output = {
       output: {
-        detection_count: 0,
+        detections_count: "0",
+        persons_count: "0",
         last_lp: '',
       }
     };
@@ -34,7 +35,12 @@ function Arduino(router, sequelizeObjects) {
       ]
     }).then(rows => {
       if (rows.length > 0) {
-        output.output.detection_count = String(rows.length);
+        output.output.detections_count = String(rows.length);
+
+        output.output.persons_count = String(rows.filter(r => {
+          return r.label === 'person';
+        }).length);
+
         rows.forEach(row => {
           const l = row.label;
           const dr = row.detection_result;
@@ -42,6 +48,7 @@ function Arduino(router, sequelizeObjects) {
             output.output.last_lp = dr;
           }
         });
+
         res.json(output);
       } else {
         res.status(500);
