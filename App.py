@@ -69,6 +69,17 @@ def get_time_sorted_files():
     return time_sorted_files
 
 
+def remove_file_lock(path_name_lock):
+    try:
+        os.remove(path_name_lock)
+    except FileNotFoundError as e:
+        print('No locking file was found to be deleted')
+    except PermissionError as e:
+        print('No permission, access denied for deletion')
+    except Exception as e:
+        print(e)
+
+
 # Pick files for processing, lock and process them
 def app():
     # Files for processing
@@ -86,30 +97,32 @@ def app():
 
         # File locking check and locking
         if not os.path.isfile(sorted_file.file_path + sorted_file.file_name + '.lock'):
+            try:
+                # Limited amount of files
+                taken_files_count = taken_files_count + 1
+                if taken_files_count > max_files_to_take:
+                    break
 
-            # Limited amount of files
-            taken_files_count = taken_files_count + 1
-            if taken_files_count > max_files_to_take:
-                break
-
-            # Lock file and process
-            open(sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
-            # Append for processing
-            gm_time = fileutils.get_file_create_time(sorted_file.file_path, sorted_file.file_name)
-            file = File.File(
-                sorted_file.name,
-                sorted_file.file_path,
-                sorted_file.file_name,
-                fileutils.get_file_extension(sorted_file.file_path, sorted_file.file_name),
-                fileutils.get_file_create_year(gm_time),
-                fileutils.get_file_create_month(gm_time),
-                fileutils.get_file_create_day(gm_time),
-                fileutils.get_file_create_hour(gm_time, time_offset_hours),
-                fileutils.get_file_create_minute(gm_time),
-                fileutils.get_file_create_second(gm_time),
-                None
-            )
-            image_file_objects.append(file)
+                # Lock file and process
+                open(sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
+                # Append for processing
+                gm_time = fileutils.get_file_create_time(sorted_file.file_path, sorted_file.file_name)
+                file = File.File(
+                    sorted_file.name,
+                    sorted_file.file_path,
+                    sorted_file.file_name,
+                    fileutils.get_file_extension(sorted_file.file_path, sorted_file.file_name),
+                    fileutils.get_file_create_year(gm_time),
+                    fileutils.get_file_create_month(gm_time),
+                    fileutils.get_file_create_day(gm_time),
+                    fileutils.get_file_create_hour(gm_time, time_offset_hours),
+                    fileutils.get_file_create_minute(gm_time),
+                    fileutils.get_file_create_second(gm_time),
+                    None
+                )
+                image_file_objects.append(file)
+            except FileNotFoundError as e:
+                pass
 
     # Analyze image objects
     for image_object in image_file_objects:
@@ -123,14 +136,7 @@ def app():
             print(e)
         finally:
             # Finally remove lock file so those don't pile up
-            try:
-                os.remove(image_object.file_path + image_object.file_name + '.lock')
-            except FileNotFoundError as e:
-                print('No locking file was found to be deleted')
-            except PermissionError as e:
-                print('No permission, access denied for deletion')
-            except Exception as e:
-                print(e)
+            remove_file_lock(image_object.file_path + image_object.file_name + '.lock')
 
 
 # ---------------------------------------------------------------------
