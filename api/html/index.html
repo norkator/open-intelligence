@@ -617,7 +617,6 @@
       manageLicencePlates('changes', null, null, null, null, changesArray);
     });
     licence_plate_manager_modal_table.on('click', '.btn', function () {
-
       if (confirm("Sure to delete this licence plate record?")) {
         manageLicencePlates('remove', this.value, null, null, null, null);
       }

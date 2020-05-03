@@ -157,6 +157,35 @@
       </div>
     </div>
 
+
+    <div class="card flex-md-row mb-4 box-shadow h-md-250 mt-2"
+         style="height: 100%;">
+      <div class="card-body d-flex flex-column align-items-center">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Licence plate</th>
+            <th>Owner name</th>
+            <th>Enabled</th>
+            <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody id="licence_plate_manager_table">
+          <!-- Content is appended here dynamically -->
+          </tbody>
+        </table>
+        <div class="mb-2">
+          <button id="load_license_plates_btn" type="button" class="btn btn-outline-primary btn-sm mt-2 mb-2"
+                  style="font-size: 10px;">Load license plates
+          </button>
+          <button id="add_licence_plate_btn" type="button" class="btn btn-outline-secondary btn-sm mt-2 mb-2"
+                  style="font-size: 10px;">Add new license plate
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </main>
@@ -225,6 +254,17 @@
     const new_plate_owner_name = $('#new_plate_owner_name');
     const new_plate_enabled = $('#new_plate_enabled');
     const new_plate_add_btn = $('#new_plate_add_btn');
+    const add_licence_plate_btn = $('#add_licence_plate_btn');
+    add_licence_plate_btn.on('click', function () {
+      licence_plate_add_modal.modal('show');
+    });
+    const load_license_plates_btn = $('#load_license_plates_btn');
+    const licence_plate_manager_table = $('#licence_plate_manager_table');
+    licence_plate_manager_table.on('click', '.btn', function () {
+      if (confirm("Sure to delete this licence plate record?")) {
+        manageLicencePlates('remove', this.value, null, null, null, null);
+      }
+    });
     new_plate_add_btn.on('click', function () {
       manageLicencePlates(
         'add', null,
@@ -233,6 +273,9 @@
         new_plate_enabled.is(':checked') === true ? 1 : 0,
         null
       );
+    });
+    load_license_plates_btn.on('click', function () {
+      getLicencePlates();
     });
 
     const licence_plate_flex_viewer = $('#licence_plate_flex_viewer');
@@ -245,7 +288,6 @@
       licence_plate_add_modal.modal('show');
       new_plate_licence_plate.val($(this).text());
     });
-
 
     const optionLoadAll = $('#optionLoadAll');
     const optionDistinctDetection = $('#optionDistinctDetection');
@@ -361,9 +403,38 @@
           save_change_array: JSON.stringify(saveChangesArray),
         },
       }).done(function (data) {
-        alert('New plate ' + licence_plate + ' added.');
+        if (action_type === 'add') {
+          alert('New plate ' + licence_plate + ' added.');
+        } else if (action_type === 'remove') {
+          alert('Plate removed.');
+        }
       }).fail(function (error) {
         alert(error);
+      });
+    }
+
+
+    function getLicencePlates() {
+      licence_plate_manager_table.empty();
+      $.ajax({
+        url: apiUrl + 'get/licence/plates',
+        type: 'GET',
+      }).done(function (data) {
+        if (data.plates.length > 0) {
+          data.plates.forEach(function (plate) {
+            licence_plate_manager_table.append(
+              '<tr>' +
+              '<th scope="row" class="pId">' + plate.id + '</th>' +
+              '<td><input class="form-control pLp" type="text" value="' + plate.licence_plate + '"></td>' +
+              '<td><input class="form-control pOn" type="text" value="' + plate.owner_name + '"></td>' +
+              '<td style="text-align: center"><input class="form-check-input pE" type="checkbox" value="option1" ' + (plate.enabled === 1 ? 'checked' : '') + '></td>' +
+              '<td><button type="button" value="' + plate.id + '" class="btn btn-danger" role="button">Delete</button></td>' +
+              '</tr>'
+            );
+          });
+        }
+      }).fail(function (error) {
+        console.log(error);
       });
     }
 
