@@ -22,6 +22,9 @@ need for expensive camera systems because any existing cameras are suitable.
 
 Open Intelligence is suitable from private properties to small businesses with medium activity.
 
+### Frontend user manual
+https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
+
 
 ### Installing
 
