@@ -175,56 +175,70 @@ function Site(router, sequelizeObjects) {
     const label = req.body.label;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
 
-    fs.readdir(filePath, function (err, files) {
-      if (err) {
-        res.status(500);
-        res.send(err);
-      } else {
-        let filesList = utils.GetFilesNotOlderThan(files, filePath, selectedDate);
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'id',
+        'file_name',
+        'file_name_cropped',
+        'file_create_date',
+      ],
+      where: {
+        label: label,
+        file_create_date: {
+          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+        }
+      },
+      order: [
+        ['file_create_date', 'asc']
+      ]
+    }).then(rows => {
 
-        // Read file data
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(filesList.length);
+      // Read file data
+      // noinspection JSIgnoredPromiseFromCall
+      processImagesSequentially(rows.length);
 
-        async function processImagesSequentially(taskLength) {
+      async function processImagesSequentially(taskLength) {
 
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            console.log('Loading: ' + filesList[t].file);
-            outputData.images.push(await task(filesList[t].file, filesList[t].mtime));
-            t++;
-            if (t === taskLength) {
-              res.json(outputData); // All tasks completed, return
-            }
-          }
+        // Specify tasks
+        const promiseTasks = [];
+        for (let i = 0; i < taskLength; i++) {
+          promiseTasks.push(processImage);
         }
 
-        function processImage(file, mtime) {
-          return new Promise(resolve => {
-            fs.readFile(filePath + file, function (err, data) {
-              if (!err) {
-                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-                resolve({
-                  title: datetime,
-                  file: file,
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
-              } else {
-                console.log(err);
-                resolve('data:image/png;base64,');
-              }
-            });
-          });
+        // Execute tasks
+        let t = 0;
+        for (const task of promiseTasks) {
+          console.log('Loading: ' + rows[t].file_name_cropped);
+          outputData.images.push(await task(rows[t].file_name_cropped, rows[t].file_create_date));
+          t++;
+          if (t === taskLength) {
+            res.json(outputData); // All tasks completed, return
+          }
         }
-
       }
+
+      function processImage(file_name_cropped, file_create_date) {
+        return new Promise(resolve => {
+          fs.readFile(filePath + file_name_cropped, function (err, data) {
+            if (!err) {
+              const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
+              resolve({
+                title: datetime,
+                file: file_name_cropped,
+                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+              });
+            } else {
+              console.log(err);
+              resolve('data:image/png;base64,');
+            }
+          });
+        });
+      }
+
+    }).catch(() => {
+      res.status(500);
+      res.send('Could not load / find database records with label.')
     });
   });
 
