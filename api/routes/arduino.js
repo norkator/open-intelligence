@@ -1,11 +1,7 @@
 const moment = require('moment');
-const utils = require('../module/utils');
-const fs = require('fs');
 const {Op} = require('sequelize');
-const path = require('path');
 const dotEnv = require('dotenv');
 dotEnv.config();
-const os = require('os-utils');
 
 
 function Arduino(router, sequelizeObjects) {

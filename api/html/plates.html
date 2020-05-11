@@ -24,6 +24,14 @@
   <!--suppress HtmlUnknownTarget -->
   <link rel="stylesheet" href="style.css">
 
+  <!-- FullCalendar -->
+  <link href='packages/full-calendar/core/main.css' rel='stylesheet'/>
+  <link href='packages/full-calendar/timegrid/main.css' rel='stylesheet'/>
+  <link href='packages/full-calendar/daygrid/main.css' rel='stylesheet'/>
+
+  <!-- Toastr -->
+  <link href='packages/toastr/toastr.min.css' rel='stylesheet'/>
+
 </head>
 
 <body>
@@ -186,6 +194,14 @@
       </div>
     </div>
 
+
+    <div class="card flex-md-row mb-4 box-shadow h-md-250 mt-2" style="height: 100%;">
+      <div class="card-body d-flex flex-column align-items-center">
+        <div id='calendar'></div>
+      </div>
+    </div>
+
+
   </div>
 
 </main>
@@ -217,6 +233,16 @@
 <!-- Adds zooming effect -->
 <script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.js"
         integrity="sha256-fhru0y6L8Knyrjj57vB7/npV5IUyq6Tvo8g0qoceVwQ=" crossorigin="anonymous"></script>
+
+<!-- FullCalendar -->
+<script src='./packages/full-calendar/core/main.js'></script>
+<script src='./packages/full-calendar/interaction/main.js'></script>
+<script src='./packages/full-calendar/daygrid/main.js'></script>
+<script src='./packages/full-calendar/timegrid/main.js'></script>
+
+<!-- Toastr -->
+<script src='packages/toastr/toastr.min.js'></script>
+
 
 <script>
   $(document).ready(function () {
@@ -437,6 +463,55 @@
         console.log(error);
       });
     }
+
+
+    getCalendarEvents();
+
+    function getCalendarEvents() {
+      $.ajax({
+        url: apiUrl + 'get/calendar/events',
+        type: 'POST',
+        data: {},
+      }).done(function (data) {
+        drawCalendar(data.events);
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    function drawCalendar(events = []) {
+      console.info(events.length + ' calendar events.');
+      $('#calendar').empty();
+      let calendarEl = document.getElementById('calendar');
+      let calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['interaction', 'dayGrid', 'timeGrid'],
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultDate: new Date().toISOString(),
+        navLinks: true, // can click day/week names to navigate views
+        selectable: false,
+        selectMirror: true,
+        editable: false,
+        eventLimit: true, // allow "more" link when too many events
+        events: events,
+        eventTimeFormat: {
+          hour: '2-digit', //2-digit, numeric
+          minute: '2-digit', //2-digit, numeric
+          meridiem: true, //lowercase, short, narrow, false (display of AM/PM)
+          hour12: false //true, false
+        },
+        timeFormat: 'H:mm',
+        eventClick: function (info) {
+          toastr.info(info.event.extendedProps.description, info.event.title, {timeOut: 2500})
+        }
+      });
+      calendar.render();
+    }
+
 
   });
 
