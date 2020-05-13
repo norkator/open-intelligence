@@ -1028,7 +1028,6 @@
           croppedImageName: cropped_image_name
         },
       }).done(function (data) {
-        console.log(data);
         getObjectDetectionImage(data.file_name);
       }).fail(function (error) {
         alert(error);
