@@ -36,27 +36,24 @@ function Plates(router, sequelizeObjects) {
           ]
         }).then(rows => {
 
+          let temp = [];
+
           // Filtering
           rows.forEach(row => {
             const closestPlateOwner = utils.GetVehicleDetails(knownPlates, row.detection_result);
             if (closestPlateOwner.plate !== '' && closestPlateOwner.owner_name !== '') {
               const plate = closestPlateOwner.plate;
-              let lastPlate = '';
-              try {
-                lastPlate = output.events[output.events.length - 1].title
-              } catch (e) {
-              }
-              if (lastPlate !== plate) {
-                output.events.push({
+                temp.push({
                   title: plate,
-                  start: moment(row.file_create_date).format('YYYY-MM-DD hh:mm'),
+                  start: moment(row.file_create_date).format('YYYY-MM-DD HH:mm'),
                   description: closestPlateOwner.owner_name,
+                  file_name_cropped: row.file_name_cropped,
                 });
-              }
-
             }
           });
 
+          // Start end time filtering
+          output.events = utils.ParseVehicleEvents(temp);
           res.json(output);
         });
       } else {

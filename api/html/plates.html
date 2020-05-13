@@ -387,6 +387,25 @@
 
 
     /**
+     * Get object detection image name
+     * @param cropped_image_name
+     */
+    function getObjectDetectionImageFileNameForCroppedImageName(cropped_image_name) {
+      $.ajax({
+        url: apiUrl + 'get/object/detection/image/for/cropped/image',
+        type: 'POST',
+        data: {
+          croppedImageName: cropped_image_name
+        },
+      }).done(function (data) {
+        getObjectDetectionImage(data.file_name);
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    /**
      * Load object_detection image for given file name
      * @param object_detection_image_file_name
      */
@@ -481,7 +500,7 @@
 
 
     function drawCalendar(events = []) {
-      console.info(events.length + ' calendar events.');
+      console.info(events.length);
       $('#calendar').empty();
       let calendarEl = document.getElementById('calendar');
       let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -504,9 +523,10 @@
           meridiem: true, //lowercase, short, narrow, false (display of AM/PM)
           hour12: false //true, false
         },
-        timeFormat: 'H:mm',
+        timeFormat: 'HH:mm',
         eventClick: function (info) {
-          toastr.info(info.event.extendedProps.description, info.event.title, {timeOut: 2500})
+          toastr.info(info.event.extendedProps.description, info.event.title, {timeOut: 2500});
+          getObjectDetectionImageFileNameForCroppedImageName(info.event.extendedProps.file_name_cropped);
         }
       });
       calendar.render();

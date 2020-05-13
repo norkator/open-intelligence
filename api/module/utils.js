@@ -5,6 +5,8 @@ const email = require('./email');
 const {Op} = require('sequelize');
 const getFolderSize = require('get-folder-size');
 const imageThumbnail = require('image-thumbnail');
+const dotEnv = require('dotenv');
+dotEnv.config();
 
 
 // Variables
@@ -647,3 +649,79 @@ function GetInstances(sequelizeObjects) {
 }
 
 exports.GetInstances = GetInstances;
+
+
+/**
+ * Parses db data into start to end time events
+ * @param dbData
+ * @return {Array}
+ * @constructor
+ */
+function ParseVehicleEvents(dbData = []) {
+  let events = [];
+  let tempArray = [];
+
+  let currentDate = null;
+  let dLen = dbData.length;
+  for (let i = 0; i < dLen; i++) {
+    const item = dbData[i];
+
+    const iDate = moment(item.start).format('YYYY-MM-DD');
+    const iDateTime = moment(item.start).format('YYYY-MM-DD');
+    if (currentDate === null) {
+      currentDate = iDate;
+    }
+
+    const iTitle = item.title;
+    const iStart = item.start;
+
+    if (tempArray[iDate] === undefined) {
+      // New item
+      tempArray[iDate] = [];
+      tempArray[iDate][iTitle] = {
+        'description': item.description,
+        'file_name_cropped': item.file_name_cropped,
+        'start': iStart
+      }
+    } else {
+      if (tempArray[iDate][iTitle] === undefined) {
+        // Existing day but new plate
+        tempArray[iDate][iTitle] = {
+          'description': item.description,
+          'file_name_cropped': item.file_name_cropped,
+          'start': iStart
+        }
+      } else {
+        // Extend end time
+        tempArray[iDate][iTitle]['end'] = iStart;
+      }
+    }
+  }
+
+  // Construct events
+  for (const [tKey, tValue] of Object.entries(tempArray)) {
+    for (const [key, value] of Object.entries(tValue)) {
+      let event = {
+        'title': key,
+        'start': value.start,
+        'description': value.description,
+        'extendedProps': {'file_name_cropped': value.file_name_cropped,}
+      };
+      if (value.end !== undefined) {
+
+        const endT = moment(value.end, 'YYYY-MM-DD HH:mm');
+        const startT = moment(value.start, 'YYYY-MM-DD HH:mm');
+        const diff = endT.diff(startT);
+        const dur = moment.duration(diff);
+
+        event['end'] = (Math.abs(dur.asMinutes()) > 60 ? value.end :
+          moment(startT).add(60, 'minutes').format('YYYY-MM-DD HH:mm'));
+      }
+      events.push(event)
+    }
+  }
+
+  return events;
+}
+
+exports.ParseVehicleEvents = ParseVehicleEvents;
