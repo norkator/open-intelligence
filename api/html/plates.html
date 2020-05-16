@@ -197,6 +197,10 @@
 
     <div class="card flex-md-row mb-4 box-shadow h-md-250 mt-2" style="height: 100%;">
       <div class="card-body d-flex flex-column align-items-center">
+        <button id="load_calendar_btn" type="button" class="btn btn-outline-primary btn-sm mt-2 mb-2"
+                style="font-size: 10px;">Load calendar
+        </button>
+        <div id='calendar_loading_indicator'></div>
         <div id='calendar'></div>
       </div>
     </div>
@@ -258,6 +262,14 @@
     });
     $('#facesBtn').click(() => {
       document.location.href = apiUrl + "faces.html";
+    });
+
+    const calendar = $('#calendar');
+    const calendar_loading_indicator = $('#calendar_loading_indicator');
+    const load_calendar_btn = $('#load_calendar_btn');
+    load_calendar_btn.on('click', function () {
+      calendar.empty();
+      getCalendarEvents();
     });
 
     const generic_image_modal = $('#generic_image_modal');
@@ -484,9 +496,8 @@
     }
 
 
-    getCalendarEvents();
-
     function getCalendarEvents() {
+      appendLoadingIndicator(calendar_loading_indicator);
       $.ajax({
         url: apiUrl + 'get/calendar/events',
         type: 'POST',
@@ -501,7 +512,7 @@
 
     function drawCalendar(events = []) {
       console.info(events.length);
-      $('#calendar').empty();
+      calendar_loading_indicator.empty();
       let calendarEl = document.getElementById('calendar');
       let calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['interaction', 'dayGrid', 'timeGrid'],
