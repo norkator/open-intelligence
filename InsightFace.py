@@ -62,7 +62,7 @@ def app():
 
             # Save result if specified conditions are true
             # if is_null(if_image_object.detection_result):
-            if temp_detection_result is not None:
+            if temp_detection_result is not None and len(if_image_object.detection_result) < 1:
                 if_image_object.detection_result = temp_detection_result
 
             # Write database, set as computed
