@@ -159,6 +159,9 @@ Got `Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dl
 => Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0"
 https://developer.nvidia.com/rdp/cudnn-archive
 
+Python crashes with error like `python.exe with problem event BEX64, ucrtbase.DLL...`
+This happened with SuperResolution.py
+=> Reason is missing Visual C++ Redistributable Packages related on Python and Tensorflow requirements.
 
 #### Todo
 
