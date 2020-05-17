@@ -32,3 +32,6 @@ jpeg_streams=http://127.0.0.1/mjpg/video.mjpg
 
 [similarity]
 delete_files=False
+
+[super_resolution]
+use_gpu=True

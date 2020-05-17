@@ -19,7 +19,7 @@ model.prepare(ctx_id=-1, nms=0.4)
 def face_detection(image_path_name_extension, file_name):
     # Output result
     detection_name_and_probability = None
-	
+
     try:
 
         # Loading image

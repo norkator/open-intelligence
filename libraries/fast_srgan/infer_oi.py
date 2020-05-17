@@ -1,10 +1,10 @@
 from argparse import ArgumentParser
+import os
 import tensorflow as tf
 from tensorflow import keras
 from keras import backend as kb
 import numpy as np
 import cv2
-import os
 import gc
 
 parser = ArgumentParser()
