@@ -16,7 +16,7 @@ model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
 # Set Keras TensorFlow session config
 config = tf.compat.v1.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.8  # Use 80%
+config.gpu_options.per_process_gpu_memory_fraction = 0.5  # Use 50%
 config.gpu_options.allow_growth = True
 tf_session = tf.compat.v1.Session(config=config)
 tf.compat.v1.keras.backend.set_session(tf_session)
@@ -49,7 +49,7 @@ def process_super_resolution_images(sr_image_objects):
 
                 # Check if image is not too big
                 # Original size was 1200 but testing with smaller
-                if original_w < 700 and original_h < 700:
+                if original_w < 300 and original_h < 300:
                     # Convert to RGB (opencv uses BGR as default)
                     low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
 
