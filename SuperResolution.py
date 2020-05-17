@@ -1,12 +1,19 @@
 import os
 import sys
 from argparse import ArgumentParser
-from libraries.fast_srgan import infer_oi
-from pathlib import Path
-from module import configparser, database, detection_utils, gpu_utils, process_utils
+from module import configparser, process_utils, database, detection_utils
 from objects import SrFile
-from module.vehicle_color import vehicle_color_detect
+from pathlib import Path
 import time
+
+super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='super_resolution')
+use_gpu = super_resolution_config['use_gpu'] == 'True'
+if use_gpu is False:
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    print('GPU Disabled at config')
+from libraries.fast_srgan import infer_oi
+from module import gpu_utils
+from module.vehicle_color import vehicle_color_detect
 
 # Parse arguments
 parser = ArgumentParser()
