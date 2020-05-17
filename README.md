@@ -31,9 +31,18 @@ https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/
 I am later making installation more automatic but for now, 
 here's steps to get environment running.
 
-###### Python side
+###### Api side
+1. Go to `/api` folder and run `npm install`
+2. Install Postgresql server: https://www.postgresql.org/ (if you didn't at upper python section)
+3. Rename `.env_tpl` to `.env` and fill details.
+4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
+5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
+6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
+7. Access `localhost:4300` unless port modified at .env file. 
+
+###### Python side (Windows)
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
-2. Install dependencies `pip install -r requirements.txt`
+2. Install dependencies `pip install -r requirements_windows.txt`
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
 5. Download Postgresql server ( https://www.postgresql.org/ ) I am using version <b>11.6</b>
@@ -41,13 +50,8 @@ here's steps to get environment running.
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
 
-###### Api side
-1. Go to `/api` folder and run `npm install`
-2. Install Postgresql server: https://www.postgresql.org/ (if you didn't at upper python section)
-3. Rename `.env_tpl` to `.env` and fill details.
-4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
-5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
-6. Access `localhost:4300` unless port modified at .env file. 
+###### Python side (Linux)
+No working implementation yet.
 
 
 #### Project folder structure
