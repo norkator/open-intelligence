@@ -29,7 +29,7 @@ output = model(inputs)
 model = keras.models.Model(inputs, output)
 
 
-def process_super_resolution_images(sr_image_objects):
+def process_super_resolution_images(sr_image_objects, max_width, max_height):
     try:
 
         # Loop over all images
@@ -49,7 +49,7 @@ def process_super_resolution_images(sr_image_objects):
 
                 # Check if image is not too big
                 # Original size was 1200 but testing with smaller
-                if original_w < 800 and original_h < 800:
+                if original_w < max_width and original_h < max_height:
                     # Convert to RGB (opencv uses BGR as default)
                     low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
 

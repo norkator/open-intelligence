@@ -35,3 +35,5 @@ delete_files=False
 
 [super_resolution]
 use_gpu=True
+max_width=1000
+max_height=1000

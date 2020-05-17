@@ -26,6 +26,8 @@ print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
 process_sleep_seconds = app_config['process_sleep_seconds']
+max_width = int(super_resolution_config['max_width'])
+max_height = int(super_resolution_config['max_height'])
 
 # Output path
 output_root_folder_path = os.getcwd() + '/output/'
@@ -62,7 +64,9 @@ def app():
     if len(sr_image_objects) > 0:
         # Process super resolution images
         sr_image_objects = infer_oi.process_super_resolution_images(
-            sr_image_objects=sr_image_objects
+            sr_image_objects=sr_image_objects,
+            max_width=max_width,
+            max_height=max_height
         )
 
         # Process results
