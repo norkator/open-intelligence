@@ -16,21 +16,21 @@ model_path_file_name = os.getcwd() + '/libraries/fast_srgan/models/generator.h5'
 
 # Set Keras TensorFlow session config
 config = tf.compat.v1.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.5  # Use 50%
+config.gpu_options.per_process_gpu_memory_fraction = 0.8  # 1.0 => 100%
 config.gpu_options.allow_growth = True
 tf_session = tf.compat.v1.Session(config=config)
 tf.compat.v1.keras.backend.set_session(tf_session)
 
+# Load model to memory
+# Change model input shape to accept all size inputs
+model = keras.models.load_model(model_path_file_name, compile=False)
+inputs = keras.Input((None, None, 3))
+output = model(inputs)
+model = keras.models.Model(inputs, output)
+
 
 def process_super_resolution_images(sr_image_objects):
     try:
-
-        # Load model to memory
-        # Change model input shape to accept all size inputs
-        model = keras.models.load_model(model_path_file_name, compile=False)
-        inputs = keras.Input((None, None, 3))
-        output = model(inputs)
-        model = keras.models.Model(inputs, output)
 
         # Loop over all images
         # Input and output image is full path + filename including extension
@@ -49,7 +49,7 @@ def process_super_resolution_images(sr_image_objects):
 
                 # Check if image is not too big
                 # Original size was 1200 but testing with smaller
-                if original_w < 300 and original_h < 300:
+                if original_w < 800 and original_h < 800:
                     # Convert to RGB (opencv uses BGR as default)
                     low_res = cv2.cvtColor(low_res, cv2.COLOR_BGR2RGB)
 
@@ -84,7 +84,7 @@ def process_super_resolution_images(sr_image_objects):
         tf.compat.v1.reset_default_graph()  # Try free memory from Tensorflow
         kb.clear_session()  # Clear Keras session
         # model = None
-        del model
+        # del model
         gc.collect()
 
     except Exception as e:
