@@ -38,7 +38,9 @@ here's steps to get environment running.
 4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
 5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
 6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
-7. Access `localhost:4300` unless port modified at .env file. 
+7. Access `localhost:4300` unless port modified at .env file.
+8. Go to folder `api/html/packages` and unzip `packages.zip` on it's current place.
+I didn't want to bloat version control with third part libraries this hard so content comes zipped.
 
 ###### Python side (Windows)
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
