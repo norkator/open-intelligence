@@ -123,6 +123,7 @@
       <a class="nav-item nav-link" id="camerasBtn" style="cursor: pointer;">Cameras</a>
       <a class="nav-item nav-link active" style="cursor: pointer;">Plates <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" id="facesBtn" style="cursor: pointer;">Faces</a>
+      <a class="nav-item nav-link" id="trainingBtn" style="cursor: pointer;">Training</a>
     </div>
   </div>
 </nav>
@@ -250,22 +251,14 @@
 <!-- Toastr -->
 <script src='packages/toastr/toastr.min.js'></script>
 
+<script src="./common.js"></script>
 
 <script>
   $(document).ready(function () {
 
     // Api url
     const apiUrl = String(window.location.href).replace('plates.html', '');
-
-    $('#homeBtn').click(() => {
-      document.location.href = apiUrl;
-    });
-    $('#camerasBtn').click(() => {
-      document.location.href = apiUrl + "cameras.html";
-    });
-    $('#facesBtn').click(() => {
-      document.location.href = apiUrl + "faces.html";
-    });
+    SetCommonApiUrl(apiUrl);
 
     const calendar = $('#calendar');
     const calendar_loading_indicator = $('#calendar_loading_indicator');

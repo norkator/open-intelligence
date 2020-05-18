@@ -173,7 +173,7 @@
       <a class="nav-item nav-link" id="camerasBtn" style="cursor: pointer;">Cameras</a>
       <a class="nav-item nav-link" id="platesBtn" style="cursor: pointer;">Plates</a>
       <a class="nav-item nav-link" id="facesBtn" style="cursor: pointer;">Faces</a>
-      <!-- <a class="nav-item nav-link disabled" id="wallBtn" style="cursor: pointer;">Wall</a>-->
+      <a class="nav-item nav-link" id="trainingBtn" style="cursor: pointer;">Training</a>
     </div>
   </div>
   <form class="form-inline my-2 my-lg-0">
@@ -376,11 +376,14 @@
 <!-- Jcrop image cropper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
 
+<script src="./common.js"></script>
+
 <script>
   $(document).ready(function () {
 
     // Api url
     const apiUrl = window.location.href;
+    SetCommonApiUrl(apiUrl);
 
     // Variables
     let pollInterval = null;
@@ -418,17 +421,6 @@
 
     // Init zoom effect to all img elements
     wheelzoom(document.querySelector('img.zoom'));
-
-    // jQuery references to elements
-    $('#camerasBtn').click(() => {
-      document.location.href = apiUrl + "cameras.html";
-    });
-    $('#platesBtn').click(() => {
-      document.location.href = apiUrl + "plates.html";
-    });
-    $('#facesBtn').click(() => {
-      document.location.href = apiUrl + "faces.html";
-    });
 
     const object_detection_image_container = $('#object_detection_image_container');
     const label_image_flex_viewer = $('#label_image_flex_viewer');
