@@ -24,6 +24,9 @@ models/color_model.h5
 # Api project
 api/node_modules/*
 api/storage.txt
+api/html/packages/full-calendar/*
+api/html/packages/magic/*
+api/html/packages/toastr/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
