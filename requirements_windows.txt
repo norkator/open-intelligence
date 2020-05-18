@@ -13,3 +13,4 @@ psycopg2==2.8.4
 insightface==0.1.5
 mxnet==1.6.0
 mxnet-cu100==1.5.0
+setuptools==41.0.0
