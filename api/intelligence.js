@@ -49,6 +49,7 @@ initDb.initDatabase().then(() => {
   require('./routes/faces').Faces(app, sequelizeObjects);
   require('./routes/arduino').Arduino(app, sequelizeObjects);
   require('./routes/plates').Plates(app, sequelizeObjects);
+  require('./routes/training').Training(app, sequelizeObjects);
 
   // -------------------------------------------------------------------------------------------------------------------
   // Start web server

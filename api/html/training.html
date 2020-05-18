@@ -17,6 +17,9 @@
   <!-- Custom styles for this template -->
   <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 
+  <!-- Jcrop image cropper -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.min.css">
+
   <!-- App own theme -->
   <!--suppress HtmlUnknownTarget -->
   <link rel="stylesheet" href="style.css">
@@ -52,13 +55,45 @@
 </nav>
 
 <main role="main" class="container">
-  <div class="col-md-12 mt-2 magictime puffIn">
+  <div class="col-md-12 mt-2">
     <div class="card flex-md-row mb-4 box-shadow h-md-250 mt-2"
          style="height: 100%;">
       <div class="card-body d-flex flex-column align-items-center">
         <strong class="d-inline-block mb-2 text-primary">License plate labeling</strong>
-        <div id="licence_plate_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+        <p class="font-weight-normal">This tool works in a way that every fifth image goes to testing while four images
+          go to training. Sorting happens automatically.</p>
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-sm">
+              <strong class="d-inline-block text-secondary">Training</strong>
+              <h1 id="training_image_count">0</h1>
+            </div>
+            <div class="col-sm">
+              <strong class="d-inline-block text-primary">Testing</strong>
+              <h1 id="testing_image_count">0</h1>
+            </div>
+          </div>
         </div>
+
+        <div class="shadow-sm p-3 mb-4 bg-white rounded w-100 text-center align-items-center">
+          <img id="labeling_image_view" class="card-img-right"
+               style="width: 100%; height: 100%;"
+               alt="Generic modal image" src="">
+
+          <div class="d-flex justify-content-center mt-2 mb-2">
+            <button id="sortBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+              Sort
+            </button>
+            <button id="rejectBtn" type="button" class="btn btn-outline-danger mt-2 ml-2">
+              Reject
+            </button>
+          </div>
+        </div>
+
+        <p class="font-weight-normal">Pick image for labeling below</p>
+        <div id="car_images_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+        </div>
+
       </div>
     </div>
   </div>
@@ -86,6 +121,9 @@
 <!-- Toastr -->
 <script src='packages/toastr/toastr.min.js'></script>
 
+<!-- Jcrop image cropper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
+
 <script src="./common.js"></script>
 
 <script>
@@ -95,7 +133,100 @@
     const apiUrl = String(window.location.href).replace('training.html', '');
     SetCommonApiUrl(apiUrl);
 
-  });
+    let currentSelectedImageId = null;
+    let imageX = 0;
+    let imageY = 0;
+    let imageX2 = 0;
+    let imageY2 = 0;
+
+    const sortBtn = $('#sortBtn');
+    const rejectBtn = $('#rejectBtn');
+    sortBtn.on('click', function () {
+      sortImage(currentSelectedImageId, imageX, imageY, imageX2, imageY2);
+    });
+    rejectBtn.on('click', function () {
+      rejectImage(currentSelectedImageId);
+    });
+
+    const labeling_image_view = $('#labeling_image_view');
+    const car_images_flex_viewer = $('#car_images_flex_viewer');
+    car_images_flex_viewer.on('click', 'img', function () {
+      currentSelectedImageId = $(this).attr('id');
+      labeling_image_view.attr('src', $(this).attr('src'));
+      try {
+        labeling_image_view.data('Jcrop').destroy();
+      } catch (e) {
+      }
+      labeling_image_view.Jcrop({
+        boxWidth: labeling_image_view.width(),
+        onChange: function (c) {
+        },
+        onSelect: function (c) {
+          console.info('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
+          // console.info('w=' + c.w + ' h=' + c.h)
+          imageX = c.x;
+          imageY = c.y;
+          imageX2 = c.x2;
+          imageY2 = c.y2;
+        }
+      });
+    });
+
+
+    getImagesForLabeling();
+
+    function getImagesForLabeling() {
+      $.ajax({
+        url: apiUrl + 'training/get/images/for/labeling',
+        type: 'POST',
+        data: {}
+      }).done(function (data) {
+        car_images_flex_viewer.empty();
+        data.images.forEach(imageData => {
+          car_images_flex_viewer.append(
+            '<img id="' + imageData.id + '" title="' + imageData.file_name_cropped + '" src="' + imageData.image +
+            '" style="max-height: 120px; max-width: 120px; cursor: pointer;" class="mr-1 ml-1 mt-1">'
+          );
+        });
+      }).fail(function (error) {
+      });
+    }
+
+
+    function sortImage(imageId, x, y, x2, y2) {
+      $.ajax({
+        url: apiUrl + 'training/sort/image',
+        type: 'POST',
+        data: {
+          image_id: imageId,
+          image_x: x,
+          image_y: y,
+          image_x2: x2,
+          image_y2: y2,
+        },
+      }).done(function (data) {
+        toastr.success('Image sorted', 'Sorting', {timeOut: 2000});
+      }).fail(function (error) {
+        console.error(error);
+      });
+    }
+
+    function rejectImage(imageId) {
+      $.ajax({
+        url: apiUrl + 'training/reject/image',
+        type: 'POST',
+        data: {
+          image_id: imageId,
+        },
+      }).done(function (data) {
+        toastr.info('Image rejected', 'Info', {timeOut: 2000});
+      }).fail(function (error) {
+        console.error(error);
+      });
+    }
+
+  })
+  ;
 
 
 </script>
