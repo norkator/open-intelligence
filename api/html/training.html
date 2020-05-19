@@ -60,8 +60,6 @@
          style="height: 100%;">
       <div class="card-body d-flex flex-column align-items-center">
         <strong class="d-inline-block mb-2 text-primary">License plate labeling</strong>
-        <p class="font-weight-normal">This tool works in a way that every fifth image goes to testing while four images
-          go to training. Sorting happens automatically.</p>
         <div class="container">
           <div class="row text-center">
             <div class="col-sm">
@@ -173,7 +171,7 @@
         onChange: function (c) {
         },
         onSelect: function (c) {
-          console.info('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
+          // console.info('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
           // console.info('w=' + c.w + ' h=' + c.h)
           imageX = c.x;
           imageY = c.y;
@@ -193,12 +191,16 @@
         data: {}
       }).done(function (data) {
         car_images_flex_viewer.empty();
-        data.images.forEach(imageData => {
-          car_images_flex_viewer.append(
-            '<img id="' + imageData.id + '" title="' + imageData.file_name_cropped + '" src="' + imageData.image +
-            '" style="max-height: 120px; max-width: 120px; cursor: pointer;" class="mr-1 ml-1 mt-1">'
-          );
-        });
+        if (data.images.length > 0) {
+          data.images.forEach(imageData => {
+            car_images_flex_viewer.append(
+              '<img id="' + imageData.id + '" title="' + imageData.file_name_cropped + '" src="' + imageData.image +
+              '" style="max-height: 120px; max-width: 120px; cursor: pointer;" class="mr-1 ml-1 mt-1">'
+            );
+          });
+        } else {
+          toastr.info('No more images for labeling.', 'Info', {timeOut: 2000});
+        }
       }).fail(function (error) {
       });
     }
@@ -216,7 +218,7 @@
           image_y2: y2,
         },
       }).done(function (data) {
-        toastr.success('Image sorted with ' + data, 'Sorting', {timeOut: 2000});
+        toastr.success('Image labeled with ' + data, 'Labeling', {timeOut: 2000});
         car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
         setTotalLabeledImagesCount(0); // Will increment
         getNextImage();
@@ -245,6 +247,8 @@
     function getNextImage() {
       if (car_images_flex_viewer.children().length > 0) {
         car_images_flex_viewer.children()[0].click();
+      } else {
+        getImagesForLabeling(); // Load more
       }
     }
 
