@@ -173,10 +173,10 @@
         onSelect: function (c) {
           // console.info('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
           // console.info('w=' + c.w + ' h=' + c.h)
-          imageX = c.x;
-          imageY = c.y;
-          imageX2 = c.x2;
-          imageY2 = c.y2;
+          imageX = Math.floor(c.x);
+          imageY = Math.floor(c.y);
+          imageX2 = Math.floor(c.x2);
+          imageY2 = Math.floor(c.y2);
         }
       });
     });
@@ -207,6 +207,7 @@
 
 
     function sortImage(imageId, x, y, x2, y2) {
+      console.info(x, y, x2, y2);
       $.ajax({
         url: apiUrl + 'training/sort/image',
         type: 'POST',
