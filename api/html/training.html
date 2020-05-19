@@ -162,6 +162,7 @@
     const car_images_flex_viewer = $('#car_images_flex_viewer');
     car_images_flex_viewer.on('click', 'img', function () {
       currentSelectedImageId = $(this).attr('id');
+      console.info('Selected ' + currentSelectedImageId);
       labeling_image_view.attr('src', $(this).attr('src'));
       try {
         labeling_image_view.data('Jcrop').destroy();
@@ -218,6 +219,7 @@
         toastr.success('Image sorted with ' + data, 'Sorting', {timeOut: 2000});
         car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
         setTotalLabeledImagesCount(0); // Will increment
+        getNextImage();
       }).fail(function (error) {
         console.error(error);
       });
@@ -233,10 +235,19 @@
       }).done(function (data) {
         toastr.info('Image rejected', 'Info', {timeOut: 2000});
         car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
+        getNextImage();
       }).fail(function (error) {
         console.error(error);
       });
     }
+
+
+    function getNextImage() {
+      if (car_images_flex_viewer.children().length > 0) {
+        car_images_flex_viewer.children()[0].click();
+      }
+    }
+
 
     getTotalLabeledImageCount();
 
