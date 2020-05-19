@@ -87,11 +87,14 @@ function Training(router, sequelizeObjects) {
     const imageY = req.body.image_y;
     const imageX2 = req.body.image_x2;
     const imageY2 = req.body.image_y2;
-    res.json({})
-    /*
+
     sequelizeObjects.Data.update(
       {
-        labeled_for_training: 1
+        labeled_for_training: 1,
+        labeling_image_x: imageX,
+        labeling_image_y: imageY,
+        labeling_image_x2: imageX2,
+        labeling_image_y2: imageY2,
       },
       {
         where: {
@@ -99,12 +102,11 @@ function Training(router, sequelizeObjects) {
         }
       }).then(() => {
       res.status(200);
-      res.send('Ok');
+      res.send('x:' + imageX, ' y:' + imageY, ' x2:' + imageX2, ' y2:' + imageY2);
     }).catch(error => {
       res.status(500);
       res.send(error);
     });
-    */
   });
 
 

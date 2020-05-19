@@ -142,7 +142,11 @@
     const sortBtn = $('#sortBtn');
     const rejectBtn = $('#rejectBtn');
     sortBtn.on('click', function () {
-      sortImage(currentSelectedImageId, imageX, imageY, imageX2, imageY2);
+      if (imageX > 0 && imageY > 0 && imageX2 > 0 && imageY2 > 0) {
+        sortImage(currentSelectedImageId, imageX, imageY, imageX2, imageY2);
+      } else {
+        toastr.error('Image box positioning not valid!', 'Error', {timeOut: 2000});
+      }
     });
     rejectBtn.on('click', function () {
       rejectImage(currentSelectedImageId);
@@ -205,7 +209,7 @@
           image_y2: y2,
         },
       }).done(function (data) {
-        toastr.success('Image sorted', 'Sorting', {timeOut: 2000});
+        toastr.success('Image sorted with ' + data, 'Sorting', {timeOut: 2000});
       }).fail(function (error) {
         console.error(error);
       });

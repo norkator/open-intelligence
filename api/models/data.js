@@ -50,6 +50,19 @@ module.exports = (sequelize, type) => {
     labeled_for_training: {                     // Is image labeled for training
       type: type.INTEGER, defaultValue: 0
     },
+    labeling_image_x: {
+      type: type.INTEGER, defaultValue: 0
+    },
+    labeling_image_y: {
+      type: type.INTEGER, defaultValue: 0
+    },
+    labeling_image_x2: {
+      type: type.INTEGER, defaultValue: 0
+    },
+    labeling_image_y2: {
+      type: type.INTEGER, defaultValue: 0
+    },
+
 
     // Normally Sequelize manages these
     // but for python side we need also default value
