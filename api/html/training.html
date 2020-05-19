@@ -232,6 +232,7 @@
         },
       }).done(function (data) {
         toastr.info('Image rejected', 'Info', {timeOut: 2000});
+        car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
       }).fail(function (error) {
         console.error(error);
       });
