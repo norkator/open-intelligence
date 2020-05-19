@@ -21,6 +21,7 @@ function Training(router, sequelizeObjects) {
         'file_name_cropped',
       ],
       where: {
+        labeled_for_training: 0,
         detection_result: {
           [Op.gt]: '',
         },
@@ -102,7 +103,7 @@ function Training(router, sequelizeObjects) {
         }
       }).then(() => {
       res.status(200);
-      res.send('x:' + imageX, ' y:' + imageY, ' x2:' + imageX2, ' y2:' + imageY2);
+      res.send('x:' + imageX + ' y:' + imageY + ' x2:' + imageX2 + ' y2:' + imageY2);
     }).catch(error => {
       res.status(500);
       res.send(error);
@@ -126,6 +127,27 @@ function Training(router, sequelizeObjects) {
     }).catch(error => {
       res.status(500);
       res.send(error);
+    });
+  });
+
+
+  router.get('/training/get/labeled/images/count', function (req, res) {
+    sequelizeObjects.Data.findAll({
+      attributes: [
+        'id',
+      ],
+      where: {
+        labeled_for_training: 1,
+        [Op.or]: [
+          {label: 'car'}, {label: 'truck'}, {label: 'bus'}
+        ],
+        labeling_image_x: {[Op.gt]: 0},
+        labeling_image_y: {[Op.gt]: 0},
+        labeling_image_x2: {[Op.gt]: 0},
+        labeling_image_y2: {[Op.gt]: 0},
+      },
+    }).then(rows => {
+      res.json({count: rows.length});
     });
   });
 

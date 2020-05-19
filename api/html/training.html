@@ -65,6 +65,10 @@
         <div class="container">
           <div class="row text-center">
             <div class="col-sm">
+              <strong class="d-inline-block text-secondary">Total</strong>
+              <h1 id="total_image_count">0</h1>
+            </div>
+            <div class="col-sm">
               <strong class="d-inline-block text-secondary">Training</strong>
               <h1 id="training_image_count">0</h1>
             </div>
@@ -78,7 +82,7 @@
         <div class="shadow-sm p-3 mb-4 bg-white rounded w-100 text-center align-items-center">
           <img id="labeling_image_view" class="card-img-right"
                style="width: 100%; height: 100%;"
-               alt="Generic modal image" src="">
+               alt="" src="">
 
           <div class="d-flex justify-content-center mt-2 mb-2">
             <button id="sortBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
@@ -139,6 +143,8 @@
     let imageX2 = 0;
     let imageY2 = 0;
 
+
+    const total_image_count = $('#total_image_count');
     const sortBtn = $('#sortBtn');
     const rejectBtn = $('#rejectBtn');
     sortBtn.on('click', function () {
@@ -210,6 +216,8 @@
         },
       }).done(function (data) {
         toastr.success('Image sorted with ' + data, 'Sorting', {timeOut: 2000});
+        car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
+        setTotalLabeledImagesCount(0); // Will increment
       }).fail(function (error) {
         console.error(error);
       });
@@ -229,8 +237,26 @@
       });
     }
 
-  })
-  ;
+    getTotalLabeledImageCount();
+
+    function getTotalLabeledImageCount() {
+      $.ajax({
+        url: apiUrl + 'training/get/labeled/images/count',
+        type: 'GET',
+      }).done(function (data) {
+        total_image_count.text(String(data.count));
+      }).fail(function (error) {
+      });
+    }
+
+
+    function setTotalLabeledImagesCount(count) {
+      const newCount = Number(total_image_count.text()) + 1;
+      total_image_count.text(newCount);
+    }
+
+
+  });
 
 
 </script>
