@@ -47,7 +47,7 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link" id="homeBtn" style="cursor: pointer;">Home</a>
       <a class="nav-item nav-link" id="camerasBtn" style="cursor: pointer;">Cameras</a>
-      <a class="nav-item nav-link" style="cursor: pointer;">Plates</a>
+      <a class="nav-item nav-link" id="platesBtn" style="cursor: pointer;">Plates</a>
       <a class="nav-item nav-link" id="facesBtn" style="cursor: pointer;">Faces</a>
       <a class="nav-item nav-link active" style="cursor: pointer;">Training</a>
     </div>
@@ -94,6 +94,19 @@
 
         <p class="font-weight-normal">Pick image for labeling below</p>
         <div id="car_images_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+        </div>
+
+
+        <div class="mt-4">
+          <strong class="d-inline-block text-primary">Training commands</strong>
+          <div class="d-flex justify-content-center mt-2 mb-2">
+          <button id="exportBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+            Export
+          </button>
+          <button id="trainBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+            Train
+          </button>
+        </div>
         </div>
 
       </div>
@@ -216,6 +229,7 @@
           toastr.info('No more images for labeling.', 'Info', {timeOut: 2000});
         }
       }).fail(function (error) {
+        toastr.error('Possibly no more available labeling images. Error: ' + error, 'Error', {timeOut: 2000});
       });
     }
 
