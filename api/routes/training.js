@@ -152,6 +152,32 @@ function Training(router, sequelizeObjects) {
   });
 
 
+  router.get('/training/command/export', function (req, res) {
+    sequelizeObjects.App.create({
+      action_name: 'lp_training_export'
+    }).then(result => {
+      res.status(200);
+      res.send('Export command processed.');
+    }).catch(() => {
+      res.status(500);
+      res.send('Error at fetching command.');
+    });
+  });
+
+
+  router.get('/training/command/train', function (req, res) {
+    sequelizeObjects.App.create({
+      action_name: 'lp_training_train'
+    }).then(result => {
+      res.status(200);
+      res.send('Training command processed.');
+    }).catch(() => {
+      res.status(500);
+      res.send('Error at fetching command.');
+    });
+  });
+
+
 }
 
 exports.Training = Training;

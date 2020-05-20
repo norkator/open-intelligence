@@ -23,6 +23,9 @@
   <!-- Jcrop image cropper -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.min.css">
 
+  <!-- Toastr -->
+  <link href='packages/toastr/toastr.min.css' rel='stylesheet'/>
+
   <!-- App own theme -->
   <!--suppress HtmlUnknownTarget -->
   <link rel="stylesheet" href="style.css">
@@ -376,6 +379,9 @@
 <!-- Jcrop image cropper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
 
+<!-- Toastr -->
+<script src='packages/toastr/toastr.min.js'></script>
+
 <script src="./common.js"></script>
 
 <script>
@@ -525,7 +531,7 @@
     faces_flex_viewer.on('click', 'img', function () {
       const id = $(this).attr('id');
       if (confirm("Try detection again for this image?")) {
-        tryFaceDetectionAgain(id);
+        AjaxPostCommandAction('try/face/detection/again', {id: id});
       }
     });
 
@@ -559,7 +565,7 @@
     const train_face_model_btn = $('#train_face_model_btn');
     train_face_model_btn.on('click', function () {
       if (confirm("Send train face model training action?")) {
-        trainFaceModel();
+        AjaxGetMethodCommandAction('train/face/model');
       }
     });
     const load_more_face_btn = $('#load_more_face_btn');
@@ -884,32 +890,6 @@
         generic_modal_image.attr("src", data.data);
       }).fail(function (error) {
         bool_speaking = false;
-      });
-    }
-
-
-    function trainFaceModel() {
-      $.ajax({
-        url: apiUrl + 'train/face/model',
-        type: 'GET',
-      }).done(function (data) {
-        alert(data);
-      }).fail(function (error) {
-        alert(error);
-      });
-    }
-
-    function tryFaceDetectionAgain(id) {
-      $.ajax({
-        url: apiUrl + 'try/face/detection/again',
-        type: 'POST',
-        data: {
-          id: id
-        }
-      }).done(function (data) {
-        alert(data);
-      }).fail(function (error) {
-        alert(error);
       });
     }
 

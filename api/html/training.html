@@ -100,13 +100,13 @@
         <div class="mt-4">
           <strong class="d-inline-block text-primary">Training commands</strong>
           <div class="d-flex justify-content-center mt-2 mb-2">
-          <button id="exportBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
-            Export
-          </button>
-          <button id="trainBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
-            Train
-          </button>
-        </div>
+            <button id="exportBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+              Export
+            </button>
+            <button id="trainBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+              Train
+            </button>
+          </div>
         </div>
 
       </div>
@@ -206,6 +206,21 @@
           imageY2 = Math.floor(c.y2);
         }
       });
+    });
+
+
+    const exportBtn = $('#exportBtn');
+    exportBtn.on('click', function () {
+      if (confirm("Export lp details for training?")) {
+        AjaxGetMethodCommandAction('training/command/export');
+      }
+    });
+
+    const trainBtn = $('#trainBtn');
+    trainBtn.on('click', function () {
+      if (confirm("Start lp training?")) {
+        AjaxGetMethodCommandAction('training/command/train');
+      }
     });
 
 
