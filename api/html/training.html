@@ -142,19 +142,33 @@
     let imageY2 = 0;
 
 
+    document.addEventListener('keydown', (event) => {
+      const keyName = event.key;
+      if (keyName === 's') {
+        sortClick();
+      } else if (keyName === 'r') {
+        rejectImage(currentSelectedImageId);
+      }
+    }, true);
+
+
     const total_image_count = $('#total_image_count');
     const sortBtn = $('#sortBtn');
     const rejectBtn = $('#rejectBtn');
     sortBtn.on('click', function () {
+      sortClick();
+    });
+    rejectBtn.on('click', function () {
+      rejectImage(currentSelectedImageId);
+    });
+
+    function sortClick() {
       if (imageX > 0 && imageY > 0 && imageX2 > 0 && imageY2 > 0) {
         sortImage(currentSelectedImageId, imageX, imageY, imageX2, imageY2);
       } else {
         toastr.error('Image box positioning not valid!', 'Error', {timeOut: 2000});
       }
-    });
-    rejectBtn.on('click', function () {
-      rejectImage(currentSelectedImageId);
-    });
+    }
 
     const labeling_image_view = $('#labeling_image_view');
     const car_images_flex_viewer = $('#car_images_flex_viewer');
@@ -222,6 +236,7 @@
         toastr.success('Image labeled with ' + data, 'Labeling', {timeOut: 2000});
         car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
         setTotalLabeledImagesCount(0); // Will increment
+        zeroSelection();
         getNextImage();
       }).fail(function (error) {
         console.error(error);
@@ -238,10 +253,19 @@
       }).done(function (data) {
         toastr.info('Image rejected', 'Info', {timeOut: 2000});
         car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
+        zeroSelection();
         getNextImage();
       }).fail(function (error) {
         console.error(error);
       });
+    }
+
+
+    function zeroSelection() {
+      imageX = 0;
+      imageY = 0;
+      imageX2 = 0;
+      imageY2 = 0;
     }
 
 
