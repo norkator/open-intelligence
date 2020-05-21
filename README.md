@@ -22,6 +22,8 @@ need for expensive camera systems because any existing cameras are suitable.
 
 Open Intelligence is suitable from private properties to small businesses with medium activity.
 
+<b>Note: License will change as soon as I get rid off AGPL or GPL licensed code.</b>
+
 ### Frontend user manual
 https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
 
@@ -119,7 +121,7 @@ Multi node support requires little bit more work to configure but it's doable. F
 
 
 ### Cuda GPU Support
-Cuda only works for Super Resolution image processing at the moment. Requirements are:
+Cuda only works with some processes like super resolution and insightface. Requirements are:
 1. NVIDIA only; GPU hardware compute capability: The minimum required Cuda capability is 3.5 so old GPU's won't work.  
 2. CUDA toolkit version. Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
 3. Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0" https://developer.nvidia.com/rdp/cudnn-archive
