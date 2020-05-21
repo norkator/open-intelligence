@@ -15,7 +15,7 @@ libraries/tesserocr/tessdata_fast-master/*
 logs/*
 
 # Eclude some libraries
-libraries/nitramite-alpr/
+libraries/nitramite_alpr/
 
 # Exclude some models
 models/coco.names
