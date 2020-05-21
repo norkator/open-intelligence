@@ -6,10 +6,16 @@ import cv2
 
 # Paths
 output_root_folder_path = os.getcwd() + '/output/'
-output_lp_training_path = os.getcwd() + '/output/lp_training/'
+output_lp_training_main_path = os.getcwd() + '/output/lp_training/'
+output_lp_training_train_path = output_lp_training_main_path + 'train/'
+output_lp_training_test_path = output_lp_training_main_path + 'test/'
+output_lp_training_lp_path = output_lp_training_main_path + 'lp/'
 
 # Check path existence
-Path(output_lp_training_path).mkdir(parents=True, exist_ok=True)
+Path(output_lp_training_main_path).mkdir(parents=True, exist_ok=True)
+Path(output_lp_training_train_path).mkdir(parents=True, exist_ok=True)
+Path(output_lp_training_test_path).mkdir(parents=True, exist_ok=True)
+Path(output_lp_training_lp_path).mkdir(parents=True, exist_ok=True)
 
 
 def app():
@@ -40,12 +46,14 @@ def app():
     # Export process
     if len(lp_training_image_objects) > 0:
         for tio in lp_training_image_objects:
+            # Write lp crop image for viewing purposes
             img = cv2.imread(tio.file_full_path)
             lp_crop = img[tio.labeling_image_y:tio.labeling_image_y2, tio.labeling_image_x:tio.labeling_image_x2]
             try:
-                cv2.imwrite(output_lp_training_path + '/' + tio.file_name_cropped, lp_crop)
+                cv2.imwrite(output_lp_training_lp_path + '/' + tio.file_name_cropped, lp_crop)
             except Exception as e:
                 print(e)
+
         print('[info] export completed')
     else:
         print('No export actions to process')
