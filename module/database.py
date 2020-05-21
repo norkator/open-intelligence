@@ -315,3 +315,26 @@ def update_instance(id):
         print(error)
     finally:
         connection.close()
+
+
+def get_labeled_for_training_lp_images():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        query = """SELECT id, label, file_name_cropped, labeling_image_x, labeling_image_y, labeling_image_x2, labeling_image_y2
+            FROM data WHERE labeled_for_training = 1 and (label = 'car' OR label = 'truck' or label = 'bus')
+            and labeling_image_x > 0
+            ORDER BY id ASC;"""
+
+        cursor.execute(query)
+        records = cursor.fetchall()
+
+        cursor.close()
+        return records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
