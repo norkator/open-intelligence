@@ -60,6 +60,16 @@
          style="height: 100%;">
       <div class="card-body d-flex flex-column align-items-center">
         <strong class="d-inline-block mb-2 text-primary">License plate labeling</strong>
+        <div class="d-flex justify-content-center pb-2">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input checked type="radio" id="siteDataRadio" name="optionInlineRadio1" class="custom-control-input">
+            <label class="custom-control-label" for="siteDataRadio">Site data</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="offSiteRadio" name="optionInlineRadio1" class="custom-control-input">
+            <label class="custom-control-label" for="offSiteRadio">Offsite data</label>
+          </div>
+        </div>
         <div class="container">
           <div class="row text-center">
             <div class="col-sm">
@@ -165,6 +175,10 @@
     }, true);
 
 
+    const offSiteRadio = $('#offSiteRadio');
+    offSiteRadio.on('click', function () {
+      getImagesForLabeling();
+    });
     const total_image_count = $('#total_image_count');
     const sortBtn = $('#sortBtn');
     const rejectBtn = $('#rejectBtn');
@@ -227,10 +241,13 @@
     getImagesForLabeling();
 
     function getImagesForLabeling() {
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/get/images/for/labeling',
         type: 'POST',
-        data: {}
+        data: {
+          dataMode: dataMode
+        }
       }).done(function (data) {
         car_images_flex_viewer.empty();
         if (data.images.length > 0) {

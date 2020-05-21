@@ -6,6 +6,7 @@ dotEnv.config();
 
 // Models
 const DataModel = require('../models/data');
+const OffSiteModel = require('../models/offsite');
 const AppModel = require('../models/app');
 const PlatesModel = require('../models/plate');
 const InstanceModel = require('../models/instance');
@@ -31,6 +32,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
 
 // Initialize models
 const Data = DataModel(sequelize, Sequelize);
+const OffSite = OffSiteModel(sequelize, Sequelize);
 const App = AppModel(sequelize, Sequelize);
 const Plate = PlatesModel(sequelize, Sequelize);
 const Instance = InstanceModel(sequelize, Sequelize);
@@ -46,6 +48,7 @@ sequelize.sync(/*{force: (process.env.SEQ_FORCE_SYNC === 'true')}*/) // Do not u
 module.exports = {
   sequelize,
   Data,
+  OffSite,
   App,
   Plate,
   Instance,

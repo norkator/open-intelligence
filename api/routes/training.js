@@ -14,7 +14,9 @@ function Training(router, sequelizeObjects) {
     let outputData = {images: []};
     const filePath = path.join(__dirname + '../../../' + 'output/');
 
-    sequelizeObjects.Data.findAll({
+    const dataMode = req.body.dataMode;
+
+    sequelizeObjects[dataMode].findAll({
       attributes: [
         'id',
         'label',
