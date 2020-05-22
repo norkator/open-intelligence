@@ -338,3 +338,34 @@ def get_labeled_for_training_lp_images():
         print(error)
     finally:
         connection.close()
+
+
+def insert_offsite_value(name, label, file_name, year, month, day, hour, minute, second, file_name_cropped):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # Datetime format: '2011-05-16 15:36:38'
+        file_create_date = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        postgres_insert_query = """
+            INSERT INTO data (name, label, file_name, file_create_date, file_name_cropped) VALUES (%s,%s,%s,%s,%s)
+        """
+
+        # Variables
+        record_to_insert = (
+            name, label, file_name, file_create_date, file_name_cropped)
+
+        # Execute insert
+        cursor.execute(postgres_insert_query, record_to_insert)
+
+        connection.commit()
+        count = cursor.rowcount
+
+        cursor.close()
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
