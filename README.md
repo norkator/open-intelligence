@@ -16,6 +16,8 @@ license plate detection.
 Target goal is to make this useful information gathering tool to provide data for easy property monitoring without
 need for expensive camera systems because any existing cameras are suitable. 
 
+<b>This project is looking for funding!</b>
+
 <p align="start">
   <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/frontpage_1.png" alt="oi-frontpage">
 </p>
