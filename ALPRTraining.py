@@ -1,3 +1,9 @@
+#'''
+# Extract car images ready for labeling
+from libraries.nitramite_alpr import importData
+importData.app()
+#'''
+
 '''
 # Export, prepare images
 from libraries.nitramite_alpr import export

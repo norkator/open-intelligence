@@ -350,7 +350,7 @@ def insert_offsite_value(name, label, file_name, year, month, day, hour, minute,
 
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
         postgres_insert_query = """
-            INSERT INTO data (name, label, file_name, file_create_date, file_name_cropped) VALUES (%s,%s,%s,%s,%s)
+            INSERT INTO offsites (name, label, file_name, file_create_date, file_name_cropped) VALUES (%s,%s,%s,%s,%s) RETURNING id;
         """
 
         # Variables
@@ -360,12 +360,14 @@ def insert_offsite_value(name, label, file_name, year, month, day, hour, minute,
         # Execute insert
         cursor.execute(postgres_insert_query, record_to_insert)
 
+        inserted_id = cursor.fetchone()[0]
         connection.commit()
-        count = cursor.rowcount
-
         cursor.close()
+
+        return inserted_id
     except psycopg2.DatabaseError as error:
         connection.rollback()
         print(error)
+        return None
     finally:
         connection.close()
