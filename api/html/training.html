@@ -175,6 +175,11 @@
     }, true);
 
 
+    const siteDataRadio = $('#siteDataRadio');
+    siteDataRadio.on('click', function () {
+      getImagesForLabeling();
+    });
+
     const offSiteRadio = $('#offSiteRadio');
     offSiteRadio.on('click', function () {
       getImagesForLabeling();

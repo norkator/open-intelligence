@@ -97,7 +97,7 @@ function Training(router, sequelizeObjects) {
 
   router.post('/training/sort/image', function (req, res) {
     const dataMode = req.body.dataMode;
-    if (dataMode === undefined) {
+    if (dataMode !== undefined) {
       const imageId = req.body.image_id;
       const imageX = req.body.image_x;
       const imageY = req.body.image_y;
@@ -132,7 +132,7 @@ function Training(router, sequelizeObjects) {
 
   router.post('/training/reject/image', function (req, res) {
     const dataMode = req.body.dataMode;
-    if (dataMode === undefined) {
+    if (dataMode !== undefined) {
       const imageId = req.body.image_id;
       sequelizeObjects.Data.update(
         {
