@@ -134,7 +134,7 @@ function Training(router, sequelizeObjects) {
     const dataMode = req.body.dataMode;
     if (dataMode !== undefined) {
       const imageId = req.body.image_id;
-      sequelizeObjects.Data.update(
+      sequelizeObjects[dataMode].update(
         {
           labeled_for_training: 1
         },
