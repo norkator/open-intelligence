@@ -241,6 +241,7 @@
     getImagesForLabeling();
 
     function getImagesForLabeling() {
+      AppendLoadingIndicator(car_images_flex_viewer);
       const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/get/images/for/labeling',
@@ -268,10 +269,12 @@
 
     function sortImage(imageId, x, y, x2, y2) {
       console.info(x, y, x2, y2);
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/sort/image',
         type: 'POST',
         data: {
+          dataMode: dataMode,
           image_id: imageId,
           image_x: x,
           image_y: y,
@@ -290,10 +293,12 @@
     }
 
     function rejectImage(imageId) {
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/reject/image',
         type: 'POST',
         data: {
+          dataMode: dataMode,
           image_id: imageId,
         },
       }).done(function (data) {
