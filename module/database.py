@@ -329,7 +329,7 @@ def get_labeled_for_training_lp_images():
             ORDER BY id ASC;"""
 
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
-        query2 = """SELECT id, label, file_name_cropped, labeling_image_x, labeling_image_y, labeling_image_x2, labeling_image_y2
+        query2 = """SELECT id, NULL, file_name_cropped, labeling_image_x, labeling_image_y, labeling_image_x2, labeling_image_y2
             FROM offsites WHERE labeled_for_training = 1 and (label = 'car' OR label = 'truck' or label = 'bus')
             and labeling_image_x > 0
             ORDER BY id ASC;"""
