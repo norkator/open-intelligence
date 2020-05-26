@@ -404,7 +404,7 @@ def get_rejected_offsite_images():
         connection.close()
 
 
-def delete_rejected_offsite_image(id):
+def delete_rejected_offsite_image_record(id):
     connection = psycopg2.connect(**params)
     try:
         cursor = connection.cursor()
