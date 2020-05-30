@@ -14,7 +14,7 @@ dataset/*
 libraries/tesserocr/tessdata_fast-master/*
 logs/*
 
-# Eclude some libraries
+# Exclude some libraries
 libraries/nitramite_alpr/
 
 # Exclude some models
