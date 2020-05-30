@@ -17,6 +17,8 @@ object_detection_image_path = os.getcwd() + '/output/object_detection/'
 
 # Config
 yolo_ignored_labels = str(configparser.any_config(section='yolo')['ignored_labels']).split(',')
+cv2_imshow_enabled = True if configparser.any_config(section='app')['cv2_imshow_enabled'] == 'True' else False
+print('[Info] cv2_imshow_enabled is ' + str(cv2_imshow_enabled))
 
 
 def bool_label_is_ignored(label):
@@ -165,8 +167,9 @@ def analyze_image(image_object, bool_move_processed):
                         image_object.file_path + 'processed/' + image_object.file_name)
 
         # Show preview
-        cv2.imshow("Image", img)
-        cv2.waitKey(1)  # no freeze, refreshes for a millisecond
+        if cv2_imshow_enabled is True:
+            cv2.imshow("Image", img)
+            cv2.waitKey(1)  # no freeze, refreshes for a millisecond
 
         # Write full detection image
         # only write if there's boxes available

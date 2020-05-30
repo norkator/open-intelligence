@@ -1,6 +1,7 @@
 [app]
 move_to_processed=True
 process_sleep_seconds=4
+cv2_imshow_enabled=True
 
 [yolo]
 ignored_labels=pottedplant,tennis racket,umbrella

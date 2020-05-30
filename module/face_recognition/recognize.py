@@ -10,6 +10,7 @@ import os
 # Config
 face_recognition_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='facerecognition')
 file_name_prefix = str(face_recognition_config['file_name_prefix'])
+cv2_imshow_enabled = True if configparser.any_config(section='app')['cv2_imshow_enabled'] == 'True' else False
 
 # Paths
 recognizer_path = None
@@ -129,8 +130,9 @@ def recognize(output_file_name=None, input_confidence=0.5, input_image=None):
                 print(e)
 
     # show the output image
-    cv2.imshow("PickleFaceRec", image)
-    cv2.waitKey(1)  # no freeze, refreshes for a millisecond
+    if cv2_imshow_enabled is True:
+        cv2.imshow("PickleFaceRec", image)
+        cv2.waitKey(1)  # no freeze, refreshes for a millisecond
 
     # Return result
     return detection_name_and_probability
