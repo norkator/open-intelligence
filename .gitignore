@@ -14,6 +14,9 @@ dataset/*
 libraries/tesserocr/tessdata_fast-master/*
 logs/*
 
+# Exclude some libraries
+libraries/nitramite_alpr/
+
 # Exclude some models
 models/coco.names
 models/yolov3.cfg

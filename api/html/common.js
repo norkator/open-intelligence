@@ -47,5 +47,15 @@ function AjaxPostCommandAction(url, jsonBody = {}) {
   }).fail(function (error) {
     toastr.error(error, 'Error', {timeOut: 4000});
   });
+}
 
+function AppendLoadingIndicator(jqueryElement) {
+  jqueryElement.append('<div id="loading_indicator_place_holder" style="width: 100%"></div>');
+  const loading_indicator_place_holder = $('#loading_indicator_place_holder');
+  loading_indicator_place_holder.append('<div id="label_image_loading_indicator" ' +
+    'style="width: 100%" class="text-center">' +
+    '<div class="spinner-border" role="status">' +
+    '<span class="sr-only">Loading...</span>' +
+    '</div>' +
+    '</div>');
 }

@@ -315,3 +315,111 @@ def update_instance(id):
         print(error)
     finally:
         connection.close()
+
+
+def get_labeled_for_training_lp_images():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        query = """SELECT id, label, file_name_cropped, labeling_image_x, labeling_image_y, labeling_image_x2, labeling_image_y2
+            FROM data WHERE labeled_for_training = 1 and (label = 'car' OR label = 'truck' or label = 'bus')
+            and labeling_image_x > 0
+            ORDER BY id ASC;"""
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        query2 = """SELECT id, NULL, file_name_cropped, labeling_image_x, labeling_image_y, labeling_image_x2, labeling_image_y2
+            FROM offsites WHERE labeled_for_training = 1 and (label = 'car' OR label = 'truck' or label = 'bus')
+            and labeling_image_x > 0
+            ORDER BY id ASC;"""
+
+        cursor.execute(query)
+        records = cursor.fetchall()
+        cursor.execute(query2)
+        records2 = cursor.fetchall()
+        concatenated_results = records + records2
+
+        cursor.close()
+        return concatenated_results
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def insert_offsite_value(name, label, file_name, year, month, day, hour, minute, second, file_name_cropped):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # Datetime format: '2011-05-16 15:36:38'
+        file_create_date = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        postgres_insert_query = """
+            INSERT INTO offsites (name, label, file_name, file_create_date, file_name_cropped) VALUES (%s,%s,%s,%s,%s) RETURNING id;
+        """
+
+        # Variables
+        record_to_insert = (
+            name, label, file_name, file_create_date, file_name_cropped)
+
+        # Execute insert
+        cursor.execute(postgres_insert_query, record_to_insert)
+
+        inserted_id = cursor.fetchone()[0]
+        connection.commit()
+        cursor.close()
+
+        return inserted_id
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+        return None
+    finally:
+        connection.close()
+
+
+def get_rejected_offsite_images():
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        query = """SELECT id, file_name_cropped FROM offsites
+          WHERE labeled_for_training = 1 AND labeling_image_x = 0
+          AND labeling_image_y = 0 AND labeling_image_x2 = 0 AND labeling_image_y2 = 0;"""
+
+        cursor.execute(query)
+        records = cursor.fetchall()
+
+        cursor.close()
+        return records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def delete_rejected_offsite_image_record(id):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        postgres_insert_query = """DELETE FROM offsites WHERE id = %s;"""
+
+        # Execute insert
+        cursor.execute(postgres_insert_query, (id,))
+
+        connection.commit()
+        cursor.close()
+
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()

@@ -60,6 +60,16 @@
          style="height: 100%;">
       <div class="card-body d-flex flex-column align-items-center">
         <strong class="d-inline-block mb-2 text-primary">License plate labeling</strong>
+        <div class="d-flex justify-content-center pb-2">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input checked type="radio" id="siteDataRadio" name="optionInlineRadio1" class="custom-control-input">
+            <label class="custom-control-label" for="siteDataRadio">Site data</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="offSiteRadio" name="optionInlineRadio1" class="custom-control-input">
+            <label class="custom-control-label" for="offSiteRadio">Offsite data</label>
+          </div>
+        </div>
         <div class="container">
           <div class="row text-center">
             <div class="col-sm">
@@ -165,7 +175,18 @@
     }, true);
 
 
+    const siteDataRadio = $('#siteDataRadio');
+    siteDataRadio.on('click', function () {
+      getImagesForLabeling();
+    });
+
+    const offSiteRadio = $('#offSiteRadio');
+    offSiteRadio.on('click', function () {
+      getImagesForLabeling();
+    });
     const total_image_count = $('#total_image_count');
+    const training_image_count = $('#training_image_count');
+    const testing_image_count = $('#testing_image_count');
     const sortBtn = $('#sortBtn');
     const rejectBtn = $('#rejectBtn');
     sortBtn.on('click', function () {
@@ -227,10 +248,14 @@
     getImagesForLabeling();
 
     function getImagesForLabeling() {
+      AppendLoadingIndicator(car_images_flex_viewer);
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/get/images/for/labeling',
         type: 'POST',
-        data: {}
+        data: {
+          dataMode: dataMode
+        }
       }).done(function (data) {
         car_images_flex_viewer.empty();
         if (data.images.length > 0) {
@@ -251,10 +276,12 @@
 
     function sortImage(imageId, x, y, x2, y2) {
       console.info(x, y, x2, y2);
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/sort/image',
         type: 'POST',
         data: {
+          dataMode: dataMode,
           image_id: imageId,
           image_x: x,
           image_y: y,
@@ -273,10 +300,12 @@
     }
 
     function rejectImage(imageId) {
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
       $.ajax({
         url: apiUrl + 'training/reject/image',
         type: 'POST',
         data: {
+          dataMode: dataMode,
           image_id: imageId,
         },
       }).done(function (data) {
@@ -315,6 +344,8 @@
         type: 'GET',
       }).done(function (data) {
         total_image_count.text(String(data.count));
+        training_image_count.text(String(Math.floor(data.count * 90 / 100)));
+        testing_image_count.text(String(Math.floor(data.count * 10 / 100)));
       }).fail(function (error) {
       });
     }
