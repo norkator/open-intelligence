@@ -24,7 +24,7 @@ This is small part of front page.
 
 Cameras view             |  Plate calendar
 :-------------------------:|:-------------------------:
-![cameras_1](./other/cameras_1.png)   |  ![plates_1](./other/plates_1.png)
+![cameras_1](./other/cameras_1.PNG)   |  ![plates_1](./other/plates_1.PNG)
 
 <br> 
 
