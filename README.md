@@ -1,6 +1,4 @@
-<h1 align="center">
-  <a href="http://www.nitramite.com/"><img src="https://github.com/norkator/Open-Intelligence/blob/master/other/oi_title_logo.png" alt="Open-Intelligence"></a>
-</h1>
+![Open-Intelligence-title-logo](./other/oi_title_logo.png) 
 
 # Open-Intelligence
 
@@ -18,9 +16,17 @@ need for expensive camera systems because any existing cameras are suitable.
 
 <b>This project is looking for funding!</b>
 
-<p align="start">
-  <img src="https://github.com/norkator/Open-Intelligence/blob/master/other/frontpage_1.png" alt="oi-frontpage">
-</p>
+![Open-Intelligence-Front-Page](./other/frontpage_2.png) 
+
+This is small part of front page.
+
+<br>
+
+Cameras view             |  Plate calendar
+:-------------------------:|:-------------------------:
+![cameras_1](./other/cameras_1.png)   |  ![plates_1](./other/plates_1.png)
+
+<br> 
 
 Open Intelligence is suitable from private properties to small businesses with medium activity.
 
@@ -211,3 +217,5 @@ I have needed to make small changes to them, that's why those are included here.
 ### About license
 Current license is not fully suitable. I don't allow commercial use.  
 NonCommercial use only.
+
+
