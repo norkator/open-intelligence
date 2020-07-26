@@ -619,7 +619,7 @@ exports.NoRead = function (detection_result) {
  * @return {Promise<Array>}
  * @constructor
  */
-function GetInstances(sequelizeObjects) {
+async function GetInstances(sequelizeObjects) {
   return new Promise(function (resolve, reject) {
     sequelizeObjects.Instance.findAll({
       attributes: [

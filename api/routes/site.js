@@ -8,13 +8,13 @@ dotEnv.config();
 const os = require('os-utils');
 
 
-function Site(router, sequelizeObjects) {
+async function Site(router, sequelizeObjects) {
 
 
   /**
    * Get intelligence
    */
-  router.post('/get/intelligence', function (req, res) {
+  router.post('/get/intelligence', async (req, res) => {
 
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
@@ -30,7 +30,7 @@ function Site(router, sequelizeObjects) {
     let activityData = {'data': [], 'xkey': 'h', 'ykeys': ['a'], 'labels': ['Activity']};
     let donutData = [];
 
-    sequelizeObjects.Data.findAll({
+    const rows = await sequelizeObjects.Data.findAll({
       attributes: [
         'label',
         'file_name',
@@ -47,39 +47,38 @@ function Site(router, sequelizeObjects) {
       order: [
         ['file_create_date', 'asc']
       ]
-    }).then(rows => {
-      if (rows.length > 0) {
+    });
 
-        // Create activity chart data
-        for (let i = 0; i < 24; i++) {
-          const activityHourStr = utils.AddLeadingZeros(String(i), 2);
-          const activity = rows.filter(function (row) {
-            let momentHour = moment(row.file_create_date).utc(true).format('HH');
-            return momentHour === activityHourStr
-          }).length;
-          activityData.data.push({h: activityHourStr, a: activity});
-        }
+    if (rows.length > 0) {
 
-        // Parse label counts
-        donutData = utils.GetLabelCounts(rows);
+      // Create activity chart data
+      for (let i = 0; i < 24; i++) {
+        const activityHourStr = utils.AddLeadingZeros(String(i), 2);
+        const activity = rows.filter(function (row) {
+          let momentHour = moment(row.file_create_date).utc(true).format('HH');
+          return momentHour === activityHourStr
+        }).length;
+        activityData.data.push({h: activityHourStr, a: activity});
       }
 
-      utils.GetInstances(sequelizeObjects).then(instances => {
-        performance.instanceCount = instances.length;
-        utils.GetStorageUsage().then(storageUsage => {
-          performance.storageUse = storageUsage;
-          // Return results
-          res.json({
-            performance: performance,
-            activity: activityData,
-            donut: donutData,
-          });
-        });
+      // Parse label counts
+      donutData = utils.GetLabelCounts(rows);
+    }
+
+    const instances = await utils.GetInstances(sequelizeObjects);
+
+    performance.instanceCount = instances.length;
+    utils.GetStorageUsage().then(storageUsage => {
+      performance.storageUse = storageUsage;
+      // Return results
+      res.json({
+        performance: performance,
+        activity: activityData,
+        donut: donutData,
       });
-    }).catch(error => {
-      res.status(500);
-      res.send(error);
-    })
+    });
+
+
   });
 
 
