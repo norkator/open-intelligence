@@ -125,8 +125,9 @@ Python Apps
 This part is explaining in better detail what each of base python app scripts is meant for. Many 
 tasks are separated for each part. App.py is always main process, the first thing that sees images.
 
-App.py
+App
 -----
+* File: `App.py`
 * Status: *Mandatory*  
 * This is main app which is responsible for processing input images from configured sources.
 * Cluster support: Yes.
