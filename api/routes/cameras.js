@@ -7,10 +7,10 @@ dotEnv.config();
 const os = require('os-utils');
 
 
-function Cameras(router, sequelizeObjects) {
+async function Cameras(router, sequelizeObjects) {
 
 
-  router.post('/get/latest/camera/images', function (req, res) {
+  router.post('/get/latest/camera/images', async (req, res) => {
     let outputData = {images: []};
     const objectDetectionImagesPath = path.join(__dirname + '../../../' + 'output/object_detection/');
     sequelizeObjects.sequelize.query(

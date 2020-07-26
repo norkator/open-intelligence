@@ -7,10 +7,10 @@ const dotEnv = require('dotenv');
 dotEnv.config();
 
 
-function Training(router, sequelizeObjects) {
+async function Training(router, sequelizeObjects) {
 
 
-  router.post('/training/get/images/for/labeling', function (req, res) {
+  router.post('/training/get/images/for/labeling', async (req, res) => {
     let outputData = {images: []};
     const dataMode = req.body.dataMode;
     let filePath = (dataMode === 'OffSite' ?
@@ -95,7 +95,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.post('/training/sort/image', function (req, res) {
+  router.post('/training/sort/image', async (req, res) => {
     const dataMode = req.body.dataMode;
     if (dataMode !== undefined) {
       const imageId = req.body.image_id;
@@ -130,7 +130,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.post('/training/reject/image', function (req, res) {
+  router.post('/training/reject/image', async (req, res) => {
     const dataMode = req.body.dataMode;
     if (dataMode !== undefined) {
       const imageId = req.body.image_id;
@@ -156,7 +156,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.get('/training/get/labeled/images/count', function (req, res) {
+  router.get('/training/get/labeled/images/count', async (req, res) => {
     // Count => total count
     let result = {count: 0, internalCount: 0, offSiteCount: 0};
     sequelizeObjects.Data.findAll({
@@ -198,7 +198,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.get('/training/command/export', function (req, res) {
+  router.get('/training/command/export', async (req, res) => {
     sequelizeObjects.App.create({
       action_name: 'lp_training_export'
     }).then(result => {
@@ -211,7 +211,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.get('/training/command/train', function (req, res) {
+  router.get('/training/command/train', async (req, res) => {
     sequelizeObjects.App.create({
       action_name: 'lp_training_train'
     }).then(result => {

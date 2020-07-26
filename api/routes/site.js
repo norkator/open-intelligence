@@ -85,7 +85,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get weekly intelligence
    */
-  router.get('/get/weekly/intelligence', function (req, res) {
+  router.get('/get/weekly/intelligence', async (req, res) => {
     let activityDataWeek = {'data': [], 'xkey': 'h', 'ykeys': ['a'], 'labels': ['Activity']};
     const startDay = moment().startOf('day').subtract(7, 'days').utc(true);
     sequelizeObjects.Data.findAll({
@@ -133,7 +133,7 @@ async function Site(router, sequelizeObjects) {
    * Folder: /output/object_detection/
    * base64 image data output
    */
-  router.get('/get/latest/object/detection/image', function (req, res) {
+  router.get('/get/latest/object/detection/image', async (req, res) => {
     const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
     fs.readdir(filePath, function (err, files) {
       if (err) {
@@ -166,7 +166,7 @@ async function Site(router, sequelizeObjects) {
    * Get label images from output /label folder
    * label specified at post body
    */
-  router.post('/get/label/images', function (req, res) {
+  router.post('/get/label/images', async (req, res) => {
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
 
@@ -246,7 +246,7 @@ async function Site(router, sequelizeObjects) {
    * Loads sr image
    * if sr not found, load normal image
    */
-  router.post('/get/super/resolution/image', function (req, res) {
+  router.post('/get/super/resolution/image', async (req, res) => {
     const label = req.body.label;
     const image_file_name = req.body.imageFile;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/super_resolution/');
@@ -301,7 +301,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get voice intelligence
    */
-  router.get('/get/voice/intelligence', function (req, res) {
+  router.get('/get/voice/intelligence', async (req, res) => {
     let output = {message: ''};
 
     sequelizeObjects.Data.findAll({
@@ -379,7 +379,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get license plate detection results
    */
-  router.post('/get/license/plate/detections', function (req, res) {
+  router.post('/get/license/plate/detections', async (req, res) => {
 
     // Variables
     const filePath = path.join(__dirname + '../../../' + 'output/');
@@ -536,7 +536,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get faces
    */
-  router.post('/get/faces', function (req, res) {
+  router.post('/get/faces', async (req, res) => {
     let faces = [];
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
@@ -633,7 +633,7 @@ async function Site(router, sequelizeObjects) {
    * Load non grouped face grouping images
    * also loads person name folders
    */
-  router.get('/get/face/grouping/images', function (req, res) {
+  router.get('/get/face/grouping/images', async (req, res) => {
     let outputData = {names: [], images: []};
     const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
     fs.readdir(filePath, function (err, files) {
@@ -705,7 +705,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Move face grouping image to selected folder
    */
-  router.post('/move/face/grouping/image', function (req, res) {
+  router.post('/move/face/grouping/image', async (req, res) => {
     const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
     const name = req.body.name;
     const rectFileName = req.body.rectFileName;
@@ -737,7 +737,7 @@ async function Site(router, sequelizeObjects) {
    * Insert train face model using to stack
    * then python will run training script at 'App' at some point of time
    */
-  router.get('/train/face/model', function (req, res) {
+  router.get('/train/face/model', async (req, res) => {
     sequelizeObjects.App.create({
       action_name: 'train_face_model'
     }).then(result => {
@@ -753,7 +753,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Updates data row that face detection is tried again
    */
-  router.post('/try/face/detection/again', function (req, res) {
+  router.post('/try/face/detection/again', async (req, res) => {
     const id = Number(req.body.id);
     sequelizeObjects.Data.update({
         detection_result: null,
@@ -773,7 +773,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get licence plates
    */
-  router.get('/get/licence/plates', function (req, res) {
+  router.get('/get/licence/plates', async (req, res) => {
     utils.GetLicensePlates(sequelizeObjects).then(plates => {
       res.json({plates: plates});
     });
@@ -784,7 +784,7 @@ async function Site(router, sequelizeObjects) {
    * Add new licence plate
    * action_type ['add', 'remove', 'changes']
    */
-  router.post('/manage/licence/plates', function (req, res) {
+  router.post('/manage/licence/plates', async (req, res) => {
     const actionType = req.body.action_type;
     switch (actionType) {
       case 'add':
@@ -841,7 +841,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Load object_detection folder image file with given name
    */
-  router.post('/get/object/detection/image', function (req, res) {
+  router.post('/get/object/detection/image', async (req, res) => {
     const object_detection_image_file_name = String(req.body.objectDetectionImageFileName)
       .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png'); // TODO: Not good, re-think later.
     const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
@@ -862,7 +862,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get object detection image file name for cropped image
    */
-  router.post('/get/object/detection/image/for/cropped/image', function (req, res) {
+  router.post('/get/object/detection/image/for/cropped/image', async (req, res) => {
     const croppedImageName = req.body.croppedImageName;
     sequelizeObjects.Data.findAll({
       attributes: [
@@ -886,7 +886,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Load object_detection folder image file with given name
    */
-  router.post('/download/image', function (req, res) {
+  router.post('/download/image', async (req, res) => {
     const image_file_type = String(req.body.imageFileType);
     const label = String(req.body.label);
     const image_file_name = String(req.body.imageFileName);
@@ -912,7 +912,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get instance status details
    */
-  router.get('/get/instance/details', function (req, res) {
+  router.get('/get/instance/details', async (req, res) => {
     utils.GetInstances(sequelizeObjects).then(instances => {
       res.json(instances);
     }).catch(error => {

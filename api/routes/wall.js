@@ -8,13 +8,13 @@ dotenv.config();
 const os = require('os-utils');
 
 
-function Wall(router, sequelizeObjects) {
+async function Wall(router, sequelizeObjects) {
 
 
   /**
    * Get image wall images
    */
-  router.post('/get/images', function (req, res) {
+  router.post('/get/images', async (req, res) => {
     const myImages = JSON.parse(req.body.images);
     const basePath = path.join(__dirname + '../../../' + 'output/');
     let outputData = {images: []};
@@ -43,7 +43,12 @@ function Wall(router, sequelizeObjects) {
         for (let i = (rows.length > 80 ? rows.length - 80 : 0); i < rows.length; i++) {
           let row = rows[i];
           if (utils.ImageNotInImages(row.file_name_cropped, myImages)) {
-            filesList.push({"path": basePath, "label": row.label + '/', "file": row.file_name_cropped, "mtime": row.file_create_date})
+            filesList.push({
+              "path": basePath,
+              "label": row.label + '/',
+              "file": row.file_name_cropped,
+              "mtime": row.file_create_date
+            })
           }
         }
 

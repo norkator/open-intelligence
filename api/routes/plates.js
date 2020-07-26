@@ -5,10 +5,10 @@ const dotEnv = require('dotenv');
 dotEnv.config();
 
 
-function Plates(router, sequelizeObjects) {
+async function Plates(router, sequelizeObjects) {
 
 
-  router.post('/get/calendar/events', function (req, res) {
+  router.post('/get/calendar/events', async (req, res) => {
     let output = {events: []};
     utils.GetLicensePlates(sequelizeObjects).then(knownPlates => {
       if (knownPlates.length > 0) {

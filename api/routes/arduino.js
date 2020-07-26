@@ -4,10 +4,10 @@ const dotEnv = require('dotenv');
 dotEnv.config();
 
 
-function Arduino(router, sequelizeObjects) {
+async function Arduino(router, sequelizeObjects) {
 
 
-  router.post('/arduino/display/data', function (req, res) {
+  router.post('/arduino/display/data', async (req, res) => {
     let output = {
       output: {
         detections_count: "0",

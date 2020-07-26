@@ -8,10 +8,10 @@ dotEnv.config();
 const os = require('os-utils');
 
 
-function Faces(router, sequelizeObjects) {
+async function Faces(router, sequelizeObjects) {
 
 
-  router.post('/get/faces/for/day', function (req, res) {
+  router.post('/get/faces/for/day', async (req, res) => {
     let outputData = {images: []};
     const selectedDate = req.body.selectedDate;
     const filePath = path.join(__dirname + '../../../' + 'output/insightface/faces/');
