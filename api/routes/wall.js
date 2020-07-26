@@ -18,7 +18,8 @@ async function Wall(router, sequelizeObjects) {
     const myImages = JSON.parse(req.body.images);
     const basePath = path.join(__dirname + '../../../' + 'output/');
     let outputData = {images: []};
-    sequelizeObjects.Data.findAll({
+
+    const rows = await sequelizeObjects.Data.findAll({
       attributes: [
         'label',
         'file_name',
@@ -35,75 +36,75 @@ async function Wall(router, sequelizeObjects) {
       order: [
         ['file_create_date', 'asc']
       ]
-    }).then(rows => {
-      if (rows.length > 0) {
+    });
 
-        let filesList = [];
+    if (rows.length > 0) {
 
-        for (let i = (rows.length > 80 ? rows.length - 80 : 0); i < rows.length; i++) {
-          let row = rows[i];
-          if (utils.ImageNotInImages(row.file_name_cropped, myImages)) {
-            filesList.push({
-              "path": basePath,
-              "label": row.label + '/',
-              "file": row.file_name_cropped,
-              "mtime": row.file_create_date
-            })
-          }
+      let filesList = [];
+
+      for (let i = (rows.length > 80 ? rows.length - 80 : 0); i < rows.length; i++) {
+        let row = rows[i];
+        if (utils.ImageNotInImages(row.file_name_cropped, myImages)) {
+          filesList.push({
+            "path": basePath,
+            "label": row.label + '/',
+            "file": row.file_name_cropped,
+            "mtime": row.file_create_date
+          })
         }
+      }
 
-        if (filesList.length === 0) {
-          console.log('No new images..');
-          res.json(outputData);
-        }
-
-        // Read file data
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(filesList.length);
-
-        async function processImagesSequentially(taskLength) {
-
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            // console.log('Loading: ' + filesList[t].file);
-            outputData.images.push(await task(filesList[t].path, filesList[t].label, filesList[t].file, filesList[t].mtime));
-            t++;
-            if (t === taskLength) {
-              res.json(outputData); // All tasks completed, return
-            }
-          }
-        }
-
-        function processImage(path, label, file, mtime) {
-          return new Promise(resolve => {
-            fs.readFile(basePath + label + file, function (err, data) {
-              if (!err) {
-                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-                resolve({
-                  title: datetime,
-                  file: file,
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
-              } else {
-                console.log(err);
-                resolve('data:image/png;base64,');
-              }
-            });
-          });
-        }
-
-
-      } else {
+      if (filesList.length === 0) {
+        console.log('No new images..');
         res.json(outputData);
       }
-    });
+
+      // Read file data
+      // noinspection JSIgnoredPromiseFromCall
+      processImagesSequentially(filesList.length);
+
+      async function processImagesSequentially(taskLength) {
+
+        // Specify tasks
+        const promiseTasks = [];
+        for (let i = 0; i < taskLength; i++) {
+          promiseTasks.push(processImage);
+        }
+
+        // Execute tasks
+        let t = 0;
+        for (const task of promiseTasks) {
+          // console.log('Loading: ' + filesList[t].file);
+          outputData.images.push(await task(filesList[t].path, filesList[t].label, filesList[t].file, filesList[t].mtime));
+          t++;
+          if (t === taskLength) {
+            res.json(outputData); // All tasks completed, return
+          }
+        }
+      }
+
+      function processImage(path, label, file, mtime) {
+        return new Promise(resolve => {
+          fs.readFile(basePath + label + file, function (err, data) {
+            if (!err) {
+              const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
+              resolve({
+                title: datetime,
+                file: file,
+                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+              });
+            } else {
+              console.log(err);
+              resolve('data:image/png;base64,');
+            }
+          });
+        });
+      }
+
+
+    } else {
+      res.json(outputData);
+    }
 
   });
 
