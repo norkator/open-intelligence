@@ -15,7 +15,7 @@ async function Arduino(router, sequelizeObjects) {
         last_lp: '',
       }
     };
-    sequelizeObjects.Data.findAll({
+    const rows = await sequelizeObjects.Data.findAll({
       attributes: [
         'label',
         'detection_result',
@@ -29,31 +29,29 @@ async function Arduino(router, sequelizeObjects) {
       order: [
         ['file_create_date', 'asc']
       ]
-    }).then(rows => {
-      if (rows.length > 0) {
-        output.output.detections_count = String(rows.length);
+    });
 
-        output.output.persons_count = String(rows.filter(r => {
-          return r.label === 'person';
-        }).length);
+    if (rows.length > 0) {
+      output.output.detections_count = String(rows.length);
 
-        rows.forEach(row => {
-          const l = row.label;
-          const dr = row.detection_result;
-          if ((l === 'car' || l === 'truck' || l === 'bus') && dr !== null && dr !== '') {
-            output.output.last_lp = dr;
-          }
-        });
+      output.output.persons_count = String(rows.filter(r => {
+        return r.label === 'person';
+      }).length);
 
-        res.json(output);
-      } else {
-        res.status(500);
-        res.send('');
-      }
-    }).catch(error => {
+      rows.forEach(row => {
+        const l = row.label;
+        const dr = row.detection_result;
+        if ((l === 'car' || l === 'truck' || l === 'bus') && dr !== null && dr !== '') {
+          output.output.last_lp = dr;
+        }
+      });
+
+      res.json(output);
+    } else {
       res.status(500);
-      res.send(error);
-    })
+      res.send('');
+    }
+
   });
 
 
