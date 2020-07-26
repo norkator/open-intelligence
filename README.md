@@ -57,7 +57,8 @@ I didn't want to bloat version control with third party libraries this hard so c
 2. Install dependencies `pip install -r requirements_windows.txt`
 3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
 4. Extract weights, cfg and coco to `models` folder
-5. Download Postgresql server ( https://www.postgresql.org/ ) I am using version <b>11.6</b>
+5. Download Postgresql server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
+its also tested with version 12.
 6. Rename `config.ini.tpl` to `config.ini` and fill details. (for multi nodes, see own section)
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
