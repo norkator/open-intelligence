@@ -10,6 +10,7 @@ const OffSiteModel = require('../models/offsite');
 const AppModel = require('../models/app');
 const PlatesModel = require('../models/plate');
 const InstanceModel = require('../models/instance');
+const RecordingModel = require('../models/recording');
 
 
 // Sequelize instance
@@ -36,6 +37,7 @@ const OffSite = OffSiteModel(sequelize, Sequelize);
 const App = AppModel(sequelize, Sequelize);
 const Plate = PlatesModel(sequelize, Sequelize);
 const Instance = InstanceModel(sequelize, Sequelize);
+const Recording = RecordingModel(sequelize, Sequelize);
 
 
 // Sync with database
@@ -52,4 +54,5 @@ module.exports = {
   App,
   Plate,
   Instance,
+  Recording,
 };
