@@ -1078,7 +1078,7 @@
         if (data.length > 0) {
           data.forEach(a => {
             if (a !== null) {
-              labelAudioStack.push(new Audio("data:audio/mp3;base64," + a))
+              labelAudioStack.push(new Audio("data:audio/mp3;base64," + a.audio))
             }
           });
           playAudioStack(labelAudioStack)

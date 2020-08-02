@@ -66,8 +66,7 @@ async function playAudioStack(audioStack = []) {
     const item = audioStack[i];
     await new Promise((resolve) => {
       if (item === 0) {
-        // insert desired number of milliseconds to pause here
-        setTimeout(resolve, 250);
+        setTimeout(resolve, 0);
       } else {
         item.onended = resolve;
         item.play();
