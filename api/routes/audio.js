@@ -1,13 +1,9 @@
 const moment = require('moment');
-const utils = require('../module/utils');
 const fs = require('fs');
 const {Op} = require('sequelize');
 const path = require('path');
 const dotEnv = require('dotenv');
 dotEnv.config();
-const os = require('os-utils');
-const Sequelize = require('sequelize');
-
 
 async function Audio(router, sequelizeObjects) {
 
@@ -51,9 +47,6 @@ async function Audio(router, sequelizeObjects) {
 
       function processAudio(file_name) {
         return new Promise(resolve_ => {
-
-          console.log(audioPath + file_name + file_extension);
-
           fs.readFile(
             audioPath + file_name + file_extension, function (err, data) {
               if (!err) {
@@ -66,8 +59,7 @@ async function Audio(router, sequelizeObjects) {
       }
 
     } else {
-      res.status(200);
-      res.send('No audio.');
+      res.json([]);
     }
 
   });

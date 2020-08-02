@@ -59,3 +59,19 @@ function AppendLoadingIndicator(jqueryElement) {
     '</div>' +
     '</div>');
 }
+
+
+async function playAudioStack(audioStack = []) {
+  for (let i = 0; i < audioStack.length; i++) {
+    const item = audioStack[i];
+    await new Promise((resolve) => {
+      if (item === 0) {
+        // insert desired number of milliseconds to pause here
+        setTimeout(resolve, 250);
+      } else {
+        item.onended = resolve;
+        item.play();
+      }
+    });
+  }
+}
