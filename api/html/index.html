@@ -1075,12 +1075,16 @@
         },
       }).done(function (data) {
         labelAudioStack = [];
-        data.forEach(a => {
-          if (a !== null) {
-            labelAudioStack.push(new Audio("data:audio/mp3;base64," + a))
-          }
-        });
-        playAudioStack(labelAudioStack)
+        if (data.length > 0) {
+          data.forEach(a => {
+            if (a !== null) {
+              labelAudioStack.push(new Audio("data:audio/mp3;base64," + a))
+            }
+          });
+          playAudioStack(labelAudioStack)
+        } else {
+          console.log('No audio for label.')
+        }
       }).fail(function (error) {
         alert(error);
       });
