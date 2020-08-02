@@ -9,7 +9,8 @@ async function Audio(router, sequelizeObjects) {
 
 
   router.post('/audio/get/for/label', async (req, res) => {
-    const image_file_create_date = moment(req.body.imageFileCreateDate).format(process.env.DATE_TIME_FORMAT);
+    const image_file_create_date =
+      moment(req.body.imageFileCreateDate).utc().format(process.env.DATE_TIME_FORMAT);
     const audioPath = path.join(__dirname + '../../../' + 'output/audio/');
     const file_extension = '.mp3';
     const audioFiles = [];
