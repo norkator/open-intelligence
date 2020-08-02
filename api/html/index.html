@@ -888,6 +888,7 @@
             ' <p class="text-muted">No super resolution image.</p>'
         );
         generic_modal_image.attr("src", data.data);
+        getAudioRecordings(data.file_create_date);
       }).fail(function (error) {
         bool_speaking = false;
       });
@@ -1064,6 +1065,21 @@
             '</tr>'
           )
         });
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    function getAudioRecordings(fileCreateDate) {
+      $.ajax({
+        url: apiUrl + 'audio/get/for/label',
+        type: 'POST',
+        data: {
+          imageFileCreateDate: fileCreateDate
+        },
+      }).done(function (data) {
+        console.log(data)
       }).fail(function (error) {
         alert(error);
       });
