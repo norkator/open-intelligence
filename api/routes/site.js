@@ -261,6 +261,7 @@ async function Site(router, sequelizeObjects) {
         'file_name',
         'detection_result',
         'color',
+        'file_create_date',
       ],
       where: {
         file_name_cropped: image_file_name
@@ -281,6 +282,7 @@ async function Site(router, sequelizeObjects) {
                 'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
                 'detectionResult': detection_result,
                 'color': row.color,
+                'file_create_date': row.file_create_date,
               });
             }
           });
@@ -290,6 +292,7 @@ async function Site(router, sequelizeObjects) {
             'data': 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
             'detectionResult': detection_result,
             'color': row.color,
+            'file_create_date': row.file_create_date,
           });
         }
       });

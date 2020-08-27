@@ -423,6 +423,7 @@
     }
 
     // Sound files
+    let labelAudioStack = [];
     let cursorClick01Sound = new Audio("/sounds/cursor_click_01.wav");
 
     // Init zoom effect to all img elements
@@ -454,23 +455,17 @@
     const storage_use_monitor = $('#storage_use_monitor');
     const resource_monitor = $('#resource_monitor');
     const generic_image_modal = $('#generic_image_modal');
-    /*
-    generic_image_modal.on('shown.bs.modal', function () {
-      generic_modal_image.Jcrop({
-        boxWidth: generic_modal_image.width(),
-        onChange: function (c) {
-        },
-        onSelect: function (c) {
-          // console.log('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
-          // console.log('w=' + c.w + ' h=' + c.h)
-        }
-      });
-    });
+
     generic_image_modal.on('hidden.bs.modal', function () {
-      jcrop_reference = generic_modal_image.data('Jcrop');
-      jcrop_reference.destroy();
+      try {
+        labelAudioStack.forEach(a => {
+          a.pause();
+          a.currentTime = 0;
+        });
+      } catch (e) {
+      }
     });
-    */
+
     let startTime, endTime, longPress;
     label_image_flex_viewer.on('click', 'img', function () {
       if (longPress) {
@@ -888,6 +883,7 @@
             ' <p class="text-muted">No super resolution image.</p>'
         );
         generic_modal_image.attr("src", data.data);
+        getAudioRecordings(data.file_create_date);
       }).fail(function (error) {
         bool_speaking = false;
       });
@@ -1064,6 +1060,31 @@
             '</tr>'
           )
         });
+      }).fail(function (error) {
+        alert(error);
+      });
+    }
+
+
+    function getAudioRecordings(fileCreateDate) {
+      $.ajax({
+        url: apiUrl + 'audio/get/for/label',
+        type: 'POST',
+        data: {
+          imageFileCreateDate: fileCreateDate
+        },
+      }).done(function (data) {
+        labelAudioStack = [];
+        if (data.length > 0) {
+          data.forEach(a => {
+            if (a !== null) {
+              labelAudioStack.push(new Audio("data:audio/mp3;base64," + a.audio))
+            }
+          });
+          playAudioStack(labelAudioStack)
+        } else {
+          console.log('No audio for label.')
+        }
       }).fail(function (error) {
         alert(error);
       });
