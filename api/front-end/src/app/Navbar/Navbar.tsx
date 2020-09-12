@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Navbar from 'react-bootstrap/Navbar'
-import './Navbar.css'
+import styles from './Navbar.module.css'
 
 class NavBar extends Component<any, any> {
   render() {
@@ -9,7 +9,7 @@ class NavBar extends Component<any, any> {
 
     return (
       <>
-        <Navbar bg="dark" variant="dark" className={NavbarBrand}>
+        <Navbar bg="dark" variant="dark" className={styles.NavbarBrand}>
           <Navbar.Brand href="#home">
             <img
               alt="Open-Intelligence Logo"
