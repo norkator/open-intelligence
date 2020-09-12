@@ -103,7 +103,6 @@ Project folder structure
 ============
 
     .
-    ├── android                  # Simple Android viewing client app source code for this project
     ├── api                      # Api which is serving small static web page
     ├── classifiers              # Classifiers for different detectors like faces
     ├── dataset                  # Images of people to be detected
