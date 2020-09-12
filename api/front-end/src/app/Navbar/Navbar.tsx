@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Navbar from 'react-bootstrap/Navbar'
+import {Navbar, Nav} from 'react-bootstrap'
 import styles from './Navbar.module.css'
 
 class NavBar extends Component<any, any> {
@@ -9,8 +9,8 @@ class NavBar extends Component<any, any> {
 
     return (
       <>
-        <Navbar bg="dark" variant="dark" className={styles.NavbarBrand}>
-          <Navbar.Brand href="#home">
+        <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar.Brand className={styles.NavbarBrand}>
             <img
               alt="Open-Intelligence Logo"
               src={navBarImg}
@@ -18,8 +18,18 @@ class NavBar extends Component<any, any> {
               height="36"
               className="d-inline-block align-top"
             />{' '}
-            Open-Intelligence
+            <span>Open-Intelligence</span>
           </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarSupportedContent"/>
+
+          <Navbar.Collapse id="navbarSupportedContent">
+            <Nav.Link href="/home" className={styles.Link}>Home</Nav.Link>
+            <Nav.Link href="/cameras" className={styles.Link}>Cameras</Nav.Link>
+            <Nav.Link href="/plates" className={styles.Link}>Plates</Nav.Link>
+            <Nav.Link href="/faces" className={styles.Link}>Faces</Nav.Link>
+            <Nav.Link href="/training" className={styles.Link}>Training</Nav.Link>
+          </Navbar.Collapse>
+
         </Navbar>
       </>
     )
