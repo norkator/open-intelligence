@@ -15,3 +15,7 @@ code {
 html, body, #root, .App {
   height: 100vh;
 }
+
+.CursorPointer {
+  cursor: pointer;
+}
