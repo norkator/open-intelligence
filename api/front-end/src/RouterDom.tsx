@@ -1,5 +1,6 @@
 import React from "react";
-import {Switch, Route} from "react-router-dom"
+import {Switch, Route, useLocation} from "react-router-dom"
+import styles from './app/Cameras/Cameras.module.css'
 
 import Cameras from "./app/Cameras/Cameras";
 import Home from "./app/Home/Home";
@@ -10,11 +11,20 @@ import Home from "./app/Home/Home";
  * @constructor
  */
 const RouterDom = () => {
+  const location = useLocation();
+  let classes: string[] = [];
+
+  if (location.pathname === '/cameras') {
+    classes = [styles.Cameras];
+  }
+
   return (
-    <Switch>
-      <Route exact path='/' component={Home}/>
-      <Route exact path='/cameras' component={Cameras}/>
-    </Switch>
+    <div className={classes.join(' ')}>
+      <Switch>
+        <Route exact path='/' component={Home}/>
+        <Route exact path='/cameras' component={Cameras}/>
+      </Switch>
+    </div>
   );
 };
 

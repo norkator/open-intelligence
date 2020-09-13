@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import styles from './Cameras.module.css'
+// import styles from './Cameras.module.css'
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
 
 interface ImageDataInterface {
@@ -11,21 +11,35 @@ interface ImageDataInterface {
 }
 
 class Cameras extends Component {
+  private _isMounted: boolean;
+
   state = {
     imageData: [] as ImageDataInterface[]
   };
 
+  constructor(props: any) {
+    super(props);
+    this._isMounted = false;
+  }
+
   componentDidMount(): void {
+    this._isMounted = true;
     axios.post(GET_LATEST_CAMERA_IMAGES_PATH).then((data: any) => {
-      this.setState({imageData: data.data.images})
+      if (this._isMounted) {
+        this.setState({imageData: data.data.images});
+      }
     }).catch(error => {
       console.error(error);
     });
   }
 
+  componentWillUnmount(): void {
+    this._isMounted = false;
+  }
+
   render() {
     const cameraFlexStyle = ["d-flex", "justify-content-center", "flex-wrap"];
-    let cameraImages: JSX.Element[] = [<></>]; // JSX.Element[] = [<span className={cameraFlexStyle.join(' ')}>No camera images available</span>];
+    let cameraImages: JSX.Element[] = [<div key="null"/>]; // JSX.Element[] = [<span className={cameraFlexStyle.join(' ')}>No camera images available</span>];
 
     if (this.state.imageData !== undefined) {
       if (this.state.imageData.length > 0) {
@@ -36,7 +50,7 @@ class Cameras extends Component {
     }
 
     return (
-      <div className={styles.Cameras}>
+      <div>
         <div className={cameraFlexStyle.join(' ')}>
           {cameraImages}
         </div>
