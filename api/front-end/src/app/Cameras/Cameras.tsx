@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-// import styles from './Cameras.module.css'
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
 
 interface ImageDataInterface {
@@ -57,7 +56,7 @@ class Cameras extends Component {
           return (
             <img
               id={image.id}
-              title={image.name}
+              title={image.name + ' ' + new Date(image.file_create_date).toDateString()}
               className="CursorPointer"
               style={{width: width, height: height}}
               key={image.id}
