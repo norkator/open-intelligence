@@ -24,13 +24,15 @@ class Cameras extends Component {
   }
 
   render() {
-    const cameraFlexStyle = ["d-flex", "justify-content-center", "flex-wrap", "CameraFlexStyle"];
-    let cameraImages: JSX.Element[] = [<span>No camera images available</span>];
+    const cameraFlexStyle = ["d-flex", "justify-content-center", "flex-wrap"];
+    let cameraImages: JSX.Element[] = [<></>]; // JSX.Element[] = [<span className={cameraFlexStyle.join(' ')}>No camera images available</span>];
 
     if (this.state.imageData !== undefined) {
-      cameraImages = this.state.imageData.map(image => {
-        return <div key={image.id}>{image.file_name}</div>
-      });
+      if (this.state.imageData.length > 0) {
+        cameraImages = this.state.imageData.map(image => {
+          return <div key={image.id}>{image.file_name}</div>
+        });
+      }
     }
 
     return (
