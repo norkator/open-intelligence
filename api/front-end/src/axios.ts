@@ -13,3 +13,4 @@ const basePath: string = process.env.REACT_APP_API_BASE_URL !== undefined ?
   process.env.REACT_APP_API_BASE_URL : document.location.href;
 
 export const GET_LATEST_CAMERA_IMAGES_PATH = basePath + "get/latest/camera/images";
+export const GET_FACES_FOR_DAY_PATH = basePath + "get/faces/for/day";
