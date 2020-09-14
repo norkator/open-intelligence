@@ -14,7 +14,8 @@ class Cameras extends Component {
 
   state = {
     windowWidth: window.innerWidth,
-    imageData: [] as ImageDataInterface[]
+    imageData: [] as ImageDataInterface[],
+    intervalId: 0,
   };
 
   constructor(props: any) {
@@ -25,6 +26,12 @@ class Cameras extends Component {
   componentDidMount(): void {
     this._isMounted = true;
     window.addEventListener("resize", this.handleResize);
+    this.loadCameraImages();
+    const intervalId = setInterval(() => this.loadCameraImages(), 60 * 1000);
+    this.setState({intervalId: intervalId});
+  }
+
+  loadCameraImages = () => {
     axios.post(GET_LATEST_CAMERA_IMAGES_PATH).then((data: any) => {
       if (this._isMounted) {
         this.setState({imageData: data.data.images});
@@ -32,9 +39,10 @@ class Cameras extends Component {
     }).catch(error => {
       console.error(error);
     });
-  }
+  };
 
   componentWillUnmount(): void {
+    clearInterval(this.state.intervalId);
     this._isMounted = false;
     window.removeEventListener("resize", this.handleResize);
   }
