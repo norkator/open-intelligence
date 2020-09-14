@@ -57,7 +57,7 @@ class Cameras extends Component {
             <img
               id={image.id}
               title={image.name + ' ' + new Date(image.file_create_date).toDateString()}
-              className="CursorPointer"
+              className="CursorPointer magictime vanishIn"
               style={{width: width, height: height}}
               key={image.id}
               src={image.image}
