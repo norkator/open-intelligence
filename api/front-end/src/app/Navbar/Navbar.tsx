@@ -43,7 +43,7 @@ class NavBar extends Component<any, any> {
               height="36"
               className="d-inline-block align-top"
             />{' '}
-            <span>Open-Intelligence</span>
+            <span className={styles.NavbarBrand}>Open-Intelligence</span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarSupportedContent"/>
           <Navbar.Collapse id="navbarSupportedContent">
