@@ -13,6 +13,7 @@ class Faces extends Component {
   state = {
     selectedDay: new Date().toISOString().substr(0, 10),
     faceImages: [] as FacesInterface[],
+    intervalId: 0,
   };
 
 
@@ -24,9 +25,12 @@ class Faces extends Component {
   componentDidMount(): void {
     this._isMounted = true;
     this.loadFaceImages(this.state.selectedDay);
+    const intervalId = setInterval(() => this.loadFaceImages(this.state.selectedDay), 60 * 1000);
+    this.setState({intervalId: intervalId});
   }
 
   componentWillUnmount(): void {
+    clearInterval(this.state.intervalId);
     this._isMounted = false;
   }
 
