@@ -7,6 +7,9 @@ import {
   ObjectDetectionImageFileNameInterface,
   ObjectDetectionImageInterface
 } from '../../tools/Utils'
+import {Spinner} from "react-bootstrap";
+import styles from './Faces.module.css'
+
 
 interface FacesInterface {
   title: string,
@@ -21,7 +24,8 @@ class Faces extends Component {
     selectedDay: new Date().toISOString().substr(0, 10),
     faceImages: [] as FacesInterface[],
     intervalId: 0,
-    genericImageModalData: {show: false} as ModalPropsInterface
+    genericImageModalData: {show: false} as ModalPropsInterface,
+    isLoading: false,
   };
 
 
@@ -81,11 +85,13 @@ class Faces extends Component {
 
 
   async loadObjectDetectionImageHandler(croppedImageName: string) {
+    this.setState({isLoading: true});
     const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
     // Todo: implement error handling for null|undefined file with bar functional component + state
     const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
     // Todo: add error handling here also
     this.setState({
+      isLoading: false,
       genericImageModalData: {
         show: true,
         title: image.file_name,
@@ -147,6 +153,14 @@ class Faces extends Component {
           src={this.state.genericImageModalData.src}
           title={this.state.genericImageModalData.title}
         />
+
+        { /* Handle showing loading spinner */
+          this.state.isLoading ?
+            <div className="d-flex justify-content-center">
+              <Spinner animation="grow" variant="light" className={styles.SpinnerDiv}/>
+            </div>
+            : null
+        }
 
       </div>
     )
