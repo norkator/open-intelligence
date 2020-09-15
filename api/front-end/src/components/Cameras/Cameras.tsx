@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
+import {LoadingIndicator} from "../../tools/LoadingIndicator/LoadingIndicator";
 
 interface ImageDataInterface {
   id: string,
@@ -16,6 +17,7 @@ class Cameras extends Component {
     windowWidth: window.innerWidth,
     imageData: [] as ImageDataInterface[],
     intervalId: 0,
+    isLoading: true,
   };
 
   constructor(props: any) {
@@ -34,7 +36,7 @@ class Cameras extends Component {
   loadCameraImages = () => {
     axios.post(GET_LATEST_CAMERA_IMAGES_PATH).then((data: any) => {
       if (this._isMounted) {
-        this.setState({imageData: data.data.images});
+        this.setState({imageData: data.data.images, isLoading: false});
       }
     }).catch(error => {
       console.error(error);
@@ -80,6 +82,9 @@ class Cameras extends Component {
         <div className={cameraFlexStyle.join(' ')}>
           {cameraImages}
         </div>
+        { /* Handle showing loading indicator */
+          this.state.isLoading ? <LoadingIndicator/> : null
+        }
       </div>
     )
   }

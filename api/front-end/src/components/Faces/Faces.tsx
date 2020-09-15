@@ -24,7 +24,7 @@ class Faces extends Component {
     faceImages: [] as FacesInterface[],
     intervalId: 0,
     genericImageModalData: {show: false} as ModalPropsInterface,
-    isLoading: false,
+    isLoading: true,
   };
 
 
@@ -67,7 +67,7 @@ class Faces extends Component {
   loadFaceImages = (date: string) => {
     axios.post(GET_FACES_FOR_DAY_PATH, {selectedDate: date}).then((data: any) => {
       if (this._isMounted) {
-        this.setState({faceImages: this.removeDuplicates(data.data.images as FacesInterface[])});
+        this.setState({faceImages: this.removeDuplicates(data.data.images as FacesInterface[]), isLoading: false});
       }
     }).catch(error => {
       console.error(error);
@@ -153,7 +153,7 @@ class Faces extends Component {
           title={this.state.genericImageModalData.title}
         />
 
-        { /* Handle showing loading spinner */
+        { /* Handle showing loading indicator */
           this.state.isLoading ? <LoadingIndicator/> : null
         }
 
