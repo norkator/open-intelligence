@@ -5,11 +5,14 @@ import {Button, Modal} from "react-bootstrap";
  * This class idea is to show big object detection raw images from anywhere where it's called
  */
 export const GenericImageModal = (props: ModalPropsInterface) => {
+  // Todo: set modal 'animation={false}' to avoid findDOMNode warning, I use it for now since animations are cool
   return (
     <>
-      <Modal show={props.show} onHide={props.closeHandler()}>
+      <Modal size="lg" show={props.show} onHide={props.closeHandler()}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.title}</Modal.Title>
+          <Modal.Title>
+            <h5>{props.title}</h5>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p className="text-muted">{props.description}</p>

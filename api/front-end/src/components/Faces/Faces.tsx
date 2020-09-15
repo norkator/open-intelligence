@@ -1,6 +1,12 @@
 import React, {Component} from "react";
 import axios, {GET_FACES_FOR_DAY_PATH} from "../../axios";
 import {GenericImageModal, ModalPropsInterface} from "../../tools/GenericImageModal/GenericImageModal";
+import {
+  getObjectDetectionImageFileNameForCroppedImageName,
+  getObjectDetectionImage,
+  ObjectDetectionImageFileNameInterface,
+  ObjectDetectionImageInterface
+} from '../../tools/Utils'
 
 interface FacesInterface {
   title: string,
@@ -58,7 +64,6 @@ class Faces extends Component {
   loadFaceImages = (date: string) => {
     axios.post(GET_FACES_FOR_DAY_PATH, {selectedDate: date}).then((data: any) => {
       if (this._isMounted) {
-        console.log(data.data);
         this.setState({faceImages: this.removeDuplicates(data.data.images as FacesInterface[])});
       }
     }).catch(error => {
@@ -72,6 +77,22 @@ class Faces extends Component {
         t => (t.file === v.file)
       ) === i
     );
+  };
+
+
+  async loadObjectDetectionImageHandler(croppedImageName: string) {
+    const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
+    // Todo: implement error handling for null|undefined file with bar functional component + state
+    const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
+    // Todo: add error handling here also
+    this.setState({
+      genericImageModalData: {
+        show: true,
+        title: image.file_name,
+        description: 'Original image file where face is detected',
+        src: image.data,
+      }
+    });
   };
 
   genericImageModalCloseHandler = () => {
@@ -92,7 +113,9 @@ class Faces extends Component {
               style={{maxHeight: '120px', maxWidth: '120px'}}
               key={image.file}
               src={image.image}
-              alt={image.file}/>
+              alt={image.file}
+              onClick={async () => await this.loadObjectDetectionImageHandler(image.file)}
+            />
           )
         });
       }

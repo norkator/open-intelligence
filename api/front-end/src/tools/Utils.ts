@@ -14,11 +14,10 @@ export interface ObjectDetectionImageFileNameInterface {
  * @param croppedImageName
  */
 export async function getObjectDetectionImageFileNameForCroppedImageName(croppedImageName: string): Promise<any> {
-  axios.post(GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG, {croppedImageName: croppedImageName}).then((data: any) => {
-    return data as ObjectDetectionImageFileNameInterface;
-  }).catch(error => {
-    return null;
-  });
+  let fileData = {} as ObjectDetectionImageFileNameInterface;
+  const response = await axios.post(GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG, {croppedImageName: croppedImageName});
+  fileData.file_name = response.data.file_name;
+  return fileData;
 }
 
 
@@ -32,11 +31,9 @@ export interface ObjectDetectionImageInterface {
  * @param objectDetectionImageFileName
  */
 export async function getObjectDetectionImage(objectDetectionImageFileName: string): Promise<any> {
-  axios.post(GET_OBJECT_DETECTION_IMAGE, {objectDetectionImageFileName: objectDetectionImageFileName}).then((data: any) => {
-    let imageData = data as ObjectDetectionImageInterface;
-    imageData.file_name = objectDetectionImageFileName;
-    return imageData;
-  }).catch(error => {
-    return null;
-  });
+  let imageData = {} as ObjectDetectionImageInterface;
+  imageData.file_name = objectDetectionImageFileName;
+  const response = await axios.post(GET_OBJECT_DETECTION_IMAGE, {objectDetectionImageFileName: objectDetectionImageFileName});
+  imageData.data = response.data.data;
+  return imageData;
 }
