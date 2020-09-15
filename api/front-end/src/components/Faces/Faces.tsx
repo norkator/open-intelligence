@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios, {GET_FACES_FOR_DAY_PATH} from "../../axios";
+import {GenericImageModal, ModalPropsInterface} from "../../tools/GenericImageModal/GenericImageModal";
 
 interface FacesInterface {
   title: string,
@@ -14,6 +15,7 @@ class Faces extends Component {
     selectedDay: new Date().toISOString().substr(0, 10),
     faceImages: [] as FacesInterface[],
     intervalId: 0,
+    genericImageModalData: {show: false} as ModalPropsInterface
   };
 
 
@@ -72,6 +74,10 @@ class Faces extends Component {
     );
   };
 
+  genericImageModalCloseHandler = () => {
+    this.setState({genericImageModalData: {show: false}});
+  };
+
   render() {
     let faces: JSX.Element[] = [];
 
@@ -94,6 +100,7 @@ class Faces extends Component {
 
     return (
       <div>
+
         <div className="d-flex justify-content-center flex-wrap mb-2 magictime spaceInLeft">
           <div className="input-group mb-2" style={{maxWidth: '300px'}}>
             <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}
@@ -109,6 +116,14 @@ class Faces extends Component {
         <div className="d-flex justify-content-center flex-wrap">
           {faces}
         </div>
+
+        <GenericImageModal
+          closeHandler={() => this.genericImageModalCloseHandler}
+          show={this.state.genericImageModalData.show}
+          description={this.state.genericImageModalData.description}
+          src={this.state.genericImageModalData.src}
+          title={this.state.genericImageModalData.title}
+        />
 
       </div>
     )

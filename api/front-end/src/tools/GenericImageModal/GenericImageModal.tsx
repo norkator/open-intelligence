@@ -7,7 +7,7 @@ import {Button, Modal} from "react-bootstrap";
 export const GenericImageModal = (props: ModalPropsInterface) => {
   return (
     <>
-      <Modal show={props.show}>
+      <Modal show={props.show} onHide={props.closeHandler()}>
         <Modal.Header closeButton>
           <Modal.Title>{props.title}</Modal.Title>
         </Modal.Header>
@@ -17,7 +17,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
                alt="genericModalImage" src={props.src}/>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => props.closeHandler}>
+          <Button variant="secondary" onClick={props.closeHandler()}>
             Close
           </Button>
         </Modal.Footer>
@@ -31,5 +31,5 @@ export interface ModalPropsInterface {
   title: string;
   description: string;
   src: string; // This is base64 encoded image data
-  closeHandler: void;
+  closeHandler: Function;
 }
