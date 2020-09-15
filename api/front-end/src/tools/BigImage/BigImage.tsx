@@ -1,15 +1,15 @@
-import React, {Component} from "react";
+import React from "react";
 
 /**
  * This class idea is to show big object detection raw images
  * anywhere where it's called
  */
-class BigImage extends Component<any, any> {
-  render() {
-    return (
-      <div/>
-    )
-  }
-}
+export const BigImage = () => {
 
-export default BigImage;
+
+
+  return (
+    <div>Modal test</div>
+  )
+
+};
