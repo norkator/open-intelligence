@@ -7,8 +7,7 @@ import {
   ObjectDetectionImageFileNameInterface,
   ObjectDetectionImageInterface
 } from '../../tools/Utils'
-import {Spinner} from "react-bootstrap";
-import styles from './Faces.module.css'
+import {LoadingIndicator} from "../../tools/LoadingIndicator/LoadingIndicator";
 
 
 interface FacesInterface {
@@ -155,11 +154,7 @@ class Faces extends Component {
         />
 
         { /* Handle showing loading spinner */
-          this.state.isLoading ?
-            <div className="d-flex justify-content-center">
-              <Spinner animation="grow" variant="light" className={styles.SpinnerDiv}/>
-            </div>
-            : null
+          this.state.isLoading ? <LoadingIndicator/> : null
         }
 
       </div>
