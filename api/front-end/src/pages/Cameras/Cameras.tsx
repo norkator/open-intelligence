@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
-import {LoadingIndicator} from "../../tools/LoadingIndicator/LoadingIndicator";
+import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 
 interface ImageDataInterface {
   id: string,

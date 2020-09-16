@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import NavBar from "./components/Navbar/Navbar";
+import NavBar from "./pages/Navbar/Navbar";
 import {Switch, Route, useLocation} from "react-router-dom"
-import styles from './components/Cameras/Cameras.module.css'
+import styles from './pages/Cameras/Cameras.module.css'
 
-import Cameras from "./components/Cameras/Cameras";
-import Home from "./components/Home/Home";
-import Faces from "./components/Faces/Faces";
+import Cameras from "./pages/Cameras/Cameras";
+import Home from "./pages/Home/Home";
+import Faces from "./pages/Faces/Faces";
 
 
 function App() {

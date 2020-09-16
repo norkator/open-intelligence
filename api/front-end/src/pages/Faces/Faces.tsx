@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import axios, {GET_FACES_FOR_DAY_PATH} from "../../axios";
-import {GenericImageModal, ModalPropsInterface} from "../../tools/GenericImageModal/GenericImageModal";
+import {GenericImageModal, ModalPropsInterface} from "../../components/GenericImageModal/GenericImageModal";
 import {
   getObjectDetectionImageFileNameForCroppedImageName,
   getObjectDetectionImage,
   ObjectDetectionImageFileNameInterface,
   ObjectDetectionImageInterface
-} from '../../tools/Utils'
-import {LoadingIndicator} from "../../tools/LoadingIndicator/LoadingIndicator";
+} from '../../utils/Utils'
+import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 
 
 interface FacesInterface {
