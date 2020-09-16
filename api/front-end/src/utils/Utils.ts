@@ -84,5 +84,5 @@ export interface LabelInterface {
  */
 export async function loadLabelImages(selectedDate: string, label: string) {
   const response = await axios.post(GET_LABEL_IMAGES, {selectedDate: selectedDate, label: label});
-  return response.data.images as LabelInterface;
+  return response.data.images as LabelInterface[];
 }

@@ -28,7 +28,7 @@ class Labels extends Component {
     instanceCount: 0,
     storageUse: 'N/A GB',
     labelDonutData: {} as LabelDonutDataInterface,
-    labelImages: {} as LabelInterface,
+    labelImages: [] as LabelInterface[],
   };
 
   componentDidMount(): void {
@@ -71,39 +71,66 @@ class Labels extends Component {
   };
 
   async loadLabelImagesHandler(date: string, label: string) {
-    const result = await loadLabelImages(date, label) as LabelInterface;
+    const result = await loadLabelImages(date, label) as LabelInterface[];
     this.setState({isLoading: false, labelImages: result});
+  }
+
+  async labelImageClickHandler(file: string, loadObjectDetectionImage: boolean) {
+    console.log(loadObjectDetectionImage);
+    this.setState({isLoading: true});
   }
 
   render() {
     let labels: JSX.Element[] = [];
 
+    if (this.state.labelImages !== undefined) {
+      if (this.state.labelImages.length > 0) {
+        labels = this.state.labelImages.map(image => {
+          return (
+            <img
+              id={image.file}
+              title={image.title}
+              className="CursorPointer mr-1 ml-1 mt-1 magictime vanishIn"
+              style={{maxHeight: '120px', maxWidth: '120px', width: 'auto', height: 'auto'}}
+              key={image.file}
+              src={image.image}
+              alt={image.file}
+              onClick={async () => await this.labelImageClickHandler(image.file, false)}
+              onDoubleClick={async () => await this.labelImageClickHandler(image.file, true)}
+            />
+          )
+        });
+      }
+    }
+
     return (
       <div className="mt-2 mr-2 ml-2">
-        <Card bg="dark" text="light">
+        <Card bg="Light" text="dark">
           <Card.Header>
             <div className="row">
               <div className="col-sm">
                 <b>Label viewer</b>
               </div>
               <div className="col-sm text-right">
-                <Badge variant="light" className="mr-2">IC{this.state.instanceCount}</Badge>
-                <Badge variant="light">STR {this.state.storageUse}</Badge>
+                <Badge variant="dark" className="mr-2">IC{this.state.instanceCount}</Badge>
+                <Badge variant="dark">STR {this.state.storageUse}</Badge>
               </div>
             </div>
           </Card.Header>
           <Card.Body>
-            {
-              this.state.labelDonutData.datasets !== undefined ?
-                <Doughnut
-                  onElementsClick={(element: any) => this.onDonutElementClickHandler(element[0]._index)}
-                  data={this.state.labelDonutData}
-                  height={300}
-                  options={{maintainAspectRatio: false}}/>
-                : this.state.isLoading ? <LoadingIndicator/> : null
-            }
+            <div style={{height: '300px'}}>
+              {
+                this.state.labelDonutData.datasets !== undefined ?
+                  <Doughnut
+                    onElementsClick={(element: any) => this.onDonutElementClickHandler(element[0]._index)}
+                    data={this.state.labelDonutData}
+                    height={300}
+                    options={{maintainAspectRatio: false}}/>
+                  : this.state.isLoading ? <LoadingIndicator/> : null
+              }
+            </div>
 
-            <div className="d-flex justify-content-center flex-wrap">
+            <div className="d-flex justify-content-center flex-wrap mt-4">
               {labels}
             </div>
 
