@@ -13,9 +13,9 @@ function App() {
   const location = useLocation();
   let classes: string[] = [];
 
-  if (location.pathname === '/cameras' || location.pathname === '/faces') {
-    classes = [styles.Cameras];
-  }
+  // if (location.pathname === '/cameras' || location.pathname === '/faces') {
+  classes = [styles.Cameras];
+  // }
 
   return (
     <div className="App">

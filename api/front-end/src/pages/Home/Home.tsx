@@ -1,14 +1,14 @@
 import React, {Component} from "react";
-import styles from './Home.module.css'
+// import styles from './Home.module.css'
 import Storage from "./Storage/Storage";
+import Labels from "./Labels/Labels";
 
 class Home extends Component {
   render() {
     return (
       <div>
-        <div>Label viewer?</div>
+        <Labels/>
         <Storage/>
-        <div>Running instances</div>
       </div>
     )
   }
