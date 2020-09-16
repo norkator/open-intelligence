@@ -55,7 +55,7 @@ export interface IntelligenceInterface {
   },
   donut: [{
     label: string,
-    value: string,
+    value: number,
   }]
 }
 

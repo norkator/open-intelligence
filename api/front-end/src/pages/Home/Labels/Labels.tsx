@@ -7,13 +7,15 @@ import {
   IntelligenceInterface,
 } from '../../../utils/Utils';
 
+export interface DonutDatasetsInterface {
+  data: Array<number>,
+  backgroundColor: Array<string>,
+  hoverBackgroundColor: Array<string>
+}
+
 export interface LabelDonutDataInterface {
-  labels: [],
-  datasets: [{
-    data: [],
-    backgroundColor: [],
-    hoverBackgroundColor: []
-  }]
+  labels: Array<string>,
+  datasets: Array<DonutDatasetsInterface>
 }
 
 class Labels extends Component {
@@ -31,11 +33,31 @@ class Labels extends Component {
 
   async loadIntelligence(date: string) {
     const result = await getIntelligence(date) as IntelligenceInterface;
+    let labelDonutData = {} as LabelDonutDataInterface;
+
+    labelDonutData.labels = [];
+    labelDonutData.datasets = [];
+
+    let dataSet: DonutDatasetsInterface = {
+      data: [],
+      backgroundColor: [],
+      hoverBackgroundColor: []
+    };
+    result.donut.forEach(donut => {
+      labelDonutData.labels.push(donut.label);
+      dataSet.data.push(donut.value);
+      dataSet.backgroundColor.push("#13697d"); // Todo, add dynamic random coloring from color range maybe?
+      dataSet.hoverBackgroundColor.push("#1698af");
+    });
+
+    labelDonutData.datasets.push(dataSet);
+
     console.log(result);
     this.setState({
       isLoading: false,
       instanceCount: result.performance.instanceCount,
       storageUse: result.performance.storageUse,
+      labelDonutData: labelDonutData,
     });
   };
 
@@ -59,7 +81,7 @@ class Labels extends Component {
           <Card.Body>
             {
               this.state.labelDonutData.datasets !== undefined ?
-                <Doughnut data={this.state.labelDonutData} height={300} options={{maintainAspectRatio: true}}/>
+                <Doughnut data={this.state.labelDonutData} height={300} options={{maintainAspectRatio: false}}/>
                 : this.state.isLoading ? <LoadingIndicator/> : null
             }
 
