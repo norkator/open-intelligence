@@ -7,6 +7,7 @@ class Home extends Component {
   render() {
     return (
       <div>
+        <div className="ml-4" style={{color: 'white'}}>Date / calendar selection here</div>
         <Labels/>
         <Storage/>
       </div>
