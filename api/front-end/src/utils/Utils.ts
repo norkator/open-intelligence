@@ -1,6 +1,7 @@
 import axios, {
   GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG,
   GET_OBJECT_DETECTION_IMAGE,
+  GET_INTELLIGENCE,
 } from "../axios";
 
 
@@ -36,4 +37,34 @@ export async function getObjectDetectionImage(objectDetectionImageFileName: stri
   const response = await axios.post(GET_OBJECT_DETECTION_IMAGE, {objectDetectionImageFileName: objectDetectionImageFileName});
   imageData.data = response.data.data;
   return imageData;
+}
+
+
+export interface IntelligenceInterface {
+  performance: {
+    loadAvg: string;
+    memUse: string;
+    storageUse: string;
+    instanceCount: number;
+  },
+  activity: {
+    data: [{
+      h: string,
+      a: string,
+    }]
+  },
+  donut: [{
+    label: string,
+    value: string,
+  }]
+}
+
+/**
+ * Get intelligence data for selected date
+ * @param selectedDate in format like 'YYYY-MM-DD' (new Date().toISOString().substr(0, 10))
+ * @return IntelligenceInterface object
+ */
+export async function getIntelligence(selectedDate: string): Promise<any> {
+  const response = await axios.post(GET_INTELLIGENCE, {selectedDate: selectedDate});
+  return response.data as IntelligenceInterface;
 }
