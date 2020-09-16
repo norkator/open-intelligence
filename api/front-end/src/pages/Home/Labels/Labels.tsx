@@ -21,7 +21,7 @@ export interface LabelDonutDataInterface {
 class Labels extends Component {
   state = {
     isLoading: true,
-    labelSelection: 'No label selected',
+    labelSelection: null,
     instanceCount: 0,
     storageUse: 'N/A GB',
     labelDonutData: {} as LabelDonutDataInterface,
@@ -52,13 +52,17 @@ class Labels extends Component {
 
     labelDonutData.datasets.push(dataSet);
 
-    console.log(result);
     this.setState({
       isLoading: false,
       instanceCount: result.performance.instanceCount,
       storageUse: result.performance.storageUse,
       labelDonutData: labelDonutData,
     });
+  };
+
+  onDonutElementClickHandler = (index: number) => {
+    const labelSelected = this.state.labelDonutData.labels[index];
+    this.setState({labelSelection: labelSelected});
   };
 
   render() {
@@ -81,7 +85,11 @@ class Labels extends Component {
           <Card.Body>
             {
               this.state.labelDonutData.datasets !== undefined ?
-                <Doughnut data={this.state.labelDonutData} height={300} options={{maintainAspectRatio: false}}/>
+                <Doughnut
+                  onElementsClick={(element: any) => this.onDonutElementClickHandler(element[0]._index)}
+                  data={this.state.labelDonutData}
+                  height={300}
+                  options={{maintainAspectRatio: false}}/>
                 : this.state.isLoading ? <LoadingIndicator/> : null
             }
 
@@ -91,7 +99,10 @@ class Labels extends Component {
 
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">{this.state.labelSelection}</small>
+            <small
+              className="text-muted">{this.state.labelSelection === null ?
+              'No label selected' :
+              'Selected ' + this.state.labelSelection + ' label'}</small>
           </Card.Footer>
         </Card>
 
