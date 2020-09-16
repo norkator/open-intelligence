@@ -22,7 +22,7 @@ export interface LabelDonutDataInterface {
 
 class Labels extends Component {
   state = {
-    selectedDate: '2020-09-16',
+    selectedDate: '2020-09-16', // Todo, remember implement passing selected date here, redux?
     isLoading: true,
     labelSelection: null,
     instanceCount: 0,
