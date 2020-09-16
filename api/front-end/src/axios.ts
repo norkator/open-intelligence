@@ -17,3 +17,4 @@ export const GET_FACES_FOR_DAY_PATH = basePath + "get/faces/for/day";
 export const GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG = basePath + "get/object/detection/image/for/cropped/image";
 export const GET_OBJECT_DETECTION_IMAGE = basePath + "get/object/detection/image";
 export const GET_INTELLIGENCE = basePath + "get/intelligence";
+export const GET_LABEL_IMAGES = basePath + "get/label/images";

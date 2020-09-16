@@ -1,7 +1,7 @@
 import axios, {
   GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG,
   GET_OBJECT_DETECTION_IMAGE,
-  GET_INTELLIGENCE,
+  GET_INTELLIGENCE, GET_LABEL_IMAGES,
 } from "../axios";
 
 
@@ -67,4 +67,22 @@ export interface IntelligenceInterface {
 export async function getIntelligence(selectedDate: string): Promise<any> {
   const response = await axios.post(GET_INTELLIGENCE, {selectedDate: selectedDate});
   return response.data as IntelligenceInterface;
+}
+
+
+export interface LabelInterface {
+  title: string;
+  file: string;
+  image: string;
+}
+
+/**
+ * Get labels for donut chart label selection
+ * @param selectedDate selected date in 'YYYY-MM-DD' format
+ * @param label string like 'person'
+ * @return LabelInterface
+ */
+export async function loadLabelImages(selectedDate: string, label: string) {
+  const response = await axios.post(GET_LABEL_IMAGES, {selectedDate: selectedDate, label: label});
+  return response.data.images as LabelInterface;
 }

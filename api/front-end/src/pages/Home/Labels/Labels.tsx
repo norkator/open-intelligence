@@ -5,6 +5,8 @@ import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndi
 import {
   getIntelligence,
   IntelligenceInterface,
+  loadLabelImages,
+  LabelInterface
 } from '../../../utils/Utils';
 
 export interface DonutDatasetsInterface {
@@ -20,15 +22,17 @@ export interface LabelDonutDataInterface {
 
 class Labels extends Component {
   state = {
+    selectedDate: '2020-09-16',
     isLoading: true,
     labelSelection: null,
     instanceCount: 0,
     storageUse: 'N/A GB',
     labelDonutData: {} as LabelDonutDataInterface,
+    labelImages: {} as LabelInterface,
   };
 
   componentDidMount(): void {
-    this.loadIntelligence('2020-09-16').then(() => null);
+    this.loadIntelligence(this.state.selectedDate).then(() => null);
   }
 
   async loadIntelligence(date: string) {
@@ -62,8 +66,14 @@ class Labels extends Component {
 
   onDonutElementClickHandler = (index: number) => {
     const labelSelected = this.state.labelDonutData.labels[index];
-    this.setState({labelSelection: labelSelected});
+    this.setState({isLoading: true, labelSelection: labelSelected});
+    this.loadLabelImagesHandler(this.state.selectedDate, labelSelected).then(() => null);
   };
+
+  async loadLabelImagesHandler(date: string, label: string) {
+    const result = await loadLabelImages(date, label) as LabelInterface;
+    this.setState({isLoading: false, labelImages: result});
+  }
 
   render() {
     let labels: JSX.Element[] = [];
