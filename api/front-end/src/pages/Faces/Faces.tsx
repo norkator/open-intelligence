@@ -154,7 +154,7 @@ class Faces extends Component {
         />
 
         { /* Handle showing loading indicator */
-          this.state.isLoading ? <LoadingIndicator/> : null
+          this.state.isLoading ? <LoadingIndicator isDark={false} /> : null
         }
 
       </div>

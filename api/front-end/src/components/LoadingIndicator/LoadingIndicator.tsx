@@ -6,10 +6,10 @@ import React from "react";
  * Centered loading indicator
  * @constructor
  */
-export const LoadingIndicator = () => {
+export const LoadingIndicator = (props: any) => {
   return (
     <div className="d-flex justify-content-center">
-      <Spinner animation="grow" variant="light" className={styles.SpinnerDiv}/>
+      <Spinner animation="grow" variant={props.isDark ? 'dark' : 'light'} className={styles.SpinnerDiv}/>
     </div>
   );
 };

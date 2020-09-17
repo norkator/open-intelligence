@@ -33,6 +33,9 @@ class Labels extends Component<ReduxPropsInterface> {
     labelImages: [] as LabelInterface[],
   };
 
+  componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
+    this.loadIntelligence(this.props.selectedDate).then(() => null);
+  }
 
   componentDidMount(): void {
     this.loadIntelligence(this.props.selectedDate).then(() => null);
@@ -87,7 +90,6 @@ class Labels extends Component<ReduxPropsInterface> {
   }
 
   render() {
-
     let labels: JSX.Element[] = [];
 
     if (this.state.labelImages !== undefined) {
@@ -133,7 +135,7 @@ class Labels extends Component<ReduxPropsInterface> {
                     data={this.state.labelDonutData}
                     height={300}
                     options={{maintainAspectRatio: false}}/>
-                  : this.state.isLoading ? <LoadingIndicator/> : null
+                  : this.state.isLoading ? <LoadingIndicator isDark={true}/> : null
               }
             </div>
 
@@ -151,7 +153,7 @@ class Labels extends Component<ReduxPropsInterface> {
         </Card>
 
         { /* Handle showing loading indicator */
-          this.state.isLoading ? <LoadingIndicator/> : null
+          this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
         }
 
       </div>
