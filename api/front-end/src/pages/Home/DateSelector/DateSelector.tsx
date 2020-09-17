@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 
 
 class DateSelector extends Component<ReduxPropsInterface> {
+
   render() {
     return (
       <div>
@@ -14,7 +15,7 @@ class DateSelector extends Component<ReduxPropsInterface> {
               <span className="input-group-text">Selected day</span>
             </div>
             <input id="selected_day_field" type="date" className="form-control" placeholder="Change day"
-                   aria-label="Day change" defaultValue={this.props.selectedDate}/>
+                   aria-label="Day change" value={this.props.selectedDate} onChange={() => null}/>
             <div className="input-group-append">
               <button className="btn btn-outline-light" type="button">Load</button>
               <button className="btn btn-outline-info" type="button"

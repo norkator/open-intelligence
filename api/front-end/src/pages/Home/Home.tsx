@@ -11,10 +11,10 @@ class Home extends Component<ReduxPropsInterface> {
     return (
       <div>
         <div className="mt-2 mr-2 ml-2">
-          <DateSelector selectedDate={this.props.selectedDate} onDecrementDay="" onIncrementDay="" />
+          <DateSelector {...this.props} />
         </div>
         <div className="mt-2 mr-2 ml-2">
-          <Labels selectedDate={this.props.selectedDate} onDecrementDay="" onIncrementDay=""/>
+          <Labels {...this.props} />
         </div>
         <div className="mt-2 mr-2 ml-2">
           <Storage/>

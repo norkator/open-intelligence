@@ -29,17 +29,17 @@ const reducer = (state = initialState, action: any): any => {
     case actionTypes.SET_SELECTED_DATE:
       return {
         ...state,
-        selectedDate: action.selectedDate
+        ...{selectedDate: action.selectedDate}
       };
     case actionTypes.INCREMENT_DAY:
       return {
         ...state,
-        selectedDate: ChangeDate(state.selectedDate, action.days)
+        ...{selectedDate: ChangeDate(state.selectedDate, action.days)}
       };
     case actionTypes.DECREMENT_DAY:
       return {
         ...state,
-        selectedDate: ChangeDate(state.selectedDate, action.days)
+        ...{selectedDate: ChangeDate(state.selectedDate, action.days)}
       };
     default:
       return state;
