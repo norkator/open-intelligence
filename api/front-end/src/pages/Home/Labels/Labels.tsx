@@ -67,10 +67,13 @@ class Labels extends Component<ReduxPropsInterface> {
     });
   };
 
-  onDonutElementClickHandler = (index: number) => {
-    const labelSelected = this.state.labelDonutData.labels[index];
-    this.setState({isLoading: true, labelSelection: labelSelected});
-    this.loadLabelImagesHandler(this.props.selectedDate, labelSelected).then(() => null);
+  onDonutElementClickHandler = (element: any) => {
+    if (element !== undefined && element.length > 0) {
+      const index = element[0]._index;
+      const labelSelected = this.state.labelDonutData.labels[index];
+      this.setState({isLoading: true, labelSelection: labelSelected});
+      this.loadLabelImagesHandler(this.props.selectedDate, labelSelected).then(() => null);
+    }
   };
 
   async loadLabelImagesHandler(date: string, label: string) {
@@ -126,7 +129,7 @@ class Labels extends Component<ReduxPropsInterface> {
               {
                 this.state.labelDonutData.datasets !== undefined ?
                   <Doughnut
-                    onElementsClick={(element: any) => this.onDonutElementClickHandler(element[0]._index)}
+                    onElementsClick={(element: any) => this.onDonutElementClickHandler(element)}
                     data={this.state.labelDonutData}
                     height={300}
                     options={{maintainAspectRatio: false}}/>
