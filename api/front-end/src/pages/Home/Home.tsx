@@ -2,6 +2,7 @@ import React, {Component} from "react";
 // import styles from './Home.module.css'
 import Storage from "./Storage/Storage";
 import Labels from "./Labels/Labels";
+import {connect} from 'react-redux';
 
 class Home extends Component {
   render() {

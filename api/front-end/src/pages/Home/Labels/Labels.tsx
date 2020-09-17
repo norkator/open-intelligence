@@ -8,6 +8,7 @@ import {
   loadLabelImages,
   LabelInterface
 } from '../../../utils/Utils';
+import {connect} from 'react-redux';
 
 export interface DonutDatasetsInterface {
   data: Array<number>,
@@ -152,5 +153,10 @@ class Labels extends Component {
   }
 }
 
+const mapStateToProps = (state: any) => {
+  return {
+    selectedDate: state.selectedDate,
+  };
+}
 
-export default Labels;
+export default connect(mapStateToProps)(Labels);
