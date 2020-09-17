@@ -25,15 +25,21 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action: any): any => {
-  // noinspection JSRedundantSwitchStatement
   switch (action.type) {
     case actionTypes.SET_SELECTED_DATE:
-      state.selectedDate = action.selectedDate;
-      return state;
-    case actionTypes.INCREMENT_DAY:
-      console.log(action);
       return {
-        selectedDate: ChangeDate(action.selectedDate, 1)
+        ...state,
+        selectedDate: action.selectedDate
+      };
+    case actionTypes.INCREMENT_DAY:
+      return {
+        ...state,
+        selectedDate: ChangeDate(state.selectedDate, action.days)
+      };
+    case actionTypes.DECREMENT_DAY:
+      return {
+        ...state,
+        selectedDate: ChangeDate(state.selectedDate, action.days)
       };
     default:
       return state;
