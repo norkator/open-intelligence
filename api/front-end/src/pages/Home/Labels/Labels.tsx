@@ -25,6 +25,7 @@ export interface LabelDonutDataInterface {
 
 class Labels extends Component<ReduxPropsInterface> {
   state = {
+    selectedDate: null,
     isLoading: true,
     labelSelection: null,
     instanceCount: 0,
@@ -34,7 +35,9 @@ class Labels extends Component<ReduxPropsInterface> {
   };
 
   componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
-    this.loadIntelligence(this.props.selectedDate).then(() => null);
+    if (this.state.selectedDate !== this.props.selectedDate) {
+      this.loadIntelligence(this.props.selectedDate).then(() => null);
+    }
   }
 
   componentDidMount(): void {
@@ -63,6 +66,7 @@ class Labels extends Component<ReduxPropsInterface> {
     labelDonutData.datasets.push(dataSet);
 
     this.setState({
+      selectedDate: date,
       isLoading: false,
       instanceCount: result.performance.instanceCount,
       storageUse: result.performance.storageUse,
