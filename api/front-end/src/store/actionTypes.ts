@@ -1,1 +1,3 @@
 export const SET_SELECTED_DATE = 'SET_SELECTED_DATE';
+export const INCREMENT_DAY = 'INCREMENT_DAY';
+export const DECREMENT_DAY = 'DECREMENT_DAY';

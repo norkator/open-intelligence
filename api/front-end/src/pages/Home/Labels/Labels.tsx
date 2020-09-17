@@ -7,7 +7,7 @@ import {
   IntelligenceInterface,
   loadLabelImages,
   LabelInterface
-} from '../../../utils/Utils';
+} from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
 import {ReduxPropsInterface} from "../../../store/reducer";
 
@@ -111,7 +111,7 @@ class Labels extends Component<ReduxPropsInterface> {
     }
 
     return (
-      <div className="mt-2 mr-2 ml-2">
+      <div>
         <Card bg="Light" text="dark">
           <Card.Header>
             <div className="row">

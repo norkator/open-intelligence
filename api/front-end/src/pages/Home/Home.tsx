@@ -4,14 +4,21 @@ import Storage from "./Storage/Storage";
 import Labels from "./Labels/Labels";
 import {connect} from "react-redux";
 import {ReduxPropsInterface} from "../../store/reducer";
+import DateSelector from "./DateSelector/DateSelector";
 
 class Home extends Component<ReduxPropsInterface> {
   render() {
     return (
       <div>
-        <div className="ml-4" style={{color: 'white'}}>Date / calendar selection here</div>
-        <Labels selectedDate={this.props.selectedDate}/>
-        <Storage/>
+        <div className="mt-2 mr-2 ml-2">
+          <DateSelector selectedDate={this.props.selectedDate} onDecrementDay="" onIncrementDay="" />
+        </div>
+        <div className="mt-2 mr-2 ml-2">
+          <Labels selectedDate={this.props.selectedDate} onDecrementDay="" onIncrementDay=""/>
+        </div>
+        <div className="mt-2 mr-2 ml-2">
+          <Storage/>
+        </div>
       </div>
     )
   }

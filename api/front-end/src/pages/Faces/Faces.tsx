@@ -6,7 +6,7 @@ import {
   getObjectDetectionImage,
   ObjectDetectionImageFileNameInterface,
   ObjectDetectionImageInterface
-} from '../../utils/Utils'
+} from '../../utils/HttpUtils'
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 
 
