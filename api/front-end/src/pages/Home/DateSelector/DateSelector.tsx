@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import {ReduxPropsInterface} from "../../../store/reducer";
-import {INCREMENT_DAY, DECREMENT_DAY} from '../../../store/actionTypes';
+import {
+  INCREMENT_DAY,
+  DECREMENT_DAY,
+  CALENDAR_SELECTION
+} from '../../../store/actionTypes';
 import {connect} from "react-redux";
 
 
@@ -15,7 +19,7 @@ class DateSelector extends Component<ReduxPropsInterface> {
               <span className="input-group-text">Selected day</span>
             </div>
             <input id="selected_day_field" type="date" className="form-control" placeholder="Change day"
-                   aria-label="Day change" value={this.props.selectedDate} onChange={() => null}/>
+                   aria-label="Day change" value={this.props.selectedDate} onChange={(event: any) => this.props.onDateSelected(event)}/>
             <div className="input-group-append">
               <button className="btn btn-outline-info" type="button"
                       onClick={this.props.onDecrementDay}>
@@ -43,6 +47,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onIncrementDay: () => dispatch({type: INCREMENT_DAY, days: 1}),
     onDecrementDay: () => dispatch({type: DECREMENT_DAY, days: -1}),
+    onDateSelected: (value: any) => dispatch({type: CALENDAR_SELECTION, calendar: value}),
   }
 };
 

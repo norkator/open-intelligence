@@ -1,10 +1,12 @@
 import * as actionTypes from './actionTypes';
 import {ChangeDate} from '../utils/DateUtils';
+import {CALENDAR_SELECTION} from "./actionTypes";
 
 export interface ReduxPropsInterface {
   selectedDate: string;
   onIncrementDay: any;
   onDecrementDay: any;
+  onDateSelected: any;
 }
 
 export interface ReduxDispatchInterface {
@@ -40,6 +42,11 @@ const reducer = (state = initialState, action: any): any => {
       return {
         ...state,
         ...{selectedDate: ChangeDate(state.selectedDate, action.days)}
+      };
+    case actionTypes.CALENDAR_SELECTION:
+      return {
+        ...state,
+        ...{selectedDate: action.calendar.target.value}
       };
     default:
       return state;
