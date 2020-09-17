@@ -7,7 +7,10 @@ import {
   IntelligenceInterface,
   loadLabelImages,
   LabelInterface
-} from '../../../utils/Utils';
+} from '../../../utils/HttpUtils';
+import {connect} from 'react-redux';
+import {ReduxPropsInterface} from "../../../store/reducer";
+
 
 export interface DonutDatasetsInterface {
   data: Array<number>,
@@ -20,9 +23,8 @@ export interface LabelDonutDataInterface {
   datasets: Array<DonutDatasetsInterface>
 }
 
-class Labels extends Component {
+class Labels extends Component<ReduxPropsInterface> {
   state = {
-    selectedDate: '2020-09-16', // Todo, remember implement passing selected date here, redux?
     isLoading: true,
     labelSelection: null,
     instanceCount: 0,
@@ -31,8 +33,9 @@ class Labels extends Component {
     labelImages: [] as LabelInterface[],
   };
 
+
   componentDidMount(): void {
-    this.loadIntelligence(this.state.selectedDate).then(() => null);
+    this.loadIntelligence(this.props.selectedDate).then(() => null);
   }
 
   async loadIntelligence(date: string) {
@@ -64,10 +67,13 @@ class Labels extends Component {
     });
   };
 
-  onDonutElementClickHandler = (index: number) => {
-    const labelSelected = this.state.labelDonutData.labels[index];
-    this.setState({isLoading: true, labelSelection: labelSelected});
-    this.loadLabelImagesHandler(this.state.selectedDate, labelSelected).then(() => null);
+  onDonutElementClickHandler = (element: any) => {
+    if (element !== undefined && element.length > 0) {
+      const index = element[0]._index;
+      const labelSelected = this.state.labelDonutData.labels[index];
+      this.setState({isLoading: true, labelSelection: labelSelected});
+      this.loadLabelImagesHandler(this.props.selectedDate, labelSelected).then(() => null);
+    }
   };
 
   async loadLabelImagesHandler(date: string, label: string) {
@@ -81,6 +87,7 @@ class Labels extends Component {
   }
 
   render() {
+
     let labels: JSX.Element[] = [];
 
     if (this.state.labelImages !== undefined) {
@@ -104,7 +111,7 @@ class Labels extends Component {
     }
 
     return (
-      <div className="mt-2 mr-2 ml-2">
+      <div>
         <Card bg="Light" text="dark">
           <Card.Header>
             <div className="row">
@@ -122,7 +129,7 @@ class Labels extends Component {
               {
                 this.state.labelDonutData.datasets !== undefined ?
                   <Doughnut
-                    onElementsClick={(element: any) => this.onDonutElementClickHandler(element[0]._index)}
+                    onElementsClick={(element: any) => this.onDonutElementClickHandler(element)}
                     data={this.state.labelDonutData}
                     height={300}
                     options={{maintainAspectRatio: false}}/>
@@ -152,5 +159,10 @@ class Labels extends Component {
   }
 }
 
+const mapStateToProps = (state: any): any => {
+  return {
+    selectedDate: state.selectedDate,
+  };
+};
 
-export default Labels;
+export default connect(mapStateToProps)(Labels);
