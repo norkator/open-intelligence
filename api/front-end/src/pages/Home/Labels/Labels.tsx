@@ -27,6 +27,9 @@ export interface LabelDonutDataInterface {
   datasets: Array<DonutDatasetsInterface>
 }
 
+let clickHoldTimer: any = null;
+let longClickHandled: boolean = false;
+
 class Labels extends Component<ReduxPropsInterface> {
   state = {
     selectedDate: null,
@@ -121,6 +124,25 @@ class Labels extends Component<ReduxPropsInterface> {
     this.setState({genericImageModalData: {show: false}});
   };
 
+
+  handleLabelMouseDown = (file: string) => {
+    clickHoldTimer = setTimeout(() => {
+      console.log('Mouse long click run');
+      this.labelImageClickHandler(file, true).then(() => null);
+      longClickHandled = true;
+    }, 1000);
+  };
+
+  handleLabelMouseUp = (file: string) => {
+    clearTimeout(clickHoldTimer);
+    if (!longClickHandled) {
+      console.log('Mouse short click run');
+      this.labelImageClickHandler(file, false).then(() => null);
+    }
+    longClickHandled = false;
+  };
+
+
   render() {
     let labels: JSX.Element[] = [];
 
@@ -128,17 +150,19 @@ class Labels extends Component<ReduxPropsInterface> {
       if (this.state.labelImages.length > 0) {
         labels = this.state.labelImages.map(image => {
           return (
-            <img
-              id={image.file}
-              title={image.title}
-              className="CursorPointer mr-1 ml-1 mt-1 magictime vanishIn"
-              style={{maxHeight: '120px', maxWidth: '120px', width: 'auto', height: 'auto'}}
-              key={image.file}
-              src={image.image}
-              alt={image.file}
-              onClick={async () => await this.labelImageClickHandler(image.file, false)}
-              onDoubleClick={async () => await this.labelImageClickHandler(image.file, true)}
-            />
+            <div
+              onMouseDown={() => this.handleLabelMouseDown(image.file)}
+              onMouseUp={() => this.handleLabelMouseUp(image.file)}>
+              <img
+                id={image.file}
+                title={image.title}
+                className="CursorPointer mr-1 ml-1 mt-1 magictime vanishIn"
+                style={{maxHeight: '120px', maxWidth: '120px', width: 'auto', height: 'auto'}}
+                key={image.file}
+                src={image.image}
+                alt={image.file}
+              />
+            </div>
           )
         });
       }
