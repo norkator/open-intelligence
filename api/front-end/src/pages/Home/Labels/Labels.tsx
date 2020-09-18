@@ -6,10 +6,14 @@ import {
   getIntelligence,
   IntelligenceInterface,
   loadLabelImages,
-  LabelInterface
+  LabelInterface,
+  getObjectDetectionImageFileNameForCroppedImageName,
+  ObjectDetectionImageFileNameInterface,
+  getObjectDetectionImage, ObjectDetectionImageInterface
 } from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
 import {ReduxPropsInterface} from "../../../store/reducer";
+import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
 
 
 export interface DonutDatasetsInterface {
@@ -32,6 +36,7 @@ class Labels extends Component<ReduxPropsInterface> {
     storageUse: 'N/A GB',
     labelDonutData: {} as LabelDonutDataInterface,
     labelImages: [] as LabelInterface[],
+    genericImageModalData: {show: false} as ModalPropsInterface,
   };
 
   componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
@@ -91,7 +96,30 @@ class Labels extends Component<ReduxPropsInterface> {
   async labelImageClickHandler(file: string, loadObjectDetectionImage: boolean) {
     console.log(loadObjectDetectionImage);
     this.setState({isLoading: true});
+    // Todo, handle click and long click here somehow
+    this.loadObjectDetectionImageHandler(file).then(() => null);
   }
+
+  async loadObjectDetectionImageHandler(croppedImageName: string) {
+    this.setState({isLoading: true});
+    const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
+    // Todo: implement error handling for null|undefined file with bar functional component + state
+    const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
+    // Todo: add error handling here also
+    this.setState({
+      isLoading: false,
+      genericImageModalData: {
+        show: true,
+        title: image.file_name,
+        description: 'Full object detection image for selected label where label is originating',
+        src: image.data,
+      }
+    });
+  };
+
+  genericImageModalCloseHandler = () => {
+    this.setState({genericImageModalData: {show: false}});
+  };
 
   render() {
     let labels: JSX.Element[] = [];
@@ -159,6 +187,14 @@ class Labels extends Component<ReduxPropsInterface> {
         { /* Handle showing loading indicator */
           this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
         }
+
+        <GenericImageModal
+          closeHandler={() => this.genericImageModalCloseHandler}
+          show={this.state.genericImageModalData.show}
+          description={this.state.genericImageModalData.description}
+          src={this.state.genericImageModalData.src}
+          title={this.state.genericImageModalData.title}
+        />
 
       </div>
     )
