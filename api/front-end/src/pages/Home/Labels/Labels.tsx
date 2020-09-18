@@ -97,7 +97,6 @@ class Labels extends Component<ReduxPropsInterface> {
   }
 
   async labelImageClickHandler(file: string, loadObjectDetectionImage: boolean) {
-    console.log(loadObjectDetectionImage);
     this.setState({isLoading: true});
     // Todo, handle click and long click here somehow
     this.loadObjectDetectionImageHandler(file).then(() => null);
@@ -152,7 +151,8 @@ class Labels extends Component<ReduxPropsInterface> {
           return (
             <div
               onMouseDown={() => this.handleLabelMouseDown(image.file)}
-              onMouseUp={() => this.handleLabelMouseUp(image.file)}>
+              onMouseUp={() => this.handleLabelMouseUp(image.file)}
+              key={image.file}>
               <img
                 id={image.file}
                 title={image.title}
