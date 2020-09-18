@@ -9,7 +9,9 @@ import {
   LabelInterface,
   getObjectDetectionImageFileNameForCroppedImageName,
   ObjectDetectionImageFileNameInterface,
-  getObjectDetectionImage, ObjectDetectionImageInterface
+  getObjectDetectionImage,
+  ObjectDetectionImageInterface,
+  getSuperResolutionImage, SuperResolutionInterface,
 } from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
 import {ReduxPropsInterface} from "../../../store/reducer";
@@ -98,22 +100,38 @@ class Labels extends Component<ReduxPropsInterface> {
 
   async labelImageClickHandler(file: string, loadObjectDetectionImage: boolean) {
     this.setState({isLoading: true});
-    // Todo, handle click and long click here somehow
-    this.loadObjectDetectionImageHandler(file).then(() => null);
+    if (loadObjectDetectionImage) {
+      this.loadObjectDetectionImageHandler(file).then(() => null);
+    } else {
+      this.loadSuperResolutionImage(file).then(() => null);
+    }
   }
 
   async loadObjectDetectionImageHandler(croppedImageName: string) {
     this.setState({isLoading: true});
     const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
-    // Todo: implement error handling for null|undefined file with bar functional component + state
     const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
-    // Todo: add error handling here also
     this.setState({
       isLoading: false,
       genericImageModalData: {
         show: true,
         title: image.file_name,
         description: 'Full object detection image for selected label where label is originating',
+        src: image.data,
+      }
+    });
+  };
+
+  async loadSuperResolutionImage(croppedImageName: string) {
+    this.setState({isLoading: true});
+    const image = await getSuperResolutionImage(this.state.labelSelection || "", croppedImageName) as SuperResolutionInterface;
+    // Todo, generic modal image needs more fields to show color, detection result etc
+    this.setState({
+      isLoading: false,
+      genericImageModalData: {
+        show: true,
+        title: croppedImageName,
+        description: (image.srImage ? 'This is processed super resolution image' : 'This is standard image'),
         src: image.data,
       }
     });

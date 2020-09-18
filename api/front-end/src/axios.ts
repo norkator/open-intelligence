@@ -18,3 +18,4 @@ export const GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG = basePath + "get/object/dete
 export const GET_OBJECT_DETECTION_IMAGE = basePath + "get/object/detection/image";
 export const GET_INTELLIGENCE = basePath + "get/intelligence";
 export const GET_LABEL_IMAGES = basePath + "get/label/images";
+export const GET_SUPER_RESOLUTION_IMAGE = basePath + "get/super/resolution/image";

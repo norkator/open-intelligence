@@ -2,6 +2,7 @@ import axios, {
   GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG,
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE, GET_LABEL_IMAGES,
+  GET_SUPER_RESOLUTION_IMAGE,
 } from "../axios";
 
 
@@ -85,4 +86,24 @@ export interface LabelInterface {
 export async function loadLabelImages(selectedDate: string, label: string) {
   const response = await axios.post(GET_LABEL_IMAGES, {selectedDate: selectedDate, label: label});
   return response.data.images as LabelInterface[];
+}
+
+
+export interface SuperResolutionInterface {
+  srImage: boolean;
+  data: string;
+  detectionResult: string;
+  color: string;
+  file_create_date: string;
+}
+
+/**
+ * Return super resolution image for selected label
+ * if not exists, will return normal image with more details
+ * @param label selected label group
+ * @param imageFile label image name
+ */
+export async function getSuperResolutionImage(label: string, imageFile: string) {
+  const response = await axios.post(GET_SUPER_RESOLUTION_IMAGE, {label: label, imageFile: imageFile});
+  return response.data as SuperResolutionInterface;
 }
