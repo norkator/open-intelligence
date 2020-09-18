@@ -96,6 +96,7 @@ class Faces extends Component {
         title: image.file_name,
         description: 'Original image file where face is detected',
         src: image.data,
+        showBadges: false,
       }
     });
   };
@@ -151,6 +152,10 @@ class Faces extends Component {
           description={this.state.genericImageModalData.description}
           src={this.state.genericImageModalData.src}
           title={this.state.genericImageModalData.title}
+          showBadges={this.state.genericImageModalData.showBadges}
+          srImage={this.state.genericImageModalData.srImage}
+          detectionResult={this.state.genericImageModalData.detectionResult}
+          color={this.state.genericImageModalData.color}
         />
 
         { /* Handle showing loading indicator */

@@ -133,6 +133,10 @@ class Labels extends Component<ReduxPropsInterface> {
         title: croppedImageName,
         description: (image.srImage ? 'This is processed super resolution image' : 'This is standard image'),
         src: image.data,
+        showBadges: true,
+        srImage: image.srImage,
+        detectionResult: image.detectionResult,
+        color: image.color,
       }
     });
   };
@@ -236,6 +240,10 @@ class Labels extends Component<ReduxPropsInterface> {
           description={this.state.genericImageModalData.description}
           src={this.state.genericImageModalData.src}
           title={this.state.genericImageModalData.title}
+          showBadges={this.state.genericImageModalData.showBadges}
+          srImage={this.state.genericImageModalData.srImage}
+          detectionResult={this.state.genericImageModalData.detectionResult}
+          color={this.state.genericImageModalData.color}
         />
 
       </div>

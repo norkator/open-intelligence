@@ -15,7 +15,18 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="text-muted">{props.description}</p>
+          <p className="text-muted mb-2">{props.description}</p>
+
+          {props.showBadges ?
+            <div className="d-flex flex-row bd-highlight mb-2">
+              <div className="bd-highlight"><span
+                className="badge badge-warning">{props.srImage ? 'SR version' : 'Normal version'}</span></div>
+              <div className="ml-2 bd-highlight"><span className="badge badge-info">{props.detectionResult}</span>
+              </div>
+              <div className="ml-2 bd-highlight"><span className="badge badge-secondary">{props.color}</span></div>
+            </div> : null
+          }
+
           <img className="card-img-right" style={{width: '100%', height: '100%'}}
                alt="genericModalImage" src={props.src}/>
         </Modal.Body>
@@ -35,4 +46,8 @@ export interface ModalPropsInterface {
   description: string;
   src: string; // This is base64 encoded image data
   closeHandler: Function;
+  showBadges: boolean;
+  srImage: boolean;
+  detectionResult: string;
+  color: string;
 }
