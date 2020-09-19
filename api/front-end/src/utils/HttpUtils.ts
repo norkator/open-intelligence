@@ -134,7 +134,7 @@ export interface CalendarEventsInterface {
   description: string;
 }
 
-export async function getCalendarEvents() {
-  const response = await axios.post(GET_CALENDAR_EVENTS, {});
+export async function getCalendarEvents(days: number) {
+  const response = await axios.post(GET_CALENDAR_EVENTS, {days: days});
   return response.data.events as CalendarEventsInterface[];
 }
