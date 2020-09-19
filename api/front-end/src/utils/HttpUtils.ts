@@ -3,7 +3,7 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE, GET_LABEL_IMAGES,
   GET_SUPER_RESOLUTION_IMAGE,
-  GET_INSTANCE_DETAILS,
+  GET_INSTANCE_DETAILS, GET_CALENDAR_EVENTS,
 } from "../axios";
 
 
@@ -124,4 +124,17 @@ export interface InstanceInterface {
 export async function getInstanceDetails() {
   const response = await axios.get(GET_INSTANCE_DETAILS);
   return response.data as InstanceInterface;
+}
+
+
+export interface CalendarEventsInterface {
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+}
+
+export async function getCalendarEvents() {
+  const response = await axios.post(GET_CALENDAR_EVENTS, {});
+  return response.data.events as CalendarEventsInterface[];
 }
