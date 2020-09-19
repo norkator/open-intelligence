@@ -24,7 +24,7 @@ class Instances extends Component {
       if (this.state.instances.length > 0) {
         instances = this.state.instances.map(instance => {
           return (
-            <tr>
+            <tr key={instance.id}>
               <td>{instance.id}</td>
               <td>{instance.process_name}</td>
               <td>{instance.updatedAt}</td>

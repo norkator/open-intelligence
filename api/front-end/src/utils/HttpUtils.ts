@@ -132,6 +132,7 @@ export interface CalendarEventsInterface {
   start: string;
   end: string;
   description: string;
+  file_name_cropped: string;
 }
 
 export async function getCalendarEvents(days: number) {
