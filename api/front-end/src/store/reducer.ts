@@ -1,17 +1,17 @@
 import * as actionTypes from './actionTypes';
 import {ChangeDate} from '../utils/DateUtils';
-import {CALENDAR_SELECTION} from "./actionTypes";
 
 export interface ReduxPropsInterface {
   selectedDate: string;
-  onIncrementDay: any;
-  onDecrementDay: any;
-  onDateSelected: any;
+  onIncrementDay: () => void;
+  onDecrementDay: () => void;
+  onDateSelected: (event: string) => void;
+  dateRangeStartDate: string;
+  dateRangeEndDate: string;
+  onDateRangeStartDateSelected: (event: string) => void;
+  onDateRangeEndDateSelected: (event: string) => void
 }
 
-export interface ReduxDispatchInterface {
-  onSelectedDateChange: any;
-}
 
 /**
  * Get today date
@@ -21,9 +21,12 @@ const getNowISODate = (): string => {
   return new Date().toISOString().substr(0, 10);
 };
 
+const nowIsoDate = getNowISODate();
 
 const initialState = {
-  selectedDate: getNowISODate(),
+  selectedDate: nowIsoDate,
+  dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+  dateRangeEndDate: nowIsoDate,
 };
 
 const reducer = (state = initialState, action: any): any => {

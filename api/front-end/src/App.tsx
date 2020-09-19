@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import NavBar from "./pages/Navbar/Navbar";
-import {Switch, Route, useLocation} from "react-router-dom"
+import {Switch, Route} from "react-router-dom"
 import styles from './pages/Cameras/Cameras.module.css'
 
 import Cameras from "./pages/Cameras/Cameras";
@@ -11,13 +11,7 @@ import Plates from "./pages/Plates/Plates";
 
 
 function App() {
-  const location = useLocation();
-  let classes: string[] = [];
-
-  // if (location.pathname === '/cameras' || location.pathname === '/faces') {
-  // Todo, remove commented code if okay to use dark bg everywhere
-  classes = [styles.Cameras];
-  // }
+  let classes: string[] = [styles.Cameras];
 
   return (
     <div className="App">

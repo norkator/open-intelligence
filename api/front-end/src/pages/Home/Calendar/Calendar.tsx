@@ -13,8 +13,10 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import {Card} from "react-bootstrap";
 import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
+import DateRangeSelector from "../DateRangeSelector/DateRangeSelector";
+import {ReduxPropsInterface} from "../../../store/reducer";
 
-class Calendar extends Component {
+class Calendar extends Component<ReduxPropsInterface> {
   state = {
     calendarWeekends: true,
     calendarEvents: [] as CalendarEventsInterface[],
@@ -41,7 +43,7 @@ class Calendar extends Component {
           </Card.Header>
           <Card.Body>
             <div>
-              <p>!!! Add here input field to adjust loadable days !!!</p>
+              <DateRangeSelector {...this.props}/>
               <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                 ref={this.calendarComponentRef}

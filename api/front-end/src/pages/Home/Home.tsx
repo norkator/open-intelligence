@@ -18,7 +18,7 @@ class Home extends Component<ReduxPropsInterface> {
           <Labels {...this.props} />
         </div>
         <div className="mt-2 mr-2 ml-2">
-          <Calendar/>
+          <Calendar {...this.props} />
         </div>
         <div className="mt-2 mr-2 ml-2">
           <Instances/>
