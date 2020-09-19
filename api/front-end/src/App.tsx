@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <NavBar/>
-      <div className={classes.join(' ')}>
+      <div className={classes.join(' ')} style={{paddingBottom: '80px'}}>
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route exact path='/cameras' component={Cameras}/>

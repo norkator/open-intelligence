@@ -3,6 +3,7 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE, GET_LABEL_IMAGES,
   GET_SUPER_RESOLUTION_IMAGE,
+  GET_INSTANCE_DETAILS,
 } from "../axios";
 
 
@@ -106,4 +107,21 @@ export interface SuperResolutionInterface {
 export async function getSuperResolutionImage(label: string, imageFile: string) {
   const response = await axios.post(GET_SUPER_RESOLUTION_IMAGE, {label: label, imageFile: imageFile});
   return response.data as SuperResolutionInterface;
+}
+
+
+export interface InstanceInterface {
+  id: number;
+  process_name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * Return current running instances / processes
+ * this means python processes
+ */
+export async function getInstanceDetails() {
+  const response = await axios.get(GET_INSTANCE_DETAILS);
+  return response.data as InstanceInterface;
 }

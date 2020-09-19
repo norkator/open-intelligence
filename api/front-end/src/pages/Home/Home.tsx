@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 // import styles from './Home.module.css'
-import Storage from "./Storage/Storage";
+import Instances from "./Instances/Instances";
 import Labels from "./Labels/Labels";
 import {connect} from "react-redux";
 import {ReduxPropsInterface} from "../../store/reducer";
@@ -17,7 +17,7 @@ class Home extends Component<ReduxPropsInterface> {
           <Labels {...this.props} />
         </div>
         <div className="mt-2 mr-2 ml-2">
-          <Storage/>
+          <Instances/>
         </div>
       </div>
     )
