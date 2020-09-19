@@ -10,7 +10,10 @@ async function Plates(router, sequelizeObjects) {
 
   router.post('/get/calendar/events', async (req, res) => {
     let output = {events: []};
-    const days = Number(req.body.days || 90);
+
+    const dateRangeStartDate = moment(req.body.dateRangeStartDate, 'YYYY-MM-DD');
+    const dateRangeEndDate = moment(req.body.dateRangeEndDate, 'YYYY-MM-DD');
+
     const knownPlates = await utils.GetLicensePlates(sequelizeObjects);
     if (knownPlates.length > 0) {
       const rows = await sequelizeObjects.Data.findAll({
@@ -22,8 +25,8 @@ async function Plates(router, sequelizeObjects) {
         ],
         where: {
           file_create_date: {
-            [Op.gt]: moment().startOf('day').subtract(days, 'days').utc(true).toISOString(true),
-            [Op.lt]: new moment().endOf('day').utc(true).toISOString(true),
+            [Op.gt]: dateRangeStartDate.startOf('day').utc(true).toISOString(true),
+            [Op.lt]: dateRangeEndDate.endOf('day').utc(true).toISOString(true),
           },
           detection_result: {
             [Op.gt]: '',
