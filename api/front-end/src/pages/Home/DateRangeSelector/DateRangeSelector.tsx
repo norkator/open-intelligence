@@ -20,9 +20,6 @@ class DateRangeSelector extends Component<ReduxPropsInterface> {
                  aria-label="Day change"
                  value={this.props.dateRangeEndDate}
                  onChange={(event: any) => this.props.onDateRangeEndDateSelected(event)}/>
-          <div className="input-group-append">
-            <button className="btn btn-outline-secondary" type="button">Load</button>
-          </div>
         </div>
       </div>
     )
