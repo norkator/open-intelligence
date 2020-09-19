@@ -11,8 +11,13 @@ async function Plates(router, sequelizeObjects) {
   router.post('/get/calendar/events', async (req, res) => {
     let output = {events: []};
 
-    const dateRangeStartDate = moment(req.body.dateRangeStartDate, 'YYYY-MM-DD');
-    const dateRangeEndDate = moment(req.body.dateRangeEndDate, 'YYYY-MM-DD');
+    const start = req.body.dateRangeStartDate;
+    const end = req.body.dateRangeEndDate;
+
+    console.info('Calendar range: ', start, end);
+
+    const dateRangeStartDate = moment(start, 'YYYY-MM-DD');
+    const dateRangeEndDate = moment(end, 'YYYY-MM-DD');
 
     const knownPlates = await utils.GetLicensePlates(sequelizeObjects);
     if (knownPlates.length > 0) {
