@@ -1,15 +1,24 @@
 import React, {Component} from "react";
-import {CalendarEventsInterface, getCalendarEvents} from "../../../utils/HttpUtils";
+import {
+  CalendarEventsInterface,
+  getCalendarEvents,
+  getObjectDetectionImage,
+  getObjectDetectionImageFileNameForCroppedImageName,
+  ObjectDetectionImageFileNameInterface,
+  ObjectDetectionImageInterface
+} from "../../../utils/HttpUtils";
 import FullCalendar, {EventClickArg} from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import {Card} from "react-bootstrap";
+import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
 
 class Calendar extends Component {
   state = {
     calendarWeekends: true,
     calendarEvents: [] as CalendarEventsInterface[],
+    genericImageModalData: {show: false} as ModalPropsInterface,
   };
 
   calendarComponentRef = React.createRef<FullCalendar>();
@@ -47,6 +56,19 @@ class Calendar extends Component {
             </div>
           </Card.Body>
         </Card>
+
+        <GenericImageModal
+          closeHandler={() => this.genericImageModalCloseHandler}
+          show={this.state.genericImageModalData.show}
+          description={this.state.genericImageModalData.description}
+          src={this.state.genericImageModalData.src}
+          title={this.state.genericImageModalData.title}
+          showBadges={this.state.genericImageModalData.showBadges}
+          srImage={this.state.genericImageModalData.srImage}
+          detectionResult={this.state.genericImageModalData.detectionResult}
+          color={this.state.genericImageModalData.color}
+        />
+
       </div>
     )
   }
@@ -56,9 +78,31 @@ class Calendar extends Component {
   };
 
   handleEventClick = (clickInfo: EventClickArg) => {
-    console.log(clickInfo.event.title);
-    console.log(clickInfo.event.extendedProps.file_name_cropped);
-  }
+    const title = clickInfo.event.title;
+    const file = clickInfo.event.extendedProps.file_name_cropped;
+    this.loadObjectDetectionImageHandler(file, title).then(() => null);
+  };
+
+  async loadObjectDetectionImageHandler(croppedImageName: string, detectionResult: string) {
+    this.setState({isLoading: true});
+    const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
+    const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
+    this.setState({
+      isLoading: false,
+      genericImageModalData: {
+        show: true,
+        title: image.file_name,
+        description: 'Original image file where selected calendar event license plate is seen',
+        src: image.data,
+        showBadges: true,
+        detectionResult: detectionResult,
+      }
+    });
+  };
+
+  genericImageModalCloseHandler = () => {
+    this.setState({genericImageModalData: {show: false}});
+  };
 
 }
 
