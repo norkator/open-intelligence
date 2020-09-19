@@ -15,6 +15,7 @@ import {Card} from "react-bootstrap";
 import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
 import DateRangeSelector from "../DateRangeSelector/DateRangeSelector";
 import {ReduxPropsInterface} from "../../../store/reducer";
+import {connect} from "react-redux";
 
 class Calendar extends Component<ReduxPropsInterface> {
   state = {
@@ -30,7 +31,7 @@ class Calendar extends Component<ReduxPropsInterface> {
   }
 
   async loadCalendarEvents() {
-    const events = await getCalendarEvents(7);
+    const events = await getCalendarEvents(this.props.dateRangeStartDate, this.props.dateRangeEndDate);
     this.setState({calendarEvents: events});
   }
 
@@ -115,4 +116,11 @@ class Calendar extends Component<ReduxPropsInterface> {
 
 }
 
-export default Calendar;
+const mapStateToProps = (state: any): any => {
+  return {
+    dateRangeStartDate: state.dateRangeStartDate,
+    dateRangeEndDate: state.dateRangeEndDate,
+  };
+};
+
+export default connect(mapStateToProps)(Calendar);
