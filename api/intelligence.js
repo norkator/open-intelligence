@@ -28,15 +28,18 @@ initDb.initDatabase().then(() => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true,}));
 
-  // helps you secure your Express apps by setting various HTTP headers
-  // app.use(helmet());
-  
-  app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-    next();
-});
+  if (process.env.allowAccessOriginAll === 'true') {
+    // allowAccessOriginAll will let any origin client connect to this api
+    app.use(function(req, res, next) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+      next();
+    });
+  } else {
+    // helps you secure your Express apps by setting various HTTP headers
+    app.use(helmet());
+  }
 
   app.use(function (req, res, next) {
     logger.log(req.method + req.url, logger.LOG_UNDERSCORE);
