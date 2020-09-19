@@ -35,8 +35,8 @@ const mapStateToProps = (state: any): any => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onDateRangeStartDateSelected: (value: string) => dispatch({type: DATE_RANGE_START_DATE_SELECTED, day: value}),
-    onDateRangeEndDateSelected: (value: string) => dispatch({type: DATE_RANGE_END_DATE_SELECTED, day: value}),
+    onDateRangeStartDateSelected: (value: string) => dispatch({type: DATE_RANGE_START_DATE_SELECTED, calendar: value}),
+    onDateRangeEndDateSelected: (value: string) => dispatch({type: DATE_RANGE_END_DATE_SELECTED, calendar: value}),
   }
 };
 

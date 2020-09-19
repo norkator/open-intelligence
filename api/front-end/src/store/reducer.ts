@@ -51,6 +51,16 @@ const reducer = (state = initialState, action: any): any => {
         ...state,
         ...{selectedDate: action.calendar.target.value}
       };
+    case actionTypes.DATE_RANGE_START_DATE_SELECTED:
+      return {
+        ...state,
+        ...{dateRangeStartDate: action.calendar.target.value}
+      };
+    case actionTypes.DATE_RANGE_END_DATE_SELECTED:
+      return {
+        ...state,
+        ...{dateRangeEndDate: action.calendar.target.value}
+      };
     default:
       return state;
   }
