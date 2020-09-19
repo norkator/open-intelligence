@@ -71,6 +71,7 @@ class Calendar extends Component {
           srImage={this.state.genericImageModalData.srImage}
           detectionResult={this.state.genericImageModalData.detectionResult}
           color={this.state.genericImageModalData.color}
+          additionalInfo={this.state.genericImageModalData.additionalInfo}
         />
 
       </div>
@@ -84,10 +85,11 @@ class Calendar extends Component {
   handleEventClick = (clickInfo: EventClickArg) => {
     const title = clickInfo.event.title;
     const file = clickInfo.event.extendedProps.file_name_cropped;
-    this.loadObjectDetectionImageHandler(file, title).then(() => null);
+    const description = clickInfo.event.extendedProps.description;
+    this.loadObjectDetectionImageHandler(file, title, description).then(() => null);
   };
 
-  async loadObjectDetectionImageHandler(croppedImageName: string, detectionResult: string) {
+  async loadObjectDetectionImageHandler(croppedImageName: string, detectionResult: string, description: string) {
     this.setState({isLoading: true});
     const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
     const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
@@ -100,6 +102,7 @@ class Calendar extends Component {
         src: image.data,
         showBadges: true,
         detectionResult: detectionResult,
+        additionalInfo: description,
       }
     });
   };

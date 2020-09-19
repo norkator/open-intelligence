@@ -14,7 +14,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
             <h5>{props.title}</h5>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body>s
           <p className="text-muted mb-2">{props.description}</p>
 
           {props.showBadges ?
@@ -24,6 +24,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
               <div className="ml-2 bd-highlight"><span className="badge badge-info">{props.detectionResult}</span>
               </div>
               <div className="ml-2 bd-highlight"><span className="badge badge-secondary">{props.color}</span></div>
+              <div className="ml-2 bd-highlight"><span className="badge badge-dark">{props.additionalInfo}</span></div>
             </div> : null
           }
 
@@ -50,4 +51,5 @@ export interface ModalPropsInterface {
   srImage: boolean;
   detectionResult: string;
   color: string;
+  additionalInfo: string;
 }

@@ -244,6 +244,7 @@ class Labels extends Component<ReduxPropsInterface> {
           srImage={this.state.genericImageModalData.srImage}
           detectionResult={this.state.genericImageModalData.detectionResult}
           color={this.state.genericImageModalData.color}
+          additionalInfo={this.state.genericImageModalData.additionalInfo}
         />
 
       </div>

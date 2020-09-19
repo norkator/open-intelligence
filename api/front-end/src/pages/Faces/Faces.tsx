@@ -156,6 +156,7 @@ class Faces extends Component {
           srImage={this.state.genericImageModalData.srImage}
           detectionResult={this.state.genericImageModalData.detectionResult}
           color={this.state.genericImageModalData.color}
+          additionalInfo={this.state.genericImageModalData.additionalInfo}
         />
 
         { /* Handle showing loading indicator */
