@@ -10,7 +10,7 @@ async function Plates(router, sequelizeObjects) {
 
   router.post('/get/calendar/events', async (req, res) => {
     let output = {events: []};
-    const days = Number(req.body.days || 7);
+    const days = Number(req.body.days || 90);
     const knownPlates = await utils.GetLicensePlates(sequelizeObjects);
     if (knownPlates.length > 0) {
       const rows = await sequelizeObjects.Data.findAll({
