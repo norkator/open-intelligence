@@ -36,8 +36,12 @@ class Calendar extends Component {
     return (
       <div>
         <Card bg="Light" text="dark">
+          <Card.Header>
+            <b>Vehicle activity</b>
+          </Card.Header>
           <Card.Body>
             <div>
+              <p>!!! Add here input field to adjust loadable days !!!</p>
               <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                 ref={this.calendarComponentRef}
