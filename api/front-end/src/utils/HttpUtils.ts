@@ -3,7 +3,7 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE, GET_LABEL_IMAGES,
   GET_SUPER_RESOLUTION_IMAGE,
-  GET_INSTANCE_DETAILS, GET_CALENDAR_EVENTS,
+  GET_INSTANCE_DETAILS, GET_CALENDAR_EVENTS, GET_LICENSE_PLATES,
 } from "../axios";
 
 
@@ -141,4 +141,20 @@ export async function getCalendarEvents(dateRangeStartDate: string, dateRangeEnd
     dateRangeEndDate: dateRangeEndDate
   });
   return response.data.events as CalendarEventsInterface[];
+}
+
+
+export interface LicensePlatesInterface {
+  enabled: number;
+  id: string;
+  licence_plate: string;
+  owner_name: string;
+}
+
+/**
+ * Get user added license plates
+ */
+export async function getLicensePlates() {
+  const response = await axios.get(GET_LICENSE_PLATES);
+  return response.data.plates;
 }

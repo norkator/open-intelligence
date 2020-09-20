@@ -14,7 +14,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
             <h5>{props.title}</h5>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>s
+        <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
 
           {props.showBadges ?

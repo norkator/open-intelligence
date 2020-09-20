@@ -21,3 +21,4 @@ export const GET_LABEL_IMAGES = basePath + "get/label/images";
 export const GET_SUPER_RESOLUTION_IMAGE = basePath + "get/super/resolution/image";
 export const GET_INSTANCE_DETAILS = basePath + "get/instance/details";
 export const GET_CALENDAR_EVENTS = basePath + "get/calendar/events";
+export const GET_LICENSE_PLATES = basePath + "get/licence/plates";
