@@ -3,7 +3,7 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE, GET_LABEL_IMAGES,
   GET_SUPER_RESOLUTION_IMAGE,
-  GET_INSTANCE_DETAILS, GET_CALENDAR_EVENTS, GET_LICENSE_PLATES,
+  GET_INSTANCE_DETAILS, GET_CALENDAR_EVENTS, GET_LICENSE_PLATES, MANAGE_LICENSE_PLATES,
 } from "../axios";
 
 
@@ -153,8 +153,42 @@ export interface LicensePlatesInterface {
 
 /**
  * Get user added license plates
+ * @method GET
  */
 export async function getLicensePlates() {
   const response = await axios.get(GET_LICENSE_PLATES);
   return response.data.plates;
+}
+
+/**
+ * Add new owner & license plate
+ * @param licencePlate plate string
+ * @param ownerName name of owner or any other information
+ * @method POST
+ */
+export async function addLicensePlate(licencePlate: string, ownerName: string) {
+  const response = await axios.post(MANAGE_LICENSE_PLATES, {licence_plate: licencePlate, owner_name: ownerName});
+  return response.data;
+}
+
+/**
+ * Delete vehicle owner record
+ * @param id used for deletion
+ * @method DELETE
+ */
+export async function removeLicensePlate(id: number) {
+  const response = await axios.delete(MANAGE_LICENSE_PLATES, {data: {id: id}});
+  return response.data;
+}
+
+/**
+ * Update one owner row details
+ * @param id row to update
+ * @param licencePlate string
+ * @param ownerName name or other details
+ * @method PUT
+ */
+export async function updateLicensePlate(id: number, licencePlate: string, ownerName: string) {
+  const response = await axios.put(MANAGE_LICENSE_PLATES, {id: id, licence_plate: licencePlate, owner_name: ownerName});
+  return response.data;
 }

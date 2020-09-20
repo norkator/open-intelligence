@@ -9,6 +9,7 @@ import {
 
 class Owners extends Component<ReduxPropsInterface> {
   state = {
+    totalPlates: 0,
     licensePlates: [] as LicensePlatesInterface[],
     filteredLicensePlates: [] as LicensePlatesInterface[],
   };
@@ -19,7 +20,11 @@ class Owners extends Component<ReduxPropsInterface> {
 
   async loadInstanceDetails() {
     const licensePlates = await getLicensePlates() as LicensePlatesInterface[];
-    this.setState({licensePlates: licensePlates, filteredLicensePlates: licensePlates});
+    this.setState({
+      totalPlates: licensePlates.length,
+      licensePlates: licensePlates,
+      filteredLicensePlates: licensePlates
+    });
   }
 
   render() {
@@ -52,7 +57,7 @@ class Owners extends Component<ReduxPropsInterface> {
     }
 
     return (
-      <div>
+      <div className="magictime vanishIn">
         <Card bg="Light" text="dark">
           <Card.Header>
             <b>Vehicle owners</b>
@@ -75,7 +80,7 @@ class Owners extends Component<ReduxPropsInterface> {
             </Table>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Test content</small>
+            <small className="text-muted">Vehicle count: {this.state.totalPlates}</small>
           </Card.Footer>
         </Card>
       </div>
