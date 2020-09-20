@@ -259,12 +259,13 @@ Here's some ideas
 - [x] send emails on new license plate detections based on known plate records;
 - [x] main App.py multiple processing nodes support;
 - [x] email intelligence statistics (partially implemented, plates for now);
-- [ ] camera microphone access;
+- [x] camera microphone access; [See Hikvision-video-audio-extractor](https://github.com/norkator/hikvision-video-audio-extractor)
 - [ ] microphone sound -> heard text contents -> find interests -> collect speech;
 - [ ] better data analysis methods, needs defining;
 - [ ] make own ALPR based on deep neural nets and TensorFlow.;
 - [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once;
 - [ ] api's for multi site combining to be able to request seen plates, person face lookup, analysis;
+- [ ] replace junk jQuery based front end UI with React js version [WIP](https://github.com/norkator/open-intelligence/pull/45)
 
 
 Authors
