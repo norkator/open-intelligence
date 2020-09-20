@@ -19,6 +19,8 @@ import {connect} from "react-redux";
 
 class Calendar extends Component<ReduxPropsInterface> {
   state = {
+    dateRangeStartDate: null,
+    dateRangeEndDate: null,
     calendarWeekends: true,
     calendarEvents: [] as CalendarEventsInterface[],
     genericImageModalData: {show: false} as ModalPropsInterface,
@@ -30,9 +32,20 @@ class Calendar extends Component<ReduxPropsInterface> {
     this.loadCalendarEvents().then(() => null);
   }
 
+  componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
+    if (this.state.dateRangeStartDate !== this.props.dateRangeStartDate
+      || this.state.dateRangeEndDate !== this.props.dateRangeEndDate) {
+      this.loadCalendarEvents().then(() => null);
+    }
+  }
+
   async loadCalendarEvents() {
     const events = await getCalendarEvents(this.props.dateRangeStartDate, this.props.dateRangeEndDate);
-    this.setState({calendarEvents: events});
+    this.setState({
+      calendarEvents: events,
+      dateRangeStartDate: this.props.dateRangeStartDate,
+      dateRangeEndDate: this.props.dateRangeEndDate
+    });
   }
 
   render() {
