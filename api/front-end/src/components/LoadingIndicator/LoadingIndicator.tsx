@@ -9,7 +9,9 @@ import React from "react";
 export const LoadingIndicator = (props: any) => {
   return (
     <div className="d-flex justify-content-center">
-      <Spinner animation="grow" variant={props.isDark ? 'dark' : 'light'} className={styles.SpinnerDiv}/>
+      <div style={{width: '32px', height: '32px'}}>
+        <Spinner animation="grow" variant={props.isDark ? 'dark' : 'light'} className={styles.SpinnerDiv}/>
+      </div>
     </div>
   );
 };
