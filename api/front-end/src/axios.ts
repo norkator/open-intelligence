@@ -23,3 +23,4 @@ export const GET_INSTANCE_DETAILS = basePath + "get/instance/details";
 export const GET_CALENDAR_EVENTS = basePath + "get/calendar/events";
 export const GET_LICENSE_PLATES = basePath + "get/licence/plates";
 export const MANAGE_LICENSE_PLATES = basePath + "manage/licence/plates";
+export const GET_LICENSE_PLATE_DETECTIONS = basePath + "get/license/plate/detections";

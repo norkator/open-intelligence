@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import {ChangeDate} from '../utils/DateUtils';
+import {ChangeDate, getNowISODate} from '../utils/DateUtils';
 
 export interface ReduxPropsInterface {
   selectedDate: string;
@@ -11,15 +11,6 @@ export interface ReduxPropsInterface {
   onDateRangeStartDateSelected: (event: string) => void;
   onDateRangeEndDateSelected: (event: string) => void
 }
-
-
-/**
- * Get today date
- * @return String date in ISO format
- */
-export const getNowISODate = (): string => {
-  return new Date().toISOString().substr(0, 10);
-};
 
 const nowIsoDate = getNowISODate();
 

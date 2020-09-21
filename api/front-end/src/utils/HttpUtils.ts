@@ -3,7 +3,11 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE, GET_LABEL_IMAGES,
   GET_SUPER_RESOLUTION_IMAGE,
-  GET_INSTANCE_DETAILS, GET_CALENDAR_EVENTS, GET_LICENSE_PLATES, MANAGE_LICENSE_PLATES,
+  GET_INSTANCE_DETAILS,
+  GET_CALENDAR_EVENTS,
+  GET_LICENSE_PLATES,
+  MANAGE_LICENSE_PLATES,
+  GET_LICENSE_PLATE_DETECTIONS,
 } from "../axios";
 
 
@@ -191,4 +195,25 @@ export async function removeLicensePlate(id: string) {
 export async function updateLicensePlate(id: string, licencePlate: string, ownerName: string) {
   const response = await axios.put(MANAGE_LICENSE_PLATES, {id: id, licence_plate: licencePlate, owner_name: ownerName});
   return response.data;
+}
+
+
+export interface LicensePlateDetectionsInterface {
+  file: string;
+  title: string;
+  label: string;
+  ownerName: string;
+  detectionResult: string;
+  detectionCorrected: string;
+  image: string; // base64 encoded image data
+  objectDetectionFileName: string;
+}
+
+export async function getLicensePlateDetections(resultOption: string, startDate: string, endDate: string) {
+  const response = await axios.post(GET_LICENSE_PLATE_DETECTIONS, {
+    resultOption: resultOption,
+    selectedDateStart: startDate,
+    selectedDateEnd: endDate,
+  });
+  return response.data.licensePlates as LicensePlateDetectionsInterface[];
 }
