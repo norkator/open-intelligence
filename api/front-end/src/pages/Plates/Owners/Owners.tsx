@@ -5,6 +5,7 @@ import {
   getLicensePlates,
   LicensePlatesInterface
 } from "../../../utils/HttpUtils";
+import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
 
 
 class Owners extends Component<ReduxPropsInterface> {
@@ -12,6 +13,7 @@ class Owners extends Component<ReduxPropsInterface> {
     totalPlates: 0,
     licensePlates: [] as LicensePlatesInterface[],
     filteredLicensePlates: [] as LicensePlatesInterface[],
+    plateEditModalData: {show: false} as PlateEditModalPropsInterface,
   };
 
   componentDidMount(): void {
@@ -63,8 +65,19 @@ class Owners extends Component<ReduxPropsInterface> {
             <b>Vehicle owners</b>
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
-            <input type="text" className="form-control mt-2 mb-2" placeholder="Search filter..."
-                   aria-label="Search" onChange={(event: any) => this.onSearchFilterChangeHandler(event)}/>
+            <div className="row">
+              <div className="col-sm">
+                <input type="text" className="form-control mt-2 mb-2" placeholder="Search filter..."
+                       aria-label="Search" onChange={(event: any) => this.onSearchFilterChangeHandler(event)}/>
+              </div>
+              <div className="col-sm-auto">
+                <div>
+                  <Button variant="info" className="mt-2 mr-2">
+                    Add plate
+                  </Button>
+                </div>
+              </div>
+            </div>
             <Table striped bordered hover variant="light" size="sm">
               <thead>
               <tr>
@@ -83,6 +96,19 @@ class Owners extends Component<ReduxPropsInterface> {
             <small className="text-muted">Vehicle count: {this.state.totalPlates}</small>
           </Card.Footer>
         </Card>
+
+        <PlateEditModal
+          show={this.state.plateEditModalData.show}
+          title={this.state.plateEditModalData.title}
+          description={this.state.plateEditModalData.description}
+          id={this.state.plateEditModalData.id}
+          licencePlate={this.state.plateEditModalData.licencePlate}
+          ownerName={this.state.plateEditModalData.ownerName}
+          closeHandler={() => this.plateEditModalCloseHandler}
+          saveHandler={(plateObject: PlateEditModalPropsInterface) => this.plateEditModalSaveHandler(plateObject)}
+        />
+
+
       </div>
     )
   }
@@ -95,6 +121,13 @@ class Owners extends Component<ReduxPropsInterface> {
         return String(f.licence_plate).toLowerCase().includes(value) || String(f.owner_name).toLowerCase().includes(value);
       })
     });
+  };
+
+  plateEditModalCloseHandler = () => {
+    this.setState({genericImageModalData: {show: false}});
+  };
+
+  plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
   };
 
 }
