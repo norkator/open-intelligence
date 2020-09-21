@@ -177,7 +177,7 @@ export async function addLicensePlate(licencePlate: string, ownerName: string) {
  * @method DELETE
  */
 export async function removeLicensePlate(id: string) {
-  const response = await axios.delete(MANAGE_LICENSE_PLATES, {data: {id: id}});
+  const response = await axios.delete(MANAGE_LICENSE_PLATES + '/' + id);
   return response.data;
 }
 

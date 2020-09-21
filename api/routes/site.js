@@ -781,7 +781,7 @@ async function Site(router, sequelizeObjects) {
       res.json({plates: plates});
     });
   });
-  
+
   /**
    * Create license plate
    */

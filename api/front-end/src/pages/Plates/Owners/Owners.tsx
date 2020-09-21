@@ -19,10 +19,10 @@ class Owners extends Component<ReduxPropsInterface> {
   };
 
   componentDidMount(): void {
-    this.loadInstanceDetails().then(() => null);
+    this.loadLicensePlates().then(() => null);
   }
 
-  async loadInstanceDetails() {
+  async loadLicensePlates() {
     const licensePlates = await getLicensePlates() as LicensePlatesInterface[];
     this.setState({
       totalPlates: licensePlates.length,
@@ -174,15 +174,15 @@ class Owners extends Component<ReduxPropsInterface> {
   plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
     if (plateObject.id === null) {
       addLicensePlate(plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
-
+        this.loadLicensePlates().then(() => null);
       }).catch((error: any) => {
-
+        alert(error);
       });
     } else {
       updateLicensePlate(plateObject.id, plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
-
+        this.loadLicensePlates().then(() => null);
       }).catch((error: any) => {
-
+        alert(error);
       });
     }
   };
@@ -192,9 +192,9 @@ class Owners extends Component<ReduxPropsInterface> {
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Delete ' + lp)) {
       removeLicensePlate(id).then((response: any) => {
-
+        this.loadLicensePlates().then(() => null);
       }).catch((error: any) => {
-
+        alert(error);
       });
     }
   }
