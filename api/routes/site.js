@@ -781,63 +781,65 @@ async function Site(router, sequelizeObjects) {
       res.json({plates: plates});
     });
   });
-
-
+  
   /**
-   * Add new licence plate
-   * action_type ['add', 'remove', 'changes']
+   * Create license plate
    */
   router.post('/manage/licence/plates', async (req, res) => {
-    const actionType = req.body.action_type;
-    switch (actionType) {
-      case 'add':
-        sequelizeObjects.Plate.create({
-          licence_plate: req.body.licence_plate, owner_name: req.body.owner_name, enabled: req.body.enabled
-        }).then(result => {
-          res.status(200);
-          res.send('New licence plate added.');
-        }).catch(error => {
-          res.status(500);
-          res.send('Error adding licence plate. ' + error);
-        });
-        break;
-      case 'remove':
-        sequelizeObjects.Plate.destroy({
-          where: {id: req.body.id,},
-        }).then(result => {
-          if (result === 1) {
-            res.status(200);
-            res.send('Removed licence plate.');
-          } else {
-            res.status(500);
-            res.send('Error removing licence plate. ');
-          }
-        });
-        break;
-      case 'changes':
-        const changesArr = JSON.parse(req.body.save_change_array);
-        changesArr.forEach(change => {
-          sequelizeObjects.Plate.update({
-            licence_plate: change.licence_plate,
-            owner_name: change.owner_name,
-            enabled: change.enabled
-          }, {
-            where: {
-              id: change.id
-            }
-          }).then(() => {
-          }).catch(error => {
-            console.log(error);
-          });
-        });
+    sequelizeObjects.Plate.create({
+      licence_plate: req.body.licence_plate, owner_name: req.body.owner_name, enabled: 1
+    }).then(result => {
+      res.status(200);
+      res.send('New licence plate added.');
+    }).catch(error => {
+      res.status(500);
+      res.send('Error adding licence plate. ' + error);
+    });
+  });
+
+  /**
+   * Delete license plate
+   */
+  router.delete('/manage/licence/plates', async (req, res) => {
+    console.log('Removing ', req.body.data.id);
+    /*
+    sequelizeObjects.Plate.destroy({
+      where: {id: req.body.id,},
+    }).then(result => {
+      if (result === 1) {
         res.status(200);
-        res.send('Saved changes.');
-        break;
-      default:
+        res.send('Removed licence plate.');
+      } else {
         res.status(500);
-        res.send('Supported action type was not specified.');
-        break;
-    }
+        res.send('Error removing licence plate. ');
+      }
+    });
+     */
+
+    res.status(200);
+    res.send('Removed licence plate.');
+  });
+
+  /**
+   * Update license plate
+   */
+  router.put('/manage/licence/plates', async (req, res) => {
+    sequelizeObjects.Plate.update({
+      licence_plate: req.body.licence_plate,
+      owner_name: req.body.owner_name,
+      enabled: 1
+    }, {
+      where: {
+        id: req.body.id
+      }
+    }).then(() => {
+      res.status(200);
+      res.send('Saved changes.');
+    }).catch(error => {
+      console.log(error);
+      res.status(500);
+      res.send(error);
+    });
   });
 
 
