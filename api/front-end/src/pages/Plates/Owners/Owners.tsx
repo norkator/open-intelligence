@@ -132,7 +132,7 @@ class Owners extends Component<ReduxPropsInterface> {
   }
 
   onSearchFilterChangeHandler = (event: any) => {
-    const value = event.target.value;
+    const value = String(event.target.value).toLowerCase();
     const array = this.state.licensePlates.slice(); // Make new copy
     this.setState({
       filteredLicensePlates: array.filter(f => {
