@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ReduxPropsInterface} from "../../../store/defaultReducer";
+import {ReduxPropsInterface} from "../../../store/dateReducer";
 
 class Cars extends Component<ReduxPropsInterface> {
 

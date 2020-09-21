@@ -14,7 +14,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import {Card} from "react-bootstrap";
 import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
 import DateRangeSelector from "../DateRangeSelector/DateRangeSelector";
-import {ReduxPropsInterface} from "../../../store/defaultReducer";
+import {ReduxPropsInterface} from "../../../store/dateReducer";
 import {connect} from "react-redux";
 
 class Calendar extends Component<ReduxPropsInterface> {
@@ -131,8 +131,8 @@ class Calendar extends Component<ReduxPropsInterface> {
 
 const mapStateToProps = (state: any): any => {
   return {
-    dateRangeStartDate: state.dateRangeStartDate,
-    dateRangeEndDate: state.dateRangeEndDate,
+    dateRangeStartDate: state.dateReducer.dateRangeStartDate,
+    dateRangeEndDate: state.dateReducer.dateRangeEndDate,
   };
 };
 

@@ -29,7 +29,7 @@ const initialState = {
   dateRangeEndDate: nowIsoDate,
 };
 
-const defaultReducer = (state = initialState, action: any): any => {
+const dateReducer = (state = initialState, action: any): any => {
   switch (action.type) {
     case actionTypes.SET_SELECTED_DATE:
       return {
@@ -66,4 +66,4 @@ const defaultReducer = (state = initialState, action: any): any => {
   }
 };
 
-export default defaultReducer;
+export default dateReducer;
