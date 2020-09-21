@@ -6,6 +6,7 @@ import {
   LicensePlatesInterface
 } from "../../../utils/HttpUtils";
 import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
+import {filterLicensePlate} from "../../../utils/TextUtils";
 
 
 class Owners extends Component<ReduxPropsInterface> {
@@ -43,10 +44,14 @@ class Owners extends Component<ReduxPropsInterface> {
               <td>
                 <Row>
                   <Col>
-                    <Button variant="dark" size="sm" className="mr-2">
+                    <Button variant="dark" size="sm" className="mr-2" onClick={
+                      () => this.editPlateHandler(licensePlate.id, licensePlate.licence_plate, licensePlate.owner_name)
+                    }>
                       Edit
                     </Button>
-                    <Button variant="outline-danger" size="sm">
+                    <Button variant="outline-danger" size="sm" onClick={
+                      () => this.plateDeleteHandler(licensePlate.id, licensePlate.licence_plate)
+                    }>
                       Delete
                     </Button>
                   </Col>
@@ -72,7 +77,7 @@ class Owners extends Component<ReduxPropsInterface> {
               </div>
               <div className="col-sm-auto">
                 <div>
-                  <Button variant="info" className="mt-2 mr-2">
+                  <Button variant="info" className="mt-2 mr-2" onClick={this.addNewPlateHandler}>
                     Add plate
                   </Button>
                 </div>
@@ -106,6 +111,18 @@ class Owners extends Component<ReduxPropsInterface> {
           ownerName={this.state.plateEditModalData.ownerName}
           closeHandler={() => this.plateEditModalCloseHandler}
           saveHandler={(plateObject: PlateEditModalPropsInterface) => this.plateEditModalSaveHandler(plateObject)}
+          lpOnChange={(lp: string) => this.setState({
+            plateEditModalData: {
+              ...this.state.plateEditModalData,
+              licencePlate: filterLicensePlate(lp)
+            }
+          })}
+          ownerOnChange={(owner: string) => this.setState({
+            plateEditModalData: {
+              ...this.state.plateEditModalData,
+              ownerName: owner
+            }
+          })}
         />
 
 
@@ -123,12 +140,51 @@ class Owners extends Component<ReduxPropsInterface> {
     });
   };
 
+  addNewPlateHandler = () => {
+    this.setState({
+      plateEditModalData: {
+        show: true,
+        title: 'Add new plate',
+        description: 'Give new license plate and owner details. License plate can be given with or without "-" character.',
+        id: null,
+        licencePlate: '',
+        ownerName: '',
+      }
+    });
+  };
+
+  editPlateHandler = (id: string, plate: string, owner: string) => {
+    this.setState({
+      plateEditModalData: {
+        show: true,
+        title: 'Edit existing plate',
+        description: 'You are editing existing license plate item. License plate can be given with or without "-" character.',
+        id: id,
+        licencePlate: plate,
+        ownerName: owner,
+      }
+    });
+  };
+
   plateEditModalCloseHandler = () => {
-    this.setState({genericImageModalData: {show: false}});
+    this.setState({plateEditModalData: {show: false}});
   };
 
   plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
+    if (plateObject.id === null) {
+      console.info('Create new ', plateObject.licencePlate, plateObject.ownerName);
+    } else {
+      console.info('Update existing ', plateObject.id, plateObject.licencePlate, plateObject.ownerName);
+    }
   };
+
+  plateDeleteHandler = (id: string, lp: string) => {
+    // Todo, fix this confirm no-restricted-globals later!
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm('Delete ' + lp)) {
+
+    }
+  }
 
 }
 
