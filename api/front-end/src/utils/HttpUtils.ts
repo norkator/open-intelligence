@@ -176,7 +176,7 @@ export async function addLicensePlate(licencePlate: string, ownerName: string) {
  * @param id used for deletion
  * @method DELETE
  */
-export async function removeLicensePlate(id: number) {
+export async function removeLicensePlate(id: string) {
   const response = await axios.delete(MANAGE_LICENSE_PLATES, {data: {id: id}});
   return response.data;
 }
@@ -188,7 +188,7 @@ export async function removeLicensePlate(id: number) {
  * @param ownerName name or other details
  * @method PUT
  */
-export async function updateLicensePlate(id: number, licencePlate: string, ownerName: string) {
+export async function updateLicensePlate(id: string, licencePlate: string, ownerName: string) {
   const response = await axios.put(MANAGE_LICENSE_PLATES, {id: id, licence_plate: licencePlate, owner_name: ownerName});
   return response.data;
 }

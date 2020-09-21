@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {ReduxPropsInterface} from "../../../store/dateReducer";
 import {Button, Card, Col, Row, Table} from "react-bootstrap";
 import {
+  addLicensePlate,
   getLicensePlates,
-  LicensePlatesInterface
+  LicensePlatesInterface, removeLicensePlate, updateLicensePlate
 } from "../../../utils/HttpUtils";
 import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
 import {filterLicensePlate} from "../../../utils/TextUtils";
@@ -50,9 +51,9 @@ class Owners extends Component<ReduxPropsInterface> {
                       Edit
                     </Button>
                     <Button variant="outline-danger" size="sm" onClick={
-                      () => this.plateDeleteHandler(licensePlate.id, licensePlate.licence_plate)
+                      () => this.plateRemoveHandler(licensePlate.id, licensePlate.licence_plate)
                     }>
-                      Delete
+                      Remove
                     </Button>
                   </Col>
                 </Row>
@@ -172,17 +173,29 @@ class Owners extends Component<ReduxPropsInterface> {
 
   plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
     if (plateObject.id === null) {
-      console.info('Create new ', plateObject.licencePlate, plateObject.ownerName);
+      addLicensePlate(plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
+
+      }).catch((error: any) => {
+
+      });
     } else {
-      console.info('Update existing ', plateObject.id, plateObject.licencePlate, plateObject.ownerName);
+      updateLicensePlate(plateObject.id, plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
+
+      }).catch((error: any) => {
+
+      });
     }
   };
 
-  plateDeleteHandler = (id: string, lp: string) => {
+  plateRemoveHandler = (id: string, lp: string) => {
     // Todo, fix this confirm no-restricted-globals later!
     // eslint-disable-next-line no-restricted-globals
     if (confirm('Delete ' + lp)) {
+      removeLicensePlate(id).then((response: any) => {
 
+      }).catch((error: any) => {
+
+      });
     }
   }
 
