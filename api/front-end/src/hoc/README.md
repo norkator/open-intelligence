@@ -3,13 +3,13 @@ Terminology
 * <b>HOC</b> stands for "Higher order component"
 
 
-Aux
+Auxiliary
 ======
 This can be used to wrap other elements
 ```html
-<Aux>
+<Auxiliary>
   <div>Hello world<div/>
-</Aux>
+</Auxiliary>
 ```
 
 

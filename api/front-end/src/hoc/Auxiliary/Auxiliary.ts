@@ -3,6 +3,6 @@
  * it's like <div>
  * @param props
  */
-const aux = (props: any) => props.children;
+const auxiliary = (props: any) => props.children;
 
-export default aux;
+export default auxiliary;
