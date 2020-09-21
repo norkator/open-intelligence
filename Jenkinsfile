@@ -7,20 +7,26 @@ pipeline {
         
     stage('Install React front end packages') {
       steps {
-        bat 'npm install --prefix ./api/front-end'
+        ws("/api/front-end") {
+          bat 'npm install'
+        }
       }
     }  
     
             
     stage('Test React front end') {
       steps {
-        bat 'npm run test --prefix ./api/front-end'
+        ws("/api/front-end") {
+          bat 'npm run test --prefix ./api/front-end'
+        }
       }
     }
 
     stage('Build React front end') {
       steps {
-        bat 'npm run build --prefix ./api/front-end'
+        ws("/api/front-end") {
+          bat 'npm run build --prefix ./api/front-end'
+        }
       }
     }
 
