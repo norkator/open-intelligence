@@ -1,6 +1,13 @@
 import dateReducer, {getNowISODate} from "./dateReducer";
 import {ChangeDate} from "../utils/DateUtils";
-import {INCREMENT_DAY, SET_SELECTED_DATE} from "./actionTypes";
+import {
+  CALENDAR_SELECTION,
+  DATE_RANGE_END_DATE_SELECTED,
+  DATE_RANGE_START_DATE_SELECTED,
+  DECREMENT_DAY,
+  INCREMENT_DAY,
+  SET_SELECTED_DATE
+} from "./actionTypes";
 
 
 describe('dateReducer', () => {
@@ -44,6 +51,78 @@ describe('dateReducer', () => {
       selectedDate: '2020-01-06',
       dateRangeStartDate: ChangeDate(nowIsoDate, -7),
       dateRangeEndDate: nowIsoDate,
+    });
+  });
+
+  it('should decrement selectedDate ' + testDate + ' by five days', () => {
+    expect(dateReducer({
+      selectedDate: testDate,
+      dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+      dateRangeEndDate: nowIsoDate,
+    }, {
+      type: DECREMENT_DAY,
+      days: -5,
+    })).toEqual({
+      selectedDate: '2019-12-27',
+      dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+      dateRangeEndDate: nowIsoDate,
+    });
+  });
+
+  it('should be date coming from calendar.target.value selection', () => {
+    expect(dateReducer({
+      selectedDate: nowIsoDate,
+      dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+      dateRangeEndDate: nowIsoDate,
+    }, {
+      type: CALENDAR_SELECTION,
+      calendar: {
+        target: {
+          value: testDate
+        }
+      }
+    })).toEqual({
+      selectedDate: testDate,
+      dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+      dateRangeEndDate: nowIsoDate,
+    });
+  });
+
+  it('should calendar.target.value date range start date selection', () => {
+    expect(dateReducer({
+      selectedDate: nowIsoDate,
+      dateRangeStartDate: '',
+      dateRangeEndDate: nowIsoDate,
+    }, {
+      type: DATE_RANGE_START_DATE_SELECTED,
+      calendar: {
+        target: {
+          value: testDate
+        }
+      }
+    })).toEqual({
+      selectedDate: nowIsoDate,
+      dateRangeStartDate: testDate,
+      dateRangeEndDate: nowIsoDate,
+    });
+  });
+
+  it('should calendar.target.value date range end date selection', () => {
+    expect(dateReducer({
+      selectedDate: nowIsoDate,
+      dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+      dateRangeEndDate: '',
+    }, {
+      type: DATE_RANGE_END_DATE_SELECTED,
+      calendar: {
+        target: {
+          value: testDate
+        }
+      }
+    })).toEqual({
+      selectedDate: nowIsoDate,
+      dateRangeStartDate: ChangeDate(nowIsoDate, -7),
+      dateRangeEndDate: testDate,
     });
   });
 
