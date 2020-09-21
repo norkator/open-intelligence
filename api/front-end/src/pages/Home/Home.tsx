@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import Instances from "./Instances/Instances";
 import Labels from "./Labels/Labels";
 import {connect} from "react-redux";
-import {ReduxPropsInterface} from "../../store/reducer";
+import {ReduxPropsInterface} from "../../store/defaultReducer";
 import DateSelector from "./DateSelector/DateSelector";
 import Calendar from "./Calendar/Calendar";
 

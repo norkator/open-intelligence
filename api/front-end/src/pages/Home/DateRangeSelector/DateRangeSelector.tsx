@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ReduxPropsInterface} from "../../../store/reducer";
+import {ReduxPropsInterface} from "../../../store/defaultReducer";
 import {DATE_RANGE_END_DATE_SELECTED, DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 import {connect} from "react-redux";
 

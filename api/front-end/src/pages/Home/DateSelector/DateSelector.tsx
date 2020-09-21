@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ReduxPropsInterface} from "../../../store/reducer";
+import {ReduxPropsInterface} from "../../../store/defaultReducer";
 import {
   INCREMENT_DAY,
   DECREMENT_DAY,
