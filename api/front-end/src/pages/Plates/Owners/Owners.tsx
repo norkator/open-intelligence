@@ -175,12 +175,14 @@ class Owners extends Component<ReduxPropsInterface> {
     if (plateObject.id === null) {
       addLicensePlate(plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
         this.loadLicensePlates().then(() => null);
+        this.plateEditModalCloseHandler();
       }).catch((error: any) => {
         alert(error);
       });
     } else {
       updateLicensePlate(plateObject.id, plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
         this.loadLicensePlates().then(() => null);
+        this.plateEditModalCloseHandler();
       }).catch((error: any) => {
         alert(error);
       });

@@ -36,7 +36,7 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
           <Button variant="primary" onClick={() => props.saveHandler(props)}>
             Save
           </Button>
-          <Button variant="secondary" onClick={() => props.closeHandler}>
+          <Button variant="secondary" onClick={props.closeHandler()}>
             Close
           </Button>
         </Modal.Footer>
