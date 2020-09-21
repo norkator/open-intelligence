@@ -17,7 +17,7 @@ export interface ReduxPropsInterface {
  * Get today date
  * @return String date in ISO format
  */
-const getNowISODate = (): string => {
+export const getNowISODate = (): string => {
   return new Date().toISOString().substr(0, 10);
 };
 
