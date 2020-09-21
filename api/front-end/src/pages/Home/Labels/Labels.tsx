@@ -14,7 +14,7 @@ import {
   getSuperResolutionImage, SuperResolutionInterface,
 } from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
-import {ReduxPropsInterface} from "../../../store/reducer";
+import {ReduxPropsInterface} from "../../../store/dateReducer";
 import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
 
 
@@ -254,7 +254,7 @@ class Labels extends Component<ReduxPropsInterface> {
 
 const mapStateToProps = (state: any): any => {
   return {
-    selectedDate: state.selectedDate,
+    selectedDate: state.dateReducer.selectedDate,
   };
 };
 

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ReduxPropsInterface} from "../../../store/reducer";
+import {ReduxPropsInterface} from "../../../store/dateReducer";
 import {
   INCREMENT_DAY,
   DECREMENT_DAY,
@@ -39,7 +39,7 @@ class DateSelector extends Component<ReduxPropsInterface> {
 
 const mapStateToProps = (state: any): any => {
   return {
-    selectedDate: state.selectedDate,
+    selectedDate: state.dateReducer.selectedDate,
   };
 };
 

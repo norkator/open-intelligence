@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Cars from "./Cars/Cars";
 import {connect} from "react-redux";
-import {ReduxPropsInterface} from "../../store/reducer";
+import {ReduxPropsInterface} from "../../store/dateReducer";
 import Owners from "./Owners/Owners";
 
 class Plates extends Component<ReduxPropsInterface> {

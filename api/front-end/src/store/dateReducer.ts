@@ -17,7 +17,7 @@ export interface ReduxPropsInterface {
  * Get today date
  * @return String date in ISO format
  */
-const getNowISODate = (): string => {
+export const getNowISODate = (): string => {
   return new Date().toISOString().substr(0, 10);
 };
 
@@ -29,7 +29,7 @@ const initialState = {
   dateRangeEndDate: nowIsoDate,
 };
 
-const reducer = (state = initialState, action: any): any => {
+const dateReducer = (state = initialState, action: any): any => {
   switch (action.type) {
     case actionTypes.SET_SELECTED_DATE:
       return {
@@ -66,4 +66,4 @@ const reducer = (state = initialState, action: any): any => {
   }
 };
 
-export default reducer;
+export default dateReducer;

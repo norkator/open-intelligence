@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import Instances from "./Instances/Instances";
 import Labels from "./Labels/Labels";
 import {connect} from "react-redux";
-import {ReduxPropsInterface} from "../../store/reducer";
+import {ReduxPropsInterface} from "../../store/dateReducer";
 import DateSelector from "./DateSelector/DateSelector";
 import Calendar from "./Calendar/Calendar";
 
@@ -30,7 +30,7 @@ class Home extends Component<ReduxPropsInterface> {
 
 const mapStateToProps = (state: any): any => {
   return {
-    selectedDate: state.selectedDate,
+    selectedDate: state.dateReducer.selectedDate,
   };
 };
 
