@@ -168,10 +168,15 @@ export async function getLicensePlates() {
  * Add new owner & license plate
  * @param licencePlate plate string
  * @param ownerName name of owner or any other information
+ * @param dataId data table data id, given as zero when not intended to update detection result
  * @method POST
  */
-export async function addLicensePlate(licencePlate: string, ownerName: string) {
-  const response = await axios.post(MANAGE_LICENSE_PLATES, {licence_plate: licencePlate, owner_name: ownerName});
+export async function addLicensePlate(licencePlate: string, ownerName: string, dataId: number) {
+  const response = await axios.post(MANAGE_LICENSE_PLATES, {
+    licence_plate: licencePlate,
+    owner_name: ownerName,
+    data_id: dataId
+  });
   return response.data;
 }
 
@@ -199,6 +204,7 @@ export async function updateLicensePlate(id: string, licencePlate: string, owner
 
 
 export interface LicensePlateDetectionsInterface {
+  id: number;
   file: string;
   title: string;
   label: string;

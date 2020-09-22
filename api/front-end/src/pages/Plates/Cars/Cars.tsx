@@ -6,7 +6,6 @@ import {
   addLicensePlate,
   getLicensePlateDetections,
   LicensePlateDetectionsInterface,
-  updateLicensePlate
 } from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
@@ -48,7 +47,7 @@ class Cars extends Component<ReduxPropsInterface> {
             <div key={detection.file}
                  className={styles.zoom}
                  style={{cursor: 'pointer'}}
-            onClick={() => this.addNewPlateHandler(detection)}>
+                 onClick={() => this.addNewPlateHandler(detection)}>
               <Card style={{maxWidth: '160px'}} className="mr-1 mt-1 ml-1 mb-1">
                 <Card.Img variant="top" src={detection.image} style={{maxHeight: '100px'}}/>
                 <Card.Body className="p-2">
@@ -116,11 +115,11 @@ class Cars extends Component<ReduxPropsInterface> {
   };
 
   plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
-    addLicensePlate(plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
-      console.log(response);
-      // this.plateEditModalCloseHandler();
+    addLicensePlate(plateObject.licencePlate, plateObject.ownerName, Number(plateObject.id)).then((response: any) => {
+      this.plateEditModalCloseHandler();
     }).catch((error: any) => {
-      alert(error);
+      alert(error.response.data);
+      this.plateEditModalCloseHandler();
     });
   };
 
@@ -130,7 +129,7 @@ class Cars extends Component<ReduxPropsInterface> {
         show: true,
         title: 'Add new plate',
         description: 'Add new plate based on pre detection. Correct the plate based on image. License plate can be given with or without "-" character.',
-        id: null,
+        id: String(lpDetection.id),
         licencePlate: lpDetection.detectionResult,
         ownerName: '',
         imageData: lpDetection.image,

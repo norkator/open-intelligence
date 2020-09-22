@@ -174,7 +174,7 @@ class Owners extends Component<ReduxPropsInterface> {
 
   plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
     if (plateObject.id === null) {
-      addLicensePlate(plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
+      addLicensePlate(plateObject.licencePlate, plateObject.ownerName, 0).then((response: any) => {
         this.loadLicensePlates().then(() => null);
         this.plateEditModalCloseHandler();
       }).catch((error: any) => {

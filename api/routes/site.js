@@ -395,6 +395,7 @@ async function Site(router, sequelizeObjects) {
     // Get all detections
     const rows = await sequelizeObjects.Data.findAll({
       attributes: [
+        'id',
         'label',
         'file_name',
         'file_create_date',
@@ -769,7 +770,7 @@ async function Site(router, sequelizeObjects) {
     }).catch(() => {
       res.status(500);
       res.send('Error updating row.');
-    })
+    });
   });
 
 
@@ -784,16 +785,26 @@ async function Site(router, sequelizeObjects) {
 
   /**
    * Create license plate
+   * Todo, refactor this is terrible
    */
   router.post('/manage/licence/plates', async (req, res) => {
     const licensePlate = req.body.licence_plate;
+    const dataId = req.body.data_id || 0;
     sequelizeObjects.Plate.findAll({
       attributes: ['id',],
       where: {licence_plate: licensePlate},
     }).then(rows => {
       if (rows.length > 0) {
-        res.status(409);
-        res.send('Plate already exists in records');
+        sequelizeObjects.Data.update({
+            detection_result: licensePlate,
+          }, {where: {id: dataId}}
+        ).then(() => {
+          res.status(409);
+          res.send('Plate already exists in records');
+        }).catch(() => {
+          res.status(409);
+          res.send('Plate already exists in records');
+        });
       } else {
         sequelizeObjects.Plate.create({
           licence_plate: req.body.licence_plate, owner_name: req.body.owner_name, enabled: 1
