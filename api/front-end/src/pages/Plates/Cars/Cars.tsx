@@ -31,7 +31,6 @@ class Cars extends Component<ReduxPropsInterface> {
   async loadLicensePlateDetections(startDate: string, endDate: string) {
     const licensePlateDetections = await getLicensePlateDetections(
       this.state.resultOption, startDate, endDate) as LicensePlateDetectionsInterface[];
-    console.log(licensePlateDetections);
     this.setState({
       licensePlateDetections: licensePlateDetections
     });
@@ -120,6 +119,12 @@ class Cars extends Component<ReduxPropsInterface> {
     }).catch((error: any) => {
       alert(error.response.data);
       this.plateEditModalCloseHandler();
+    }).finally(() => {
+      this.setState({
+        licensePlateDetections: this.state.licensePlateDetections.filter((detection: LicensePlateDetectionsInterface) => {
+          return String(detection.id) !== plateObject.id;
+        })
+      });
     });
   };
 
