@@ -16,6 +16,8 @@ need for expensive camera systems because any existing cameras are suitable.
 
 <b>This project is looking for funding and contributors!</b>
 
+<b>Note: new react js front end is in progress, it does not yet have all features old ui had</b>
+
 ![Open-Intelligence-Front-Page](./other/frontpage_2.png) 
 
 This is small part of front page.
@@ -70,9 +72,8 @@ Api side
 5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
 6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
 7. Access `localhost:4300` unless port modified at .env file.
-8. Go to folder `api/html/packages` and unzip `packages.zip` on it's current place.
-I didn't want to bloat version control with third party libraries this hard so content comes zipped.
-9. Frontend user manual https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
+8. Done. You should see React js user interface which is served from /html folder.
+9. Outdated frontend user manual for old ui version https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
 
 
 Python side
@@ -103,7 +104,7 @@ Project folder structure
 ============
 
     .
-    ├── api                      # Api which is serving small static web page
+    ├── api                      # Api which is also serving react js based web page
     ├── classifiers              # Classifiers for different detectors like faces
     ├── dataset                  # Images of people to be detected
     ├── images                   # Input images to process 
@@ -265,7 +266,7 @@ Here's some ideas
 - [ ] make own ALPR based on deep neural nets and TensorFlow.;
 - [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once;
 - [ ] api's for multi site combining to be able to request seen plates, person face lookup, analysis;
-- [ ] replace junk jQuery based front end UI with React js version [WIP](https://github.com/norkator/open-intelligence/pull/45)
+- [x] replace junk jQuery based front end UI with React js version (still work in progress)
 
 
 Authors
