@@ -1,5 +1,5 @@
-import dateReducer, {getNowISODate} from "./dateReducer";
-import {ChangeDate} from "../utils/DateUtils";
+import dateReducer from "./dateReducer";
+import {ChangeDate, getNowISODate} from "../utils/DateUtils";
 import {
   CALENDAR_SELECTION,
   DATE_RANGE_END_DATE_SELECTED,
