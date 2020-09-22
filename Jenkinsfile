@@ -14,7 +14,7 @@ pipeline {
 
     stage('Test React front end') {
       steps {
-        bat 'cd .\\api\\front-end && npm run test'
+        bat 'cd .\\api\\front-end && npm run test-ci'
       }
     }
 
