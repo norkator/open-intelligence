@@ -4,6 +4,7 @@ import {Card} from "react-bootstrap";
 import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
 import {getLicensePlateDetections, LicensePlateDetectionsInterface} from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
+import styles from './Cars.module.css'
 
 
 class Cars extends Component<ReduxPropsInterface> {
@@ -30,6 +31,28 @@ class Cars extends Component<ReduxPropsInterface> {
   }
 
   render() {
+    let cars: JSX.Element[] = [];
+
+    if (this.state.licensePlateDetections !== undefined) {
+      if (this.state.licensePlateDetections.length > 0) {
+        cars = this.state.licensePlateDetections.map(detection => {
+          return (
+            <div key={detection.file} className={styles.zoom} style={{cursor: 'pointer'}}>
+              <Card style={{maxWidth: '160px'}} className="mr-1 mt-1 ml-1 mb-1">
+                <Card.Img variant="top" src={detection.image} style={{maxHeight: '100px'}}/>
+                <Card.Body className="p-2">
+                  <Card.Title className="m-0">{detection.detectionResult}</Card.Title>
+                </Card.Body>
+                <Card.Footer className="p-2">
+                  <small className="text-muted">{detection.title}</small>
+                </Card.Footer>
+              </Card>
+            </div>
+          )
+        });
+      }
+    }
+
     return (
       <div>
         <div className="magictime vanishIn">
@@ -39,14 +62,9 @@ class Cars extends Component<ReduxPropsInterface> {
             </Card.Header>
             <Card.Body style={{padding: '0px'}}>
               <DateRangeSelector {...this.props} />
-
-              <b>Create materialistic view here showing ALPR text and vehicle image</b>
-
-              <p>{this.state.licensePlateDetections.map(a => {
-                return <div key={a.title}>{a.detectionResult}</div>
-              })}</p>
-
-
+              <div className="d-flex justify-content-center flex-wrap">
+                {cars}
+              </div>
             </Card.Body>
             <Card.Footer>
               <small className="text-muted">This view shows you cars which require your attention</small>
