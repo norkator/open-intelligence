@@ -786,14 +786,28 @@ async function Site(router, sequelizeObjects) {
    * Create license plate
    */
   router.post('/manage/licence/plates', async (req, res) => {
-    sequelizeObjects.Plate.create({
-      licence_plate: req.body.licence_plate, owner_name: req.body.owner_name, enabled: 1
-    }).then(result => {
-      res.status(200);
-      res.send('New licence plate added.');
+    const licensePlate = req.body.licence_plate;
+    sequelizeObjects.Plate.findAll({
+      attributes: ['id',],
+      where: {licence_plate: licensePlate},
+    }).then(rows => {
+      if (rows.length > 0) {
+        res.status(409);
+        res.send('Plate already exists in records');
+      } else {
+        sequelizeObjects.Plate.create({
+          licence_plate: req.body.licence_plate, owner_name: req.body.owner_name, enabled: 1
+        }).then(result => {
+          res.status(200);
+          res.send('New licence plate added.');
+        }).catch(error => {
+          res.status(500);
+          res.send('Error adding licence plate. ' + error);
+        });
+      }
     }).catch(error => {
       res.status(500);
-      res.send('Error adding licence plate. ' + error);
+      res.send(error);
     });
   });
 
