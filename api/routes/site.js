@@ -430,6 +430,7 @@ async function Site(router, sequelizeObjects) {
           const detectionResult = utils.NoRead(row.detection_result);
           const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
           licensePlates.push({
+            id: row.id,
             objectDetectionFileName: row.file_name,
             title: datetime,
             label: row.label,
