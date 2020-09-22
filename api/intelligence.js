@@ -32,7 +32,7 @@ initDb.initDatabase().then(() => {
     // allowAccessOriginAll will let any origin client connect to this api
     app.use(function(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT');
       res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
       next();
     });
