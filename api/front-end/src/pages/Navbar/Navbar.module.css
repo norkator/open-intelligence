@@ -1,0 +1,12 @@
+.NavbarBrand {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+}
+
+.Link {
+  color: white;
+}
+
+.Link:hover {
+  color: lightgray;
+}
