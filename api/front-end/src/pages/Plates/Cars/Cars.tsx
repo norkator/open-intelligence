@@ -11,17 +11,21 @@ import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
 import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
 import {filterLicensePlate} from "../../../utils/TextUtils";
-
+import {connect} from "react-redux";
 
 class Cars extends Component<ReduxPropsInterface> {
-  // Todo, this is reference for this view: https://github.com/norkator/open-intelligence/blob/master/api/html/plates.html
   state = {
+    isLoading: false,
     today: getNowISODate(),
     resultOption: 'owner_detail_needed',
     totalPlates: 0,
     licensePlateDetections: [] as LicensePlateDetectionsInterface[],
     plateEditModalData: {show: false} as PlateEditModalPropsInterface,
   };
+
+  componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
+    this.loadLicensePlateDetections(this.props.dateRangeStartDate, this.props.dateRangeEndDate).then(() => null);
+  }
 
   componentDidMount(): void {
     // Default will load only today contents, loading big chunk is slow
@@ -70,6 +74,7 @@ class Cars extends Component<ReduxPropsInterface> {
               <b>Unknown cars</b>
             </Card.Header>
             <Card.Body style={{padding: '0px'}}>
+              <small className="ml-2">By default only cars from today are loaded. Pick day range to load more.</small>
               <DateRangeSelector {...this.props} />
               <div className="d-flex justify-content-center flex-wrap">
                 {cars}
@@ -144,4 +149,11 @@ class Cars extends Component<ReduxPropsInterface> {
 
 }
 
-export default Cars;
+const mapStateToProps = (state: any): any => {
+  return {
+    dateRangeStartDate: state.dateReducer.dateRangeStartDate,
+    dateRangeEndDate: state.dateReducer.dateRangeEndDate,
+  };
+};
+
+export default connect(mapStateToProps)(Cars);
