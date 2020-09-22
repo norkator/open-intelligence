@@ -2,9 +2,16 @@ import React, {Component} from "react";
 import {ReduxPropsInterface} from "../../../store/dateReducer";
 import {Card} from "react-bootstrap";
 import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
-import {getLicensePlateDetections, LicensePlateDetectionsInterface} from "../../../utils/HttpUtils";
+import {
+  addLicensePlate,
+  getLicensePlateDetections,
+  LicensePlateDetectionsInterface,
+  updateLicensePlate
+} from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
+import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
+import {filterLicensePlate} from "../../../utils/TextUtils";
 
 
 class Cars extends Component<ReduxPropsInterface> {
@@ -14,6 +21,7 @@ class Cars extends Component<ReduxPropsInterface> {
     resultOption: 'owner_detail_needed',
     totalPlates: 0,
     licensePlateDetections: [] as LicensePlateDetectionsInterface[],
+    plateEditModalData: {show: false} as PlateEditModalPropsInterface,
   };
 
   componentDidMount(): void {
@@ -37,7 +45,10 @@ class Cars extends Component<ReduxPropsInterface> {
       if (this.state.licensePlateDetections.length > 0) {
         cars = this.state.licensePlateDetections.map(detection => {
           return (
-            <div key={detection.file} className={styles.zoom} style={{cursor: 'pointer'}}>
+            <div key={detection.file}
+                 className={styles.zoom}
+                 style={{cursor: 'pointer'}}
+            onClick={() => this.addNewPlateHandler(detection)}>
               <Card style={{maxWidth: '160px'}} className="mr-1 mt-1 ml-1 mb-1">
                 <Card.Img variant="top" src={detection.image} style={{maxHeight: '100px'}}/>
                 <Card.Body className="p-2">
@@ -71,9 +82,62 @@ class Cars extends Component<ReduxPropsInterface> {
             </Card.Footer>
           </Card>
         </div>
+
+        <PlateEditModal
+          show={this.state.plateEditModalData.show}
+          title={this.state.plateEditModalData.title}
+          description={this.state.plateEditModalData.description}
+          id={this.state.plateEditModalData.id}
+          licencePlate={this.state.plateEditModalData.licencePlate}
+          ownerName={this.state.plateEditModalData.ownerName}
+          closeHandler={() => this.plateEditModalCloseHandler}
+          saveHandler={(plateObject: PlateEditModalPropsInterface) => this.plateEditModalSaveHandler(plateObject)}
+          lpOnChange={(lp: string) => this.setState({
+            plateEditModalData: {
+              ...this.state.plateEditModalData,
+              licencePlate: filterLicensePlate(lp)
+            }
+          })}
+          ownerOnChange={(owner: string) => this.setState({
+            plateEditModalData: {
+              ...this.state.plateEditModalData,
+              ownerName: owner
+            }
+          })}
+          imageData={this.state.plateEditModalData.imageData}
+        />
+
       </div>
     )
   }
+
+  plateEditModalCloseHandler = () => {
+    this.setState({plateEditModalData: {show: false}});
+  };
+
+  plateEditModalSaveHandler = (plateObject: PlateEditModalPropsInterface) => {
+    addLicensePlate(plateObject.licencePlate, plateObject.ownerName).then((response: any) => {
+      console.log(response);
+      // this.plateEditModalCloseHandler();
+    }).catch((error: any) => {
+      alert(error);
+    });
+  };
+
+  addNewPlateHandler = (lpDetection: LicensePlateDetectionsInterface) => {
+    this.setState({
+      plateEditModalData: {
+        show: true,
+        title: 'Add new plate',
+        description: 'Add new plate based on pre detection. Correct the plate based on image. License plate can be given with or without "-" character.',
+        id: null,
+        licencePlate: lpDetection.detectionResult,
+        ownerName: '',
+        imageData: lpDetection.image,
+      }
+    });
+  };
+
 }
 
 export default Cars;

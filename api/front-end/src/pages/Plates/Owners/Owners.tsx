@@ -124,6 +124,7 @@ class Owners extends Component<ReduxPropsInterface> {
               ownerName: owner
             }
           })}
+          imageData={undefined}
         />
 
 

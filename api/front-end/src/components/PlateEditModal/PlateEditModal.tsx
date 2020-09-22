@@ -14,6 +14,10 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
         <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
 
+            {
+                props.imageData !== undefined ? <img src={props.imageData} alt={props.title} /> : null
+            }
+
           <form className="mt-4">
             <div className="form-group">
               <label htmlFor="new_plate_licence_plate">Licence plate</label>
@@ -56,4 +60,5 @@ export interface PlateEditModalPropsInterface {
   ownerName: string;
   lpOnChange: Function;
   ownerOnChange: Function;
+  imageData?: string;
 }
