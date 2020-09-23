@@ -683,6 +683,9 @@ async function Site(router, sequelizeObjects) {
               res.json(outputData); // All tasks completed, return
             }
           }
+          if (promiseTasks.length === 0) {
+            res.json(outputData);
+          }
         }
 
         function processImage(file, mtime) {
