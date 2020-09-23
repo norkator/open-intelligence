@@ -1,13 +1,19 @@
 import axios, {
   GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG,
   GET_OBJECT_DETECTION_IMAGE,
-  GET_INTELLIGENCE, GET_LABEL_IMAGES,
+  GET_INTELLIGENCE,
+  GET_LABEL_IMAGES,
   GET_SUPER_RESOLUTION_IMAGE,
   GET_INSTANCE_DETAILS,
   GET_CALENDAR_EVENTS,
   GET_LICENSE_PLATES,
   MANAGE_LICENSE_PLATES,
-  GET_LICENSE_PLATE_DETECTIONS, GET_FACE_GROUPING_IMAGES, MOVE_FACE_GROUPING_IMAGE, TRAIN_FACE_MODEL_ACTION, GET_FACES,
+  GET_LICENSE_PLATE_DETECTIONS,
+  GET_FACE_GROUPING_IMAGES,
+  MOVE_FACE_GROUPING_IMAGE,
+  TRAIN_FACE_MODEL_ACTION,
+  GET_FACES,
+  TRY_FACE_DETECTION_AGAIN,
 } from "../axios";
 
 
@@ -271,4 +277,10 @@ export interface FacesInterface {
 export async function getFaces(selectedDate: string): Promise<FacesInterface[]> {
   const response = await axios.post(GET_FACES, {selectedDate: selectedDate});
   return response.data.faces as FacesInterface[];
+}
+
+
+export async function tryFaceDetectionAgain(id: string) {
+  const response = await axios.post(TRY_FACE_DETECTION_AGAIN, {id: id});
+  return response.data;
 }

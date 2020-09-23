@@ -28,3 +28,4 @@ export const GET_FACE_GROUPING_IMAGES: string = basePath + "get/face/grouping/im
 export const MOVE_FACE_GROUPING_IMAGE: string = basePath + "move/face/grouping/image";
 export const TRAIN_FACE_MODEL_ACTION: string = basePath + "train/face/model";
 export const GET_FACES: string = basePath + "get/faces";
+export const TRY_FACE_DETECTION_AGAIN: string = basePath + "try/face/detection/again";
