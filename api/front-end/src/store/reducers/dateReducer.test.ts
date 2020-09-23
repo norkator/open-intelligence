@@ -1,5 +1,5 @@
 import dateReducer from "./dateReducer";
-import {ChangeDate, getNowISODate} from "../utils/DateUtils";
+import {ChangeDate, getNowISODate} from "../../utils/DateUtils";
 import {
   CALENDAR_SELECTION,
   DATE_RANGE_END_DATE_SELECTED,
@@ -7,7 +7,7 @@ import {
   DECREMENT_DAY,
   INCREMENT_DAY,
   SET_SELECTED_DATE
-} from "./actionTypes";
+} from "../actionTypes";
 
 
 describe('dateReducer', () => {

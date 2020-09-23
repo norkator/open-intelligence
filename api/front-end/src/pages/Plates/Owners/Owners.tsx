@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ReduxPropsInterface} from "../../../store/dateReducer";
+import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {Button, Card, Col, Row, Table} from "react-bootstrap";
 import {
   addLicensePlate,

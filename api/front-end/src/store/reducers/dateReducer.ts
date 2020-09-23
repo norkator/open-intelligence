@@ -1,5 +1,5 @@
-import * as actionTypes from './actionTypes';
-import {ChangeDate, getNowISODate} from '../utils/DateUtils';
+import * as actionTypes from '../actionTypes';
+import {ChangeDate, getNowISODate} from '../../utils/DateUtils';
 
 export interface ReduxPropsInterface {
   selectedDate: string;

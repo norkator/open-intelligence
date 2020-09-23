@@ -8,7 +8,7 @@ import {BrowserRouter} from "react-router-dom";
 import './Magic.css'
 import {Provider} from 'react-redux'
 import {createStore, combineReducers, applyMiddleware} from "redux";
-import dateReducer from "./store/dateReducer";
+import dateReducer from "./store/reducers/dateReducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
 // import thunk from 'redux-thunk'; // Todo, install thunk if needed (lets you write async logic that interacts with the store)
 
