@@ -13,6 +13,8 @@ class PersonTraining extends Component<any, any> {
     isLoading: true,
     faceGroupingNames: [] as FaceGroupingNamesInterface[],
     faceGroupingImages: [] as FaceGroupingImagesInterface[],
+    loadedFile: null,
+    showNames: false,
   };
 
   componentDidMount(): void {
@@ -31,6 +33,7 @@ class PersonTraining extends Component<any, any> {
 
   render() {
     let faceImages: JSX.Element[] = [];
+    let names: JSX.Element[] = [];
 
     if (this.state.faceGroupingImages !== undefined) {
       if (this.state.faceGroupingImages.length > 0) {
@@ -51,6 +54,26 @@ class PersonTraining extends Component<any, any> {
       }
     }
 
+    if (this.state.faceGroupingNames.length > 0) {
+      names = this.state.faceGroupingNames.map(name => {
+        return (
+          <div key={String(name)}>
+            <Button onClick={() => this.moveFaceGroupingImageHandler(String(name))}
+                    variant="outline-secondary"
+                    size="sm" className="m-1">
+              {name}
+            </Button>
+          </div>
+        )
+      });
+      names.push(
+        <div key="delete">
+          <Button onClick={() => this.moveFaceGroupingImageHandler('delete')}
+                  variant="outline-danger" size="sm"
+                  className="m-1">delete</Button>
+        </div>
+      )
+    }
 
     return (
       <div>
@@ -69,19 +92,19 @@ class PersonTraining extends Component<any, any> {
               <small className="mb-1 text-muted">
                 Click image and then select who is in the image. This is used for training.
               </small>
-              <div className="d-flex flex-wrap mt-2 mb-2">
-                <p>Name buttons appear here</p>
+              <div className="d-flex flex-wrap mt-2 mb-4">
+                {this.state.showNames ? names : null}
               </div>
 
               <Row>
                 <Col md="auto">
-                  <Button variant="secondary" size="sm">Train model</Button>
+                  <Button onClick={() => this.trainModelHandler()} variant="secondary" size="sm">Train model</Button>
                 </Col>
                 <Col md="auto">
-                  <Button variant="secondary" size="sm">Load more</Button>
+                  <Button onClick={() => this.loadMoreHandler()} variant="secondary" size="sm">Load more</Button>
                 </Col>
                 <Col md="auto">
-                  <Button variant="danger" size="sm">Delete all visible</Button>
+                  <Button onClick={() => this.deleteAllVisibleHandler()} variant="danger" size="sm">Delete all visible</Button>
                 </Col>
               </Row>
 
@@ -94,7 +117,30 @@ class PersonTraining extends Component<any, any> {
 
 
   faceGroupingFaceImageClickHandler = (file: string) => {
-    console.log('Clicked: ', file);
+    this.setState({
+      loadedFile: file,
+      showNames: true,
+    })
+  }
+
+  moveFaceGroupingImageHandler = (name: string) => {
+    // Todo, implement api action here
+    console.log(name, this.state.loadedFile);
+    this.setState({
+      showNames: false
+    });
+  }
+
+  trainModelHandler = () => {
+
+  }
+
+  loadMoreHandler = () => {
+
+  }
+
+  deleteAllVisibleHandler = () => {
+
   }
 
 
