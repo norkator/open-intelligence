@@ -84,19 +84,21 @@ class Owners extends Component<ReduxPropsInterface> {
                 </div>
               </div>
             </div>
-            <Table striped bordered hover variant="light" size="sm">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Plate</th>
-                <th>Owner</th>
-                <th>Actions</th>
-              </tr>
-              </thead>
-              <tbody>
-              {owners}
-              </tbody>
-            </Table>
+            <div className="table-responsive">
+              <Table striped bordered hover variant="light" size="sm" style={{minWidth: '650px'}}>
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Plate</th>
+                  <th>Owner</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {owners}
+                </tbody>
+              </Table>
+            </div>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Vehicle count: {this.state.totalPlates}</small>

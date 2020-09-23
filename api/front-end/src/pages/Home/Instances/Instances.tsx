@@ -42,19 +42,21 @@ class Instances extends Component {
             Running instances
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
-            <Table striped bordered hover variant="dark">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Process</th>
-                <th>Alive check</th>
-                <th>Started</th>
-              </tr>
-              </thead>
-              <tbody>
-              {instances}
-              </tbody>
-            </Table>
+            <div className="table-responsive">
+              <Table striped bordered hover variant="dark" style={{minWidth: '650px'}}>
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Process</th>
+                  <th>Alive check</th>
+                  <th>Started</th>
+                </tr>
+                </thead>
+                <tbody>
+                {instances}
+                </tbody>
+              </Table>
+            </div>
           </Card.Body>
         </Card>
 
