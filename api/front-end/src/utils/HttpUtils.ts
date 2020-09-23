@@ -225,13 +225,25 @@ export async function getLicensePlateDetections(resultOption: string, startDate:
 }
 
 
+export interface FaceGroupingNamesInterface {
+  name: string;
+}
+
 export interface FaceGroupingImagesInterface {
   file: string;
   title: string;
   image: string; // base64 encoded image data
 }
 
-export async function getFaceGroupingImages() {
+export interface FaceGroupingData {
+  names: FaceGroupingNamesInterface[],
+  images: FaceGroupingImagesInterface[],
+}
+
+export async function getFaceGroupingImages(): Promise<FaceGroupingData> {
   const response = await axios.get(GET_FACE_GROUPING_IMAGES);
-  return response.data.images as FaceGroupingImagesInterface[];
+  let faceGroupingData = {} as FaceGroupingData;
+  faceGroupingData.names = response.data.names as FaceGroupingNamesInterface[];
+  faceGroupingData.images = response.data.images as FaceGroupingImagesInterface[];
+  return faceGroupingData;
 }

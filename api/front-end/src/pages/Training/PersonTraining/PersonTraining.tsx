@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import {
-  FaceGroupingImagesInterface,
+  FaceGroupingData,
+  FaceGroupingImagesInterface, FaceGroupingNamesInterface,
   getFaceGroupingImages,
 } from "../../../utils/HttpUtils";
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
@@ -10,6 +11,7 @@ import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndi
 class PersonTraining extends Component<any, any> {
   state = {
     isLoading: true,
+    faceGroupingNames: [] as FaceGroupingNamesInterface[],
     faceGroupingImages: [] as FaceGroupingImagesInterface[],
   };
 
@@ -18,10 +20,11 @@ class PersonTraining extends Component<any, any> {
   }
 
   async loadFaceGroupingImages() {
-    const faceGroupingImages = await getFaceGroupingImages() as FaceGroupingImagesInterface[];
+    const faceGroupingData = await getFaceGroupingImages() as FaceGroupingData;
     this.setState({
       isLoading: false,
-      faceGroupingImages: faceGroupingImages
+      faceGroupingNames: faceGroupingData.names,
+      faceGroupingImages: faceGroupingData.images,
     });
   }
 
