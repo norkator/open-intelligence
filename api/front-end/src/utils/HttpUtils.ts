@@ -7,7 +7,7 @@ import axios, {
   GET_CALENDAR_EVENTS,
   GET_LICENSE_PLATES,
   MANAGE_LICENSE_PLATES,
-  GET_LICENSE_PLATE_DETECTIONS,
+  GET_LICENSE_PLATE_DETECTIONS, GET_FACE_GROUPING_IMAGES, MOVE_FACE_GROUPING_IMAGE, TRAIN_FACE_MODEL_ACTION,
 } from "../axios";
 
 
@@ -222,4 +222,40 @@ export async function getLicensePlateDetections(resultOption: string, startDate:
     selectedDateEnd: endDate,
   });
   return response.data.licensePlates as LicensePlateDetectionsInterface[];
+}
+
+
+export interface FaceGroupingNamesInterface {
+  name: string;
+}
+
+export interface FaceGroupingImagesInterface {
+  file: string;
+  title: string;
+  image: string; // base64 encoded image data
+}
+
+export interface FaceGroupingData {
+  names: FaceGroupingNamesInterface[],
+  images: FaceGroupingImagesInterface[],
+}
+
+export async function getFaceGroupingImages(): Promise<FaceGroupingData> {
+  const response = await axios.get(GET_FACE_GROUPING_IMAGES);
+  let faceGroupingData = {} as FaceGroupingData;
+  faceGroupingData.names = response.data.names as FaceGroupingNamesInterface[];
+  faceGroupingData.images = response.data.images as FaceGroupingImagesInterface[];
+  return faceGroupingData;
+}
+
+
+export async function moveFaceGroupingImage(name: string, rectFileName: string) {
+  const response = await axios.post(MOVE_FACE_GROUPING_IMAGE, {name: name, rectFileName: rectFileName});
+  return response.data;
+}
+
+
+export async function trainFaceModelAction() {
+  const response = await axios.get(TRAIN_FACE_MODEL_ACTION);
+  return response.data;
 }

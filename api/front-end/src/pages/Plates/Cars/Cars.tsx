@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ReduxPropsInterface} from "../../../store/dateReducer";
+import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {Card} from "react-bootstrap";
 import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
 import {
@@ -21,10 +21,16 @@ class Cars extends Component<ReduxPropsInterface> {
     totalPlates: 0,
     licensePlateDetections: [] as LicensePlateDetectionsInterface[],
     plateEditModalData: {show: false} as PlateEditModalPropsInterface,
+    dateRangeStartDate: null,
+    dateRangeEndDate: null,
   };
 
   componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
-    this.loadLicensePlateDetections(this.props.dateRangeStartDate, this.props.dateRangeEndDate).then(() => null);
+    if (this.state.dateRangeStartDate !== this.props.dateRangeStartDate
+      || this.state.dateRangeEndDate !== this.props.dateRangeEndDate) {
+      console.log('component update event');
+      this.loadLicensePlateDetections(this.props.dateRangeStartDate, this.props.dateRangeEndDate).then(() => null);
+    }
   }
 
   componentDidMount(): void {
@@ -36,6 +42,8 @@ class Cars extends Component<ReduxPropsInterface> {
     const licensePlateDetections = await getLicensePlateDetections(
       this.state.resultOption, startDate, endDate) as LicensePlateDetectionsInterface[];
     this.setState({
+      dateRangeStartDate: startDate,
+      dateRangeEndDate: endDate,
       licensePlateDetections: licensePlateDetections
     });
   }

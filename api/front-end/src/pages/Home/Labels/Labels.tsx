@@ -14,7 +14,7 @@ import {
   getSuperResolutionImage, SuperResolutionInterface,
 } from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
-import {ReduxPropsInterface} from "../../../store/dateReducer";
+import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
 
 

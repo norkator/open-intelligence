@@ -1,5 +1,5 @@
-import * as actionTypes from './actionTypes';
-import {ChangeDate, getNowISODate} from '../utils/DateUtils';
+import * as actionTypes from '../actionTypes';
+import {ChangeDate, getNowISODate} from '../../utils/DateUtils';
 
 export interface ReduxPropsInterface {
   selectedDate: string;
@@ -14,13 +14,30 @@ export interface ReduxPropsInterface {
 
 const nowIsoDate = getNowISODate();
 
+export interface DateStateInterface {
+  selectedDate: string;
+  dateRangeStartDate: string;
+  dateRangeEndDate: string;
+}
+
+export interface DateActionInterface {
+  type: string;
+  selectedDate: string;
+  days: number;
+  calendar: {
+    target: {
+      value: string;
+    }
+  }
+}
+
 const initialState = {
   selectedDate: nowIsoDate,
   dateRangeStartDate: ChangeDate(nowIsoDate, -7),
   dateRangeEndDate: nowIsoDate,
 };
 
-const dateReducer = (state = initialState, action: any): any => {
+const dateReducer = (state: DateStateInterface = initialState, action: DateActionInterface): DateStateInterface => {
   switch (action.type) {
     case actionTypes.SET_SELECTED_DATE:
       return {

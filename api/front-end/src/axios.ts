@@ -24,3 +24,6 @@ export const GET_CALENDAR_EVENTS = basePath + "get/calendar/events";
 export const GET_LICENSE_PLATES = basePath + "get/licence/plates";
 export const MANAGE_LICENSE_PLATES = basePath + "manage/licence/plates";
 export const GET_LICENSE_PLATE_DETECTIONS = basePath + "get/license/plate/detections";
+export const GET_FACE_GROUPING_IMAGES = basePath + "get/face/grouping/images";
+export const MOVE_FACE_GROUPING_IMAGE = basePath + "move/face/grouping/image";
+export const TRAIN_FACE_MODEL_ACTION = basePath + "train/face/model";
