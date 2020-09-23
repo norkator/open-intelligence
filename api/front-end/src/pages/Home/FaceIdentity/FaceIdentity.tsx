@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import {Card} from "react-bootstrap";
 import {getInstanceDetails, InstanceInterface} from "../../../utils/HttpUtils";
+import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 
 
-class FaceIdentity extends Component {
+class FaceIdentity extends Component<ReduxPropsInterface> {
   state = {
     faceDetections: []
   };

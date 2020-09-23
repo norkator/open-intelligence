@@ -24,7 +24,7 @@ class Home extends Component<ReduxPropsInterface> {
           <Instances/>
         </div>
         <div className="mt-2 mr-2 ml-2">
-          <FaceIdentity/>
+          <FaceIdentity {...this.props} />
         </div>
       </div>
     )

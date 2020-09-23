@@ -7,7 +7,7 @@ import axios, {
   GET_CALENDAR_EVENTS,
   GET_LICENSE_PLATES,
   MANAGE_LICENSE_PLATES,
-  GET_LICENSE_PLATE_DETECTIONS, GET_FACE_GROUPING_IMAGES, MOVE_FACE_GROUPING_IMAGE, TRAIN_FACE_MODEL_ACTION,
+  GET_LICENSE_PLATE_DETECTIONS, GET_FACE_GROUPING_IMAGES, MOVE_FACE_GROUPING_IMAGE, TRAIN_FACE_MODEL_ACTION, GET_FACES,
 } from "../axios";
 
 
@@ -258,4 +258,17 @@ export async function moveFaceGroupingImage(name: string, rectFileName: string) 
 export async function trainFaceModelAction() {
   const response = await axios.get(TRAIN_FACE_MODEL_ACTION);
   return response.data;
+}
+
+
+export interface FacesInterface {
+  id: string;
+  title: string;
+  image: string; // base64 encoded image data
+  detectionResult: string;
+}
+
+export async function getFaces(selectedDate: string): Promise<FacesInterface[]> {
+  const response = await axios.post(GET_FACES, {selectedDate: selectedDate});
+  return response.data.faces as FacesInterface[];
 }
