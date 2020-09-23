@@ -3,7 +3,7 @@ import {Button, Card, Col, Row} from "react-bootstrap";
 import {
   FaceGroupingData,
   FaceGroupingImagesInterface, FaceGroupingNamesInterface,
-  getFaceGroupingImages,
+  getFaceGroupingImages, moveFaceGroupingImage, trainFaceModelAction,
 } from "../../../utils/HttpUtils";
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
 
@@ -13,7 +13,7 @@ class PersonTraining extends Component<any, any> {
     isLoading: true,
     faceGroupingNames: [] as FaceGroupingNamesInterface[],
     faceGroupingImages: [] as FaceGroupingImagesInterface[],
-    loadedFile: null,
+    loadedFile: '',
     showNames: false,
   };
 
@@ -58,7 +58,7 @@ class PersonTraining extends Component<any, any> {
       names = this.state.faceGroupingNames.map(name => {
         return (
           <div key={String(name)}>
-            <Button onClick={() => this.moveFaceGroupingImageHandler(String(name))}
+            <Button onClick={async () => await this.moveFaceGroupingImageHandler(String(name))}
                     variant="outline-secondary"
                     size="sm" className="m-1">
               {name}
@@ -68,7 +68,7 @@ class PersonTraining extends Component<any, any> {
       });
       names.push(
         <div key="delete">
-          <Button onClick={() => this.moveFaceGroupingImageHandler('delete')}
+          <Button onClick={async () => await this.moveFaceGroupingImageHandler('delete')}
                   variant="outline-danger" size="sm"
                   className="m-1">delete</Button>
         </div>
@@ -98,13 +98,15 @@ class PersonTraining extends Component<any, any> {
 
               <Row>
                 <Col md="auto">
-                  <Button onClick={() => this.trainModelHandler()} variant="secondary" size="sm">Train model</Button>
+                  <Button onClick={async () => await this.trainModelHandler()} variant="secondary" size="sm">Train
+                    model</Button>
                 </Col>
                 <Col md="auto">
                   <Button onClick={() => this.loadMoreHandler()} variant="secondary" size="sm">Load more</Button>
                 </Col>
                 <Col md="auto">
-                  <Button onClick={() => this.deleteAllVisibleHandler()} variant="danger" size="sm">Delete all visible</Button>
+                  <Button onClick={() => this.deleteAllVisibleHandler()} variant="danger" size="sm">Delete all
+                    visible</Button>
                 </Col>
               </Row>
 
@@ -123,26 +125,30 @@ class PersonTraining extends Component<any, any> {
     })
   }
 
-  moveFaceGroupingImageHandler = (name: string) => {
-    // Todo, implement api action here
-    console.log(name, this.state.loadedFile);
+  async moveFaceGroupingImageHandler(name: string) {
+    const response = await moveFaceGroupingImage(name, this.state.loadedFile);
+    console.log(response);
     this.setState({
       showNames: false
     });
   }
 
-  trainModelHandler = () => {
-
+  async trainModelHandler() {
+    if (confirm("Send train face model training action?")) {
+      const response = await trainFaceModelAction();
+      console.log(response);
+    }
   }
 
   loadMoreHandler = () => {
-
+    this.loadFaceGroupingImages().then(() => null);
   }
 
   deleteAllVisibleHandler = () => {
-
+    this.state.faceGroupingImages.forEach((image: FaceGroupingImagesInterface) => {
+      moveFaceGroupingImage('delete', image.file).then(() => null);
+    });
   }
-
 
 }
 
