@@ -123,31 +123,45 @@ class PersonTraining extends Component<any, any> {
       loadedFile: file,
       showNames: true,
     })
-  }
+  };
 
   async moveFaceGroupingImageHandler(name: string) {
-    const response = await moveFaceGroupingImage(name, this.state.loadedFile);
-    console.log(response);
+    await moveFaceGroupingImage(name, this.state.loadedFile);
     this.setState({
-      showNames: false
+      showNames: false,
+      faceGroupingImages: this.state.faceGroupingImages.filter((image: FaceGroupingImagesInterface) => {
+        return image.file !== this.state.loadedFile;
+      })
     });
   }
 
   async trainModelHandler() {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm("Send train face model training action?")) {
       const response = await trainFaceModelAction();
-      console.log(response);
+      // eslint-disable-next-line no-restricted-globals
+      alert(response);
     }
   }
 
   loadMoreHandler = () => {
+    this.setState({
+      isLoading: true
+    });
     this.loadFaceGroupingImages().then(() => null);
-  }
+  };
 
   deleteAllVisibleHandler = () => {
-    this.state.faceGroupingImages.forEach((image: FaceGroupingImagesInterface) => {
-      moveFaceGroupingImage('delete', image.file).then(() => null);
-    });
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Really delete all visible images?")) {
+      this.state.faceGroupingImages.forEach((image: FaceGroupingImagesInterface) => {
+        moveFaceGroupingImage('delete', image.file).then(() => null);
+      });
+      this.setState({
+        faceGroupingImages: [] as FaceGroupingImagesInterface[]
+      });
+      this.loadFaceGroupingImages().then(() => null);
+    }
   }
 
 }
