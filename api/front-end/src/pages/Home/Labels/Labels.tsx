@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Badge, Card} from "react-bootstrap";
+import {Badge, Button, Card} from "react-bootstrap";
 import {Doughnut} from 'react-chartjs-2';
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
 import {
@@ -16,6 +16,11 @@ import {
 import {connect} from 'react-redux';
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {GenericImageModal, ModalPropsInterface} from "../../../components/GenericImageModal/GenericImageModal";
+import {
+  ActivityChartDataInterface,
+  ActivityModal,
+  ActivityModalInterface
+} from "../../../components/ActivityModal/ActivityModal";
 
 
 export interface DonutDatasetsInterface {
@@ -42,6 +47,8 @@ class Labels extends Component<ReduxPropsInterface> {
     labelDonutData: {} as LabelDonutDataInterface,
     labelImages: [] as LabelInterface[],
     genericImageModalData: {show: false} as ModalPropsInterface,
+    activityModal: {show: false} as ActivityModalInterface,
+    activityChartData: [] as ActivityChartDataInterface[],
   };
 
   componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
@@ -81,6 +88,7 @@ class Labels extends Component<ReduxPropsInterface> {
       instanceCount: result.performance.instanceCount,
       storageUse: result.performance.storageUse,
       labelDonutData: labelDonutData,
+      activityChartData: result.activity.data,
     });
   };
 
@@ -145,6 +153,9 @@ class Labels extends Component<ReduxPropsInterface> {
     this.setState({genericImageModalData: {show: false}});
   };
 
+  activityModalCloseHandler = () => {
+    this.setState({activityModal: {show: false}});
+  };
 
   handleLabelMouseDown = (file: string) => {
     clickHoldTimer = setTimeout(() => {
@@ -227,6 +238,8 @@ class Labels extends Component<ReduxPropsInterface> {
               className="text-muted">{this.state.labelSelection === null ?
               'No label selected' :
               'Selected ' + this.state.labelSelection + ' label'}</small>
+            <Button onClick={() => this.showActivityModalHandler()} className="float-right" variant="outline-dark"
+                    size="sm">Activity</Button>
           </Card.Footer>
         </Card>
 
@@ -247,9 +260,29 @@ class Labels extends Component<ReduxPropsInterface> {
           additionalInfo={this.state.genericImageModalData.additionalInfo}
         />
 
+        <ActivityModal
+          show={this.state.activityModal.show}
+          title={this.state.activityModal.title}
+          description={this.state.activityModal.description}
+          closeHandler={() => this.activityModalCloseHandler}
+          chartData={this.state.activityModal.chartData}
+        />
+
       </div>
     )
   }
+
+  showActivityModalHandler = () => {
+    this.setState({
+      activityModal: {
+        show: true,
+        title: 'Activity for today',
+        description: 'Showing activity from start of this day',
+        chartData: this.state.activityChartData,
+      }
+    });
+  }
+
 }
 
 const mapStateToProps = (state: any): any => {
