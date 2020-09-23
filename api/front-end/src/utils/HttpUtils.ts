@@ -7,7 +7,7 @@ import axios, {
   GET_CALENDAR_EVENTS,
   GET_LICENSE_PLATES,
   MANAGE_LICENSE_PLATES,
-  GET_LICENSE_PLATE_DETECTIONS,
+  GET_LICENSE_PLATE_DETECTIONS, GET_FACE_GROUPING_IMAGES,
 } from "../axios";
 
 
@@ -222,4 +222,16 @@ export async function getLicensePlateDetections(resultOption: string, startDate:
     selectedDateEnd: endDate,
   });
   return response.data.licensePlates as LicensePlateDetectionsInterface[];
+}
+
+
+export interface FaceGroupingImagesInterface {
+  file: string;
+  title: string;
+  image: string; // base64 encoded image data
+}
+
+export async function getFaceGroupingImages() {
+  const response = await axios.get(GET_FACE_GROUPING_IMAGES);
+  return response.data.images as FaceGroupingImagesInterface[];
 }
