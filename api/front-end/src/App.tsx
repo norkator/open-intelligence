@@ -22,18 +22,30 @@ class App extends Component<any, any> {
 
   render() {
     let classes: string[] = [styles.Cameras];
+
+    let content =
+      this.props.isAuthenticated ?
+        <div>
+          <NavBar/>
+          <div className={classes.join(' ')} style={{paddingBottom: '80px'}}>
+            <Switch>
+              <Route exact path='/' component={Home}/>
+              <Route exact path='/cameras' component={Cameras}/>
+              <Route exact path='/plates' component={Plates}/>
+              <Route exact path='/faces' component={Faces}/>
+              <Route exact path='/training' component={Training}/>
+            </Switch>
+          </div>
+        </div>
+        :
+        <div className={classes.join(' ')}>
+          <h1 className="m-2" style={{color: 'white'}}>Login not implemented</h1>
+          <small className="m-2" style={{color: 'white'}}>You should not see this yet</small>
+        </div>
+
     return (
       <div className="App">
-        <NavBar/>
-        <div className={classes.join(' ')} style={{paddingBottom: '80px'}}>
-          <Switch>
-            <Route exact path='/' component={Home}/>
-            <Route exact path='/cameras' component={Cameras}/>
-            <Route exact path='/plates' component={Plates}/>
-            <Route exact path='/faces' component={Faces}/>
-            <Route exact path='/training' component={Training}/>
-          </Switch>
-        </div>
+        {content}
       </div>
     );
   }

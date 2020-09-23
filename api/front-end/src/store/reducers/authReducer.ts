@@ -24,7 +24,7 @@ export interface AuthActionInterface {
 }
 
 const initialState = {
-  token: null,
+  token: 'dummy-place-holder', // token: null,
   userId: null,
   error: null,
   loading: false,
