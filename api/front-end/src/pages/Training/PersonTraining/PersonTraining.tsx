@@ -6,9 +6,10 @@ import {
   getFaceGroupingImages, moveFaceGroupingImage, trainFaceModelAction,
 } from "../../../utils/HttpUtils";
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-class PersonTraining extends Component<any, any> {
+class PersonTraining extends Component<WithTranslation, any> {
   state = {
     isLoading: true,
     faceGroupingNames: [] as FaceGroupingNamesInterface[],
@@ -32,6 +33,7 @@ class PersonTraining extends Component<any, any> {
 
 
   render() {
+    const {t} = this.props;
     let faceImages: JSX.Element[] = [];
     let names: JSX.Element[] = [];
 
@@ -80,7 +82,7 @@ class PersonTraining extends Component<any, any> {
         <div className="magictime vanishIn">
           <Card bg="Light" text="dark">
             <Card.Header>
-              <b>Person grouping and training</b>
+              <b>{t('training.personTraining.title')}</b>
             </Card.Header>
             <Card.Body className="d-flex flex-column align-items-center" style={{padding: '5px'}}>
               <div className="d-flex flex-wrap mt-2 mb-2">
@@ -90,7 +92,7 @@ class PersonTraining extends Component<any, any> {
                 this.state.isLoading ? <LoadingIndicator isDark={true}/> : null
               }
               <small className="mb-1 text-muted">
-                Click image and then select who is in the image. This is used for training.
+                {t('training.personTraining.clickImageDescription')}
               </small>
               <div className="d-flex flex-wrap mt-2 mb-4">
                 {this.state.showNames ? names : null}
@@ -98,15 +100,19 @@ class PersonTraining extends Component<any, any> {
 
               <Row>
                 <Col md="auto">
-                  <Button onClick={async () => await this.trainModelHandler()} variant="secondary" size="sm">Train
-                    model</Button>
+                  <Button onClick={async () => await this.trainModelHandler()} variant="secondary" size="sm">
+                    {t('training.personTraining.trainModel')}
+                  </Button>
                 </Col>
                 <Col md="auto">
-                  <Button onClick={() => this.loadMoreHandler()} variant="secondary" size="sm">Load more</Button>
+                  <Button onClick={() => this.loadMoreHandler()} variant="secondary" size="sm">
+                    {t('training.personTraining.loadMore')}
+                  </Button>
                 </Col>
                 <Col md="auto">
-                  <Button onClick={() => this.deleteAllVisibleHandler()} variant="danger" size="sm">Delete all
-                    visible</Button>
+                  <Button onClick={() => this.deleteAllVisibleHandler()} variant="danger" size="sm">
+                    {t('training.personTraining.deleteAllVisible')}
+                  </Button>
                 </Col>
               </Row>
 
@@ -166,4 +172,4 @@ class PersonTraining extends Component<any, any> {
 
 }
 
-export default PersonTraining;
+export default withTranslation('i18n')(PersonTraining);

@@ -36,11 +36,39 @@
     }
   },
   "plates": {
+    "cars": {
+      "unknownCars": "Tuntemattomat kuljetusvälineet",
+      "byDefaultDescription": "Näkymä lataa vakiona vain tämän päivän kuljetusvälineet. Valitse kalenterista aikamääre ladataksesi enemmän.",
+      "requireAttentionDescription": "Tämä näkymä näyttää kuljetusvälineet jotka vaativat huomiotasi"
+    },
+    "owners": {
+      "vehicleOwners": "Kuljetusvälineen omistajat",
+      "searchFilter": "Haku...",
+      "addPlate": "Lisää kilpi",
+      "plate": "Kilpi",
+      "owner": "Omistaja",
+      "actions": "Toiminnot",
+      "vehicleCount": "Kuljetusvälineiden määrä: {{count}}",
+      "edit": "Muokkaa",
+      "remove": "Poista"
+    }
   },
   "faces": {
     "earlier": "Aikaisempi",
     "next": "Seuraava"
   },
   "training": {
+    "personTraining": {
+      "title": "Henkilöiden kategorisointi ja opettaminen",
+      "clickImageDescription": "Paina kuvaa ja valitse kuka kuvassa on. Tietoa käytetään opetusmallin opettamiseen.",
+      "trainModel": "Opeta malli",
+      "loadMore": "Lataa lisää",
+      "deleteAllVisible": "Poista kaikki näkyvät"
+    },
+    "plateTraining": {
+      "plateTraining": "Kilpien opetus",
+      "plateTrainingDescription": "Kilpien opetus on saatavilla vain vanhalla jQuery versiolla. Avaa vanha versio napista.",
+      "openPlateTraining": "Avaa kilpien opetus"
+    }
   }
 }
