@@ -7,6 +7,17 @@
     "training": "Training"
   },
   "home": {
+    "calendar": {
+      "vehicle_activity": "Vehicle activity"
+    },
+    "dateRangeSelector": {
+      "daysBetween": "Day's between"
+    },
+    "dateSelector": {
+      "selectedDay": "Selected day",
+      "earlier": "← Earlier",
+      "next": "Next →"
+    }
   },
   "plates": {
   },

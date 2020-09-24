@@ -6,28 +6,32 @@ import {
   CALENDAR_SELECTION
 } from '../../../store/actionTypes';
 import {connect} from "react-redux";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
-class DateSelector extends Component<ReduxPropsInterface> {
+class DateSelector extends Component<ReduxPropsInterface & WithTranslation> {
 
   render() {
+    const {t} = this.props;
+
     return (
       <div>
         <div className="">
           <div className="input-group">
             <div className="input-group-prepend">
-              <span className="input-group-text">Selected day</span>
+              <span className="input-group-text">{t('home.dateSelector.selectedDay')}</span>
             </div>
             <input id="selected_day_field" type="date" className="form-control" placeholder="Change day"
-                   aria-label="Day change" value={this.props.selectedDate} onChange={(event: any) => this.props.onDateSelected(event)}/>
+                   aria-label="Day change" value={this.props.selectedDate}
+                   onChange={(event: any) => this.props.onDateSelected(event)}/>
             <div className="input-group-append">
               <button className="btn btn-outline-info" type="button"
                       onClick={this.props.onDecrementDay}>
-                ← Earlier
+                {t('home.dateSelector.earlier')}
               </button>
               <button className="btn btn-outline-info" type="button"
                       onClick={this.props.onIncrementDay}>
-                Next →
+                {t('home.dateSelector.next')}
               </button>
             </div>
           </div>
@@ -51,4 +55,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('i18n')(DateSelector));

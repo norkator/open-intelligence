@@ -16,8 +16,9 @@ import {GenericImageModal, ModalPropsInterface} from "../../../components/Generi
 import DateRangeSelector from "../DateRangeSelector/DateRangeSelector";
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {connect} from "react-redux";
+import {WithTranslation, withTranslation} from "react-i18next";
 
-class Calendar extends Component<ReduxPropsInterface> {
+class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
     dateRangeStartDate: null,
     dateRangeEndDate: null,
@@ -49,11 +50,13 @@ class Calendar extends Component<ReduxPropsInterface> {
   }
 
   render() {
+    const {t} = this.props;
+
     return (
       <div>
         <Card bg="Light" text="dark">
           <Card.Header>
-            <b>Vehicle activity</b>
+            <b>{t('home.calendar.vehicle_activity')}</b>
           </Card.Header>
           <Card.Body>
             <div>
@@ -136,4 +139,4 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(Calendar);
+export default connect(mapStateToProps)(withTranslation('i18n')(Calendar));

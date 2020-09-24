@@ -59,32 +59,32 @@ class NavBar extends Component<any, any> {
               {
                 this.state.activeLink !== '/' ?
                   <Link className={navBarLinksClasses.join(' ')} to="/"
-                        onClick={() => this.setActiveLinkHandler('/')}>Home</Link>
+                        onClick={() => this.setActiveLinkHandler('/')}>{t('navbar.home')}</Link>
                   : <span className="mt-2">{t('navbar.home')}</span>
               }
               {
                 this.state.activeLink !== '/cameras' ?
                   <Link className={navBarLinksClasses.join(' ')} to="/cameras"
-                        onClick={() => this.setActiveLinkHandler('/cameras')}>Cameras</Link>
-                  : <span className="mt-2">Cameras</span>
+                        onClick={() => this.setActiveLinkHandler('/cameras')}>{t('navbar.cameras')}</Link>
+                  : <span className="mt-2">{t('navbar.cameras')}</span>
               }
               {
                 this.state.activeLink !== '/plates' ?
                   <Link className={navBarLinksClasses.join(' ')} to="/plates"
-                        onClick={() => this.setActiveLinkHandler('/plates')}>Plates</Link>
-                  : <span className="mt-2">Plates</span>
+                        onClick={() => this.setActiveLinkHandler('/plates')}>{t('navbar.plates')}</Link>
+                  : <span className="mt-2">{t('navbar.plates')}</span>
               }
               {
                 this.state.activeLink !== '/faces' ?
                   <Link className={navBarLinksClasses.join(' ')} to="/faces"
-                        onClick={() => this.setActiveLinkHandler('/faces')}>Faces</Link>
-                  : <span className="mt-2">Faces</span>
+                        onClick={() => this.setActiveLinkHandler('/faces')}>{t('navbar.faces')}</Link>
+                  : <span className="mt-2">{t('navbar.faces')}</span>
               }
               {
                 this.state.activeLink !== '/training' ?
                   <Link className={navBarLinksClasses.join(' ')} to="/training"
-                        onClick={() => this.setActiveLinkHandler('/training')}>Training</Link>
-                  : <span className="mt-2">Training</span>
+                        onClick={() => this.setActiveLinkHandler('/training')}>{t('navbar.training')}</Link>
+                  : <span className="mt-2">{t('navbar.training')}</span>
               }
             </Nav>
             <Nav>

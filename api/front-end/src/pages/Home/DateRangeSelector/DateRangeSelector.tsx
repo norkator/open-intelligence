@@ -2,15 +2,18 @@ import React, {Component} from "react";
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {DATE_RANGE_END_DATE_SELECTED, DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 import {connect} from "react-redux";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
-class DateRangeSelector extends Component<ReduxPropsInterface> {
+class DateRangeSelector extends Component<ReduxPropsInterface & WithTranslation> {
   render() {
+    const {t} = this.props;
+
     return (
       <div>
         <div className="input-group mb-2">
           <div className="input-group-prepend">
-            <span className="input-group-text">Day's between</span>
+            <span className="input-group-text">{t('home.dateRangeSelector.daysBetween')}</span>
           </div>
           <input type="date" className="form-control" placeholder="Change day"
                  aria-label="Day change"
@@ -40,4 +43,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateRangeSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('i18n')(DateRangeSelector));
