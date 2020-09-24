@@ -17,6 +17,19 @@
       "selectedDay": "Selected day",
       "earlier": "← Earlier",
       "next": "Next →"
+    },
+    "faceIdentity": {
+      "faceIdentifications": "Face identifications",
+      "faceIdentificationsFooter": "Face identification result are mostly indicative and may not be accurate"
+    },
+    "instances": {
+      "runningInstances": "Running instances",
+      "process": "Process",
+      "aliveCheck": "Alive check",
+      "started": "Started"
+    },
+    "labels": {
+      "labelViewer": "Label viewer"
     }
   },
   "plates": {
