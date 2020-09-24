@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {Navbar} from 'react-bootstrap'
+import {Button, Nav, Navbar} from 'react-bootstrap'
 import styles from './Navbar.module.css'
 import {Link} from "react-router-dom";
 import {withTranslation} from "react-i18next";
+import {i18n} from "i18next";
 
 class NavBar extends Component<any, any> {
   state = {
@@ -34,6 +35,11 @@ class NavBar extends Component<any, any> {
     const navBarImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACHklEQVR4Ae3WAWTjUBjA8UNRFMVQFMUwHIahCI7hMBTFUBTDYQiG4RAUBRSHAIaiKIrhAFAURVAURREERVAMRe+PfTzP+faSJsy2Pz9M0rcvSdPk26foq+PxeIkBZlhi+2qOKR5xXvYQVfiI4doa/TKG6WCDvEXwihpmALsdntBFG61XHnqYYA+zA+5OGaSCKcwS3KPieIkDpDAb5h1oCLNn1HOs08QCZndZF7mF2QiVE2+IqXX5vCwfTiDNCrxLF5Ai1w8GkLaoFXi3NpFC6r99FMoH+PsBEUK0lHW+Y4IF+soBr98a6BrSxtrWhlmorPMX0gFN66D3kM61gUJIQ2ubD7OVsk4Ks661fQLpURtoCcmztjVwgPSgrPMH0g5Va3sP0lQbKIYkp9keykfb4Qv8E79Q/882D9JcW4SISn5QtyBt38NATUixtmMCqVHiQG1IC23HCNJViQN1Ic20HZ8gBcoPWtZ6+v/RX8SkyNpWR4ysLezXGuwgXWoD1fAC6ca+XbGHawkurDXuIcUu13cEaYWK/YLveKbWaNlnGQkk32WgOlJIofLCn8Auxm9U7UuFZ0gb/R1Lf275yr5n8PADFw5nXupkvTXHMAv1I1K/lzOYBXnf8OYwW+Emwxp9bGE2OfW1cwy7CAGu0LAeCR6G2MBuUNQvq48UeUtwW/TP/RlGeIFrKQJUy3xS19DBGBF2kGIsEeJaBvnqQ/cPDxGlXpRi3oIAAAAASUVORK5CYII=";
     const navBarLinksClasses = ['nav-link', styles.Link];
 
+    const {i18n} = this.props;
+    const changeLanguage = (lng: any) => {
+      i18n.changeLanguage(lng);
+    };
+
     return (
       <>
         <Navbar bg="dark" variant="dark" expand="lg">
@@ -49,36 +55,42 @@ class NavBar extends Component<any, any> {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarSupportedContent"/>
           <Navbar.Collapse id="navbarSupportedContent">
-            {
-              this.state.activeLink !== '/' ?
-                <Link className={navBarLinksClasses.join(' ')} to="/"
-                      onClick={() => this.setActiveLinkHandler('/')}>Home</Link>
-                : <span>{t('navbar.home')}</span>
-            }
-            {
-              this.state.activeLink !== '/cameras' ?
-                <Link className={navBarLinksClasses.join(' ')} to="/cameras"
-                      onClick={() => this.setActiveLinkHandler('/cameras')}>Cameras</Link>
-                : <span>Cameras</span>
-            }
-            {
-              this.state.activeLink !== '/plates' ?
-                <Link className={navBarLinksClasses.join(' ')} to="/plates"
-                      onClick={() => this.setActiveLinkHandler('/plates')}>Plates</Link>
-                : <span>Plates</span>
-            }
-            {
-              this.state.activeLink !== '/faces' ?
-                <Link className={navBarLinksClasses.join(' ')} to="/faces"
-                      onClick={() => this.setActiveLinkHandler('/faces')}>Faces</Link>
-                : <span>Faces</span>
-            }
-            {
-              this.state.activeLink !== '/training' ?
-                <Link className={navBarLinksClasses.join(' ')} to="/training"
-                      onClick={() => this.setActiveLinkHandler('/training')}>Training</Link>
-                : <span>Training</span>
-            }
+            <Nav className="mr-auto">
+              {
+                this.state.activeLink !== '/' ?
+                  <Link className={navBarLinksClasses.join(' ')} to="/"
+                        onClick={() => this.setActiveLinkHandler('/')}>Home</Link>
+                  : <span className="mt-2">{t('navbar.home')}</span>
+              }
+              {
+                this.state.activeLink !== '/cameras' ?
+                  <Link className={navBarLinksClasses.join(' ')} to="/cameras"
+                        onClick={() => this.setActiveLinkHandler('/cameras')}>Cameras</Link>
+                  : <span className="mt-2">Cameras</span>
+              }
+              {
+                this.state.activeLink !== '/plates' ?
+                  <Link className={navBarLinksClasses.join(' ')} to="/plates"
+                        onClick={() => this.setActiveLinkHandler('/plates')}>Plates</Link>
+                  : <span className="mt-2">Plates</span>
+              }
+              {
+                this.state.activeLink !== '/faces' ?
+                  <Link className={navBarLinksClasses.join(' ')} to="/faces"
+                        onClick={() => this.setActiveLinkHandler('/faces')}>Faces</Link>
+                  : <span className="mt-2">Faces</span>
+              }
+              {
+                this.state.activeLink !== '/training' ?
+                  <Link className={navBarLinksClasses.join(' ')} to="/training"
+                        onClick={() => this.setActiveLinkHandler('/training')}>Training</Link>
+                  : <span className="mt-2">Training</span>
+              }
+            </Nav>
+            <Nav>
+              <Button onClick={() => i18n.changeLanguage('en')} variant="outline-info" className="mr-1">EN</Button>
+              <Button onClick={() => i18n.changeLanguage('fi')} variant="outline-info">FI</Button>
+            </Nav>
           </Navbar.Collapse>
         </Navbar>
       </>
