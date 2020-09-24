@@ -1,11 +1,23 @@
 import en from "./translations/en.json";
 import fi from "./translations/fi.json";
 
+const LANGUAGE_KEY: string = 'LANGUAGE_KEY';
+
+
+export const saveLanguageSelection = (language: string) => {
+  localStorage.setItem(LANGUAGE_KEY, language);
+};
+
+export const getLanguageSelection = () => {
+  return localStorage.getItem(LANGUAGE_KEY) || 'en';
+};
+
+
 // i18n translation config
 // https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-react-app-with-react-i18next
 const i18nConfig = {
   interpolation: {escapeValue: false},    // React already does escaping
-  lng: 'en',                              // language to use
+  lng: getLanguageSelection(),                              // language to use
   resources: {
     en: {
       i18n: en // 'i18n' is our custom namespace
@@ -14,6 +26,6 @@ const i18nConfig = {
       i18n: fi
     },
   },
-}
+};
 
 export default i18nConfig;

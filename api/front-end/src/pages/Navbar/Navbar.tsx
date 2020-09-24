@@ -4,6 +4,7 @@ import styles from './Navbar.module.css'
 import {Link} from "react-router-dom";
 import {withTranslation} from "react-i18next";
 import {i18n} from "i18next";
+import {saveLanguageSelection} from "../../i18nConfig";
 
 class NavBar extends Component<any, any> {
   state = {
@@ -88,14 +89,21 @@ class NavBar extends Component<any, any> {
               }
             </Nav>
             <Nav>
-              <Button onClick={() => i18n.changeLanguage('en')} variant="outline-info" className="mr-1">EN</Button>
-              <Button onClick={() => i18n.changeLanguage('fi')} variant="outline-info">FI</Button>
+              <Button onClick={() => this.setLanguageHandler(i18n, 'en')} variant="outline-info"
+                      className="mr-1">EN</Button>
+              <Button onClick={() => this.setLanguageHandler(i18n, 'fi')} variant="outline-info">FI</Button>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </>
     )
   }
+
+  setLanguageHandler = (i18n: i18n, language: string) => {
+    saveLanguageSelection(language);
+    i18n.changeLanguage(language).then(() => null);
+  }
+
 }
 
 
