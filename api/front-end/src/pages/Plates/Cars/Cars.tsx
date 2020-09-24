@@ -5,7 +5,7 @@ import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
 import {
   addLicensePlate,
   getLicensePlateDetections,
-  LicensePlateDetectionsInterface,
+  LicensePlateDetectionsInterface, rejectLicensePlateDetection,
 } from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
@@ -144,17 +144,16 @@ class Cars extends Component<ReduxPropsInterface> {
   };
 
   plateRejectHandler = (plateObject: PlateEditModalPropsInterface) => {
-    addLicensePlate(plateObject.licencePlate, plateObject.ownerName, Number(plateObject.id)).then((response: any) => {
+    rejectLicensePlateDetection(Number(plateObject.id)).then((response: any) => {
       this.plateEditModalCloseHandler();
-    }).catch((error: any) => {
-      alert(error.response.data);
-      this.plateEditModalCloseHandler();
-    }).finally(() => {
       this.setState({
         licensePlateDetections: this.state.licensePlateDetections.filter((detection: LicensePlateDetectionsInterface) => {
           return String(detection.id) !== plateObject.id;
         })
       });
+    }).catch((error: any) => {
+      alert(error.response.data);
+      this.plateEditModalCloseHandler();
     });
   };
 
