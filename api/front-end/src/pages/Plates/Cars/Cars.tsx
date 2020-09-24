@@ -116,6 +116,8 @@ class Cars extends Component<ReduxPropsInterface> {
             }
           })}
           imageData={this.state.plateEditModalData.imageData}
+          showReject={true}
+          rejectHandler={(plateObject: PlateEditModalPropsInterface) => this.plateRejectHandler(plateObject)}
         />
 
       </div>
@@ -139,6 +141,24 @@ class Cars extends Component<ReduxPropsInterface> {
         })
       });
     });
+  };
+
+  plateRejectHandler = (plateObject: PlateEditModalPropsInterface) => {
+    console.log(plateObject);
+    /*
+    addLicensePlate(plateObject.licencePlate, plateObject.ownerName, Number(plateObject.id)).then((response: any) => {
+      this.plateEditModalCloseHandler();
+    }).catch((error: any) => {
+      alert(error.response.data);
+      this.plateEditModalCloseHandler();
+    }).finally(() => {
+      this.setState({
+        licensePlateDetections: this.state.licensePlateDetections.filter((detection: LicensePlateDetectionsInterface) => {
+          return String(detection.id) !== plateObject.id;
+        })
+      });
+    });
+     */
   };
 
   addNewPlateHandler = (lpDetection: LicensePlateDetectionsInterface) => {

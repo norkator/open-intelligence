@@ -127,6 +127,8 @@ class Owners extends Component<ReduxPropsInterface> {
             }
           })}
           imageData={undefined}
+          showReject={false}
+          rejectHandler={() => null}
         />
 
 

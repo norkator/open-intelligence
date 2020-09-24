@@ -14,9 +14,9 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
         <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
 
-            {
-                props.imageData !== undefined ? <img src={props.imageData} alt={props.title} /> : null
-            }
+          {
+            props.imageData !== undefined ? <img src={props.imageData} alt={props.title}/> : null
+          }
 
           <form className="mt-4">
             <div className="form-group">
@@ -37,6 +37,11 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
 
         </Modal.Body>
         <Modal.Footer>
+          {
+            props.showReject ? <Button variant="danger" onClick={() => props.rejectHandler(props)}>
+              Reject
+            </Button> : null
+          }
           <Button variant="primary" onClick={() => props.saveHandler(props)}>
             Save
           </Button>
@@ -61,4 +66,6 @@ export interface PlateEditModalPropsInterface {
   lpOnChange: Function;
   ownerOnChange: Function;
   imageData?: string;
+  showReject: boolean;
+  rejectHandler: Function;
 }
