@@ -5,7 +5,7 @@ import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
 import {
   addLicensePlate,
   getLicensePlateDetections,
-  LicensePlateDetectionsInterface,
+  LicensePlateDetectionsInterface, rejectLicensePlateDetection,
 } from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
@@ -117,6 +117,8 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
             }
           })}
           imageData={this.state.plateEditModalData.imageData}
+          showReject={true}
+          rejectHandler={(plateObject: PlateEditModalPropsInterface) => this.plateRejectHandler(plateObject)}
         />
 
       </div>
@@ -139,6 +141,20 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
           return String(detection.id) !== plateObject.id;
         })
       });
+    });
+  };
+
+  plateRejectHandler = (plateObject: PlateEditModalPropsInterface) => {
+    rejectLicensePlateDetection(Number(plateObject.id)).then((response: any) => {
+      this.plateEditModalCloseHandler();
+      this.setState({
+        licensePlateDetections: this.state.licensePlateDetections.filter((detection: LicensePlateDetectionsInterface) => {
+          return String(detection.id) !== plateObject.id;
+        })
+      });
+    }).catch((error: any) => {
+      alert(error.response.data);
+      this.plateEditModalCloseHandler();
     });
   };
 

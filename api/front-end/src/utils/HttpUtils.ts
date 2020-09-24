@@ -13,7 +13,7 @@ import axios, {
   MOVE_FACE_GROUPING_IMAGE,
   TRAIN_FACE_MODEL_ACTION,
   GET_FACES,
-  TRY_FACE_DETECTION_AGAIN,
+  TRY_FACE_DETECTION_AGAIN, REJECT_LICENSE_PLATE_DETECTION,
 } from "../axios";
 
 
@@ -282,5 +282,11 @@ export async function getFaces(selectedDate: string): Promise<FacesInterface[]> 
 
 export async function tryFaceDetectionAgain(id: string) {
   const response = await axios.post(TRY_FACE_DETECTION_AGAIN, {id: id});
+  return response.data;
+}
+
+
+export async function rejectLicensePlateDetection(dataId: number) {
+  const response = await axios.post(REJECT_LICENSE_PLATE_DETECTION, {data_id: dataId});
   return response.data;
 }

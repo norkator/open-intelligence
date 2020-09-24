@@ -129,6 +129,8 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
             }
           })}
           imageData={undefined}
+          showReject={false}
+          rejectHandler={() => null}
         />
 
 

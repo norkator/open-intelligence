@@ -29,3 +29,5 @@ export const MOVE_FACE_GROUPING_IMAGE: string = basePath + "move/face/grouping/i
 export const TRAIN_FACE_MODEL_ACTION: string = basePath + "train/face/model";
 export const GET_FACES: string = basePath + "get/faces";
 export const TRY_FACE_DETECTION_AGAIN: string = basePath + "try/face/detection/again";
+export const REJECT_LICENSE_PLATE_DETECTION: string = basePath + "reject/licence/plate/detection";
+
