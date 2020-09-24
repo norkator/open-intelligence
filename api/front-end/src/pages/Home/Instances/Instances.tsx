@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import {Card, Table} from "react-bootstrap";
 import {getInstanceDetails, InstanceInterface} from "../../../utils/HttpUtils";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
-class Instances extends Component {
+class Instances extends Component<WithTranslation> {
   state = {
     instances: [] as InstanceInterface[]
   };
@@ -18,6 +19,7 @@ class Instances extends Component {
   }
 
   render() {
+    const {t} = this.props;
     let instances: JSX.Element[] = [];
 
     if (this.state.instances !== undefined) {
@@ -39,7 +41,7 @@ class Instances extends Component {
       <div>
         <Card bg="dark" text="light">
           <Card.Header>
-            Running instances
+            {t('home.instances.runningInstances')}
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
             <div className="table-responsive">
@@ -47,9 +49,9 @@ class Instances extends Component {
                 <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Process</th>
-                  <th>Alive check</th>
-                  <th>Started</th>
+                  <th>{t('home.instances.runningInstances')}</th>
+                  <th>{t('home.instances.aliveCheck')}</th>
+                  <th>{t('home.instances.started')}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,5 +68,5 @@ class Instances extends Component {
 }
 
 
-export default Instances;
+export default (withTranslation('i18n')(Instances));
 

@@ -12,8 +12,9 @@ import styles from './Cars.module.css'
 import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
 import {filterLicensePlate} from "../../../utils/TextUtils";
 import {connect} from "react-redux";
+import {withTranslation, WithTranslation} from "react-i18next";
 
-class Cars extends Component<ReduxPropsInterface> {
+class Cars extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
     isLoading: false,
     today: getNowISODate(),
@@ -28,7 +29,6 @@ class Cars extends Component<ReduxPropsInterface> {
   componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
     if (this.state.dateRangeStartDate !== this.props.dateRangeStartDate
       || this.state.dateRangeEndDate !== this.props.dateRangeEndDate) {
-      console.log('component update event');
       this.loadLicensePlateDetections(this.props.dateRangeStartDate, this.props.dateRangeEndDate).then(() => null);
     }
   }
@@ -49,6 +49,7 @@ class Cars extends Component<ReduxPropsInterface> {
   }
 
   render() {
+    const {t} = this.props;
     let cars: JSX.Element[] = [];
 
     if (this.state.licensePlateDetections !== undefined) {
@@ -79,17 +80,17 @@ class Cars extends Component<ReduxPropsInterface> {
         <div className="magictime vanishIn">
           <Card bg="Light" text="dark">
             <Card.Header>
-              <b>Unknown cars</b>
+              <b>{t('plates.cars.unknownCars')}</b>
             </Card.Header>
             <Card.Body style={{padding: '0px'}}>
-              <small className="ml-2">By default only cars from today are loaded. Pick day range to load more.</small>
+              <small className="ml-2">{t('plates.cars.byDefaultDescription')}</small>
               <DateRangeSelector {...this.props} />
               <div className="d-flex justify-content-center flex-wrap">
                 {cars}
               </div>
             </Card.Body>
             <Card.Footer>
-              <small className="text-muted">This view shows you cars which require your attention</small>
+              <small className="text-muted">{t('plates.cars.requireAttentionDescription')}</small>
             </Card.Footer>
           </Card>
         </div>
@@ -180,4 +181,4 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(Cars);
+export default connect(mapStateToProps)(withTranslation('i18n')(Cars));

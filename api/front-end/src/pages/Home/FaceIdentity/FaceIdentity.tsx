@@ -7,9 +7,10 @@ import {
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {connect} from "react-redux";
 import styles from './FaceIdentity.module.css'
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
-class FaceIdentity extends Component<ReduxPropsInterface> {
+class FaceIdentity extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
     faceDetections: [] as FacesInterface[]
   };
@@ -24,6 +25,7 @@ class FaceIdentity extends Component<ReduxPropsInterface> {
   }
 
   render() {
+    const {t} = this.props;
     let faces: JSX.Element[] = [];
 
     if (this.state.faceDetections !== undefined) {
@@ -55,7 +57,7 @@ class FaceIdentity extends Component<ReduxPropsInterface> {
       <div>
         <Card bg="light" text="dark">
           <Card.Header>
-            Face identifications
+            {t('home.faceIdentity.faceIdentifications')}
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
             <div className="d-flex justify-content-center flex-wrap">
@@ -63,8 +65,9 @@ class FaceIdentity extends Component<ReduxPropsInterface> {
             </div>
           </Card.Body>
           <Card.Footer className="p-2">
-            <small className="text-muted">Face identification result are mostly indicative and may not be
-              accurate</small>
+            <small className="text-muted">
+              {t('home.faceIdentity.faceIdentificationsFooter')}
+            </small>
           </Card.Footer>
         </Card>
       </div>
@@ -89,6 +92,6 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(FaceIdentity);
+export default connect(mapStateToProps)(withTranslation('i18n')(FaceIdentity));
 
 

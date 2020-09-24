@@ -8,9 +8,10 @@ import {
 } from "../../../utils/HttpUtils";
 import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
 import {filterLicensePlate} from "../../../utils/TextUtils";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-class Owners extends Component<ReduxPropsInterface> {
+class Owners extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
     totalPlates: 0,
     licensePlates: [] as LicensePlatesInterface[],
@@ -32,6 +33,7 @@ class Owners extends Component<ReduxPropsInterface> {
   }
 
   render() {
+    const {t} = this.props;
     let owners: JSX.Element[] = [];
 
     if (this.state.filteredLicensePlates !== undefined) {
@@ -48,12 +50,12 @@ class Owners extends Component<ReduxPropsInterface> {
                     <Button variant="dark" size="sm" className="mr-2" onClick={
                       () => this.editPlateHandler(licensePlate.id, licensePlate.licence_plate, licensePlate.owner_name)
                     }>
-                      Edit
+                      {t('plates.owners.edit')}
                     </Button>
                     <Button variant="outline-danger" size="sm" onClick={
                       () => this.plateRemoveHandler(licensePlate.id, licensePlate.licence_plate)
                     }>
-                      Remove
+                      {t('plates.owners.remove')}
                     </Button>
                   </Col>
                 </Row>
@@ -68,18 +70,18 @@ class Owners extends Component<ReduxPropsInterface> {
       <div className="magictime vanishIn">
         <Card bg="Light" text="dark">
           <Card.Header>
-            <b>Vehicle owners</b>
+            <b>{t('plates.owners.vehicleOwners')}</b>
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
             <div className="row">
               <div className="col-sm">
-                <input type="text" className="form-control mt-2 mb-2" placeholder="Search filter..."
+                <input type="text" className="form-control mt-2 mb-2" placeholder={t('plates.owners.searchFilter')}
                        aria-label="Search" onChange={(event: any) => this.onSearchFilterChangeHandler(event)}/>
               </div>
               <div className="col-sm-auto">
                 <div>
                   <Button variant="info" className="mt-2 mr-2" onClick={this.addNewPlateHandler}>
-                    Add plate
+                    {t('plates.owners.addPlate')}
                   </Button>
                 </div>
               </div>
@@ -89,9 +91,9 @@ class Owners extends Component<ReduxPropsInterface> {
                 <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Plate</th>
-                  <th>Owner</th>
-                  <th>Actions</th>
+                  <th>{t('plates.owners.plate')}</th>
+                  <th>{t('plates.owners.owner')}</th>
+                  <th>{t('plates.owners.actions')}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -101,7 +103,7 @@ class Owners extends Component<ReduxPropsInterface> {
             </div>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Vehicle count: {this.state.totalPlates}</small>
+            <small className="text-muted">{t('plates.owners.vehicleCount', {count: this.state.totalPlates})}</small>
           </Card.Footer>
         </Card>
 
@@ -208,4 +210,4 @@ class Owners extends Component<ReduxPropsInterface> {
 
 }
 
-export default Owners;
+export default withTranslation('i18n')(Owners);

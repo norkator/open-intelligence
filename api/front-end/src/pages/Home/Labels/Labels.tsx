@@ -21,6 +21,7 @@ import {
   ActivityModal,
   ActivityModalInterface
 } from "../../../components/ActivityModal/ActivityModal";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
 export interface DonutDatasetsInterface {
@@ -37,7 +38,7 @@ export interface LabelDonutDataInterface {
 let clickHoldTimer: any = null;
 let longClickHandled: boolean = false;
 
-class Labels extends Component<ReduxPropsInterface> {
+class Labels extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
     selectedDate: null,
     isLoading: true,
@@ -176,6 +177,7 @@ class Labels extends Component<ReduxPropsInterface> {
 
 
   render() {
+    const {t} = this.props;
     let labels: JSX.Element[] = [];
 
     if (this.state.labelImages !== undefined) {
@@ -207,7 +209,7 @@ class Labels extends Component<ReduxPropsInterface> {
           <Card.Header>
             <div className="row">
               <div className="col-sm">
-                <b>Label viewer</b>
+                <b>{t('home.labels.labelViewer')}</b>
               </div>
               <div className="col-sm text-right">
                 <Badge variant="dark" className="mr-2">IC{this.state.instanceCount}</Badge>
@@ -236,10 +238,12 @@ class Labels extends Component<ReduxPropsInterface> {
           <Card.Footer>
             <small
               className="text-muted">{this.state.labelSelection === null ?
-              'No label selected' :
-              'Selected ' + this.state.labelSelection + ' label'}</small>
-            <Button onClick={() => this.showActivityModalHandler()} className="float-right" variant="outline-dark"
-                    size="sm">Activity</Button>
+              t('home.labels.noLabelSelected') :
+              t('home.labels.selectedLabel', {label: this.state.labelSelection})}</small>
+            <Button onClick={() => this.showActivityModalHandler()}
+                    className="float-right" variant="outline-dark" size="sm">
+              {t('home.labels.activityBtn')}
+            </Button>
           </Card.Footer>
         </Card>
 
@@ -276,8 +280,8 @@ class Labels extends Component<ReduxPropsInterface> {
     this.setState({
       activityModal: {
         show: true,
-        title: 'Activity for today',
-        description: 'Showing activity from start of this day',
+        title: 'Activity for selected date',
+        description: 'Showing activity from start of selected day',
         chartData: this.state.activityChartData,
       }
     });
@@ -291,4 +295,4 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(Labels);
+export default connect(mapStateToProps)(withTranslation('i18n')(Labels));

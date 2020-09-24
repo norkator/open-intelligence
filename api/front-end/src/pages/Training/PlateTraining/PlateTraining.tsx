@@ -1,25 +1,28 @@
 import {Button, Card} from "react-bootstrap";
 import React, {Component} from "react";
+import {withTranslation, WithTranslation} from "react-i18next";
 
-class PlateTraining extends Component<any, any> {
+class PlateTraining extends Component<WithTranslation, any> {
 
   render() {
+    const {t} = this.props;
     return (
       <div>
         <div className="magictime vanishIn">
           <Card bg="Light" text="dark">
             <Card.Header>
-              <b>Plate training</b>
+              <b>{t('training.plateTraining.plateTraining')}</b>
             </Card.Header>
             <Card.Body style={{padding: '5px'}}>
-              <small className="mb-4">Plate training is only available as old jQuery version. Navigate there using
-                button below.</small>
+              <small className="mb-4">
+                {t('training.plateTraining.plateTrainingDescription')}
+              </small>
               <div className="mt-2">
                 <Button
                   variant="dark"
                   onClick={() => window.open("/plate-training.html", "_blank")}
                 >
-                  Open plate training
+                  {t('training.plateTraining.openPlateTraining')}
                 </Button>
               </div>
             </Card.Body>
@@ -31,4 +34,4 @@ class PlateTraining extends Component<any, any> {
 
 }
 
-export default PlateTraining;
+export default withTranslation('i18n')(PlateTraining);

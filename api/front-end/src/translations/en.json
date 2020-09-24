@@ -1,0 +1,74 @@
+{
+  "navbar": {
+    "home": "Home",
+    "cameras": "Cameras",
+    "plates": "Plates",
+    "faces": "Faces",
+    "training": "Training"
+  },
+  "home": {
+    "calendar": {
+      "vehicle_activity": "Vehicle activity"
+    },
+    "dateRangeSelector": {
+      "daysBetween": "Day's between"
+    },
+    "dateSelector": {
+      "selectedDay": "Selected day",
+      "earlier": "← Earlier",
+      "next": "Next →"
+    },
+    "faceIdentity": {
+      "faceIdentifications": "Face identifications",
+      "faceIdentificationsFooter": "Face identification result are mostly indicative and may not be accurate"
+    },
+    "instances": {
+      "runningInstances": "Running instances",
+      "process": "Process",
+      "aliveCheck": "Alive check",
+      "started": "Started"
+    },
+    "labels": {
+      "labelViewer": "Label viewer",
+      "noLabelSelected": "No label selected",
+      "selectedLabel": "Selected {{label}} label",
+      "activityBtn": "Activity"
+    }
+  },
+  "plates": {
+    "cars": {
+      "unknownCars": "Unknown cars",
+      "byDefaultDescription": "By default only cars from today are loaded. Pick day range to load more.",
+      "requireAttentionDescription": "This view shows you cars which require your attention"
+    },
+    "owners": {
+      "vehicleOwners": "Vehicle owners",
+      "searchFilter": "Search filter...",
+      "addPlate": "Add plate",
+      "plate": "Plate",
+      "owner": "Owner",
+      "actions": "Actions",
+      "vehicleCount": "Vehicle count: {{count}}",
+      "edit": "Edit",
+      "remove": "Remove"
+    }
+  },
+  "faces": {
+    "earlier": "← Earlier",
+    "next": "Next →"
+  },
+  "training": {
+    "personTraining": {
+      "title": "Person grouping and training",
+      "clickImageDescription": "Click image and then select who is in the image. This is used for training.",
+      "trainModel": "Train model",
+      "loadMore": "Load more",
+      "deleteAllVisible": "Delete all visible"
+    },
+    "plateTraining": {
+      "plateTraining": "Plate training",
+      "plateTrainingDescription": "Plate training is only available as old jQuery version. Navigate there using button below.",
+      "openPlateTraining": "Open plate training"
+    }
+  }
+}

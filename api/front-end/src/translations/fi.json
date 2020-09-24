@@ -1,0 +1,74 @@
+{
+  "navbar": {
+    "home": "Koti",
+    "cameras": "Kamerat",
+    "plates": "Kilvet",
+    "faces": "Kasvot",
+    "training": "Opettaminen"
+  },
+  "home": {
+    "calendar": {
+      "vehicle_activity": "Ajoneuvo aktiviteetti"
+    },
+    "dateRangeSelector": {
+      "daysBetween": "Aikaväli"
+    },
+    "dateSelector": {
+      "selectedDay": "Valittu päivä",
+      "earlier": "Aikaisempi",
+      "next": "Seuraava"
+    },
+    "faceIdentity": {
+      "faceIdentifications": "Kasvon tunnistukset",
+      "faceIdentificationsFooter": "Kasvontunnistus on suuntaa-antava ja tulokset eivät ole tarkkoja"
+    },
+    "instances": {
+      "runningInstances": "Ajossa olevat instanssit",
+      "process": "Prosessi",
+      "aliveCheck": "Raportoitu",
+      "started": "Käynnistetty"
+    },
+    "labels": {
+      "labelViewer": "Leikekuvien katselu",
+      "noLabelSelected": "Ei valittua nimikettä",
+      "selectedLabel": "Valittu {{label}} nimike",
+      "activityBtn": "Aktiivisuus"
+    }
+  },
+  "plates": {
+    "cars": {
+      "unknownCars": "Tuntemattomat kuljetusvälineet",
+      "byDefaultDescription": "Näkymä lataa vakiona vain tämän päivän kuljetusvälineet. Valitse kalenterista aikamääre ladataksesi enemmän.",
+      "requireAttentionDescription": "Tämä näkymä näyttää kuljetusvälineet jotka vaativat huomiotasi"
+    },
+    "owners": {
+      "vehicleOwners": "Kuljetusvälineen omistajat",
+      "searchFilter": "Haku...",
+      "addPlate": "Lisää kilpi",
+      "plate": "Kilpi",
+      "owner": "Omistaja",
+      "actions": "Toiminnot",
+      "vehicleCount": "Kuljetusvälineiden määrä: {{count}}",
+      "edit": "Muokkaa",
+      "remove": "Poista"
+    }
+  },
+  "faces": {
+    "earlier": "Aikaisempi",
+    "next": "Seuraava"
+  },
+  "training": {
+    "personTraining": {
+      "title": "Henkilöiden kategorisointi ja opettaminen",
+      "clickImageDescription": "Paina kuvaa ja valitse kuka kuvassa on. Tietoa käytetään opetusmallin opettamiseen.",
+      "trainModel": "Opeta malli",
+      "loadMore": "Lataa lisää",
+      "deleteAllVisible": "Poista kaikki näkyvät"
+    },
+    "plateTraining": {
+      "plateTraining": "Kilpien opetus",
+      "plateTrainingDescription": "Kilpien opetus on saatavilla vain vanhalla jQuery versiolla. Avaa vanha versio napista.",
+      "openPlateTraining": "Avaa kilpien opetus"
+    }
+  }
+}
