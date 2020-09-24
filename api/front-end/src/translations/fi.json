@@ -1,0 +1,9 @@
+{
+  "navbar": {
+    "home": "Koti",
+    "cameras": "Kamerat",
+    "plates": "Kilvet",
+    "faces": "Kasvot",
+    "training": "Opettaminen"
+  }
+}

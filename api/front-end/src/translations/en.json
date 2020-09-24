@@ -1,0 +1,9 @@
+{
+  "navbar": {
+    "home": "Home",
+    "cameras": "Cameras",
+    "plates": "Plates",
+    "faces": "Faces",
+    "training": "Training"
+  }
+}
