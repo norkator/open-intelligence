@@ -8,6 +8,7 @@ import {
   ObjectDetectionImageInterface
 } from '../../utils/HttpUtils'
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
 interface FacesInterface {
@@ -16,7 +17,7 @@ interface FacesInterface {
   image: string,
 }
 
-class Faces extends Component {
+class Faces extends Component<WithTranslation> {
   private _isMounted: boolean;
 
   state = {
@@ -106,6 +107,7 @@ class Faces extends Component {
   };
 
   render() {
+    const {t} = this.props;
     let faces: JSX.Element[] = [];
 
     if (this.state.faceImages !== undefined) {
@@ -135,9 +137,12 @@ class Faces extends Component {
             <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}
                    disabled className="form-control" value={this.state.selectedDay}/>
             <div className="input-group-append">
-              <button className="btn btn-outline-info" type="button" onClick={this.loadEarlierDayHandler}>← Earlier
+              <button className="btn btn-outline-info" type="button" onClick={this.loadEarlierDayHandler}>
+                {t('faces.earlier')}
               </button>
-              <button className="btn btn-outline-info" type="button" onClick={this.loadNextDayHandler}>Next →</button>
+              <button className="btn btn-outline-info" type="button" onClick={this.loadNextDayHandler}>
+                {t('faces.next')}
+              </button>
             </div>
           </div>
         </div>
@@ -160,7 +165,7 @@ class Faces extends Component {
         />
 
         { /* Handle showing loading indicator */
-          this.state.isLoading ? <LoadingIndicator isDark={false} /> : null
+          this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
         }
 
       </div>
@@ -168,5 +173,4 @@ class Faces extends Component {
   }
 }
 
-
-export default Faces;
+export default withTranslation('i18n')(Faces);

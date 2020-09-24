@@ -5,5 +5,9 @@
     "plates": "Kilvet",
     "faces": "Kasvot",
     "training": "Opettaminen"
+  },
+  "faces": {
+    "earlier": "← Aikaisempi",
+    "next": "Seuraava →"
   }
 }

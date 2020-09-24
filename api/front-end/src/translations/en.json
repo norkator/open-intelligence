@@ -5,5 +5,9 @@
     "plates": "Plates",
     "faces": "Faces",
     "training": "Training"
+  },
+  "faces": {
+    "earlier": "← Earlier",
+    "next": "Next →"
   }
 }
