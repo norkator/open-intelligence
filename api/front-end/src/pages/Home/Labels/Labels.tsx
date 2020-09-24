@@ -276,8 +276,8 @@ class Labels extends Component<ReduxPropsInterface> {
     this.setState({
       activityModal: {
         show: true,
-        title: 'Activity for today',
-        description: 'Showing activity from start of this day',
+        title: 'Activity for selected date',
+        description: 'Showing activity from start of selected day',
         chartData: this.state.activityChartData,
       }
     });
