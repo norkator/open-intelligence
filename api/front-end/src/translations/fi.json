@@ -6,8 +6,14 @@
     "faces": "Kasvot",
     "training": "Opettaminen"
   },
+  "home": {
+  },
+  "plates": {
+  },
   "faces": {
     "earlier": "← Aikaisempi",
     "next": "Seuraava →"
+  },
+  "training": {
   }
 }

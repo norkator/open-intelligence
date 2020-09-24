@@ -6,8 +6,14 @@
     "faces": "Faces",
     "training": "Training"
   },
+  "home": {
+  },
+  "plates": {
+  },
   "faces": {
     "earlier": "← Earlier",
     "next": "Next →"
+  },
+  "training": {
   }
 }
