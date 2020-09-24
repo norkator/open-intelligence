@@ -238,10 +238,12 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
           <Card.Footer>
             <small
               className="text-muted">{this.state.labelSelection === null ?
-              'No label selected' :
-              'Selected ' + this.state.labelSelection + ' label'}</small>
-            <Button onClick={() => this.showActivityModalHandler()} className="float-right" variant="outline-dark"
-                    size="sm">Activity</Button>
+              t('home.labels.noLabelSelected') :
+              t('home.labels.selectedLabel', {label: this.state.labelSelection})}</small>
+            <Button onClick={() => this.showActivityModalHandler()}
+                    className="float-right" variant="outline-dark" size="sm">
+              {t('home.labels.activityBtn')}
+            </Button>
           </Card.Footer>
         </Card>
 

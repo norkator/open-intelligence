@@ -29,7 +29,10 @@
       "started": "Started"
     },
     "labels": {
-      "labelViewer": "Label viewer"
+      "labelViewer": "Label viewer",
+      "noLabelSelected": "No label selected",
+      "selectedLabel": "Selected {{label}} label",
+      "activityBtn": "Activity"
     }
   },
   "plates": {

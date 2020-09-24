@@ -7,12 +7,39 @@
     "training": "Opettaminen"
   },
   "home": {
+    "calendar": {
+      "vehicle_activity": "Ajoneuvo aktiviteetti"
+    },
+    "dateRangeSelector": {
+      "daysBetween": "Aikaväli"
+    },
+    "dateSelector": {
+      "selectedDay": "Valittu päivä",
+      "earlier": "Aikaisempi",
+      "next": "Seuraava"
+    },
+    "faceIdentity": {
+      "faceIdentifications": "Kasvon tunnistukset",
+      "faceIdentificationsFooter": "Kasvontunnistus on suuntaa-antava ja tulokset eivät ole tarkkoja"
+    },
+    "instances": {
+      "runningInstances": "Ajossa olevat instanssit",
+      "process": "Prosessi",
+      "aliveCheck": "Raportoitu",
+      "started": "Käynnistetty"
+    },
+    "labels": {
+      "labelViewer": "Leikekuvien katselu",
+      "noLabelSelected": "Ei valittua nimikettä",
+      "selectedLabel": "Valittu {{label}} nimike",
+      "activityBtn": "Aktiivisuus"
+    }
   },
   "plates": {
   },
   "faces": {
-    "earlier": "← Aikaisempi",
-    "next": "Seuraava →"
+    "earlier": "Aikaisempi",
+    "next": "Seuraava"
   },
   "training": {
   }
