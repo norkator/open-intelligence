@@ -144,8 +144,6 @@ class Cars extends Component<ReduxPropsInterface> {
   };
 
   plateRejectHandler = (plateObject: PlateEditModalPropsInterface) => {
-    console.log(plateObject);
-    /*
     addLicensePlate(plateObject.licencePlate, plateObject.ownerName, Number(plateObject.id)).then((response: any) => {
       this.plateEditModalCloseHandler();
     }).catch((error: any) => {
@@ -158,7 +156,6 @@ class Cars extends Component<ReduxPropsInterface> {
         })
       });
     });
-     */
   };
 
   addNewPlateHandler = (lpDetection: LicensePlateDetectionsInterface) => {

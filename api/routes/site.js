@@ -873,6 +873,24 @@ async function Site(router, sequelizeObjects) {
 
 
   /**
+   * Reject plate detection
+   */
+  router.post('/reject/licence/plate/detection', async (req, res) => {
+    const dataId = req.body.data_id || 0;
+    sequelizeObjects.Data.update({
+        detection_result: '',
+      }, {where: {id: dataId}}
+    ).then(() => {
+      res.status(200);
+      res.send('Data detection result set as rejected');
+    }).catch(error => {
+      res.status(500);
+      res.send(error);
+    });
+  });
+
+
+  /**
    * Load object_detection folder image file with given name
    */
   router.post('/get/object/detection/image', async (req, res) => {
