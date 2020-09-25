@@ -17,3 +17,15 @@ export const ChangeDate = (selectedDate: string, days: number) => {
   date.setDate(date.getDate() + days);
   return date.toISOString().substr(0, 10);
 };
+
+/**
+ * Is provided date timestamp older than one hour
+ * @param date action date
+ * @constructor
+ * @return boolean
+ */
+export const DateIsOlderThanHour = (date: number): boolean => {
+  const hour = 1000 * 60 * 60;
+  const hourAgo = Date.now() - hour;
+  return date < hourAgo;
+};

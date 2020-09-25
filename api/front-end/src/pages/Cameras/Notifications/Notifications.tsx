@@ -1,27 +1,35 @@
 import React, {Component} from "react";
-import {WithTranslation, withTranslation} from "react-i18next";
+import {
+  WithTranslation,
+  withTranslation
+} from "react-i18next";
+import {
+  getLicensePlateDetections,
+  LicensePlateDetectionsInterface
+} from "../../../utils/HttpUtils";
+import {DateIsOlderThanHour, getNowISODate} from "../../../utils/DateUtils";
 
 
 class Notifications extends Component<WithTranslation> {
   private _isMounted: boolean;
 
   state = {
-    hasPermission: false,
-    lastLicensePlate: null,
+    hasPermission: true,
+    notificationsEnabled: true,
+    resultOption: 'distinct_detection', // this will return results from known plates only
+    lastLicensePlate: '',
     intervalId: 0,
   };
 
   constructor(props: any) {
     super(props);
     this._isMounted = false;
+    this.getLastSeenLicensePlate().then()
   }
 
   componentDidMount(): void {
     this._isMounted = true;
     this.checkPermission();
-    if (this.state.hasPermission) {
-      this.getLastSeenLicensePlate().then(() => null);
-    }
     const intervalId = setInterval(() => this.getLastSeenLicensePlate(), 60 * 1000);
     this.setState({intervalId: intervalId});
   }
@@ -32,14 +40,24 @@ class Notifications extends Component<WithTranslation> {
   }
 
   async getLastSeenLicensePlate() {
-    // Todo, implement api method, logic for notifications
-    if (this.state.hasPermission) {
-      this.notificationHandler('Seen license plate DUMMY-TEST');
+    if (this.state.hasPermission && this.state.notificationsEnabled) {
+      const licensePlateDetections = await getLicensePlateDetections(
+        this.state.resultOption, getNowISODate(), '', '') as LicensePlateDetectionsInterface[];
+      if (licensePlateDetections.length > 0) {
+        const lastItem: LicensePlateDetectionsInterface = licensePlateDetections[licensePlateDetections.length - 1];
+        if (!DateIsOlderThanHour(Date.parse(lastItem.title))) {
+          if (this.state.lastLicensePlate !== lastItem.detectionCorrected) {
+            this.setState({lastLicensePlate: lastItem.detectionCorrected});
+            this.notificationHandler(
+              lastItem.detectionCorrected + ' - ' + lastItem.ownerName + ' seen ' + lastItem.title
+            );
+          }
+        }
+      }
     }
   }
 
   render() {
-    const {t} = this.props;
     return (
       <></>
     )
