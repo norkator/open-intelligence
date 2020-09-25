@@ -6,13 +6,11 @@ import {ReduxPropsInterface} from "../../store/reducers/dateReducer";
 import DateSelector from "./DateSelector/DateSelector";
 import Calendar from "./Calendar/Calendar";
 import FaceIdentity from "./FaceIdentity/FaceIdentity";
-import Notifications from "./Notifications/Notifications";
 
 class Home extends Component<ReduxPropsInterface> {
   render() {
     return (
       <div>
-        <Notifications/>
         <div className="mt-2 mr-2 ml-2">
           <DateSelector {...this.props} />
         </div>

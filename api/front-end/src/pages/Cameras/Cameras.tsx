@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
+import Notifications from "./Notifications/Notifications";
 
 interface ImageDataInterface {
   id: string,
@@ -79,6 +80,7 @@ class Cameras extends Component {
 
     return (
       <div>
+        <Notifications/>
         <div className={cameraFlexStyle.join(' ')}>
           {cameraImages}
         </div>
