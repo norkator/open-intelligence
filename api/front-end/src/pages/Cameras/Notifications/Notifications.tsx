@@ -24,7 +24,6 @@ class Notifications extends Component<WithTranslation> {
   constructor(props: any) {
     super(props);
     this._isMounted = false;
-    this.getLastSeenLicensePlate().then()
   }
 
   componentDidMount(): void {
