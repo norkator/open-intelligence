@@ -1,4 +1,9 @@
 {
+  "generic": {
+    "close": "Close",
+    "save": "Save",
+    "reject": "Reject"
+  },
   "navbar": {
     "home": "Home",
     "cameras": "Cameras",
@@ -70,5 +75,18 @@
       "plateTrainingDescription": "Plate training is only available as old jQuery version. Navigate there using button below.",
       "openPlateTraining": "Open plate training"
     }
+  },
+  "activityModal": {
+    "hourDataSet": "24-hour dataset"
+  },
+  "genericImageModal": {
+    "srVersion": "SR version",
+    "normalVersion": "Normal version"
+  },
+  "plateEditModal": {
+    "licencePlate": "Licence plate",
+    "ownerName": "Owner name",
+    "inputDescription": "Input without lines, example ABC123",
+    "ownerNameInputHelp": "Give full owner name"
   }
 }

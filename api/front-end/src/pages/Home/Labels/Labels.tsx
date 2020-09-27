@@ -252,6 +252,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
         }
 
         <GenericImageModal
+          t={t}
           closeHandler={() => this.genericImageModalCloseHandler}
           show={this.state.genericImageModalData.show}
           description={this.state.genericImageModalData.description}
@@ -265,6 +266,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
         />
 
         <ActivityModal
+          t={t}
           show={this.state.activityModal.show}
           title={this.state.activityModal.title}
           description={this.state.activityModal.description}

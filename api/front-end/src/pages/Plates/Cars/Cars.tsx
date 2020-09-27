@@ -5,7 +5,8 @@ import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
 import {
   addLicensePlate,
   getLicensePlateDetections,
-  LicensePlateDetectionsInterface, rejectLicensePlateDetection,
+  LicensePlateDetectionsInterface,
+  rejectLicensePlateDetection,
 } from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
@@ -96,6 +97,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
         </div>
 
         <PlateEditModal
+          t={t}
           show={this.state.plateEditModalData.show}
           title={this.state.plateEditModalData.title}
           description={this.state.plateEditModalData.description}

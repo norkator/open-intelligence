@@ -20,7 +20,7 @@ export const ActivityModal = (props: ActivityModalInterface) => {
     labels: labels,
     datasets: [
       {
-        label: '24-hour dataset',
+        label: props.t('activityModal.hourDataSet'),
         fill: false,
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
@@ -57,7 +57,7 @@ export const ActivityModal = (props: ActivityModalInterface) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.closeHandler()}>
-            Close
+            {props.t('generic.close')}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -71,6 +71,7 @@ export interface ActivityChartDataInterface {
 }
 
 export interface ActivityModalInterface {
+  t: Function;
   show: boolean;
   title: string;
   description: string;

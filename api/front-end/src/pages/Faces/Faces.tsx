@@ -152,6 +152,7 @@ class Faces extends Component<WithTranslation> {
         </div>
 
         <GenericImageModal
+          t={t}
           closeHandler={() => this.genericImageModalCloseHandler}
           show={this.state.genericImageModalData.show}
           description={this.state.genericImageModalData.description}
@@ -173,4 +174,6 @@ class Faces extends Component<WithTranslation> {
   }
 }
 
+// @ts-ignore
+// Todo, solve why this whines about multiple default exports
 export default withTranslation('i18n')(Faces);

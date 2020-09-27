@@ -108,6 +108,7 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
         </Card>
 
         <PlateEditModal
+          t={t}
           show={this.state.plateEditModalData.show}
           title={this.state.plateEditModalData.title}
           description={this.state.plateEditModalData.description}

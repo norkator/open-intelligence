@@ -81,6 +81,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
         </Card>
 
         <GenericImageModal
+          t={t}
           closeHandler={() => this.genericImageModalCloseHandler}
           show={this.state.genericImageModalData.show}
           description={this.state.genericImageModalData.description}

@@ -1,4 +1,9 @@
 {
+  "generic": {
+    "close": "Sulje",
+    "save": "Tallenna",
+    "reject": "Hylkää"
+  },
   "navbar": {
     "home": "Koti",
     "cameras": "Kamerat",
@@ -70,5 +75,18 @@
       "plateTrainingDescription": "Kilpien opetus on saatavilla vain vanhalla jQuery versiolla. Avaa vanha versio napista.",
       "openPlateTraining": "Avaa kilpien opetus"
     }
+  },
+  "activityModal": {
+    "hourDataSet": "24-tunnin aktiviteetti"
+  },
+  "genericImageModal": {
+    "srVersion": "SR versio",
+    "normalVersion": "Normaali versio"
+  },
+  "plateEditModal": {
+    "licencePlate": "Rekisterinumero",
+    "ownerName": "Omistajan nimi",
+    "inputDescription": "Lisää ilman viivoja esim ABC123",
+    "ownerNameInputHelp": "Anna koko omistajan nimi"
   }
 }
