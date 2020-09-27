@@ -12,6 +12,7 @@ const initDb = require('./module/database');
 const dotEnv = require('dotenv');
 dotEnv.config();
 const path = require('path');
+const helmet = require('helmet');
 
 
 if (!utils.ValidNodeJSVersion()) {
@@ -27,18 +28,23 @@ initDb.initDatabase().then(() => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true,}));
 
-  app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-  });
+  if (process.env.allowAccessOriginAll === 'true') {
+    // allowAccessOriginAll will let any origin client connect to this api
+    app.use(function(req, res, next) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT');
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+      next();
+    });
+  } else {
+    // helps you secure your Express apps by setting various HTTP headers
+    app.use(helmet());
+  }
 
   app.use(function (req, res, next) {
     logger.log(req.method + req.url, logger.LOG_UNDERSCORE);
     next();
   });
-
-  app.use('/', express.static(path.join(__dirname, '/html/')));
 
   // -------------------------------------------------------------------------------------------------------------------
   // Register routes
@@ -50,6 +56,15 @@ initDb.initDatabase().then(() => {
   require('./routes/arduino').Arduino(app, sequelizeObjects);
   require('./routes/plates').Plates(app, sequelizeObjects);
   require('./routes/training').Training(app, sequelizeObjects);
+  require('./routes/audio').Audio(app, sequelizeObjects);
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // Serve web front end (serve as last after api routes)
+
+  app.use('/', express.static(path.join(__dirname, '/html/')));
+  app.get('*', function(req, res) {
+    res.sendFile('index.html', {root: path.join(__dirname, '/html/')});
+  });
 
   // -------------------------------------------------------------------------------------------------------------------
   // Start web server

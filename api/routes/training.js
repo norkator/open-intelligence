@@ -1,5 +1,3 @@
-const moment = require('moment');
-const utils = require('../module/utils');
 const {Op} = require('sequelize');
 const path = require('path');
 const fs = require('fs');
@@ -7,10 +5,10 @@ const dotEnv = require('dotenv');
 dotEnv.config();
 
 
-function Training(router, sequelizeObjects) {
+async function Training(router, sequelizeObjects) {
 
 
-  router.post('/training/get/images/for/labeling', function (req, res) {
+  router.post('/training/get/images/for/labeling', async (req, res) => {
     let outputData = {images: []};
     const dataMode = req.body.dataMode;
     let filePath = (dataMode === 'OffSite' ?
@@ -29,7 +27,8 @@ function Training(router, sequelizeObjects) {
         [Op.gt]: '',
       }
     }
-    sequelizeObjects[dataMode].findAll({
+
+    const rows = await sequelizeObjects[dataMode].findAll({
       attributes: [
         'id',
         'label',
@@ -40,62 +39,62 @@ function Training(router, sequelizeObjects) {
         ['file_create_date', 'asc']
       ],
       limit: 24,
-    }).then(rows => {
-      if (rows.length > 0) {
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(rows.length);
-
-        async function processImagesSequentially(taskLength) {
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            outputData.images.push(
-              await task(
-                rows[t].id,
-                rows[t].label,
-                rows[t].file_name_cropped
-              )
-            );
-            t++;
-            if (t === taskLength) {
-              outputData.images = outputData.images.filter(a => {
-                return a !== null;
-              });
-              res.json(outputData);
-            }
-          }
-        }
-
-        function processImage(id, label, file_name_cropped) {
-          return new Promise(resolve_ => {
-            fs.readFile(
-              filePath + (dataMode === 'OffSite' ? '/' + String(id) : label + '/') + file_name_cropped, function (err, data) {
-                if (!err) {
-                  resolve_({
-                    id: id,
-                    file: file_name_cropped,
-                    image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                  });
-                } else {
-                  resolve_(null);
-                }
-              });
-          });
-        }
-      } else {
-        res.json(outputData);
-      }
     });
+
+    if (rows.length > 0) {
+      // noinspection JSIgnoredPromiseFromCall
+      processImagesSequentially(rows.length);
+
+      async function processImagesSequentially(taskLength) {
+        // Specify tasks
+        const promiseTasks = [];
+        for (let i = 0; i < taskLength; i++) {
+          promiseTasks.push(processImage);
+        }
+        // Execute tasks
+        let t = 0;
+        for (const task of promiseTasks) {
+          outputData.images.push(
+            await task(
+              rows[t].id,
+              rows[t].label,
+              rows[t].file_name_cropped
+            )
+          );
+          t++;
+          if (t === taskLength) {
+            outputData.images = outputData.images.filter(a => {
+              return a !== null;
+            });
+            res.json(outputData);
+          }
+        }
+      }
+
+      function processImage(id, label, file_name_cropped) {
+        return new Promise(resolve_ => {
+          fs.readFile(
+            filePath + (dataMode === 'OffSite' ? '/' + String(id) : label + '/') + file_name_cropped, function (err, data) {
+              if (!err) {
+                resolve_({
+                  id: id,
+                  file: file_name_cropped,
+                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+                });
+              } else {
+                resolve_(null);
+              }
+            });
+        });
+      }
+    } else {
+      res.json(outputData);
+    }
 
   });
 
 
-  router.post('/training/sort/image', function (req, res) {
+  router.post('/training/sort/image', async (req, res) => {
     const dataMode = req.body.dataMode;
     if (dataMode !== undefined) {
       const imageId = req.body.image_id;
@@ -123,6 +122,7 @@ function Training(router, sequelizeObjects) {
         res.status(500);
         res.send(error);
       });
+
     } else {
       res.status(500);
       res.send('Data mode unspecified!');
@@ -130,7 +130,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.post('/training/reject/image', function (req, res) {
+  router.post('/training/reject/image', async (req, res) => {
     const dataMode = req.body.dataMode;
     if (dataMode !== undefined) {
       const imageId = req.body.image_id;
@@ -156,7 +156,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.get('/training/get/labeled/images/count', function (req, res) {
+  router.get('/training/get/labeled/images/count', async (req, res) => {
     // Count => total count
     let result = {count: 0, internalCount: 0, offSiteCount: 0};
     sequelizeObjects.Data.findAll({
@@ -198,7 +198,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.get('/training/command/export', function (req, res) {
+  router.get('/training/command/export', async (req, res) => {
     sequelizeObjects.App.create({
       action_name: 'lp_training_export'
     }).then(result => {
@@ -211,7 +211,7 @@ function Training(router, sequelizeObjects) {
   });
 
 
-  router.get('/training/command/train', function (req, res) {
+  router.get('/training/command/train', async (req, res) => {
     sequelizeObjects.App.create({
       action_name: 'lp_training_train'
     }).then(result => {

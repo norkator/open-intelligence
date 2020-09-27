@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Old plate training module">
+  <meta name="author" content="">
+  <link rel="icon"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACA0lEQVR4Ae3VAYQiURjA8cNgEMIiDMJicQiLMDgWh0UIixAOh8VgsTgMQoBwCLAIIYTFASCEMDiEEMIghMUifPfHw+fx6s2YHHf75wcY9Z733vfpf+mjFgaYY4WtscAMz7jGRQuRYAfxtEYfldfBBlJShhiVNIBY9nhBF200jRg9TPEGUY74htIFmEGUHI8IcK4QKQ4QZYhSDSHKK+ooWoQlRCm8Uw8QZYQAZQut3T4iLvJxDjHmqKLQ2qkMXqUQY4saqiqyzlQfJwvPfPCEDGM04eozpliif2LBa5zsDmJsoGtDlDFc/bLOS2QtWj8J13A2PnE9E4jyG64OEKUL3RRiPMPZCmLE0DVwhBhPcPXTekRD6HoQYwZnO4gRwa6BBG2c6yu+ow67GGIs4EyUS9a0bvJf/0MRxNjBWQ4xGrhU+sYu4SyDGLe4VF3fSfACMVLng1Zcz/d37DonZk0dO0hBS+gC7CFGC85qeIcY99DFeIN4ynED3aPXgVaNrNc4gK7luVNrNKGrWxcnwdnqOJyZWSES5BDLDj8QQhfg1ZqVAbxKIJ4ruUKML7jx2nmgg0JNIMoYAYpWwxyipChciAXsCX8P3/rYQpQpShdiArFkSHFrvegRYgyxgVgGqKQEB0hJOR5QaVcY4R3i6YAUIS5WDR1MkGFvXfkVxrhDiI/+7f4AfdpSa7k2LiwAAAAASUVORK5CYII=">
+
+  <title>Intelligence - Plate training</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+  <!-- Jcrop image cropper -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.min.css">
+
+  <!-- App own theme -->
+  <style>
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    }
+
+    @media (min-width: 768px) {
+      .display-4 {
+        font-size: 3rem;
+      }
+    }
+
+    .card-img-right {
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .box-shadow {
+      box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+
+    .intelligence-footer p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+
+  <!-- Toastr -->
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css' rel='stylesheet'/>
+
+</head>
+
+<body>
+<main>
+  <div class="mr-2 ml-2">
+    <div class="card flex-md-row mb-4 box-shadow h-md-250 mt-2"
+         style="height: 100%;">
+      <div class="card-body d-flex flex-column align-items-center">
+        <strong class="d-inline-block mb-2 text-primary">License plate labeling</strong>
+        <div class="d-flex justify-content-center pb-2">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input checked type="radio" id="siteDataRadio" name="optionInlineRadio1" class="custom-control-input">
+            <label class="custom-control-label" for="siteDataRadio">Site data</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="offSiteRadio" name="optionInlineRadio1" class="custom-control-input">
+            <label class="custom-control-label" for="offSiteRadio">Offsite data</label>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-sm">
+              <strong class="d-inline-block text-secondary">Total</strong>
+              <h1 id="total_image_count">0</h1>
+            </div>
+            <div class="col-sm">
+              <strong class="d-inline-block text-secondary">Training</strong>
+              <h1 id="training_image_count">0</h1>
+            </div>
+            <div class="col-sm">
+              <strong class="d-inline-block text-primary">Testing</strong>
+              <h1 id="testing_image_count">0</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="shadow-sm p-3 mb-4 bg-white rounded w-100 text-center align-items-center">
+          <img id="labeling_image_view" class="card-img-right"
+               style="width: 100%; height: 100%;"
+               alt="" src="">
+
+          <div class="d-flex justify-content-center mt-2 mb-2">
+            <button id="sortBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+              Sort
+            </button>
+            <button id="rejectBtn" type="button" class="btn btn-outline-danger mt-2 ml-2">
+              Reject
+            </button>
+          </div>
+        </div>
+
+        <p class="font-weight-normal">Pick image for labeling below</p>
+        <div id="car_images_flex_viewer" class="d-flex flex-wrap mt-2 mb-2">
+        </div>
+
+
+        <div class="mt-4">
+          <strong class="d-inline-block text-primary">Training commands</strong>
+          <div class="d-flex justify-content-center mt-2 mb-2">
+            <button id="exportBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+              Export
+            </button>
+            <button id="trainBtn" type="button" class="btn btn-outline-secondary mt-2 mr-2">
+              Train
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- Toastr -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js'></script>
+
+<!-- Jcrop image cropper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/js/Jcrop.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+
+    let apiUrlCommon = null;
+
+    function SetCommonApiUrl(apiUrl) {
+      apiUrlCommon = apiUrl;
+    }
+
+    function AjaxGetMethodCommandAction(url) {
+      $.ajax({
+        url: apiUrlCommon + url,
+        type: 'GET',
+      }).done(function (data) {
+        toastr.info(data, 'Success', {timeOut: 2000});
+      }).fail(function (error) {
+        alert(error);
+        toastr.error(error, 'Error', {timeOut: 4000});
+      });
+    }
+
+    function AppendLoadingIndicator(jqueryElement) {
+      jqueryElement.append('<div id="loading_indicator_place_holder" style="width: 100%"></div>');
+      const loading_indicator_place_holder = $('#loading_indicator_place_holder');
+      loading_indicator_place_holder.append('<div id="label_image_loading_indicator" ' +
+        'style="width: 100%" class="text-center">' +
+        '<div class="spinner-border" role="status">' +
+        '<span class="sr-only">Loading...</span>' +
+        '</div>' +
+        '</div>');
+    }
+
+    // Api url
+    const apiUrl = String(window.location.href).replace('plate-training.html', '');
+    SetCommonApiUrl(apiUrl);
+
+    let currentSelectedImageId = null;
+    let imageX = 0;
+    let imageY = 0;
+    let imageX2 = 0;
+    let imageY2 = 0;
+
+
+    document.addEventListener('keydown', (event) => {
+      const keyName = event.key;
+      if (keyName === 's') {
+        sortClick();
+      } else if (keyName === 'r') {
+        rejectImage(currentSelectedImageId);
+      }
+    }, true);
+
+
+    const siteDataRadio = $('#siteDataRadio');
+    siteDataRadio.on('click', function () {
+      getImagesForLabeling();
+    });
+
+    const offSiteRadio = $('#offSiteRadio');
+    offSiteRadio.on('click', function () {
+      getImagesForLabeling();
+    });
+    const total_image_count = $('#total_image_count');
+    const training_image_count = $('#training_image_count');
+    const testing_image_count = $('#testing_image_count');
+    const sortBtn = $('#sortBtn');
+    const rejectBtn = $('#rejectBtn');
+    sortBtn.on('click', function () {
+      sortClick();
+    });
+    rejectBtn.on('click', function () {
+      rejectImage(currentSelectedImageId);
+    });
+
+    function sortClick() {
+      if (imageX > 0 && imageY > 0 && imageX2 > 0 && imageY2 > 0) {
+        sortImage(currentSelectedImageId, imageX, imageY, imageX2, imageY2);
+      } else {
+        toastr.error('Image box positioning not valid!', 'Error', {timeOut: 2000});
+      }
+    }
+
+    const labeling_image_view = $('#labeling_image_view');
+    const car_images_flex_viewer = $('#car_images_flex_viewer');
+    car_images_flex_viewer.on('click', 'img', function () {
+      currentSelectedImageId = $(this).attr('id');
+      console.info('Selected ' + currentSelectedImageId);
+      labeling_image_view.attr('src', $(this).attr('src'));
+      try {
+        labeling_image_view.data('Jcrop').destroy();
+      } catch (e) {
+      }
+      labeling_image_view.Jcrop({
+        boxWidth: labeling_image_view.width(),
+        onChange: function (c) {
+        },
+        onSelect: function (c) {
+          // console.info('x=' + c.x + ' y=' + c.y + ' x2=' + c.x2 + ' y2=' + c.y2);
+          // console.info('w=' + c.w + ' h=' + c.h)
+          imageX = Math.floor(c.x);
+          imageY = Math.floor(c.y);
+          imageX2 = Math.floor(c.x2);
+          imageY2 = Math.floor(c.y2);
+        }
+      });
+    });
+
+
+    const exportBtn = $('#exportBtn');
+    exportBtn.on('click', function () {
+      if (confirm("Export lp details for training?")) {
+        AjaxGetMethodCommandAction('training/command/export');
+      }
+    });
+
+    const trainBtn = $('#trainBtn');
+    trainBtn.on('click', function () {
+      if (confirm("Start lp training?")) {
+        AjaxGetMethodCommandAction('training/command/train');
+      }
+    });
+
+
+    getImagesForLabeling();
+
+    function getImagesForLabeling() {
+      AppendLoadingIndicator(car_images_flex_viewer);
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
+      $.ajax({
+        url: apiUrl + 'training/get/images/for/labeling',
+        type: 'POST',
+        data: {
+          dataMode: dataMode
+        }
+      }).done(function (data) {
+        car_images_flex_viewer.empty();
+        if (data.images.length > 0) {
+          data.images.forEach(imageData => {
+            car_images_flex_viewer.append(
+              '<img id="' + imageData.id + '" title="' + imageData.file_name_cropped + '" src="' + imageData.image +
+              '" style="max-height: 120px; max-width: 120px; cursor: pointer;" class="mr-1 ml-1 mt-1">'
+            );
+          });
+        } else {
+          toastr.info('No more images for labeling.', 'Info', {timeOut: 2000});
+        }
+      }).fail(function (error) {
+        toastr.error('Possibly no more available labeling images. Error: ' + error, 'Error', {timeOut: 2000});
+      });
+    }
+
+
+    function sortImage(imageId, x, y, x2, y2) {
+      console.info(x, y, x2, y2);
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
+      $.ajax({
+        url: apiUrl + 'training/sort/image',
+        type: 'POST',
+        data: {
+          dataMode: dataMode,
+          image_id: imageId,
+          image_x: x,
+          image_y: y,
+          image_x2: x2,
+          image_y2: y2,
+        },
+      }).done(function (data) {
+        toastr.success('Image labeled with ' + data, 'Labeling', {timeOut: 2000});
+        car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
+        setTotalLabeledImagesCount(0); // Will increment
+        zeroSelection();
+        getNextImage();
+      }).fail(function (error) {
+        console.error(error);
+      });
+    }
+
+    function rejectImage(imageId) {
+      const dataMode = (offSiteRadio.is(":checked") ? 'OffSite' : 'Data');
+      $.ajax({
+        url: apiUrl + 'training/reject/image',
+        type: 'POST',
+        data: {
+          dataMode: dataMode,
+          image_id: imageId,
+        },
+      }).done(function (data) {
+        toastr.info('Image rejected', 'Info', {timeOut: 2000});
+        car_images_flex_viewer.find('img[id="' + currentSelectedImageId + '"]').remove();
+        zeroSelection();
+        getNextImage();
+      }).fail(function (error) {
+        console.error(error);
+      });
+    }
+
+
+    function zeroSelection() {
+      imageX = 0;
+      imageY = 0;
+      imageX2 = 0;
+      imageY2 = 0;
+    }
+
+
+    function getNextImage() {
+      if (car_images_flex_viewer.children().length > 0) {
+        car_images_flex_viewer.children()[0].click();
+      } else {
+        getImagesForLabeling(); // Load more
+      }
+    }
+
+
+    getTotalLabeledImageCount();
+
+    function getTotalLabeledImageCount() {
+      $.ajax({
+        url: apiUrl + 'training/get/labeled/images/count',
+        type: 'GET',
+      }).done(function (data) {
+        total_image_count.text(String(data.count));
+        training_image_count.text(String(Math.floor(data.count * 90 / 100)));
+        testing_image_count.text(String(Math.floor(data.count * 10 / 100)));
+      }).fail(function (error) {
+      });
+    }
+
+
+    function setTotalLabeledImagesCount(count) {
+      const newCount = Number(total_image_count.text()) + 1;
+      total_image_count.text(newCount);
+    }
+
+  });
+
+</script>
+</body>
+</html>

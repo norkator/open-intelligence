@@ -10,6 +10,10 @@ from objects import Plate
 
 # Custom config
 open_alpr_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='openalpr')
+alpr_enabled = open_alpr_config['enabled'] == 'True'
+region = open_alpr_config['region']
+use_plate_char_length = open_alpr_config['use_plate_char_length'] == 'True'
+plate_char_length = int(open_alpr_config['plate_char_length'])
 
 # Paths
 car_labels_path = os.getcwd() + '/output/car/'
@@ -22,9 +26,7 @@ open_alpr_runtime_data = os.getcwd() + '/libraries/openalpr_64/runtime_data'
 def detect_license_plate(input_image, file_name, use_rotation=False):
     try:
 
-        if open_alpr_config['enabled'] == 'True':
-
-            region = open_alpr_config['region']
+        if alpr_enabled:
 
             # Validate file path
             if os.path.exists(input_image):
@@ -67,8 +69,8 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
                             license_plate = candidate['plate']
                             confidence = candidate['confidence']
 
-                            if open_alpr_config['use_plate_char_length'] == 'True':
-                                if len(license_plate) == int(open_alpr_config['plate_char_length']):
+                            if use_plate_char_length:
+                                if len(license_plate) == plate_char_length:
                                     # Take specified length one
                                     result_plates.append(
                                         Plate.Plate(

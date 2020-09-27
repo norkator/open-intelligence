@@ -8,6 +8,8 @@ import time
 
 # Config
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+move_to_processed = app_config['move_to_processed'] == 'True'
+process_sleep_seconds = int(app_config['process_sleep_seconds'])
 
 # Get current time offset
 ts = time.time()
@@ -130,7 +132,7 @@ def app():
             # Also runs all sub processes
             object_detection.analyze_image(
                 image_object,
-                app_config['move_to_processed'] == 'True',
+                move_to_processed,
             )
         except Exception as e:
             print(e)
@@ -148,7 +150,7 @@ def main_loop():
         actions.check_for_tasks()
         app()
         print('... running')
-        time.sleep(int(app_config['process_sleep_seconds']))
+        time.sleep(process_sleep_seconds)
 
 
 if __name__ == '__main__':
