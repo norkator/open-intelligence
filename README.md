@@ -51,6 +51,7 @@ Table of contents
 * [Cuda GPU Support](#cuda-gpu-support)
 * [Postgresql notes](#postgresql-notes)
 * [Openalpr notes](#openalpr-notes)
+* [Front end UI notes](#front-end-ui-notes)
 * [Troubleshooting](#troubleshooting)
 * [Todo](#todo)
 * [Authors](#authors)
@@ -223,6 +224,18 @@ Downloaded `2.3.0` release from here https://github.com/openalpr/openalpr/releas
 
 Now works without any python site-package installation.
 
+
+Front end UI notes
+============
+Some hints for front end UI is located here.
+
+Adding new translations
+-----
+1. Go to `./api/front-end/src/translations` folder.
+2. Clone some translations file like `en.json` and name it with target language short name.
+3. Replace strings to have target translation.
+4. Make pull request and repository maintainer|author does rest or you can add navbar button if you want.
+5. Rest of the work happens via pull request -> review.
 
 
 Troubleshooting
