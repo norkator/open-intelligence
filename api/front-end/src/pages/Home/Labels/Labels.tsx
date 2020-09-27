@@ -140,7 +140,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
       genericImageModalData: {
         show: true,
         title: croppedImageName,
-        description: (image.srImage ? 'This is processed super resolution image' : 'This is standard image'),
+        description: (image.srImage ? this.props.t('home.labels.srImage') : this.props.t('home.labels.standardImage')),
         src: image.data,
         showBadges: true,
         srImage: image.srImage,

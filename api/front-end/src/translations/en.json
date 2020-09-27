@@ -42,7 +42,9 @@
       "selectedLabel": "Selected {{label}} label",
       "activityBtn": "Activity",
       "activityForSelectedDate": "Activity for selected date",
-      "showingActivityStartOfDay": "Showing activity from start of selected day"
+      "showingActivityStartOfDay": "Showing activity from start of selected day",
+      "srImage": "This is processed super resolution image",
+      "standardImage": "This is standard image"
     }
   },
   "plates": {

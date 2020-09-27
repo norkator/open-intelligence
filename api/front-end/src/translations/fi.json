@@ -42,7 +42,9 @@
       "selectedLabel": "Valittu {{label}} nimike",
       "activityBtn": "Aktiivisuus",
       "activityForSelectedDate": "Aktiivisuus valitulle päivälle",
-      "showingActivityStartOfDay": "Näkymä näyttää aktiivisuuden valitun päivän alusta"
+      "showingActivityStartOfDay": "Näkymä näyttää aktiivisuuden valitun päivän alusta",
+      "srImage": "Tämä on prosessoitu super resoluutio kuva",
+      "standardImage": "Tämä on normaali kuva"
     }
   },
   "plates": {
