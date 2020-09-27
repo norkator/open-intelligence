@@ -118,7 +118,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
       genericImageModalData: {
         show: true,
         title: image.file_name,
-        description: 'Original image file where selected calendar event license plate is seen',
+        description: this.props.t('home.calendar.originalLicensePlateImage'),
         src: image.data,
         showBadges: true,
         detectionResult: detectionResult,

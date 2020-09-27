@@ -2,7 +2,8 @@
   "generic": {
     "close": "Close",
     "save": "Save",
-    "reject": "Reject"
+    "reject": "Reject",
+    "delete": "Delete"
   },
   "navbar": {
     "home": "Home",
@@ -13,7 +14,8 @@
   },
   "home": {
     "calendar": {
-      "vehicle_activity": "Vehicle activity"
+      "vehicle_activity": "Vehicle activity",
+      "originalLicensePlateImage": "Original image file where selected calendar event license plate is seen"
     },
     "dateRangeSelector": {
       "daysBetween": "Day's between"
@@ -25,7 +27,8 @@
     },
     "faceIdentity": {
       "faceIdentifications": "Face identifications",
-      "faceIdentificationsFooter": "Face identification result are mostly indicative and may not be accurate"
+      "faceIdentificationsFooter": "Face identification result are mostly indicative and may not be accurate",
+      "tryFaceDetectionAgain": "Try detection again for this image?"
     },
     "instances": {
       "runningInstances": "Running instances",
@@ -37,14 +40,18 @@
       "labelViewer": "Label viewer",
       "noLabelSelected": "No label selected",
       "selectedLabel": "Selected {{label}} label",
-      "activityBtn": "Activity"
+      "activityBtn": "Activity",
+      "activityForSelectedDate": "Activity for selected date",
+      "showingActivityStartOfDay": "Showing activity from start of selected day"
     }
   },
   "plates": {
     "cars": {
       "unknownCars": "Unknown cars",
       "byDefaultDescription": "By default only cars from today are loaded. Pick day range to load more.",
-      "requireAttentionDescription": "This view shows you cars which require your attention"
+      "requireAttentionDescription": "This view shows you cars which require your attention",
+      "addNewPlate": "Add new plate",
+      "addNewPlateDescription": "Add new plate based on pre detection. Correct the plate based on image. License plate can be given with or without \"-\" character."
     },
     "owners": {
       "vehicleOwners": "Vehicle owners",
@@ -55,12 +62,15 @@
       "actions": "Actions",
       "vehicleCount": "Vehicle count: {{count}}",
       "edit": "Edit",
-      "remove": "Remove"
+      "remove": "Remove",
+      "editExistingPlate": "Edit existing plate",
+      "editPlateDescription": "You are editing existing license plate item. License plate can be given with or without \"-\" character."
     }
   },
   "faces": {
     "earlier": "← Earlier",
-    "next": "Next →"
+    "next": "Next →",
+    "modalOriginalImageDescription": "Original image file where face is detected"
   },
   "training": {
     "personTraining": {

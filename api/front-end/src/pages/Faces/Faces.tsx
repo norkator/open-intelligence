@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import axios, {GET_FACES_FOR_DAY_PATH} from "../../axios";
-import {GenericImageModal, ModalPropsInterface} from "../../components/GenericImageModal/GenericImageModal";
+import {
+  GenericImageModal,
+  ModalPropsInterface
+} from "../../components/GenericImageModal/GenericImageModal";
 import {
   getObjectDetectionImageFileNameForCroppedImageName,
   getObjectDetectionImage,
@@ -95,7 +98,7 @@ class Faces extends Component<WithTranslation> {
       genericImageModalData: {
         show: true,
         title: image.file_name,
-        description: 'Original image file where face is detected',
+        description: this.props.t('faces.modalOriginalImageDescription'),
         src: image.data,
         showBadges: false,
       }

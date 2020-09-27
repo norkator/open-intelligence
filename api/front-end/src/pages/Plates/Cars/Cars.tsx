@@ -164,8 +164,8 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
     this.setState({
       plateEditModalData: {
         show: true,
-        title: 'Add new plate',
-        description: 'Add new plate based on pre detection. Correct the plate based on image. License plate can be given with or without "-" character.',
+        title: this.props.t('plates.cars.addNewPlate'),
+        description: this.props.t('plates.cars.addNewPlateDescription'),
         id: String(lpDetection.id),
         licencePlate: lpDetection.detectionResult,
         ownerName: '',
