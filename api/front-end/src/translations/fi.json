@@ -10,7 +10,8 @@
     "cameras": "Kamerat",
     "plates": "Kilvet",
     "faces": "Kasvot",
-    "training": "Opettaminen"
+    "training": "Opettaminen",
+    "changeLanguage": "Vaihda kieltä"
   },
   "home": {
     "calendar": {

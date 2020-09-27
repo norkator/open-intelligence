@@ -10,7 +10,8 @@
     "cameras": "Cameras",
     "plates": "Plates",
     "faces": "Faces",
-    "training": "Training"
+    "training": "Training",
+    "changeLanguage": "Change language"
   },
   "home": {
     "calendar": {
