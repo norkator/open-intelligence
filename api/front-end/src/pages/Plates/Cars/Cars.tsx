@@ -41,7 +41,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
 
   async loadLicensePlateDetections(startDate: string, endDate: string) {
     const licensePlateDetections = await getLicensePlateDetections(
-      this.state.resultOption, startDate, endDate) as LicensePlateDetectionsInterface[];
+      this.state.resultOption, '', startDate, endDate) as LicensePlateDetectionsInterface[];
     this.setState({
       dateRangeStartDate: startDate,
       dateRangeEndDate: endDate,

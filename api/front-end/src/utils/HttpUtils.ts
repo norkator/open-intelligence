@@ -221,9 +221,10 @@ export interface LicensePlateDetectionsInterface {
   objectDetectionFileName: string;
 }
 
-export async function getLicensePlateDetections(resultOption: string, startDate: string, endDate: string) {
+export async function getLicensePlateDetections(resultOption: string, selectedDate: string, startDate: string, endDate: string) {
   const response = await axios.post(GET_LICENSE_PLATE_DETECTIONS, {
     resultOption: resultOption,
+    selectedDate: selectedDate,
     selectedDateStart: startDate,
     selectedDateEnd: endDate,
   });
