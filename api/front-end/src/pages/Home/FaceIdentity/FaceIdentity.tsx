@@ -77,7 +77,7 @@ class FaceIdentity extends Component<ReduxPropsInterface & WithTranslation> {
 
   async onFaceClickHandler(id: string) {
     // eslint-disable-next-line no-restricted-globals
-    if (confirm("Try detection again for this image?")) {
+    if (confirm(this.props.t('home.faceIdentity.tryFaceDetectionAgain'))) {
       const result = await tryFaceDetectionAgain(id);
       // eslint-disable-next-line no-restricted-globals
       alert(result);

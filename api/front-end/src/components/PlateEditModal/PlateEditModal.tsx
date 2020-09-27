@@ -20,18 +20,18 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
 
           <form className="mt-4">
             <div className="form-group">
-              <label htmlFor="new_plate_licence_plate">Licence plate</label>
+              <label htmlFor="new_plate_licence_plate">{props.t('plateEditModal.licencePlate')}</label>
               <input type="text" className="form-control" defaultValue={props.licencePlate}
                      onChange={(event) => props.lpOnChange(event.target.value)}
               />
-              <small className="form-text text-muted">Input without lines, example ABC123</small>
+              <small className="form-text text-muted">{props.t('plateEditModal.inputDescription')}</small>
             </div>
             <div className="form-group">
-              <label htmlFor="new_plate_owner_name">Owner name</label>
+              <label htmlFor="new_plate_owner_name">{props.t('plateEditModal.ownerName')}</label>
               <input type="text" className="form-control" defaultValue={props.ownerName}
                      onChange={(event) => props.ownerOnChange(event.target.value)}
               />
-              <small className="form-text text-muted">Give full owner name</small>
+              <small className="form-text text-muted">{props.t('plateEditModal.ownerNameInputHelp')}</small>
             </div>
           </form>
 
@@ -39,14 +39,14 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
         <Modal.Footer>
           {
             props.showReject ? <Button variant="danger" onClick={() => props.rejectHandler(props)}>
-              Reject
+              {props.t('generic.reject')}
             </Button> : null
           }
           <Button variant="primary" onClick={() => props.saveHandler(props)}>
-            Save
+            {props.t('generic.save')}
           </Button>
           <Button variant="secondary" onClick={props.closeHandler()}>
-            Close
+            {props.t('generic.close')}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -55,6 +55,7 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
 };
 
 export interface PlateEditModalPropsInterface {
+  t: Function;
   show: boolean;
   title: string;
   description: string;

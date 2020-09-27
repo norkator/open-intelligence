@@ -108,6 +108,7 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
         </Card>
 
         <PlateEditModal
+          t={t}
           show={this.state.plateEditModalData.show}
           title={this.state.plateEditModalData.title}
           description={this.state.plateEditModalData.description}
@@ -152,8 +153,8 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
     this.setState({
       plateEditModalData: {
         show: true,
-        title: 'Add new plate',
-        description: 'Give new license plate and owner details. License plate can be given with or without "-" character.',
+        title: this.props.t('plates.cars.addNewPlate'),
+        description: this.props.t('plates.cars.addNewPlateDescription'),
         id: null,
         licencePlate: '',
         ownerName: '',
@@ -165,8 +166,8 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
     this.setState({
       plateEditModalData: {
         show: true,
-        title: 'Edit existing plate',
-        description: 'You are editing existing license plate item. License plate can be given with or without "-" character.',
+        title: this.props.t('plates.owners.editExistingPlate'),
+        description: this.props.t('plates.owners.editPlateDescription'),
         id: id,
         licencePlate: plate,
         ownerName: owner,
@@ -199,7 +200,7 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
   plateRemoveHandler = (id: string, lp: string) => {
     // Todo, fix this confirm no-restricted-globals later!
     // eslint-disable-next-line no-restricted-globals
-    if (confirm('Delete ' + lp)) {
+    if (confirm(this.props.t('generic.delete') + ' ' + lp)) {
       removeLicensePlate(id).then((response: any) => {
         this.loadLicensePlates().then(() => null);
       }).catch((error: any) => {

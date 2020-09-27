@@ -1,0 +1,105 @@
+{
+  "generic": {
+    "close": "关闭",
+    "save": "保存",
+    "reject": "拒绝",
+    "delete": "删除"
+  },
+  "navbar": {
+    "home": "主页",
+    "cameras": "摄像机",
+    "plates": "车牌",
+    "faces": "面孔",
+    "training": "训练",
+    "changeLanguage": "语言选择"
+  },
+  "home": {
+    "calendar": {
+      "vehicle_activity": "车辆行踪",
+      "originalLicensePlateImage": "查看车牌原图出处"
+    },
+    "dateRangeSelector": {
+      "daysBetween": "选择起始与结束日期"
+    },
+    "dateSelector": {
+      "selectedDay": "选定日期",
+      "earlier": "← 上一个",
+      "next": "下一个 →"
+    },
+    "faceIdentity": {
+      "faceIdentifications": "人脸识别",
+      "faceIdentificationsFooter": "人脸识别结果非可信，仅供参考",
+      "tryFaceDetectionAgain": "再次对此图片尝试检测？"
+    },
+    "instances": {
+      "runningInstances": "运行程序",
+      "process": "进程",
+      "aliveCheck": "运行检测",
+      "started": "始于"
+    },
+    "labels": {
+      "labelViewer": "类别一览",
+      "noLabelSelected": "无选定类别",
+      "selectedLabel": "选定 {{label}} 类别",
+      "activityBtn": "活动情况",
+      "activityForSelectedDate": "选定日期的活动情况",
+      "showingActivityStartOfDay": "以选定日期为开始显示活动情况",
+      "srImage": "经超分辨率处理的图片",
+      "standardImage": "标准原图"
+    }
+  },
+  "plates": {
+    "cars": {
+      "unknownCars": "未知车辆",
+      "byDefaultDescription": "默认仅加载今日车辆图片，选择时间段加载更多",
+      "requireAttentionDescription": "请注意，这些车辆需要添加信息",
+      "addNewPlate": "添加车牌",
+      "addNewPlateDescription": "基于检测添加车牌。 更正图片中车牌。 车牌中 \"-\" 字符可有可无。"
+    },
+    "owners": {
+      "vehicleOwners": "车辆主人",
+      "searchFilter": "选择过滤",
+      "addPlate": "添加车牌",
+      "plate": "车牌",
+      "owner": "主人",
+      "actions": "动作选项",
+      "vehicleCount": "车辆数: {{count}}",
+      "edit": "编辑",
+      "remove": "移除",
+      "editExistingPlate": "编辑已有车牌",
+      "editPlateDescription": "你正在编辑已有车牌. 车牌中 \"-\" 字符可有可无。"
+    }
+  },
+  "faces": {
+    "earlier": "← 上一个",
+    "next": "下一个 →",
+    "modalOriginalImageDescription": "显示该面孔原图出处"
+  },
+  "training": {
+    "personTraining": {
+      "title": "人物分类与训练",
+      "clickImageDescription": "点击改图然后选择图中人物是谁. 这将用于网络训练。",
+      "trainModel": "模型训练",
+      "loadMore": "加载更多",
+      "deleteAllVisible": "删除以上图片"
+    },
+    "plateTraining": {
+      "plateTraining": "车牌检测训练",
+      "plateTrainingDescription": "车牌检测训练仅可用于旧版jQuery. 请点击一下链接。",
+      "openPlateTraining": "打开车牌检测训练"
+    }
+  },
+  "activityModal": {
+    "hourDataSet": "24小时数据库"
+  },
+  "genericImageModal": {
+    "srVersion": "超分辨率模式",
+    "normalVersion": "普通模式"
+  },
+  "plateEditModal": {
+    "licencePlate": "车牌",
+    "ownerName": "主人名字",
+    "inputDescription": "无\"-\"输入, 例如:ABC123",
+    "ownerNameInputHelp": "给出主人全名"
+  }
+}
