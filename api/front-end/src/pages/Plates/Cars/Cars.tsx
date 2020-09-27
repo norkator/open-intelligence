@@ -5,7 +5,8 @@ import DateRangeSelector from "../../Home/DateRangeSelector/DateRangeSelector";
 import {
   addLicensePlate,
   getLicensePlateDetections,
-  LicensePlateDetectionsInterface, rejectLicensePlateDetection,
+  LicensePlateDetectionsInterface,
+  rejectLicensePlateDetection,
 } from "../../../utils/HttpUtils";
 import {getNowISODate} from "../../../utils/DateUtils";
 import styles from './Cars.module.css'
@@ -96,6 +97,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
         </div>
 
         <PlateEditModal
+          t={t}
           show={this.state.plateEditModalData.show}
           title={this.state.plateEditModalData.title}
           description={this.state.plateEditModalData.description}
@@ -162,8 +164,8 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
     this.setState({
       plateEditModalData: {
         show: true,
-        title: 'Add new plate',
-        description: 'Add new plate based on pre detection. Correct the plate based on image. License plate can be given with or without "-" character.',
+        title: this.props.t('plates.cars.addNewPlate'),
+        description: this.props.t('plates.cars.addNewPlateDescription'),
         id: String(lpDetection.id),
         licencePlate: lpDetection.detectionResult,
         ownerName: '',

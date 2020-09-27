@@ -140,7 +140,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
       genericImageModalData: {
         show: true,
         title: croppedImageName,
-        description: (image.srImage ? 'This is processed super resolution image' : 'This is standard image'),
+        description: (image.srImage ? this.props.t('home.labels.srImage') : this.props.t('home.labels.standardImage')),
         src: image.data,
         showBadges: true,
         srImage: image.srImage,
@@ -252,6 +252,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
         }
 
         <GenericImageModal
+          t={t}
           closeHandler={() => this.genericImageModalCloseHandler}
           show={this.state.genericImageModalData.show}
           description={this.state.genericImageModalData.description}
@@ -265,6 +266,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
         />
 
         <ActivityModal
+          t={t}
           show={this.state.activityModal.show}
           title={this.state.activityModal.title}
           description={this.state.activityModal.description}
@@ -280,8 +282,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
     this.setState({
       activityModal: {
         show: true,
-        title: 'Activity for selected date',
-        description: 'Showing activity from start of selected day',
+        title: this.props.t('home.labels.activityForSelectedDate'),
+        description: this.props.t('home.labels.showingActivityStartOfDay'),
         chartData: this.state.activityChartData,
       }
     });

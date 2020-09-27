@@ -20,7 +20,8 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
           {props.showBadges ?
             <div className="d-flex flex-row bd-highlight mb-2">
               <div className="bd-highlight"><span
-                className="badge badge-warning">{props.srImage ? 'SR version' : 'Normal version'}</span></div>
+                className="badge badge-warning">{props.srImage ? props.t('genericImageModal.srVersion') : props.t('genericImageModal.normalVersion')}</span>
+              </div>
               <div className="ml-2 bd-highlight"><span className="badge badge-info">{props.detectionResult}</span>
               </div>
               <div className="ml-2 bd-highlight"><span className="badge badge-secondary">{props.color}</span></div>
@@ -33,7 +34,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.closeHandler()}>
-            Close
+            {props.t('generic.close')}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -42,6 +43,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
 };
 
 export interface ModalPropsInterface {
+  t: Function;
   show: boolean;
   title: string;
   description: string;

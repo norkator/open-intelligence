@@ -49,7 +49,7 @@ class Instances extends Component<WithTranslation> {
                 <thead>
                 <tr>
                   <th>ID</th>
-                  <th>{t('home.instances.runningInstances')}</th>
+                  <th>{t('home.instances.process')}</th>
                   <th>{t('home.instances.aliveCheck')}</th>
                   <th>{t('home.instances.started')}</th>
                 </tr>

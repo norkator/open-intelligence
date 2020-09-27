@@ -1,14 +1,22 @@
 {
+  "generic": {
+    "close": "Sulje",
+    "save": "Tallenna",
+    "reject": "Hylkää",
+    "delete": "Poista"
+  },
   "navbar": {
     "home": "Koti",
     "cameras": "Kamerat",
     "plates": "Kilvet",
     "faces": "Kasvot",
-    "training": "Opettaminen"
+    "training": "Opettaminen",
+    "changeLanguage": "Vaihda kieltä"
   },
   "home": {
     "calendar": {
-      "vehicle_activity": "Ajoneuvo aktiviteetti"
+      "vehicle_activity": "Ajoneuvo aktiviteetti",
+      "originalLicensePlateImage": "Originaali kuva jossa kalenteri tapahtuman rekistrinumero on nähty"
     },
     "dateRangeSelector": {
       "daysBetween": "Aikaväli"
@@ -20,7 +28,8 @@
     },
     "faceIdentity": {
       "faceIdentifications": "Kasvon tunnistukset",
-      "faceIdentificationsFooter": "Kasvontunnistus on suuntaa-antava ja tulokset eivät ole tarkkoja"
+      "faceIdentificationsFooter": "Kasvontunnistus on suuntaa-antava ja tulokset eivät ole tarkkoja",
+      "tryFaceDetectionAgain": "Yritä tunnistusta uudelleen tälle kuvalle?"
     },
     "instances": {
       "runningInstances": "Ajossa olevat instanssit",
@@ -32,14 +41,20 @@
       "labelViewer": "Leikekuvien katselu",
       "noLabelSelected": "Ei valittua nimikettä",
       "selectedLabel": "Valittu {{label}} nimike",
-      "activityBtn": "Aktiivisuus"
+      "activityBtn": "Aktiivisuus",
+      "activityForSelectedDate": "Aktiivisuus valitulle päivälle",
+      "showingActivityStartOfDay": "Näkymä näyttää aktiivisuuden valitun päivän alusta",
+      "srImage": "Tämä on prosessoitu super resoluutio kuva",
+      "standardImage": "Tämä on normaali kuva"
     }
   },
   "plates": {
     "cars": {
       "unknownCars": "Tuntemattomat kuljetusvälineet",
       "byDefaultDescription": "Näkymä lataa vakiona vain tämän päivän kuljetusvälineet. Valitse kalenterista aikamääre ladataksesi enemmän.",
-      "requireAttentionDescription": "Tämä näkymä näyttää kuljetusvälineet jotka vaativat huomiotasi"
+      "requireAttentionDescription": "Tämä näkymä näyttää kuljetusvälineet jotka vaativat huomiotasi",
+      "addNewPlate": "Lisää uusi kilpi",
+      "addNewPlateDescription": "Lisää uusi kilpi perustuen automaattiseen esiluentaan. Korjaa luentaa tarpeen mukaan perustuen kuvaan. Rekiterikilven tieto annetaan ilman \"-\" merkkiä."
     },
     "owners": {
       "vehicleOwners": "Kuljetusvälineen omistajat",
@@ -50,12 +65,15 @@
       "actions": "Toiminnot",
       "vehicleCount": "Kuljetusvälineiden määrä: {{count}}",
       "edit": "Muokkaa",
-      "remove": "Poista"
+      "remove": "Poista",
+      "editExistingPlate": "Muokkaa olemassa olevaa",
+      "editPlateDescription": "Olet muokkaamassa olemassa olevaa rekisterinumeroa. Rekiterikilven tieto annetaan ilman \"-\" merkkiä."
     }
   },
   "faces": {
     "earlier": "Aikaisempi",
-    "next": "Seuraava"
+    "next": "Seuraava",
+    "modalOriginalImageDescription": "Originaali kuva jossa kasvo on tunnistettu"
   },
   "training": {
     "personTraining": {
@@ -70,5 +88,18 @@
       "plateTrainingDescription": "Kilpien opetus on saatavilla vain vanhalla jQuery versiolla. Avaa vanha versio napista.",
       "openPlateTraining": "Avaa kilpien opetus"
     }
+  },
+  "activityModal": {
+    "hourDataSet": "24-tunnin aktiviteetti"
+  },
+  "genericImageModal": {
+    "srVersion": "SR versio",
+    "normalVersion": "Normaali versio"
+  },
+  "plateEditModal": {
+    "licencePlate": "Rekisterinumero",
+    "ownerName": "Omistajan nimi",
+    "inputDescription": "Lisää ilman viivoja esim ABC123",
+    "ownerNameInputHelp": "Anna koko omistajan nimi"
   }
 }

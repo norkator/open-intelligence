@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Nav, Navbar} from 'react-bootstrap'
+import {Button, Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import styles from './Navbar.module.css'
 import {Link} from "react-router-dom";
 import {withTranslation} from "react-i18next";
@@ -89,9 +89,11 @@ class NavBar extends Component<any, any> {
               }
             </Nav>
             <Nav>
-              <Button onClick={() => this.setLanguageHandler(i18n, 'en')} variant="outline-info"
-                      className="mr-1">EN</Button>
-              <Button onClick={() => this.setLanguageHandler(i18n, 'fi')} variant="outline-info">FI</Button>
+              <NavDropdown title={t('navbar.changeLanguage')} id="lang-dropdown">
+                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'en')}>English</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'fi')}>Finnish</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'cn')}>Chinese</NavDropdown.Item>
+              </NavDropdown>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
