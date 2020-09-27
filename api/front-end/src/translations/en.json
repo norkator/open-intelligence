@@ -28,7 +28,7 @@
     },
     "faceIdentity": {
       "faceIdentifications": "Face identifications",
-      "faceIdentificationsFooter": "Face identification result are mostly indicative and may not be accurate",
+      "faceIdentificationsFooter": "Face identification results are mostly indicative and may not be accurate",
       "tryFaceDetectionAgain": "Try detection again for this image?"
     },
     "instances": {
