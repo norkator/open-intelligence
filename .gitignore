@@ -21,6 +21,8 @@ libraries/nitramite_alpr/
 models/coco.names
 models/yolov3.cfg
 models/yolov3.weights
+models/yolov4.cfg
+models/yolov4.weights
 models/car_CNN_13AUGM_CMCMCMCMF.h5py
 models/color_model.h5
 
