@@ -218,17 +218,24 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
             </div>
           </Card.Header>
           <Card.Body>
-            <div style={{height: '300px'}}>
-              {
-                this.state.labelDonutData.datasets !== undefined ?
-                  <Doughnut
-                    onElementsClick={(element: any) => this.onDonutElementClickHandler(element)}
-                    data={this.state.labelDonutData}
-                    height={300}
-                    options={{maintainAspectRatio: false}}/>
-                  : this.state.isLoading ? <LoadingIndicator isDark={true}/> : null
-              }
-            </div>
+
+            {this.state.labelDonutData.labels !== undefined && this.state.labelDonutData.labels.length > 0 ?
+              <div style={{height: '300px'}}>
+                {
+                  this.state.labelDonutData.datasets !== undefined ?
+                    <Doughnut
+                      onElementsClick={(element: any) => this.onDonutElementClickHandler(element)}
+                      data={this.state.labelDonutData}
+                      height={300}
+                      options={{maintainAspectRatio: false}}/>
+                    : this.state.isLoading ? <LoadingIndicator isDark={true}/> : null
+                }
+              </div>
+              :
+              <div className="d-flex justify-content-center flex-wrap mt-4">
+                <h4>{this.state.isLoading ? t('home.labels.loading') : t('home.labels.noLabels')}</h4>
+              </div>
+            }
 
             <div className="d-flex justify-content-center flex-wrap mt-4">
               {labels}
