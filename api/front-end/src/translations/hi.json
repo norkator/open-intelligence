@@ -15,7 +15,7 @@
   },
   "home": {
     "calendar": {
-      "vehicle_activity": "गाडी की गतिविधि" 
+      "vehicle_activity": "गाडी की गतिविधि",
       "originalLicensePlateImage": "असली तस्वीर जहा चुनी हुई कैलेंडर प्लेट देखि जा सकती है"
     },
     "dateRangeSelector": {
@@ -64,7 +64,7 @@
       "addPlate": "प्लेट जोड़े",
       "plate": "प्लेट",
       "owner": "मालिक",
-      "actions": "गतिविधियां" 
+      "actions": "गतिविधियां",
       "vehicleCount": "गाड़ियों की संख्या: {{संख्या}}",
       "edit": "सही करे",
       "remove": "हटाएँ",
