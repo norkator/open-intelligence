@@ -90,6 +90,7 @@ class NavBar extends Component<any, any> {
                 <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'en')}>English</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'fi')}>Finnish</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'cn')}>Chinese</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'hi')}>Hindi</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
