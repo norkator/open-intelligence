@@ -8,8 +8,8 @@ export interface ReduxPropsInterface {
   onDateSelected: (event: string) => void;
   dateRangeStartDate: string;
   dateRangeEndDate: string;
-  onDateRangeStartDateSelected: (event: string) => void;
-  onDateRangeEndDateSelected: (event: string) => void
+  onDateRangeStartDateSelected: (event: Object) => void;
+  onDateRangeEndDateSelected: (event: Object) => void
 }
 
 const nowIsoDate = getNowISODate();

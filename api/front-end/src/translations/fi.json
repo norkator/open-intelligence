@@ -45,7 +45,9 @@
       "activityForSelectedDate": "Aktiivisuus valitulle päivälle",
       "showingActivityStartOfDay": "Näkymä näyttää aktiivisuuden valitun päivän alusta",
       "srImage": "Tämä on prosessoitu super resoluutio kuva",
-      "standardImage": "Tämä on normaali kuva"
+      "standardImage": "Tämä on normaali kuva",
+      "loading": "Ladataan...",
+      "noLabels": "Ei nimikkeitä valitulle päivälle"
     }
   },
   "plates": {

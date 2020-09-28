@@ -6,6 +6,8 @@ import {withTranslation} from "react-i18next";
 import {saveLanguageSelection} from "../../i18nConfig";
 // eslint-disable-next-line
 import {i18n} from "i18next"; // Todo, why esLint whines even when it's in use?
+const githubAsset = require('../../assets/github-light-64px.png');
+
 
 class NavBar extends Component<any, any> {
   state = {
@@ -85,12 +87,23 @@ class NavBar extends Component<any, any> {
                   : <span className="mt-2">{t('navbar.training')}</span>
               }
             </Nav>
-            <Nav>
+            <Nav className="mr-2">
               <NavDropdown title={t('navbar.changeLanguage')} id="lang-dropdown">
                 <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'en')}>English</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'fi')}>Finnish</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'cn')}>Chinese</NavDropdown.Item>
               </NavDropdown>
+            </Nav>
+            <Nav>
+              <Navbar.Brand href="https://github.com/norkator/open-intelligence">
+                <img
+                  src={githubAsset}
+                  width="30"
+                  height="30"
+                  className="d-inline-block align-top"
+                  alt="Repository link"
+                />
+              </Navbar.Brand>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
