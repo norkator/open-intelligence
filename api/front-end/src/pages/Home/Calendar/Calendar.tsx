@@ -17,6 +17,8 @@ import DateRangeSelector from "../DateRangeSelector/DateRangeSelector";
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {connect} from "react-redux";
 import {WithTranslation, withTranslation} from "react-i18next";
+import {ChangeDate, getNowISODate} from "../../../utils/DateUtils";
+import {DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 
 class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
@@ -30,6 +32,9 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
   calendarComponentRef = React.createRef<FullCalendar>();
 
   componentDidMount(): void {
+    // Override start date to be today to avoid problems
+    this.props.onDateRangeStartDateSelected({target: {value: ChangeDate(getNowISODate(), -7)}});
+    // Load events by default from past week
     this.loadCalendarEvents().then(() => null);
   }
 
@@ -140,4 +145,11 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(withTranslation('i18n')(Calendar));
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onDateRangeStartDateSelected: (value: string) => dispatch({type: DATE_RANGE_START_DATE_SELECTED, calendar: value}),
+  }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('i18n')(Calendar));

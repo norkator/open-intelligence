@@ -45,7 +45,9 @@
       "activityForSelectedDate": "选定日期的活动情况",
       "showingActivityStartOfDay": "以选定日期为开始显示活动情况",
       "srImage": "经超分辨率处理的图片",
-      "standardImage": "标准原图"
+      "standardImage": "标准原图",
+      "loading": "载入中...",
+      "noLabels": "所选日期没有标签"
     }
   },
   "plates": {

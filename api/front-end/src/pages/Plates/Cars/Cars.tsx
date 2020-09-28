@@ -14,6 +14,7 @@ import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/
 import {filterLicensePlate} from "../../../utils/TextUtils";
 import {connect} from "react-redux";
 import {withTranslation, WithTranslation} from "react-i18next";
+import {DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 
 class Cars extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
@@ -35,6 +36,8 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
   }
 
   componentDidMount(): void {
+    // Override start date to be today to avoid problems
+    this.props.onDateRangeStartDateSelected({target: {value: getNowISODate()}});
     // Default will load only today contents, loading big chunk is slow
     this.loadLicensePlateDetections(this.state.today, this.state.today).then(() => null);
   }
@@ -183,4 +186,10 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(withTranslation('i18n')(Cars));
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onDateRangeStartDateSelected: (value: string) => dispatch({type: DATE_RANGE_START_DATE_SELECTED, calendar: value}),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('i18n')(Cars));
