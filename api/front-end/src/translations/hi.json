@@ -1,0 +1,107 @@
+{
+  "generic": {
+    "close": "बंद करे",
+    "save": "सुरक्षित करे",
+    "reject": "इनकार",
+    "delete": "हटाएँ"
+  },
+  "navbar": {
+    "home": "मुख्य",
+    "cameras": "कैमरा",
+    "plates": "प्लेटें",
+    "faces": "चेहरे",
+    "training": "तैयार करे",
+    "changeLanguage": "भाषा बदले"
+  },
+  "home": {
+    "calendar": {
+      "vehicle_activity": "गाडी की गतिविधि",
+      "originalLicensePlateImage": "असली तस्वीर जहा चुनी हुई कैलेंडर प्लेट देखि जा सकती है"
+    },
+    "dateRangeSelector": {
+      "daysBetween": "इन दिनों क बीच में"
+    },
+    "dateSelector": {
+      "selectedDay": "चयनित दिन",
+      "earlier": "← पिछला",
+      "next": "अगला →"
+    },
+    "faceIdentity": {
+      "faceIdentifications": "चेहरा पहचाने",
+      "faceIdentificationsFooter": "चेहरइ के पहचान का परिणाम मुख्या तौर से अंकित करने हेतु है, पूरी तरह से सही नहीं",
+      "tryFaceDetectionAgain": "इस तस्वीर की जांच दोबारा से करे?"
+    },
+    "instances": {
+      "runningInstances": "उदाहरण लिए जा रहे हैं",
+      "process": "प्रक्रिया",
+      "aliveCheck": "जीवित होने की जांच",
+      "started": "शुरू हुआ"
+    },
+    "labels": {
+      "labelViewer": "लेबल दर्शक",
+      "noLabelSelected": "कोई लेबल नहीं चुना गया",
+      "selectedLabel": "चयनित  {{लेबल}} लेबल",
+      "activityBtn": "गतिविधि ",
+      "activityForSelectedDate": "चुने हुए तारीख की गतिविधि",
+      "showingActivityStartOfDay": "चयनित तारिख की शुरुआत से गतिविधि दिखाई जा रही है",
+      "srImage": "यह तैयार उच्च तस्वीर है ",
+      "standardImage": "यह आम तस्वीर है",
+      "loading": " लोड हो रहा है...",
+      "noLabels": "चयनित तारिख के लिए कोई लेबल उपलब्ध नहीं है"
+    }
+  },
+  "plates": {
+    "cars": {
+      "unknownCars": "अनजान गाडी",
+      "byDefaultDescription": "केवल आज की गाड़ी दिखाई जा रही है।  ज्यादा जानकारी के लिए श्रेणी चुने ",
+      "requireAttentionDescription": "यहाँ आपके लायक गाड़िया दिखाई जा रही है",
+      "addNewPlate": "नयी प्लेट जोड़े",
+      "addNewPlateDescription": "पिछली पहचान के आधार पर नई प्लेट जोड़ें। प्लेट के आधार पर तस्वीर ठीक करे। लाइसेंस प्लेट \"-\" साथ या बिना भी दिया जा सकता है।"
+    },
+    "owners": {
+      "vehicleOwners": "वाहन का मालिक",
+      "searchFilter": "खोज को छाटें...",
+      "addPlate": "प्लेट जोड़े",
+      "plate": "प्लेट",
+      "owner": "मालिक",
+      "actions": "गतिविधियां",
+      "vehicleCount": "गाड़ियों की संख्या: {{संख्या}}",
+      "edit": "सही करे",
+      "remove": "हटाएँ",
+      "editExistingPlate": "मौजूदा प्लेट को सही करे",
+      "editPlateDescription": "आप मौजूदा प्लेट को सही करने जा रहे हें. लाइसेंस प्लेट \"-\" साथ या बिना भी दिया जा सकता है।"
+    }
+  },
+  "faces": {
+    "earlier": "← पिछला",
+    "next": "अगला →",
+    "modalOriginalImageDescription": "असली तस्वीर जहा  चेहरा पहचान में आया"
+  },
+  "training": {
+    "personTraining": {
+      "title": "लोगो को चुनना और तैयार करना",
+      "clickImageDescription": "तस्वीर को चुने और इसमें कौन है बताएं।  यह तयारी के लिए है।",
+      "trainModel": "मॉडल तैयार करे",
+      "loadMore": "और लाएं",
+      "deleteAllVisible": "सब मौजूदा हटाएँ"
+    },
+    "plateTraining": {
+      "plateTraining": "प्लेट की तयारी",
+      "plateTrainingDescription": "प्लेट ट्रेनिंग केवल पुराणी jQuery द्वारा उपलब्ध है।  वह जाने के लिए नीचे दिए बटन को दबाएं ",
+      "openPlateTraining": "प्लेट ट्रेनिंग खोले"
+    }
+  },
+  "activityModal": {
+    "hourDataSet": "२४ घण्टे का डाटासेट"
+  },
+  "genericImageModal": {
+    "srVersion": "SR विवरण ",
+    "normalVersion": "आम विवरण "
+  },
+  "plateEditModal": {
+    "licencePlate": "लाइसेंस प्लेट",
+    "ownerName": "मालिक का नाम",
+    "inputDescription": "इनपुट बिना रेखा के, उदाहरण ABC123",
+    "ownerNameInputHelp": "मालिक का पूरा नाम दें"
+  }
+}
