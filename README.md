@@ -82,7 +82,8 @@ Python side
 (Windows only)
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
 2. Install dependencies `pip install -r requirements_windows.txt`
-3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
+3. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
+Ensure that cfg file width and height is 608
 4. Extract weights, cfg and coco to `models` folder
 5. Download Postgresql server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
 its also tested with version 12.

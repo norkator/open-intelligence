@@ -38,7 +38,7 @@ def filter_negative_values(array_boxes):
 def analyze_image(image_object, bool_move_processed):
     try:
         # Load Yolo
-        net = cv2.dnn.readNet(models_path + "yolov3.weights", models_path + "yolov3.cfg")
+        net = cv2.dnn.readNet(models_path + "yolov4.weights", models_path + "yolov4.cfg")
 
         classes = []
         with open(models_path + "coco.names", "r") as f:
