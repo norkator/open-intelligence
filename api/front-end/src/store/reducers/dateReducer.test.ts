@@ -1,5 +1,8 @@
-import dateReducer from "./dateReducer";
-import {ChangeDate, getNowISODate} from "../../utils/DateUtils";
+import dateReducer, {DateActionInterface} from "./dateReducer";
+import {
+  ChangeDate,
+  getNowISODate
+} from "../../utils/DateUtils";
 import {
   CALENDAR_SELECTION,
   DATE_RANGE_END_DATE_SELECTED,
@@ -15,7 +18,7 @@ describe('dateReducer', () => {
   const testDate = '2020-01-01';
 
   it('should return the initial state with default nowISODate', () => {
-    expect(dateReducer(undefined, {})).toEqual(
+    expect(dateReducer(undefined, {} as DateActionInterface)).toEqual(
       {
         selectedDate: nowIsoDate,
         dateRangeStartDate: ChangeDate(nowIsoDate, -7),
@@ -32,7 +35,7 @@ describe('dateReducer', () => {
     }, {
       type: SET_SELECTED_DATE,
       selectedDate: testDate,
-    })).toEqual({
+    } as DateActionInterface)).toEqual({
       selectedDate: testDate,
       dateRangeStartDate: ChangeDate(nowIsoDate, -7),
       dateRangeEndDate: nowIsoDate,
@@ -47,7 +50,7 @@ describe('dateReducer', () => {
     }, {
       type: INCREMENT_DAY,
       days: 5,
-    })).toEqual({
+    } as DateActionInterface)).toEqual({
       selectedDate: '2020-01-06',
       dateRangeStartDate: ChangeDate(nowIsoDate, -7),
       dateRangeEndDate: nowIsoDate,
@@ -62,7 +65,7 @@ describe('dateReducer', () => {
     }, {
       type: DECREMENT_DAY,
       days: -5,
-    })).toEqual({
+    } as DateActionInterface)).toEqual({
       selectedDate: '2019-12-27',
       dateRangeStartDate: ChangeDate(nowIsoDate, -7),
       dateRangeEndDate: nowIsoDate,
@@ -81,7 +84,7 @@ describe('dateReducer', () => {
           value: testDate
         }
       }
-    })).toEqual({
+    } as DateActionInterface)).toEqual({
       selectedDate: testDate,
       dateRangeStartDate: ChangeDate(nowIsoDate, -7),
       dateRangeEndDate: nowIsoDate,
@@ -100,7 +103,7 @@ describe('dateReducer', () => {
           value: testDate
         }
       }
-    })).toEqual({
+    } as DateActionInterface)).toEqual({
       selectedDate: nowIsoDate,
       dateRangeStartDate: testDate,
       dateRangeEndDate: nowIsoDate,
@@ -119,7 +122,7 @@ describe('dateReducer', () => {
           value: testDate
         }
       }
-    })).toEqual({
+    } as DateActionInterface)).toEqual({
       selectedDate: nowIsoDate,
       dateRangeStartDate: ChangeDate(nowIsoDate, -7),
       dateRangeEndDate: testDate,
