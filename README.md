@@ -16,7 +16,6 @@ need for expensive camera systems because any existing cameras are suitable.
 
 <b>This project is looking for funding and contributors!</b>
 
-<b>Note: new react js front end is in progress, it does not yet have all features old ui had</b>
 
 ![Open-Intelligence-Front-Page](./other/frontpage_2.png) 
 
