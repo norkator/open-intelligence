@@ -1,6 +1,5 @@
 import os
 import sys
-from argparse import ArgumentParser
 from module import configparser, process_utils, database, detection_utils
 from objects import SrFile
 from pathlib import Path
@@ -14,11 +13,6 @@ if use_gpu is False:
 from libraries.fast_srgan import infer_oi
 from module import gpu_utils
 from module.vehicle_color import vehicle_color_detect
-
-# Parse arguments
-parser = ArgumentParser()
-parser.add_argument('--testfile', type=str,
-                    help='Test mode loads image from project /images folder. Specify image name.')
 
 # Check does system has GPU support
 print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
@@ -111,16 +105,7 @@ def main_loop():
 
 if __name__ == '__main__':
     try:
-        args = parser.parse_args()
-        if args.testfile is None:
-            # Normal process mode
-            main_loop()
-        else:
-            # Test mode
-            sr_test_images = [SrFile.SrFile(
-                None, None, None,
-                os.getcwd() + '/images/' + args.testfile, os.getcwd() + '/images/' + 'sr_' + args.testfile, None)]
-            infer_oi.process_super_resolution_images(sr_test_images)
+        main_loop()
     except KeyboardInterrupt:
         print >> sys.stderr, '\nExiting by user request.\n'
         sys.exit(0)

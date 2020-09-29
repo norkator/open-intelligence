@@ -155,6 +155,8 @@ SuperResolution
 This is no way mandatory for process.
 * Cluster support: No.
 * Mainly meant for improved license plate detection.
+* Testing: use command `python SuperResolutionTest.py --testfile="some_file.jpg"` which will load 
+image by given name from `/images` folder. 
 
 InsightFace
 -----

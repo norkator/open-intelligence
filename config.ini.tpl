@@ -35,6 +35,6 @@ jpeg_streams=http://127.0.0.1/mjpg/video.mjpg
 delete_files=False
 
 [super_resolution]
-use_gpu=True
+use_gpu=False
 max_width=1000
 max_height=1000
