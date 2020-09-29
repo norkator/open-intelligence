@@ -29,7 +29,8 @@
     "faceIdentity": {
       "faceIdentifications": "Kasvon tunnistukset",
       "faceIdentificationsFooter": "Kasvontunnistus on suuntaa-antava ja tulokset eivät ole tarkkoja",
-      "tryFaceDetectionAgain": "Yritä tunnistusta uudelleen tälle kuvalle?"
+      "tryFaceDetectionAgain": "Yritä tunnistusta uudelleen tälle kuvalle?",
+      "loadDetections": "Lataa tunnistukset"
     },
     "instances": {
       "runningInstances": "Ajossa olevat instanssit",

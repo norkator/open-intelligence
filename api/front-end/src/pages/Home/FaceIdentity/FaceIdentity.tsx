@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import {
   FacesInterface,
   getFaces, tryFaceDetectionAgain,
@@ -8,20 +8,23 @@ import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {connect} from "react-redux";
 import styles from './FaceIdentity.module.css'
 import {WithTranslation, withTranslation} from "react-i18next";
+import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
 
 
 class FaceIdentity extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
+    isLoading: false,
     faceDetections: [] as FacesInterface[]
   };
 
-  componentDidMount(): void {
+  getFacesClickHandler = () => {
+    this.setState({isLoading: true});
     this.getFaces().then(() => null);
-  }
+  };
 
   async getFaces() {
     const faces = await getFaces(this.props.selectedDate) as FacesInterface[];
-    this.setState({faceDetections: faces})
+    this.setState({isLoading: false, faceDetections: faces})
   }
 
   render() {
@@ -61,7 +64,15 @@ class FaceIdentity extends Component<ReduxPropsInterface & WithTranslation> {
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
             <div className="d-flex justify-content-center flex-wrap">
-              {faces}
+              {
+                this.state.faceDetections.length === 0 ?
+                  this.state.isLoading ? <LoadingIndicator isDark={true}/> :
+                    <Button variant="dark" className="mt-2 mb-2"
+                            onClick={() => this.getFacesClickHandler()}>
+                      {t('home.faceIdentity.loadDetections')}
+                    </Button>
+                  : faces
+              }
             </div>
           </Card.Body>
           <Card.Footer className="p-2">
