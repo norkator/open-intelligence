@@ -80,7 +80,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
       labelDonutData.labels.push(donut.label);
       dataSet.data.push(donut.value);
       dataSet.backgroundColor.push(GetDonutColor(index));
-      dataSet.hoverBackgroundColor.push("rgba(53,51,51,0.99)");
+      dataSet.hoverBackgroundColor.push("#1698af");
       index++;
     });
 
