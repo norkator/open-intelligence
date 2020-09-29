@@ -22,6 +22,7 @@ import {
   ActivityModalInterface
 } from "../../../components/ActivityModal/ActivityModal";
 import {withTranslation, WithTranslation} from "react-i18next";
+import GetDonutColor from "../../../utils/ColorUtils";
 
 
 export interface DonutDatasetsInterface {
@@ -74,11 +75,13 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
       backgroundColor: [],
       hoverBackgroundColor: []
     };
+    let index = 0;
     result.donut.forEach(donut => {
       labelDonutData.labels.push(donut.label);
       dataSet.data.push(donut.value);
-      dataSet.backgroundColor.push("#13697d"); // Todo, add dynamic random coloring from color range maybe?
-      dataSet.hoverBackgroundColor.push("#1698af");
+      dataSet.backgroundColor.push(GetDonutColor(index));
+      dataSet.hoverBackgroundColor.push("rgba(53,51,51,0.99)");
+      index++;
     });
 
     labelDonutData.datasets.push(dataSet);
