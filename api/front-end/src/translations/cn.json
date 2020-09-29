@@ -29,7 +29,8 @@
     "faceIdentity": {
       "faceIdentifications": "人脸识别",
       "faceIdentificationsFooter": "人脸识别结果非可信，仅供参考",
-      "tryFaceDetectionAgain": "再次对此图片尝试检测？"
+      "tryFaceDetectionAgain": "再次对此图片尝试检测？",
+      "loadDetections": "负载检测"
     },
     "instances": {
       "runningInstances": "运行程序",

@@ -29,7 +29,8 @@
     "faceIdentity": {
       "faceIdentifications": "चेहरा पहचाने",
       "faceIdentificationsFooter": "चेहरइ के पहचान का परिणाम मुख्या तौर से अंकित करने हेतु है, पूरी तरह से सही नहीं",
-      "tryFaceDetectionAgain": "इस तस्वीर की जांच दोबारा से करे?"
+      "tryFaceDetectionAgain": "इस तस्वीर की जांच दोबारा से करे?",
+      "loadDetections": "लोड का पता लगाता है"
     },
     "instances": {
       "runningInstances": "उदाहरण लिए जा रहे हैं",
