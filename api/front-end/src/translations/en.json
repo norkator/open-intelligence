@@ -29,7 +29,8 @@
     "faceIdentity": {
       "faceIdentifications": "Face identifications",
       "faceIdentificationsFooter": "Face identification results are mostly indicative and may not be accurate",
-      "tryFaceDetectionAgain": "Try detection again for this image?"
+      "tryFaceDetectionAgain": "Try detection again for this image?",
+      "loadDetections": "Load detections"
     },
     "instances": {
       "runningInstances": "Running instances",

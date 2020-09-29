@@ -1,6 +1,7 @@
 import en from "./translations/en.json";
 import fi from "./translations/fi.json";
 import cn from "./translations/cn.json";
+import hi from "./translations/hi.json";
 
 const LANGUAGE_KEY: string = 'LANGUAGE_KEY';
 
@@ -28,6 +29,9 @@ const i18nConfig = {
     },
     cn: {
       i18n: cn
+    },
+    hi: {
+      i18n: hi
     },
   },
 };

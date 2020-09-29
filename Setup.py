@@ -14,14 +14,14 @@ url = 'https://raw.githubusercontent.com/ayooshkathuria/pytorch-yolo-v3/master/d
 urllib.request.urlretrieve(url, models_folder + 'coco.names')
 
 # Download cfg
-print('Download yolov3.cfg')
-url = 'https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg'
-urllib.request.urlretrieve(url, models_folder + 'yolov3.cfg')
+print('Download yolovX cfg')
+url = 'https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg'
+urllib.request.urlretrieve(url, models_folder + 'yolov4.cfg')
 
 # Download weights
-print('Download yolov3.weights')
-url = 'https://pjreddie.com/media/files/yolov3.weights'
-urllib.request.urlretrieve(url, models_folder + 'yolov3.weights')
+print('Download yolovX weights')
+url = 'https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights'
+urllib.request.urlretrieve(url, models_folder + 'yolov4.weights')
 
 # Completed
 print('Setup finished!')

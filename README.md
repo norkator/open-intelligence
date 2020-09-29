@@ -16,7 +16,6 @@ need for expensive camera systems because any existing cameras are suitable.
 
 <b>This project is looking for funding and contributors!</b>
 
-<b>Note: new react js front end is in progress, it does not yet have all features old ui had</b>
 
 ![Open-Intelligence-Front-Page](./other/frontpage_2.png) 
 
@@ -67,7 +66,7 @@ here's steps to get environment running.
 Api side
 -----
 1. Go to `/api` folder and run `npm install`
-2. Install Postgresql server: https://www.postgresql.org/ (if you didn't at upper python section)
+2. Install PostgreSQL server: https://www.postgresql.org/
 3. Rename `.env_tpl` to `.env` and fill details.
 4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
 5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
@@ -79,13 +78,14 @@ Api side
 
 Python side
 -----
-(Windows only)
+(Windows)
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
 2. Install dependencies `pip install -r requirements_windows.txt`
-3. Run `Setup.py` OR Download <b>YOLOv3-608</b> weights, cfg, coco.names https://pjreddie.com/darknet/yolo/
+3. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
+Ensure that cfg file width and height is 608
 4. Extract weights, cfg and coco to `models` folder
-5. Download Postgresql server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
-its also tested with version 12.
+5. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
+its also tested with version 12. (if you didn't at upper api section)
 6. Rename `config.ini.tpl` to `config.ini` and fill details. (for multi nodes, see own section)
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
@@ -96,7 +96,7 @@ nitramite@outlook.com or via opening issue if you have problems.
 
 Python side
 -----
-(Linux only)
+(Linux)
 
 Not yet done.
 
@@ -259,27 +259,28 @@ Todo
 
 Here's some ideas
 
-- [x] implement usable **base** structure;
-- [x] basic api for serving small static statistics/status web page 'command center';
-- [x] voice intelligence support (web page can talk);
-- [x] license plate recognition from normal camera images;
-- [x] basic face detection from cropped person images;
-- [x] detect faces;
-- [x] recognize faces via user trained person face model;
-- [x] web interface supports face sorting to provide data for training;
-- [x] web interface section for face data model training;
-- [x] basic license plate detection (Automatic number-plate recognition);
-- [x] identify car owners from license plates (user determines owners at web ui);
-- [x] send emails on new license plate detections based on known plate records;
-- [x] main App.py multiple processing nodes support;
-- [x] email intelligence statistics (partially implemented, plates for now);
+- [x] implement usable **base** structure
+- [x] basic api for serving small static statistics/status web page 'command center'
+- [x] voice intelligence support (web page can talk)
+- [x] license plate recognition from normal camera images
+- [x] basic face detection from cropped person images
+- [x] detect faces
+- [x] recognize faces via user trained person face model
+- [x] web interface supports face sorting to provide data for training
+- [x] web interface section for face data model training
+- [x] basic license plate detection (Automatic number-plate recognition)
+- [x] identify car owners from license plates (user determines owners at web ui)
+- [x] send emails on new license plate detections based on known plate records
+- [x] main App.py multiple processing nodes support
+- [x] email intelligence statistics (partially implemented, plates for now)
 - [x] camera microphone access; [See Hikvision-video-audio-extractor](https://github.com/norkator/hikvision-video-audio-extractor)
-- [ ] microphone sound -> heard text contents -> find interests -> collect speech;
-- [ ] better data analysis methods, needs defining;
-- [ ] make own ALPR based on deep neural nets and TensorFlow.;
-- [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once;
-- [ ] api's for multi site combining to be able to request seen plates, person face lookup, analysis;
-- [x] replace junk jQuery based front end UI with React js version (still work in progress)
+- [ ] microphone sound -> heard text contents -> find interests -> collect speech
+- [ ] better data analysis methods, needs defining
+- [ ] make own ALPR based on deep neural nets and TensorFlow.
+- [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once
+- [ ] api's for multi site combining to be able to request seen plates, person face lookup, analysis
+- [x] replace junk jQuery based front end UI with React js version
+- [x] Replace Yolo v3 with Yolo v4 
 
 
 Authors
