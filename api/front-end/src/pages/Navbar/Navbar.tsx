@@ -11,11 +11,21 @@ const githubAsset = require('../../assets/github-light-64px.png');
 
 class NavBar extends Component<any, any> {
   state = {
+    navExpanded: false,
     activeLink: '/'
+  };
+
+  setNavExpanded = (expanded: boolean) => {
+    this.setState({ navExpanded: expanded });
+  };
+
+  closeNav = () => {
+    this.setState({ navExpanded: false });
   };
 
   setActiveLinkHandler = (link: string) => {
     this.setState({activeLink: link});
+    this.closeNav();
   };
 
   componentDidMount(): void {
@@ -42,7 +52,10 @@ class NavBar extends Component<any, any> {
 
     return (
       <>
-        <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar
+          onToggle={this.setNavExpanded}
+          expanded={this.state.navExpanded}
+          bg="dark" variant="dark" expand="lg">
           <Navbar.Brand className={styles.NavbarBrand}>
             <img
               alt="Open-Intelligence Logo"
