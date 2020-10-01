@@ -103,6 +103,7 @@
     "licencePlate": "Licence plate",
     "ownerName": "Owner name",
     "inputDescription": "Input without lines, example ABC123",
-    "ownerNameInputHelp": "Give full owner name"
+    "ownerNameInputHelp": "Give full owner name",
+    "loadVehicleImage": "Load vehicle image"
   }
 }

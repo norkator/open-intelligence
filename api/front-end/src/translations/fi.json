@@ -103,6 +103,7 @@
     "licencePlate": "Rekisterinumero",
     "ownerName": "Omistajan nimi",
     "inputDescription": "Lisää ilman viivoja esim ABC123",
-    "ownerNameInputHelp": "Anna koko omistajan nimi"
+    "ownerNameInputHelp": "Anna koko omistajan nimi",
+    "loadVehicleImage": "Lataa kuva ajoneuvosta"
   }
 }
