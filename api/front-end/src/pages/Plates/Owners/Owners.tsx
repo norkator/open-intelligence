@@ -220,10 +220,10 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
     let plateEditModalData = this.state.plateEditModalData;
     plateEditModalData.isLoading = true;
     this.setState({plateEditModalData: plateEditModalData});
-    getCroppedImageForLicensePlate(licensePlate, ChangeDate(this.state.nowIsoDate, -60), this.state.nowIsoDate)
+    getCroppedImageForLicensePlate(licensePlate, ChangeDate(this.state.nowIsoDate, -180), this.state.nowIsoDate)
       .then((imageData: string) => {
         let plateEditModalData = this.state.plateEditModalData;
-        plateEditModalData.imageData = imageData;
+        plateEditModalData.imageData = imageData !== null ? imageData : undefined;
         plateEditModalData.isLoading = false;
         this.setState({plateEditModalData: plateEditModalData});
       }).catch((error: any) => {

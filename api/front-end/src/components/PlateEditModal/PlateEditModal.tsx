@@ -15,16 +15,18 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
         <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
 
-          {
-            props.imageData !== undefined ?
-              <img src={props.imageData} alt={props.title}/>
-              :
-              props.isLoading ? <LoadingIndicator isDark={true}/> :
-                <Button variant="outline-info" className="mt-1 mb-1"
-                        onClick={() => props.loadVehicleImageHandler(props.licencePlate)}>
-                  {props.t('plateEditModal.loadVehicleImage')}
-                </Button>
-          }
+          <div>
+            {
+              props.imageData !== undefined ?
+                <img src={props.imageData} alt={props.title}/>
+                :
+                props.isLoading ? <LoadingIndicator isDark={true}/> :
+                  <Button variant="outline-info" size="sm" className="mt-1 mb-1"
+                          onClick={() => props.loadVehicleImageHandler(props.licencePlate)}>
+                    {props.t('plateEditModal.loadVehicleImage')}
+                  </Button>
+            }
+          </div>
 
           <form className="mt-4">
             <div className="form-group">
