@@ -637,7 +637,7 @@ async function Site(router, sequelizeObjects) {
       res.json(output);
     }
   });
-  
+
 
   /**
    * Get faces
