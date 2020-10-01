@@ -13,7 +13,7 @@ import axios, {
   MOVE_FACE_GROUPING_IMAGE,
   TRAIN_FACE_MODEL_ACTION,
   GET_FACES,
-  TRY_FACE_DETECTION_AGAIN, REJECT_LICENSE_PLATE_DETECTION,
+  TRY_FACE_DETECTION_AGAIN, REJECT_LICENSE_PLATE_DETECTION, GET_CROPPED_IMAGE_FOR_LICENSE_PLATE,
 } from "../axios";
 
 
@@ -290,4 +290,14 @@ export async function tryFaceDetectionAgain(id: string) {
 export async function rejectLicensePlateDetection(dataId: number) {
   const response = await axios.post(REJECT_LICENSE_PLATE_DETECTION, {data_id: dataId});
   return response.data;
+}
+
+
+export async function getCroppedImageForLicensePlate(license_plate: string, selectedDateStart: string, selectedDateEnd: string) {
+  const response = await axios.post(GET_CROPPED_IMAGE_FOR_LICENSE_PLATE, {
+    licensePlate: license_plate,
+    selectedDateStart: selectedDateStart,
+    selectedDateEnd: selectedDateEnd
+  });
+  return response.data.data;
 }

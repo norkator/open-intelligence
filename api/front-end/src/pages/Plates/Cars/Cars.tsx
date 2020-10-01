@@ -101,6 +101,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
 
         <PlateEditModal
           t={t}
+          isLoading={false}
           show={this.state.plateEditModalData.show}
           title={this.state.plateEditModalData.title}
           description={this.state.plateEditModalData.description}
@@ -124,7 +125,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
           imageData={this.state.plateEditModalData.imageData}
           showReject={true}
           rejectHandler={(plateObject: PlateEditModalPropsInterface) => this.plateRejectHandler(plateObject)}
-        />
+         loadVehicleImageHandler={() => null}/>
 
       </div>
     )

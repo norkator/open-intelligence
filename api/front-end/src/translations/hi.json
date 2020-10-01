@@ -103,6 +103,7 @@
     "licencePlate": "लाइसेंस प्लेट",
     "ownerName": "मालिक का नाम",
     "inputDescription": "इनपुट बिना रेखा के, उदाहरण ABC123",
-    "ownerNameInputHelp": "मालिक का पूरा नाम दें"
+    "ownerNameInputHelp": "मालिक का पूरा नाम दें",
+    "loadVehicleImage": "वाहन की छवि लोड करें"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "front-end",
-  "version": "2.1.2",
+  "version": "2.2.2",
   "private": true,
   "homepage": "./",
   "dependencies": {

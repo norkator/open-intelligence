@@ -103,6 +103,7 @@
     "licencePlate": "车牌",
     "ownerName": "主人名字",
     "inputDescription": "无\"-\"输入, 例如:ABC123",
-    "ownerNameInputHelp": "给出主人全名"
+    "ownerNameInputHelp": "给出主人全名",
+    "loadVehicleImage": "载入车辆图片"
   }
 }

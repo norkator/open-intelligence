@@ -1,5 +1,6 @@
 import React from "react";
 import {Button, Modal} from "react-bootstrap";
+import {LoadingIndicator} from "../LoadingIndicator/LoadingIndicator";
 
 
 export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
@@ -14,9 +15,18 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
         <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
 
-          {
-            props.imageData !== undefined ? <img src={props.imageData} alt={props.title}/> : null
-          }
+          <div>
+            {
+              props.imageData !== undefined ?
+                <img src={props.imageData} alt={props.title}/>
+                :
+                props.isLoading ? <LoadingIndicator isDark={true}/> :
+                  <Button variant="outline-info" size="sm" className="mt-1 mb-1"
+                          onClick={() => props.loadVehicleImageHandler(props.licencePlate)}>
+                    {props.t('plateEditModal.loadVehicleImage')}
+                  </Button>
+            }
+          </div>
 
           <form className="mt-4">
             <div className="form-group">
@@ -56,6 +66,7 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
 
 export interface PlateEditModalPropsInterface {
   t: Function;
+  isLoading: boolean;
   show: boolean;
   title: string;
   description: string;
@@ -69,4 +80,5 @@ export interface PlateEditModalPropsInterface {
   imageData?: string;
   showReject: boolean;
   rejectHandler: Function;
+  loadVehicleImageHandler: Function;
 }
