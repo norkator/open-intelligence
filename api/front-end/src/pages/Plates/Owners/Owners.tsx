@@ -3,17 +3,22 @@ import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {Button, Card, Col, Row, Table} from "react-bootstrap";
 import {
   addLicensePlate,
+  getCroppedImageForLicensePlate,
   getLicensePlates,
-  LicensePlatesInterface, removeLicensePlate, updateLicensePlate
+  LicensePlatesInterface,
+  removeLicensePlate,
+  updateLicensePlate
 } from "../../../utils/HttpUtils";
 import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/PlateEditModal/PlateEditModal";
 import {filterLicensePlate} from "../../../utils/TextUtils";
 import {withTranslation, WithTranslation} from "react-i18next";
+import {ChangeDate, getNowISODate} from "../../../utils/DateUtils";
 
 
 class Owners extends Component<ReduxPropsInterface & WithTranslation> {
   state = {
     totalPlates: 0,
+    nowIsoDate: getNowISODate(),
     licensePlates: [] as LicensePlatesInterface[],
     filteredLicensePlates: [] as LicensePlatesInterface[],
     plateEditModalData: {show: false} as PlateEditModalPropsInterface,
@@ -132,6 +137,7 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
           imageData={undefined}
           showReject={false}
           rejectHandler={() => null}
+          loadVehicleImageHandler={(licensePlate: string) => this.loadVehicleImageHandler(licensePlate)}
         />
 
 
@@ -207,7 +213,18 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
         alert(error);
       });
     }
-  }
+  };
+
+  loadVehicleImageHandler = (licensePlate: string) => {
+    getCroppedImageForLicensePlate(licensePlate, ChangeDate(this.state.nowIsoDate, -60), this.state.nowIsoDate)
+      .then((imageData: string) => {
+        let plateEditModalData = this.state.plateEditModalData;
+        plateEditModalData.imageData = imageData;
+        this.setState({plateEditModalData: plateEditModalData});
+      }).catch((error: any) => {
+      alert(error);
+    });
+  };
 
 }
 

@@ -15,7 +15,13 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
           <p className="text-muted mb-2">{props.description}</p>
 
           {
-            props.imageData !== undefined ? <img src={props.imageData} alt={props.title}/> : null
+            props.imageData !== undefined ?
+                <img src={props.imageData} alt={props.title}/>
+                :
+                <Button variant="outline-info" className="mt-1 mb-1"
+                        onClick={() => props.loadVehicleImageHandler(props.licencePlate)}>
+                  Load vehicle image
+                </Button>
           }
 
           <form className="mt-4">
@@ -69,4 +75,5 @@ export interface PlateEditModalPropsInterface {
   imageData?: string;
   showReject: boolean;
   rejectHandler: Function;
+  loadVehicleImageHandler: Function;
 }
