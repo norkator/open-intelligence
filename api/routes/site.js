@@ -533,9 +533,111 @@ async function Site(router, sequelizeObjects) {
       res.status(200);
       res.json({licensePlates: licensePlates});
     }
-
   });
 
+
+  /**
+   * Load one crop image for wanted license plate vehicle
+   * this information is used to help naming vehicle owner
+   */
+  router.post('/get/cropped/image/for/license/plate', async (req, res) => {
+    const filePath = path.join(__dirname + '../../../' + 'output/');
+    let output = {data: null};
+    let licensePlates = []; // array for filtering use
+
+    // Parameters from front end
+    const requestedLicensePlate = req.body.licensePlate;
+    const selectedDateStart = req.body.selectedDateStart;
+    const selectedDateEnd = req.body.selectedDateEnd;
+
+    // Get all detections
+    const rows = await sequelizeObjects.Data.findAll({
+      attributes: [
+        'label',
+        'detection_result',
+        'file_name_cropped',
+      ],
+      where: {
+        file_create_date: {
+          [Op.gt]: moment(selectedDateStart).startOf('day').utc(true).toISOString(true),
+          [Op.lt]: moment(selectedDateEnd).endOf('day').utc(true).toISOString(true),
+        },
+        detection_result: {
+          [Op.gt]: '',
+        },
+        [Op.or]: [
+          {label: 'car'}, {label: 'truck'}, {label: 'bus'}
+        ],
+      },
+      order: [
+        ['file_create_date', 'desc']
+      ]
+    });
+
+    if (rows.length > 0) {
+
+      // Load known plates
+      utils.GetLicensePlates(sequelizeObjects).then(plates => {
+
+        // Fetch data here before loading images
+        rows.forEach(row => {
+          const detectionResult = utils.NoRead(row.detection_result);
+          const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
+          licensePlates.push({
+            file: row.file_name_cropped,
+            label: row.label,
+            detectionResult: detectionResult,
+            detectionCorrected: vehicleDetails.plate,
+            ownerName: vehicleDetails.owner_name,
+          })
+        });
+
+        // Filter corrected empty ones
+        licensePlates = licensePlates.filter(plate => {
+          return String(plate.detectionCorrected).length > 0
+        });
+        // Load with distinct detection corrected, one of each
+        let tempValues = [];
+        licensePlates.forEach(plate => {
+          if (tempValues.filter(a => {
+            return a.detectionCorrected === plate.detectionCorrected;
+          }).length === 0) {
+            tempValues.push(plate);
+          }
+        });
+        licensePlates = tempValues;
+
+        // Return only requested plate and one result
+        licensePlates = licensePlates.filter(p => {
+          return p.detectionCorrected === requestedLicensePlate;
+        });
+
+        if (licensePlates.length > 0) {
+          const obj = licensePlates[0];
+          fs.readFile(filePath + obj.label + '/' + obj.file, function (err, data) {
+            if (!err) {
+              output.data = 'data:image/png;base64,' + Buffer.from(data).toString('base64');
+              res.json(output);
+            } else {
+              res.status(500);
+              res.send(error);
+            }
+          });
+
+        } else {
+          res.status(200);
+          res.json(output);
+        }
+      }).catch(error => {
+        res.status(500);
+        res.send(error);
+      });
+    } else {
+      res.status(200);
+      res.json(output);
+    }
+  });
+  
 
   /**
    * Get faces
