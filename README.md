@@ -1,4 +1,4 @@
-![Open-Intelligence-title-logo](./other/oi_title_logo.png) 
+![Open-Intelligence-title-logo](docs/img/oi_title_logo.png) 
 
 # Open-Intelligence
 
@@ -17,7 +17,7 @@ need for expensive camera systems because any existing cameras are suitable.
 <b>This project is looking for funding and contributors!</b>
 
 
-![Open-Intelligence-Front-Page](./other/frontpage_2.png) 
+![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
 
 This is small part of front page.
 
@@ -25,7 +25,7 @@ This is small part of front page.
 
 Cameras view             |  Plate calendar
 :-------------------------:|:-------------------------:
-![cameras_1](./other/cameras_1.PNG)   |  ![plates_1](./other/plates_1.PNG)
+![cameras_1](docs/img/cameras_1.PNG)   |  ![plates_1](docs/img/plates_1.PNG)
 
 <br> 
 
@@ -37,9 +37,11 @@ Open Intelligence is suitable from private properties to small businesses with m
 
 Table of contents
 =================
+* [Environment](#environment)
 * [Installing](#installing)
     * [Api side](#api-side)
     * [Python side (Windows)](#python-side)
+* [Project folder structure](#project-folder-structure) 
 * [Python Apps](#python-apps)
     * [App.py](#app)
     * [StreamGrab.py](#streamgrab)
@@ -57,22 +59,35 @@ Table of contents
 * [License](#license)
 
 
+Environment
+============
+
+Everything can be installed on one server or to separate servers meaning that database 
+is at server one, python application at server two and api hosting at server three.
+
+![Environment](docs/environment.png) 
+
 Installing
 ============
 
-I am later making installation more automatic but for now, 
-here's steps to get environment running.
+Terminology for words like API side and Python side:
+* "API Side" is `/api` folder containing node api process `intelligence.js` and web user interface served by same process.
+* "Python side" is project root folder containing different python processes.
 
-Api side
+See [Project folder structure](#project-folder-structure)  for more details about folders.
+
+API side
 -----
 1. Go to `/api` folder and run `npm install`
 2. Install PostgreSQL server: https://www.postgresql.org/
+    * Accessing postgres you need to find tool like pgAdmin which comes with postgres, 
+    command line or some IDE having db tools.
 3. Rename `.env_tpl` to `.env` and fill details.
 4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
 5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
 6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
 7. Access `localhost:4300` unless port modified at .env file.
-8. Done. You should see React js user interface which is served from /html folder.
+8. Done. You should see React js user interface which is served from `/api/html` folder.
 9. Outdated frontend user manual for old ui version https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
 
 
@@ -104,19 +119,21 @@ Not yet done.
 Project folder structure
 ============
 
+    Default folders
     .
-    ├── api                      # Api which is also serving react js based web page
+    ├── api                      # Front end API which is also serving react js based web page
     ├── classifiers              # Classifiers for different detectors like faces
-    ├── dataset                  # Images of people to be detected
-    ├── images                   # Input images to process 
+    ├── docs                     # Documents folder containing images and drawings
     ├── libraries                # Modified third party libraries
-    ├── models                   # Yolo and other files
-    ├── module                   # Source files
-    ├── objects                  # Just objects
+    ├── models                   # Yolo and other detector model files
+    ├── module                   # Python side application logic, source files 
+    ├── objects                  # Base objects for internal logic
     ├── output                   # Analyse results, labels, detection images, ...
     ├── scripts                  # Scripts to ease things
-    ├── LICENSE
-    └── README.md
+    
+    Appearing after installation
+    .
+    └── images                   # Project default input image folder, more sources specified in config.ini
     
         
 <br>
