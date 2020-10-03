@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Available Scripts
+============
 
 In the project directory, you can run:
 
@@ -25,19 +26,38 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+!!! Don't use `npm run eject` !!!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Development hints
+============
+Some hints for front end UI development should be listed here.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Development api url
+-----
+By default front end tries to connect to current serving address to look
+for api. You can override this default behavior by creating 
+`.env` file on root of `front-end` react project and fill this inside:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```.dotenv
+REACT_APP_API_BASE_URL=http://x.x.x.x:4300/
+```
 
-## Learn More
+Replace `x.x.x.x` with your server address running Open Intelligence api.
+
+
+Adding new translations
+-----
+1. Go to `./api/front-end/src/translations` folder.
+2. Clone some translations file like `en.json` and name it with target language short name.
+3. Replace strings to have target translation.
+4. Make pull request and repository maintainer|author does rest or you can add navbar button if you want.
+5. Rest of the work happens via pull request -> review.
+
+
+Learn More
+============
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 

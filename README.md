@@ -53,7 +53,7 @@ Table of contents
 * [Cuda GPU Support](#cuda-gpu-support)
 * [Postgresql notes](#postgresql-notes)
 * [Openalpr notes](#openalpr-notes)
-* [Front end UI notes](#front-end-ui-notes)
+* [Front end development](#front-end-development)
 * [Troubleshooting](#troubleshooting)
 * [Todo](#todo)
 * [Authors](#authors)
@@ -276,17 +276,11 @@ Downloaded `2.3.0` release from here https://github.com/openalpr/openalpr/releas
 Now works without any python site-package installation.
 
 
-Front end UI notes
+Front end development
 ============
-Some hints for front end UI is located here.
-
-Adding new translations
------
-1. Go to `./api/front-end/src/translations` folder.
-2. Clone some translations file like `en.json` and name it with target language short name.
-3. Replace strings to have target translation.
-4. Make pull request and repository maintainer|author does rest or you can add navbar button if you want.
-5. Rest of the work happens via pull request -> review.
+There is separate Readme for this side so 
+see more at `./api/front-end/README.md`  
+![Link](api/front-end/README.md) 
 
 
 Troubleshooting
@@ -325,13 +319,12 @@ Here's some ideas
 - [x] main App.py multiple processing nodes support
 - [x] email intelligence statistics (partially implemented, plates for now)
 - [x] camera microphone access; [See Hikvision-video-audio-extractor](https://github.com/norkator/hikvision-video-audio-extractor)
-- [ ] microphone sound -> heard text contents -> find interests -> collect speech
+- [x] replace junk jQuery based front end UI with React js version
+- [x] Replace Yolo v3 with Yolo v4 
 - [ ] better data analysis methods, needs defining
 - [ ] make own ALPR based on deep neural nets and TensorFlow.
 - [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once
-- [ ] api's for multi site combining to be able to request seen plates, person face lookup, analysis
-- [x] replace junk jQuery based front end UI with React js version
-- [x] Replace Yolo v3 with Yolo v4 
+- [ ] APIs for multi site combining to be able to request seen plates, person face lookup, analysis
 
 
 Authors
