@@ -48,6 +48,7 @@ Table of contents
     * [SuperResolution.py](#superresolution)
     * [InsightFace.py](#insightface)
     * [SimilarityProcess.py](#similarityprocess)
+* [Config ini](#config-ini)
 * [Multi node support](#multi-node-support)
 * [Cuda GPU Support](#cuda-gpu-support)
 * [Postgresql notes](#postgresql-notes)
@@ -100,8 +101,10 @@ Python side
 Ensure that cfg file width and height is 608
 4. Extract weights, cfg and coco to `models` folder
 5. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
-its also tested with version 12. (if you didn't at upper api section)
-6. Rename `config.ini.tpl` to `config.ini` and fill details. (for multi nodes, see own section)
+its also tested with version 12. (if you didn't install at upper api section)
+6. Rename `config.ini.tpl` to `config.ini` and fill details. 
+    * Config.ini content settings explained, see [Config ini](#config-ini)
+    * For multiple nodes, see [Multi node support](#multi-node-support))
 7. Separate camera and folder names with comma just like at base config template
 8. Run wanted python apps, see `Python Apps` section.
 
@@ -137,6 +140,7 @@ Project folder structure
     
         
 <br>
+
     
 Python Apps
 ============
@@ -192,6 +196,34 @@ having no higher value (no detection result). Processes images in one hour chunk
 * Process is trying to save some space.
 
 <br>
+
+
+Config ini 
+============
+
+This section explains `config.ini` file contents which are used by python processes. 
+Config ini start with contents like below.
+
+```ini
+[app]
+move_to_processed=True
+process_sleep_seconds=4
+cv2_imshow_enabled=True
+...
+```
+
+* `move_to_processed` => When set to True, processed input image is moved into /processed folder, 
+otherwise file is deleted.
+* `process_sleep_seconds` => After every batch of files, process will sleep this amount of seconds.
+* `cv2_imshow_enabled` => Set to True will show window showing processed images, bounding boxes and more.
+* `ignored_labels` => This will ignore labels, example if you get a lot of false positives from umbrellas 
+and you don't care saving any images of umbrellas anyway then ignore it.
+* `camera_names` => Camera name/location name, up to you. Must of separated with comma ,
+* `camera_folders` => Input image folders, same camera names and folders must be in same order and same count
+* postgresql section => fill in database credentials. This should not need explaining. 
+
+Other parameters are case specific.
+
 
 Multi node support
 ============
