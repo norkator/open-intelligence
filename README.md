@@ -105,8 +105,10 @@ its also tested with version 12. (if you didn't install at upper api section)
 6. Rename `config.ini.tpl` to `config.ini` and fill details. 
     * Config.ini content settings explained, see [Config ini](#config-ini)
     * For multiple nodes, see [Multi node support](#multi-node-support))
-7. Separate camera and folder names with comma just like at base config template
-8. Run wanted python apps, see `Python Apps` section.
+7. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
+    * This is needed by openALPR
+8. Separate camera and folder names with comma just like at base config template
+9. Run wanted python apps, see `Python Apps` section.
 
 It's critical to setup ini configuration right, you can contact me via email 
 nitramite@outlook.com or via opening issue if you have problems.
