@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Card} from "react-bootstrap";
 
 
 const FunctionalComponent = React.memo((props: any) => {
   const [inputState, setInputState] = useState({title: '', amount: ''});
+
+  useEffect(() => {
+    console.log('Run useEffect');
+  }, []); // ,[] causes useEffect not to run every render cycle
 
   return (
     <div>
