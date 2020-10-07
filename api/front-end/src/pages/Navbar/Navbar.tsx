@@ -99,6 +99,12 @@ class NavBar extends Component<any, any> {
                         onClick={() => this.setActiveLinkHandler('/training')}>{t('navbar.training')}</Link>
                   : <span className="mt-2">{t('navbar.training')}</span>
               }
+              {
+                this.state.activeLink !== '/testing' ?
+                  <Link className={navBarLinksClasses.join(' ')} to="/testing"
+                        onClick={() => this.setActiveLinkHandler('/testing')}>Testing</Link>
+                  : <span className="mt-2">Testing</span>
+              }
             </Nav>
             <Nav className="mr-2">
               <NavDropdown title={t('navbar.changeLanguage')} id="lang-dropdown">

@@ -12,6 +12,7 @@ import Home from "./pages/Home/Home";
 import Faces from "./pages/Faces/Faces";
 import Plates from "./pages/Plates/Plates";
 import Training from "./pages/Training/Training";
+import FunctionalComponent from "./components/FunctionalComponent/FunctionalComponent";
 
 
 class App extends Component<any, any> {
@@ -34,6 +35,7 @@ class App extends Component<any, any> {
               <Route exact path='/plates' component={Plates}/>
               <Route exact path='/faces' component={Faces}/>
               <Route exact path='/training' component={Training}/>
+              <Route exact path='/testing' component={FunctionalComponent}/>
             </Switch>
           </div>
         </div>
