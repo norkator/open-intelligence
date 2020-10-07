@@ -12,6 +12,8 @@ import {
 } from '../../utils/HttpUtils'
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import {WithTranslation, withTranslation} from "react-i18next";
+import {AxiosError} from "axios";
+import ErrorIndicator from "../../components/ErrorIndicator/ErrorIndicator";
 
 
 interface FacesInterface {
@@ -29,6 +31,7 @@ class Faces extends Component<WithTranslation> {
     intervalId: 0,
     genericImageModalData: {show: false} as ModalPropsInterface,
     isLoading: true,
+    axiosError: null as AxiosError | null,
   };
 
 
@@ -73,8 +76,8 @@ class Faces extends Component<WithTranslation> {
       if (this._isMounted) {
         this.setState({faceImages: this.removeDuplicates(data.data.images as FacesInterface[]), isLoading: false});
       }
-    }).catch(error => {
-      console.error(error);
+    }).catch((error: AxiosError) => {
+      this.setState({axiosError: error});
     });
   };
 
@@ -134,7 +137,8 @@ class Faces extends Component<WithTranslation> {
 
     return (
       <div>
-
+        {this.state.axiosError !== null ?
+          <ErrorIndicator axiosError={this.state.axiosError}/> : null}
         <div className="d-flex justify-content-center flex-wrap mb-2 magictime spaceInLeft">
           <div className="input-group mb-2" style={{maxWidth: '300px'}}>
             <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}

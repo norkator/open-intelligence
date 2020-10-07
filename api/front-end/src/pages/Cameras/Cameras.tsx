@@ -42,7 +42,7 @@ class Cameras extends Component {
       if (this._isMounted) {
         this.setState({imageData: data.data.images, isLoading: false});
       }
-    }).catch(error => {
+    }).catch((error: AxiosError) => {
       this.setState({axiosError: error});
     });
   };
