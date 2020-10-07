@@ -3,7 +3,7 @@ import {Card} from "react-bootstrap";
 
 
 const FunctionalComponent = React.memo((props: any) => {
-  const inputState = useState({title: '', amount: ''});
+  const [inputState, setInputState] = useState({title: '', amount: ''});
 
   return (
     <div>
@@ -13,17 +13,17 @@ const FunctionalComponent = React.memo((props: any) => {
         </Card.Header>
         <Card.Body>
           <div>
-            <small>Title from state: {inputState[0].title}</small>
+            <small>Title from state: {inputState.title}</small>
           </div>
           <div>
             <input
               type="text"
               id="title"
-              value={inputState[0].title}
-              onChange={event => inputState[1]({title: event.target.value, amount: inputState[0].amount})}
+              value={inputState.title}
+              onChange={event => setInputState({title: event.target.value, amount: inputState.amount})}
             />
           </div>
-          <small>Amount from state: {inputState[0].amount}</small>
+          <small>Amount from state: {inputState.amount}</small>
         </Card.Body>
       </Card>
     </div>
