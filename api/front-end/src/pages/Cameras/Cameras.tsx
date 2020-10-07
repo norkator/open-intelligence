@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import Notifications from "./Notifications/Notifications";
+import ErrorIndicator from "../../components/ErrorIndicator/ErrorIndicator";
+import {AxiosError} from "axios";
 
 interface ImageDataInterface {
   id: string,
@@ -19,6 +21,7 @@ class Cameras extends Component {
     imageData: [] as ImageDataInterface[],
     intervalId: 0,
     isLoading: true,
+    axiosError: null as AxiosError | null,
   };
 
   constructor(props: any) {
@@ -40,7 +43,7 @@ class Cameras extends Component {
         this.setState({imageData: data.data.images, isLoading: false});
       }
     }).catch(error => {
-      console.error(error);
+      this.setState({axiosError: error});
     });
   };
 
@@ -80,6 +83,8 @@ class Cameras extends Component {
 
     return (
       <div>
+        {this.state.axiosError !== null ?
+          <ErrorIndicator axiosError={this.state.axiosError}/> : null}
         <Notifications/>
         <div className={cameraFlexStyle.join(' ')}>
           {cameraImages}
