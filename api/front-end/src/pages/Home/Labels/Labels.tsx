@@ -23,6 +23,9 @@ import {
 } from "../../../components/ActivityModal/ActivityModal";
 import {withTranslation, WithTranslation} from "react-i18next";
 import GetDonutColor from "../../../utils/ColorUtils";
+import {SET_AXIOS_ERROR} from "../../../store/actionTypes";
+import {AxiosError} from "axios";
+import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
 
 
 export interface DonutDatasetsInterface {
@@ -39,7 +42,7 @@ export interface LabelDonutDataInterface {
 let clickHoldTimer: any = null;
 let longClickHandled: boolean = false;
 
-class Labels extends Component<ReduxPropsInterface & WithTranslation> {
+class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
   state = {
     selectedDate: null,
     isLoading: true,
@@ -64,36 +67,40 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation> {
   }
 
   async loadIntelligence(date: string) {
-    const result = await getIntelligence(date) as IntelligenceInterface;
-    let labelDonutData = {} as LabelDonutDataInterface;
+    try {
+      const result = await getIntelligence(date) as IntelligenceInterface;
+      let labelDonutData = {} as LabelDonutDataInterface;
 
-    labelDonutData.labels = [];
-    labelDonutData.datasets = [];
+      labelDonutData.labels = [];
+      labelDonutData.datasets = [];
 
-    let dataSet: DonutDatasetsInterface = {
-      data: [],
-      backgroundColor: [],
-      hoverBackgroundColor: []
-    };
-    let index = 0;
-    result.donut.forEach(donut => {
-      labelDonutData.labels.push(donut.label);
-      dataSet.data.push(donut.value);
-      dataSet.backgroundColor.push(GetDonutColor(index));
-      dataSet.hoverBackgroundColor.push("#1698af");
-      index++;
-    });
+      let dataSet: DonutDatasetsInterface = {
+        data: [],
+        backgroundColor: [],
+        hoverBackgroundColor: []
+      };
+      let index = 0;
+      result.donut.forEach(donut => {
+        labelDonutData.labels.push(donut.label);
+        dataSet.data.push(donut.value);
+        dataSet.backgroundColor.push(GetDonutColor(index));
+        dataSet.hoverBackgroundColor.push("#1698af");
+        index++;
+      });
 
-    labelDonutData.datasets.push(dataSet);
+      labelDonutData.datasets.push(dataSet);
 
-    this.setState({
-      selectedDate: date,
-      isLoading: false,
-      instanceCount: result.performance.instanceCount,
-      storageUse: result.performance.storageUse,
-      labelDonutData: labelDonutData,
-      activityChartData: result.activity.data,
-    });
+      this.setState({
+        selectedDate: date,
+        isLoading: false,
+        instanceCount: result.performance.instanceCount,
+        storageUse: result.performance.storageUse,
+        labelDonutData: labelDonutData,
+        activityChartData: result.activity.data,
+      });
+    } catch (e) {
+      this.props.onSetAxiosError(e);
+    }
   };
 
   onDonutElementClickHandler = (element: any) => {
@@ -307,4 +314,10 @@ const mapStateToProps = (state: any): any => {
   };
 };
 
-export default connect(mapStateToProps)(withTranslation('i18n')(Labels));
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onSetAxiosError: (error: AxiosError) => dispatch({type: SET_AXIOS_ERROR, axiosError: error}),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('i18n')(Labels));

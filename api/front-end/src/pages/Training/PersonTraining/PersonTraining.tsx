@@ -2,14 +2,24 @@ import React, {Component} from "react";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import {
   FaceGroupingData,
-  FaceGroupingImagesInterface, FaceGroupingNamesInterface,
-  getFaceGroupingImages, moveFaceGroupingImage, trainFaceModelAction,
+  FaceGroupingImagesInterface,
+  FaceGroupingNamesInterface,
+  getFaceGroupingImages,
+  moveFaceGroupingImage,
+  trainFaceModelAction,
 } from "../../../utils/HttpUtils";
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
-import {withTranslation, WithTranslation} from "react-i18next";
+import {
+  withTranslation,
+  WithTranslation
+} from "react-i18next";
+import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
+import {SET_AXIOS_ERROR} from "../../../store/actionTypes";
+import {AxiosError} from "axios";
+import {connect} from "react-redux";
 
 
-class PersonTraining extends Component<WithTranslation, any> {
+class PersonTraining extends Component<WithTranslation & CommonPropsInterface> {
   state = {
     isLoading: true,
     faceGroupingNames: [] as FaceGroupingNamesInterface[],
@@ -23,12 +33,16 @@ class PersonTraining extends Component<WithTranslation, any> {
   }
 
   async loadFaceGroupingImages() {
-    const faceGroupingData = await getFaceGroupingImages() as FaceGroupingData;
-    this.setState({
-      isLoading: false,
-      faceGroupingNames: faceGroupingData.names,
-      faceGroupingImages: faceGroupingData.images,
-    });
+    try {
+      const faceGroupingData = await getFaceGroupingImages() as FaceGroupingData;
+      this.setState({
+        isLoading: false,
+        faceGroupingNames: faceGroupingData.names,
+        faceGroupingImages: faceGroupingData.images,
+      });
+    } catch (e) {
+      this.props.onSetAxiosError(e);
+    }
   }
 
 
@@ -172,4 +186,11 @@ class PersonTraining extends Component<WithTranslation, any> {
 
 }
 
-export default withTranslation('i18n')(PersonTraining);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onSetAxiosError: (error: AxiosError) => dispatch({type: SET_AXIOS_ERROR, axiosError: error}),
+  }
+};
+
+
+export default connect(null, mapDispatchToProps)(withTranslation('i18n')(PersonTraining));

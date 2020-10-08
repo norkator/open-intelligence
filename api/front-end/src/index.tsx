@@ -14,6 +14,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {I18nextProvider} from "react-i18next";
 import i18next from "i18next";
 import i18nConfig from "./i18nConfig";
+import commonReducer from "./store/reducers/commonReducer";
 // import thunk from 'redux-thunk'; // Todo, install thunk if needed (lets you write async logic that interacts with the store)
 
 // i18n translation config
@@ -22,6 +23,7 @@ i18next.init(i18nConfig);
 const rootReducer = combineReducers({
   dateReducer: dateReducer,
   authReducer: authReducer,
+  commonReducer: commonReducer,
   /* Add other reducers */
 });
 
