@@ -13,7 +13,7 @@ import {
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {AxiosError} from "axios";
-import ErrorIndicator from "../../components/ErrorComponent/ErrorIndicator/ErrorIndicator";
+import ErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/ErrorIndicator";
 
 
 interface FacesInterface {

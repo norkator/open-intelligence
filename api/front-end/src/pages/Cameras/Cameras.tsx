@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import Notifications from "./Notifications/Notifications";
-import ErrorIndicator from "../../components/ErrorComponent/ErrorIndicator/ErrorIndicator";
+import ErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/ErrorIndicator";
 import {AxiosError} from "axios";
 
 interface ImageDataInterface {

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import ErrorIndicator from "./ErrorIndicator/ErrorIndicator";
+import ErrorIndicator from "./NetworkErrorIndicator/ErrorIndicator";
 
 class ErrorComponent extends Component<any> {
   render() {

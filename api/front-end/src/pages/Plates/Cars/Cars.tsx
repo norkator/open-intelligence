@@ -14,9 +14,11 @@ import {PlateEditModal, PlateEditModalPropsInterface} from "../../../components/
 import {filterLicensePlate} from "../../../utils/TextUtils";
 import {connect} from "react-redux";
 import {withTranslation, WithTranslation} from "react-i18next";
-import {DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
+import {DATE_RANGE_START_DATE_SELECTED, SET_AXIOS_ERROR} from "../../../store/actionTypes";
+import {AxiosError} from "axios";
+import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
 
-class Cars extends Component<ReduxPropsInterface & WithTranslation> {
+class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
   state = {
     isLoading: false,
     today: getNowISODate(),
@@ -43,13 +45,17 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
   }
 
   async loadLicensePlateDetections(startDate: string, endDate: string) {
-    const licensePlateDetections = await getLicensePlateDetections(
-      this.state.resultOption, '', startDate, endDate) as LicensePlateDetectionsInterface[];
-    this.setState({
-      dateRangeStartDate: startDate,
-      dateRangeEndDate: endDate,
-      licensePlateDetections: licensePlateDetections
-    });
+    try {
+      const licensePlateDetections = await getLicensePlateDetections(
+        this.state.resultOption, '', startDate, endDate) as LicensePlateDetectionsInterface[];
+      this.setState({
+        dateRangeStartDate: startDate,
+        dateRangeEndDate: endDate,
+        licensePlateDetections: licensePlateDetections
+      });
+    } catch (e) {
+      this.props.onSetAxiosError(e);
+    }
   }
 
   render() {
@@ -125,7 +131,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation> {
           imageData={this.state.plateEditModalData.imageData}
           showReject={true}
           rejectHandler={(plateObject: PlateEditModalPropsInterface) => this.plateRejectHandler(plateObject)}
-         loadVehicleImageHandler={() => null}/>
+          loadVehicleImageHandler={() => null}/>
 
       </div>
     )
@@ -190,6 +196,7 @@ const mapStateToProps = (state: any): any => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     onDateRangeStartDateSelected: (value: string) => dispatch({type: DATE_RANGE_START_DATE_SELECTED, calendar: value}),
+    onSetAxiosError: (error: AxiosError) => dispatch({type: SET_AXIOS_ERROR, axiosError: error}),
   }
 };
 

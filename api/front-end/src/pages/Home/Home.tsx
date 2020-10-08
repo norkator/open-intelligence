@@ -6,7 +6,7 @@ import {ReduxPropsInterface} from "../../store/reducers/dateReducer";
 import DateSelector from "./DateSelector/DateSelector";
 import Calendar from "./Calendar/Calendar";
 import FaceIdentity from "./FaceIdentity/FaceIdentity";
-import ErrorComponent from "../../components/ErrorComponent/ErrorComponent";
+import ErrorComponent from "../../components/NetworkErrorComponent/ErrorComponent";
 import {CommonPropsInterface} from "../../store/reducers/commonReducer";
 
 class Home extends Component<ReduxPropsInterface & CommonPropsInterface> {
