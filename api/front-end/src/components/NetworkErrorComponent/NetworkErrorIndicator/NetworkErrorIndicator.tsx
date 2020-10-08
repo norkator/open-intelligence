@@ -1,12 +1,13 @@
 import React /*, {useState, useEffect}*/ from "react";
-import styles from "./ErrorIndicator.module.css";
+import styles from "./NetworkErrorIndicator.module.css";
 import {AxiosError} from "axios";
 
 export interface ErrorIndicatorInterface {
+  t: Function;
   axiosError: AxiosError | null;
 }
 
-const ErrorIndicator = React.memo((props: ErrorIndicatorInterface) => {
+const NetworkErrorIndicator = React.memo((props: ErrorIndicatorInterface) => {
   // const [inputState, setInputState] = useState({title: '', amount: ''});
 
   /*
@@ -24,10 +25,10 @@ const ErrorIndicator = React.memo((props: ErrorIndicatorInterface) => {
         <small className={styles.IndicatorText}>{props.axiosError?.config.url}</small>
       </div>
       <div>
-        <small className={styles.IndicatorText}>Check your configurations</small>
+        <small className={styles.IndicatorText}>{props.t('networkErrorIndicator.checkYourConfig')}</small>
       </div>
     </div>
   )
 });
 
-export default ErrorIndicator;
+export default NetworkErrorIndicator;

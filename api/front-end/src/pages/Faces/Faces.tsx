@@ -13,7 +13,7 @@ import {
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {AxiosError} from "axios";
-import ErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/ErrorIndicator";
+import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
 
 
 interface FacesInterface {
@@ -138,7 +138,7 @@ class Faces extends Component<WithTranslation> {
     return (
       <div>
         {this.state.axiosError !== null ?
-          <ErrorIndicator axiosError={this.state.axiosError}/> : null}
+          <NetworkErrorIndicator t={t} axiosError={this.state.axiosError}/> : null}
         <div className="d-flex justify-content-center flex-wrap mb-2 magictime spaceInLeft">
           <div className="input-group mb-2" style={{maxWidth: '300px'}}>
             <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}

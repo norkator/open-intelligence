@@ -2,13 +2,19 @@ import React, {Component} from "react";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import {
   FaceGroupingData,
-  FaceGroupingImagesInterface, FaceGroupingNamesInterface,
-  getFaceGroupingImages, moveFaceGroupingImage, trainFaceModelAction,
+  FaceGroupingImagesInterface,
+  FaceGroupingNamesInterface,
+  getFaceGroupingImages,
+  moveFaceGroupingImage,
+  trainFaceModelAction,
 } from "../../../utils/HttpUtils";
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
-import {withTranslation, WithTranslation} from "react-i18next";
+import {
+  withTranslation,
+  WithTranslation
+} from "react-i18next";
 import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
-import {DATE_RANGE_START_DATE_SELECTED, SET_AXIOS_ERROR} from "../../../store/actionTypes";
+import {SET_AXIOS_ERROR} from "../../../store/actionTypes";
 import {AxiosError} from "axios";
 import {connect} from "react-redux";
 

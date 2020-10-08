@@ -105,5 +105,8 @@
     "inputDescription": "无\"-\"输入, 例如:ABC123",
     "ownerNameInputHelp": "给出主人全名",
     "loadVehicleImage": "载入车辆图片"
+  },
+  "networkErrorIndicator": {
+    "checkYourConfig": "检查您的配置"
   }
 }

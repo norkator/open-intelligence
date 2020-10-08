@@ -105,5 +105,8 @@
     "inputDescription": "Lisää ilman viivoja esim ABC123",
     "ownerNameInputHelp": "Anna koko omistajan nimi",
     "loadVehicleImage": "Lataa kuva ajoneuvosta"
+  },
+  "networkErrorIndicator": {
+    "checkYourConfig": "Tarkista configuraatiosi"
   }
 }

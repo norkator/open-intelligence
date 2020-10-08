@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import Notifications from "./Notifications/Notifications";
-import ErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/ErrorIndicator";
+import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
 import {AxiosError} from "axios";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 interface ImageDataInterface {
   id: string,
@@ -13,7 +14,7 @@ interface ImageDataInterface {
   file_create_date: string
 }
 
-class Cameras extends Component {
+class Cameras extends Component<WithTranslation> {
   private _isMounted: boolean;
 
   state = {
@@ -58,6 +59,7 @@ class Cameras extends Component {
   };
 
   render() {
+    const {t} = this.props;
     const cameraFlexStyle = ["d-flex", "justify-content-center", "flex-wrap"];
     let cameraImages: JSX.Element[] = [<div key="null"/>]; // JSX.Element[] = [<span className={cameraFlexStyle.join(' ')}>No camera images available</span>];
 
@@ -84,7 +86,7 @@ class Cameras extends Component {
     return (
       <div>
         {this.state.axiosError !== null ?
-          <ErrorIndicator axiosError={this.state.axiosError}/> : null}
+          <NetworkErrorIndicator t={t} axiosError={this.state.axiosError}/> : null}
         <Notifications/>
         <div className={cameraFlexStyle.join(' ')}>
           {cameraImages}
@@ -98,4 +100,4 @@ class Cameras extends Component {
 }
 
 
-export default Cameras;
+export default withTranslation('i18n')(Cameras);
