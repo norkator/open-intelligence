@@ -5,6 +5,7 @@ import Notifications from "./Notifications/Notifications";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
 import {AxiosError} from "axios";
 import {WithTranslation, withTranslation} from "react-i18next";
+import styles from './Cameras.module.css';
 
 interface ImageDataInterface {
   id: string,
@@ -70,21 +71,22 @@ class Cameras extends Component<WithTranslation> {
       if (this.state.imageData.length > 0) {
         cameraImages = this.state.imageData.map(image => {
           return (
-            <img
-              id={image.id}
-              title={image.name + ' ' + new Date(image.file_create_date).toDateString()}
-              className="CursorPointer magictime vanishIn"
-              style={{width: width, height: height}}
-              key={image.id}
-              src={image.image}
-              alt={image.file_name}/>
+            <div key={image.id} style={{width: width, height: height}}>
+              <img
+                id={image.id}
+                title={image.name + ' ' + new Date(image.file_create_date).toDateString()}
+                className={['CursorPointer', 'magictime', 'vanishIn', styles.cameraImage].join(' ')}
+                src={image.image}
+                alt={image.file_name}
+              />
+            </div>
           )
         });
       }
     }
 
     return (
-      <div>
+      <div className={styles.cameras}>
         {this.state.axiosError !== null ?
           <NetworkErrorIndicator t={t} axiosError={this.state.axiosError}/> : null}
         <Notifications/>
