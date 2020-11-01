@@ -3,6 +3,14 @@
   "version": "2.2.2",
   "private": true,
   "homepage": "./",
+  "scripts": {
+    "dev": "react-scripts start",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test-ci": "react-scripts test --watchAll=false",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@fullcalendar/core": "^5.3.1",
     "@fullcalendar/daygrid": "^5.3.2",
@@ -39,13 +47,6 @@
     "@types/react-router-dom": "^5.1.5",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test-ci": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
