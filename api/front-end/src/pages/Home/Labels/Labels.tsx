@@ -247,6 +247,10 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
               </div>
             }
 
+            { /* Handle showing loading indicator */
+              this.state.isLoading ? <LoadingIndicator isDark={true}/> : null
+            }
+
             <div className="d-flex justify-content-center flex-wrap mt-4">
               {labels}
             </div>
@@ -263,10 +267,6 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
             </Button>
           </Card.Footer>
         </Card>
-
-        { /* Handle showing loading indicator */
-          this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
-        }
 
         <GenericImageModal
           t={t}
