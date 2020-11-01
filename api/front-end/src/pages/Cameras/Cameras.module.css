@@ -6,8 +6,17 @@
   width: 100%;
 }
 
-
 .cameraImage {
   width: 100%;
   height: 100%;
+}
+
+.imageDate {
+  position: absolute;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0.80);
+  color: white;
+  z-index: 10;
+  font-size: 11px;
+  border-radius: 25px;
 }

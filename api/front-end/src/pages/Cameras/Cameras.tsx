@@ -72,6 +72,7 @@ class Cameras extends Component<WithTranslation> {
         cameraImages = this.state.imageData.map(image => {
           return (
             <div key={image.id} style={{width: width, height: height}}>
+              <p className={styles.imageDate}>{new Date(image.file_create_date).toLocaleString()}</p>
               <img
                 id={image.id}
                 title={image.name + ' ' + new Date(image.file_create_date).toDateString()}
