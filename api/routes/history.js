@@ -11,7 +11,7 @@ const os = require('os-utils');
 async function History(router, sequelizeObjects) {
 
   router.get('/get/history/camera/names', async (req, res) => {
-    const queryResult = await sequelizeObjects.sequelize.query('SELECT DISTINCT name FROM data;', null, { raw: false });
+    const queryResult = await sequelizeObjects.sequelize.query('SELECT DISTINCT name FROM data;', null, {raw: false});
     const result = [];
     if (queryResult[0].length > 0) {
       queryResult[0].forEach(q => {

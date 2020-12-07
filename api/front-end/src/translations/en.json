@@ -111,6 +111,7 @@
     "checkYourConfig": "Check your configurations"
   },
   "history": {
-    "load": "Load"
+    "load": "Load",
+    "camera": "Camera"
   }
 }
