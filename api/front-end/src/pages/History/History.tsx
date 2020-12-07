@@ -9,7 +9,6 @@ import {DropdownButton, FormControl, InputGroup, Dropdown, SafeAnchor} from "rea
 
 
 interface HistoryInterface {
-  title: string,
   file: string,
   image: string,
   fileCreateDate: string,
@@ -23,6 +22,7 @@ class History extends Component<WithTranslation> {
     endDate: new Date().toISOString().substr(0, 10),
     cameraNames: [] as String[],
     selectedCameraName: '',
+    timeOfDate: '12:00:00', // Todo, implement time of date field
     historyImages: [] as HistoryInterface[],
     isLoading: false,
     axiosError: null as AxiosError | null,
@@ -58,15 +58,25 @@ class History extends Component<WithTranslation> {
   loadImagesBtnClick = () => {
     if (this.state.selectedCameraName !== null && this.state.selectedCameraName !== '') {
       this.setState({isLoading: true});
-      this.loadHistoryImages(this.state.startDate, this.state.endDate);
+      this.loadHistoryImages(
+        this.state.selectedCameraName,
+        this.state.startDate,
+        this.state.endDate,
+        this.state.timeOfDate
+      );
     } else {
       // Todo, some sort of error|warning dialog here
       console.error('Camera name not selected');
     }
   };
 
-  loadHistoryImages = (startDate: string, endDate: string) => {
-    axios.post(GET_HISTORY_CAMERA_IMAGES, {startDate: startDate, endDate: endDate}).then((data: any) => {
+  loadHistoryImages = (cameraName: string, startDate: string, endDate: string, timeOfDate: string) => {
+    axios.post(GET_HISTORY_CAMERA_IMAGES, {
+      cameraName: cameraName,
+      startDate: startDate,
+      endDate: endDate,
+      timeOfDate: timeOfDate,
+    }).then((data: any) => {
       if (this._isMounted) {
         this.setState({historyImages: data.data.images as HistoryInterface[], isLoading: false})
       }

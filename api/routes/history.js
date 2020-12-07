@@ -1,11 +1,9 @@
 const utils = require('../module/utils');
 const moment = require('moment');
 const fs = require('fs');
-const {Op} = require('sequelize');
 const path = require('path');
 const dotEnv = require('dotenv');
 dotEnv.config();
-const os = require('os-utils');
 
 
 async function History(router, sequelizeObjects) {
@@ -21,30 +19,34 @@ async function History(router, sequelizeObjects) {
     res.json(result);
   });
 
-  /*
-  router.post('/get/faces/for/day', async (req, res) => {
-    let outputData = {images: []};
-    const selectedDate = req.body.selectedDate;
-    const filePath = path.join(__dirname + '../../../' + 'output/insightface/faces/');
 
-    const rows = await sequelizeObjects.Data.findAll({
-      attributes: [
-        'id',
-        'label',
-        'file_create_date',
-        'file_name_cropped',
-      ],
-      where: {
-        file_create_date: {
-          [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
-          [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
-        },
-        label: 'person',
-      },
-      order: [
-        ['file_create_date', 'asc']
-      ]
-    });
+  router.post('/get/history/camera/images', async (req, res) => {
+    let outputData = {images: []};
+    const cameraName = req.body.cameraName;
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
+    const timeOfDate = req.body.timeOfDate;
+
+    const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
+
+    const query = await sequelizeObjects.sequelize.query(`
+        SELECT
+            file_name,
+            file_create_date
+        FROM data
+        where id in (
+            SELECT min(id)
+            FROM data
+            WHERE name = '` + cameraName + `'
+              AND date(file_create_date) >= '` + startDate + `'
+              AND CAST(file_create_date AS TIME) >= '` + timeOfDate + `'
+            GROUP BY date(file_create_date)
+        )
+        ORDER BY file_create_date ASC;`
+      , null, {raw: false}
+    );
+
+    const rows = query[0];
 
     if (rows.length > 0) {
       // noinspection JSIgnoredPromiseFromCall
@@ -61,10 +63,8 @@ async function History(router, sequelizeObjects) {
         for (const task of promiseTasks) {
           outputData.images.push(
             await task(
-              rows[t].id,
-              rows[t].label,
-              rows[t].file_create_date,
-              rows[t].file_name_cropped
+              rows[t].file_name,
+              rows[t].file_create_date
             )
           );
           t++;
@@ -77,15 +77,15 @@ async function History(router, sequelizeObjects) {
         }
       }
 
-      function processImage(id, label, file_create_date, file_name_cropped) {
+      function processImage(file_name, file_create_date) {
         return new Promise(resolve_ => {
-          fs.readFile(filePath + file_name_cropped, function (err, data) {
+          fs.readFile(filePath + file_name, function (err, data) {
             if (!err) {
               const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
               resolve_({
-                title: datetime,
-                file: file_name_cropped,
-                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
+                file: file_name,
+                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
+                fileCreateDate: file_create_date,
               });
             } else {
               resolve_(null);
@@ -98,7 +98,6 @@ async function History(router, sequelizeObjects) {
     }
 
   });
-   */
 
 
 }
