@@ -79,6 +79,7 @@ async function History(router, sequelizeObjects) {
 
       function processImage(file_name, file_create_date) {
         return new Promise(resolve_ => {
+          file_name = file_name.replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
           fs.readFile(filePath + file_name, function (err, data) {
             if (!err) {
               const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
