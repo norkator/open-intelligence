@@ -3,6 +3,7 @@ import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicat
 import {WithTranslation, withTranslation} from "react-i18next";
 import {AxiosError} from "axios";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
+import axios, {GET_HISTORY_CAMERA_NAMES} from "../../axios";
 
 
 interface HistoryInterface {
@@ -18,6 +19,7 @@ class History extends Component<WithTranslation> {
   state = {
     startDate: new Date().toISOString().substr(0, 10),
     endDate: new Date().toISOString().substr(0, 10),
+    cameraNames: [] as String[],
     historyImages: [] as HistoryInterface[],
     isLoading: false,
     axiosError: null as AxiosError | null,
@@ -31,10 +33,19 @@ class History extends Component<WithTranslation> {
 
   componentDidMount(): void {
     this._isMounted = true;
+    this.getCameraNames();
   }
 
   componentWillUnmount(): void {
     this._isMounted = false;
+  }
+
+  getCameraNames(): void {
+    axios.get(GET_HISTORY_CAMERA_NAMES).then((data: any) => {
+      this.setState({cameraNames: data.data, isLoading: false});
+    }).catch((error: AxiosError) => {
+      this.setState({axiosError: error});
+    });
   }
 
   loadImagesBtnClick = () => {
