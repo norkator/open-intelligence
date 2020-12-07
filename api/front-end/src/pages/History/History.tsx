@@ -96,7 +96,7 @@ class History extends Component<WithTranslation> {
               id={image.file}
               title={image.fileCreateDate}
               className="CursorPointer mr-1 ml-1 mt-1 magictime spaceInLeft"
-              style={{maxHeight: '150px', maxWidth: '200px'}}
+              style={{maxHeight: '200px', maxWidth: '250px'}}
               key={image.file}
               src={image.image}
               alt={image.file}
@@ -131,6 +131,7 @@ class History extends Component<WithTranslation> {
               variant="outline-secondary"
               title={t('history.camera')}
               id="camera-names-dropdown-1"
+              style={{zIndex: 999}}
             >
               {cameraNames}
             </DropdownButton>

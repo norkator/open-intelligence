@@ -11,7 +11,8 @@
     "plates": "प्लेटें",
     "faces": "चेहरे",
     "training": "तैयार करे",
-    "changeLanguage": "भाषा बदले"
+    "changeLanguage": "भाषा बदले",
+    "history": "इतिहास"
   },
   "home": {
     "calendar": {
@@ -108,5 +109,9 @@
   },
   "networkErrorIndicator": {
     "checkYourConfig": "अपने कॉन्फ़िगरेशन की जाँच करें"
+  },
+  "history": {
+    "load": "भार",
+    "camera": "कैमरा"
   }
 }

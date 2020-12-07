@@ -11,7 +11,8 @@
     "plates": "车牌",
     "faces": "面孔",
     "training": "训练",
-    "changeLanguage": "语言选择"
+    "changeLanguage": "语言选择",
+    "history": "历史"
   },
   "home": {
     "calendar": {
@@ -108,5 +109,9 @@
   },
   "networkErrorIndicator": {
     "checkYourConfig": "检查您的配置"
+  },
+  "history": {
+    "load": "加载",
+    "camera": "相机"
   }
 }
