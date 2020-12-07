@@ -94,9 +94,9 @@ class History extends Component<WithTranslation> {
           return (
             <img
               id={image.file}
-              title={image.title}
+              title={image.fileCreateDate}
               className="CursorPointer mr-1 ml-1 mt-1 magictime spaceInLeft"
-              style={{maxHeight: '120px', maxWidth: '120px'}}
+              style={{maxHeight: '150px', maxWidth: '200px'}}
               key={image.file}
               src={image.image}
               alt={image.file}
