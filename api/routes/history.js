@@ -34,7 +34,7 @@ async function History(router, sequelizeObjects) {
             file_name,
             file_create_date
         FROM data
-        where id in (
+        WHERE id IN (
             SELECT min(id)
             FROM data
             WHERE name = '` + cameraName + `'
@@ -42,6 +42,7 @@ async function History(router, sequelizeObjects) {
               AND CAST(file_create_date AS TIME) >= '` + timeOfDate + `'
             GROUP BY date(file_create_date)
         )
+        AND date(file_create_date) <= '` + endDate + `'
         ORDER BY file_create_date ASC;`
       , null, {raw: false}
     );
