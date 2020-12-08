@@ -27,6 +27,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
     calendarWeekends: true,
     calendarEvents: [] as CalendarEventsInterface[],
     genericImageModalData: {show: false} as ModalPropsInterface,
+    windowWidth: window.innerWidth,
   };
 
   calendarComponentRef = React.createRef<FullCalendar>();
@@ -37,6 +38,14 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
     // Load events by default from past week
     this.loadCalendarEvents().then(() => null);
   }
+
+  componentWillUnmount(): void {
+    window.removeEventListener("resize", this.handleResize);
+  }
+
+  handleResize = () => {
+    this.setState({windowWidth: window.innerWidth});
+  };
 
   componentDidUpdate(prevProps: Readonly<ReduxPropsInterface>, prevState: Readonly<{}>, snapshot?: any): void {
     if (this.state.dateRangeStartDate !== this.props.dateRangeStartDate
@@ -56,6 +65,9 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
 
   render() {
     const {t} = this.props;
+
+    const width = this.state.windowWidth;
+    const initialView = width > 500 ? 'timeGridWeek' : 'timeGridDay';
 
     return (
       <div>
@@ -78,7 +90,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
                   center: 'title',
                   right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 }}
-                initialView='timeGridWeek'
+                initialView={initialView}
                 height={600}
               />
             </div>
