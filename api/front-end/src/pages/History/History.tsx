@@ -5,7 +5,8 @@ import {AxiosError} from "axios";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
 import axios, {GET_HISTORY_CAMERA_IMAGES, GET_HISTORY_CAMERA_NAMES} from "../../axios";
 import {ChangeDate} from "../../utils/DateUtils";
-import {DropdownButton, FormControl, InputGroup, Dropdown, SafeAnchor} from "react-bootstrap";
+import {DropdownButton, FormControl, InputGroup, Dropdown, SafeAnchor, Alert} from "react-bootstrap";
+import styles from './History.module.css'
 
 
 interface HistoryInterface {
@@ -22,10 +23,11 @@ class History extends Component<WithTranslation> {
     endDate: new Date().toISOString().substr(0, 10),
     cameraNames: [] as String[],
     selectedCameraName: '',
-    timeOfDate: '12:00:00', // Todo, implement time of date field
+    timeOfDate: '12:00:00',
     historyImages: [] as HistoryInterface[],
     isLoading: false,
     axiosError: null as AxiosError | null,
+    showAlert: true,
   };
 
 
@@ -52,7 +54,7 @@ class History extends Component<WithTranslation> {
   }
 
   onCameraNameSelect = (cameraName: String) => {
-    this.setState({selectedCameraName: cameraName});
+    this.setState({selectedCameraName: cameraName, showAlert: false});
   };
 
   loadImagesBtnClick = () => {
@@ -121,29 +123,54 @@ class History extends Component<WithTranslation> {
     }
 
     return (
-      <div>
+      <div style={styles}>
         {this.state.axiosError !== null ?
           <NetworkErrorIndicator t={t} axiosError={this.state.axiosError}/> : null}
+
+        {
+          this.state.showAlert ?
+            <div className="d-flex justify-content-center flex-wrap magictime spaceInRight">
+              <Alert key={0} variant={'dark'}>
+                <b>Remember to select camera name.</b> By default image target time for each day
+                is {this.state.timeOfDate}
+              </Alert>
+            </div>
+            : null
+        }
+
         <div className="d-flex justify-content-center flex-wrap mb-2 magictime spaceInLeft">
-          <div className="input-group mb-2" style={{maxWidth: '600px'}}>
+          <div className="input-group mb-2" style={{maxWidth: '700px'}}>
             <DropdownButton
               as={InputGroup.Prepend}
               variant="outline-secondary"
               title={t('history.camera')}
               id="camera-names-dropdown-1"
-              style={{zIndex: 999}}
             >
               {cameraNames}
             </DropdownButton>
             <FormControl
               aria-describedby="camera-names-dropdown-1"
               value={this.state.selectedCameraName}
-              style={{backgroundColor: '#343a40', color: '#fff'}}
+              style={{maxWidth: '80px', backgroundColor: '#343a40', color: '#fff'}}
             />
-            <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}
-                   className="form-control" value={this.state.startDate}/>
-            <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}
-                   className="form-control" value={this.state.endDate}/>
+            <input
+              type="time" className="form-control" placeholder="Time target"
+              aria-label="Target time of date" value={this.state.timeOfDate}
+              onChange={(event: any) => this.onTimeOfDateSelected(event)}
+              style={{maxWidth: '120px', backgroundColor: '#343a40', color: '#999999'}}
+            />
+            <input
+              type="date" className="form-control" placeholder="Change start day"
+              aria-label="Start day change" value={this.state.startDate}
+              onChange={(event: any) => this.onStartDateSelected(event)}
+              style={{backgroundColor: '#343a40', color: '#999999'}}
+            />
+            <input
+              type="date" className="form-control" placeholder="Change end day"
+              aria-label="End day change" value={this.state.endDate}
+              onChange={(event: any) => this.onEndDateSelected(event)}
+              style={{backgroundColor: '#343a40', color: '#999999'}}
+            />
             <div className="input-group-append">
               <button className="btn btn-outline-info" type="button" onClick={this.loadImagesBtnClick}>
                 {t('history.load')}
@@ -161,8 +188,21 @@ class History extends Component<WithTranslation> {
         }
 
       </div>
-    )
+    );
   }
+
+  onTimeOfDateSelected = (event: any) => {
+    this.setState({timeOfDate: event.target.value});
+  };
+
+  onStartDateSelected = (event: any) => {
+    this.setState({startDate: event.target.value});
+  };
+
+  onEndDateSelected = (event: any) => {
+    this.setState({endDate: event.target.value});
+  };
+
 }
 
 // @ts-ignore
