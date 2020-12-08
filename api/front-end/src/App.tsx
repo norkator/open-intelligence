@@ -12,6 +12,7 @@ import Home from "./pages/Home/Home";
 import Faces from "./pages/Faces/Faces";
 import Plates from "./pages/Plates/Plates";
 import Training from "./pages/Training/Training";
+import History from "./pages/History/History";
 
 
 class App extends Component<any, any> {
@@ -34,6 +35,7 @@ class App extends Component<any, any> {
               <Route exact path='/plates' component={Plates}/>
               <Route exact path='/faces' component={Faces}/>
               <Route exact path='/training' component={Training}/>
+              <Route exact path='/history' component={History}/>
             </Switch>
           </div>
         </div>
@@ -41,7 +43,7 @@ class App extends Component<any, any> {
         <div className={classes.join(' ')}>
           <h1 className="m-2" style={{color: 'white'}}>Login not implemented</h1>
           <small className="m-2" style={{color: 'white'}}>You should not see this yet</small>
-        </div>
+        </div>;
 
     return (
       <div className="App">

@@ -11,7 +11,8 @@
     "plates": "Kilvet",
     "faces": "Kasvot",
     "training": "Opettaminen",
-    "changeLanguage": "Vaihda kieltä"
+    "changeLanguage": "Vaihda kieltä",
+    "history": "Historia"
   },
   "home": {
     "calendar": {
@@ -108,5 +109,9 @@
   },
   "networkErrorIndicator": {
     "checkYourConfig": "Tarkista configuraatiosi"
+  },
+  "history": {
+    "load": "Lataa",
+    "camera": "Kamera"
   }
 }

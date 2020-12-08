@@ -31,5 +31,7 @@ export const GET_FACES: string = basePath + "get/faces";
 export const TRY_FACE_DETECTION_AGAIN: string = basePath + "try/face/detection/again";
 export const REJECT_LICENSE_PLATE_DETECTION: string = basePath + "reject/licence/plate/detection";
 export const GET_CROPPED_IMAGE_FOR_LICENSE_PLATE: string = basePath + "get/cropped/image/for/license/plate";
+export const GET_HISTORY_CAMERA_NAMES: string = basePath + "get/history/camera/names";
+export const GET_HISTORY_CAMERA_IMAGES: string = basePath + "get/history/camera/images";
 
 

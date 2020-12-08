@@ -11,7 +11,8 @@
     "plates": "Plates",
     "faces": "Faces",
     "training": "Training",
-    "changeLanguage": "Change language"
+    "changeLanguage": "Change language",
+    "history": "History"
   },
   "home": {
     "calendar": {
@@ -108,5 +109,9 @@
   },
   "networkErrorIndicator": {
     "checkYourConfig": "Check your configurations"
+  },
+  "history": {
+    "load": "Load",
+    "camera": "Camera"
   }
 }

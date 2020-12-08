@@ -57,6 +57,7 @@ initDb.initDatabase().then(() => {
   require('./routes/plates').Plates(app, sequelizeObjects);
   require('./routes/training').Training(app, sequelizeObjects);
   require('./routes/audio').Audio(app, sequelizeObjects);
+  require('./routes/history').History(app, sequelizeObjects);
 
   // -------------------------------------------------------------------------------------------------------------------
   // Serve web front end (serve as last after api routes)
