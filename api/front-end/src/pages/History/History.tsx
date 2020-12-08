@@ -179,13 +179,13 @@ class History extends Component<WithTranslation> {
           </div>
         </div>
 
-        <div className="d-flex justify-content-center flex-wrap">
-          {historyImages}
-        </div>
-
         { /* Handle showing loading indicator */
           this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
         }
+
+        <div className="d-flex justify-content-center flex-wrap">
+          {historyImages}
+        </div>
 
       </div>
     );
