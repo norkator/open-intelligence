@@ -2,6 +2,7 @@ from skimage.metrics import structural_similarity as ssim
 from pathlib import Path
 from module import configparser, database, process_utils
 from objects import SrFile
+import psycopg2
 import shutil
 import os
 import cv2
@@ -101,9 +102,12 @@ def app():
 
 def main_loop():
     while 1:
-        process_utils.set_instance_status()
-        app()
-        print('... running')
+        try:
+            process_utils.set_instance_status()
+            app()
+            print('... running')
+        except psycopg2.OperationalError as e:
+            print(e)
         time.sleep(int(process_sleep_seconds))
 
 

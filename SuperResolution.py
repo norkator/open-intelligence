@@ -3,6 +3,7 @@ import sys
 from module import configparser, process_utils, database, detection_utils
 from objects import SrFile
 from pathlib import Path
+import psycopg2
 import time
 
 super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='super_resolution')
@@ -97,9 +98,12 @@ def app():
 
 def main_loop():
     while 1:
-        process_utils.set_instance_status()
-        app()
-        print('... running')
+        try:
+            process_utils.set_instance_status()
+            app()
+            print('... running')
+        except psycopg2.OperationalError as e:
+            print(e)
         time.sleep(int(process_sleep_seconds))
 
 

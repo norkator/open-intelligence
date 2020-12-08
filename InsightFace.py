@@ -2,6 +2,7 @@ import os
 import sys
 from module import configparser, database, gpu_utils, insightface_utils, process_utils
 from objects import SrFile
+import psycopg2
 import time
 
 # Check does system has GPU support
@@ -77,9 +78,12 @@ def app():
 
 def main_loop():
     while 1:
-        process_utils.set_instance_status()
-        app()
-        print('... running')
+        try:
+            process_utils.set_instance_status()
+            app()
+            print('... running')
+        except psycopg2.OperationalError as e:
+            print(e)
         time.sleep(int(process_sleep_seconds))
 
 

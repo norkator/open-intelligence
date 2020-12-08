@@ -3,6 +3,7 @@ from datetime import datetime
 from argparse import ArgumentParser
 from module import fileutils, object_detection, configparser, actions, process_utils
 from objects import File
+import psycopg2
 import sys
 import time
 
@@ -146,10 +147,13 @@ def app():
 
 def main_loop():
     while 1:
-        process_utils.set_instance_status()
-        actions.check_for_tasks()
-        app()
-        print('... running')
+        try:
+            process_utils.set_instance_status()
+            actions.check_for_tasks()
+            app()
+            print('... running')
+        except psycopg2.OperationalError as e:
+            print(e)
         time.sleep(process_sleep_seconds)
 
 
