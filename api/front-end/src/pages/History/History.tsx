@@ -5,7 +5,7 @@ import {AxiosError} from "axios";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
 import axios, {GET_HISTORY_CAMERA_IMAGES, GET_HISTORY_CAMERA_NAMES} from "../../axios";
 import {ChangeDate} from "../../utils/DateUtils";
-import {DropdownButton, FormControl, InputGroup, Dropdown, SafeAnchor, Alert} from "react-bootstrap";
+import {DropdownButton, FormControl, InputGroup, Dropdown, Alert} from "react-bootstrap";
 import styles from './History.module.css'
 
 
