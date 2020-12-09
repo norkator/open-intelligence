@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import {LoadingIndicator} from "../LoadingIndicator/LoadingIndicator";
+import styles from "./PlatesEditModal.module.css";
 
 
 export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
@@ -18,7 +19,7 @@ export const PlateEditModal = (props: PlateEditModalPropsInterface) => {
           <div>
             {
               props.imageData !== undefined ?
-                <img src={props.imageData} alt={props.title}/>
+                <img className={styles.Image} src={props.imageData} alt={props.title}/>
                 :
                 props.isLoading ? <LoadingIndicator isDark={true}/> :
                   <Button variant="outline-info" size="sm" className="mt-1 mb-1"
