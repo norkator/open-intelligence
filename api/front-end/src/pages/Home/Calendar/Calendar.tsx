@@ -66,8 +66,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
   render() {
     const {t} = this.props;
 
-    const width = this.state.windowWidth;
-    const initialView = width > 500 ? 'timeGridWeek' : 'timeGridDay';
+    const initialView = this.isSmallView() ? 'timeGridDay' : 'timeGridWeek';
 
     return (
       <div>
@@ -86,12 +85,13 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
                 dateClick={this.handleDateClick}
                 eventClick={this.handleEventClick}
                 headerToolbar={{
-                  left: 'prev,next today',
-                  center: 'title',
+                  left: this.isSmallView() ? 'prev,next' : 'prev,next today',
+                  center: this.isSmallView() ? '' :  'title',
                   right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 }}
                 initialView={initialView}
                 height={600}
+                handleWindowResize={true}
               />
             </div>
           </Card.Body>
@@ -144,9 +144,14 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
     });
   };
 
-  genericImageModalCloseHandler = () => {
+  genericImageModalCloseHandler = (): void => {
     this.setState({genericImageModalData: {show: false}});
   };
+
+  isSmallView = (): boolean => {
+    const width = this.state.windowWidth;
+    return width < 500;
+  }
 
 }
 
