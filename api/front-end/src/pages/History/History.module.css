@@ -1,3 +1,5 @@
-::-webkit-calendar-picker-indicator {
+/*
+::-webkit-calendar-picker-indicator[id*=test] {
   filter: invert(1);
 }
+*/
