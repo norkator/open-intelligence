@@ -97,7 +97,7 @@ class History extends Component<WithTranslation> {
             <img
               id={image.file}
               title={image.fileCreateDate}
-              className="CursorPointer mr-1 ml-1 mt-1 magictime spaceInLeft"
+              className={['CursorPointer', 'mr-1', 'ml-1', 'mt-1', 'magictime', 'spaceInLeft', styles.historyImages].join(' ')}
               style={{maxHeight: '200px', maxWidth: '250px'}}
               key={image.file}
               src={image.image}
@@ -183,7 +183,7 @@ class History extends Component<WithTranslation> {
           this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
         }
 
-        <div className="d-flex justify-content-center flex-wrap">
+        <div className={['d-flex', 'justify-content-center', 'flex-wrap'].join(' ')}>
           {historyImages}
         </div>
 
