@@ -64,7 +64,8 @@ class Cameras extends Component<WithTranslation> {
     const cameraFlexStyle = ["d-flex", "justify-content-center", "flex-wrap"];
     let cameraImages: JSX.Element[] = [<div key="null"/>]; // JSX.Element[] = [<span className={cameraFlexStyle.join(' ')}>No camera images available</span>];
 
-    const width = this.state.windowWidth / 2;
+    const w = this.state.windowWidth;
+    const width = this.state.windowWidth < 400 ? w : w / 2;
     const height = width * 50 / 100;
 
     if (this.state.imageData !== undefined) {
