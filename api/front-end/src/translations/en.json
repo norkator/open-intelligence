@@ -37,7 +37,11 @@
       "runningInstances": "Running instances",
       "process": "Process",
       "aliveCheck": "Alive check",
-      "started": "Started"
+      "started": "Started",
+      "noProcesses": {
+        "title": "No processors",
+        "description": "No main App.py image processors detected!"
+      }
     },
     "labels": {
       "labelViewer": "Label viewer",

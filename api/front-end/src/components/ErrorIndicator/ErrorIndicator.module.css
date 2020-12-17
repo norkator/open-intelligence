@@ -1,0 +1,11 @@
+.IndicatorMainDiv {
+  width: 100%;
+  padding: 5px;
+  background-color: indianred;
+  margin-bottom: 20px;
+}
+
+.IndicatorText {
+  margin: 0;
+  color: white;
+}

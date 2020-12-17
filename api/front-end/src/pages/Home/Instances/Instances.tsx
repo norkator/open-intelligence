@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Card, Table} from "react-bootstrap";
 import {getInstanceDetails, InstanceInterface} from "../../../utils/HttpUtils";
 import {WithTranslation, withTranslation} from "react-i18next";
+import ErrorIndicator from "../../../components/ErrorIndicator/ErrorIndicator";
 
 
 class Instances extends Component<WithTranslation> {
@@ -44,6 +45,11 @@ class Instances extends Component<WithTranslation> {
             {t('home.instances.runningInstances')}
           </Card.Header>
           <Card.Body style={{padding: '0px'}}>
+            {
+             !this.hasMainProcessingInstances() ?
+               <ErrorIndicator title={t('home.instances.noProcesses.title')} message={t('home.instances.noProcesses.description')} />
+               : null
+            }
             <div className="table-responsive">
               <Table striped bordered hover variant="dark" style={{minWidth: '650px'}}>
                 <thead>
@@ -63,8 +69,15 @@ class Instances extends Component<WithTranslation> {
         </Card>
 
       </div>
-    )
+    );
   }
+
+  hasMainProcessingInstances = (): boolean => {
+    return this.state.instances.filter((instance: InstanceInterface) => {
+      return instance.process_name === 'App.py'
+    }).length > 0;
+  }
+
 }
 
 
