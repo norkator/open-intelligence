@@ -1,4 +1,5 @@
-const utils = require('../module/utils');
+'use strict';
+const imageUtils = require('../module/imageUtils');
 const moment = require('moment');
 const fs = require('fs');
 const path = require('path');
@@ -7,6 +8,7 @@ dotEnv.config();
 
 
 async function History(router, sequelizeObjects) {
+
 
   router.get('/get/history/camera/names', async (req, res) => {
     const queryResult = await sequelizeObjects.sequelize.query('SELECT DISTINCT name FROM data;', null, {raw: false});
@@ -49,58 +51,17 @@ async function History(router, sequelizeObjects) {
 
     const rows = query[0];
 
-
-    // TODO, CLEAN THIS TO USE imageUtils
-    if (rows.length > 0) {
-      // noinspection JSIgnoredPromiseFromCall
-      processImagesSequentially(rows.length);
-
-      async function processImagesSequentially(taskLength) {
-        // Specify tasks
-        const promiseTasks = [];
-        for (let i = 0; i < taskLength; i++) {
-          promiseTasks.push(processImage);
-        }
-        // Execute tasks
-        let t = 0;
-        for (const task of promiseTasks) {
-          outputData.images.push(
-            await task(
-              rows[t].file_name,
-              rows[t].file_create_date
-            )
-          );
-          t++;
-          if (t === taskLength) {
-            outputData.images = outputData.images.filter(a => {
-              return a !== null;
-            });
-            res.json(outputData);
-          }
-        }
-      }
-
-      function processImage(file_name, file_create_date) {
-        return new Promise(resolve_ => {
-          file_name = file_name.replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
-          fs.readFile(filePath + file_name, function (err, data) {
-            if (!err) {
-              const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
-              resolve_({
-                file: file_name,
-                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64'),
-                fileCreateDate: file_create_date,
-              });
-            } else {
-              resolve_(null);
-            }
-          });
-        });
-      }
-    } else {
-      res.json(outputData);
-    }
-
+    rows.forEach(row => {
+      const fileName = String(row.file_name)
+        .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
+      outputData.images.push({
+        file: fileName,
+        file_name: fileName,
+        fileCreateDate: row.file_create_date
+      });
+    });
+    outputData.images = await imageUtils.LoadImages(filePath, outputData.images);
+    res.json(outputData);
   });
 
 
