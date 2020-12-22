@@ -27,10 +27,12 @@ async function Cameras(router, sequelizeObjects) {
       }
     );
     cameraImages.forEach(cameraImage => {
+      const fileName = String(cameraImage.file_name)
+        .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
       outputData.images.push({
         id: cameraImage.id,
         name: cameraImage.name,
-        file_name: cameraImage.file_name,
+        file_name: fileName,
         file_create_date: cameraImage.file_create_date
       });
     });

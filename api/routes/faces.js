@@ -42,7 +42,9 @@ async function Faces(router, sequelizeObjects) {
         file_name: row.file_name_cropped,
       });
     });
-    outputData.images = await imageUtils.LoadImages(filePath, outputData.images);
+    outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+      return image.image !== null;
+    });
     res.json(outputData);
   });
 
