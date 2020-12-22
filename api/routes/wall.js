@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 const utils = require('../module/utils');
 const fs = require('fs');
@@ -58,6 +59,8 @@ async function Wall(router, sequelizeObjects) {
         console.log('No new images..');
         res.json(outputData);
       }
+
+      // TODO, CLEAN THIS TO USE imageUtils
 
       // Read file data
       // noinspection JSIgnoredPromiseFromCall

@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 const utils = require('../module/utils');
 const fs = require('fs');

@@ -49,6 +49,8 @@ async function History(router, sequelizeObjects) {
 
     const rows = query[0];
 
+
+    // TODO, CLEAN THIS TO USE imageUtils
     if (rows.length > 0) {
       // noinspection JSIgnoredPromiseFromCall
       processImagesSequentially(rows.length);

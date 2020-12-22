@@ -1,3 +1,4 @@
+'use strict';
 const {Op} = require('sequelize');
 const path = require('path');
 const fs = require('fs');
