@@ -1,12 +1,11 @@
 'use strict';
+const imageUtils = require('../module/imageUtils');
 const moment = require('moment');
 const utils = require('../module/utils');
-const fs = require('fs');
 const {Op} = require('sequelize');
 const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config();
-const os = require('os-utils');
+const dotEnv = require('dotenv');
+dotEnv.config();
 
 
 async function Wall(router, sequelizeObjects) {
@@ -60,55 +59,20 @@ async function Wall(router, sequelizeObjects) {
         res.json(outputData);
       }
 
-      // TODO, CLEAN THIS TO USE imageUtils
-
-      // Read file data
-      // noinspection JSIgnoredPromiseFromCall
-      processImagesSequentially(filesList.length);
-
-      async function processImagesSequentially(taskLength) {
-
-        // Specify tasks
-        const promiseTasks = [];
-        for (let i = 0; i < taskLength; i++) {
-          promiseTasks.push(processImage);
-        }
-
-        // Execute tasks
-        let t = 0;
-        for (const task of promiseTasks) {
-          // console.log('Loading: ' + filesList[t].file);
-          outputData.images.push(await task(filesList[t].path, filesList[t].label, filesList[t].file, filesList[t].mtime));
-          t++;
-          if (t === taskLength) {
-            res.json(outputData); // All tasks completed, return
-          }
-        }
-      }
-
-      function processImage(path, label, file, mtime) {
-        return new Promise(resolve => {
-          fs.readFile(basePath + label + file, function (err, data) {
-            if (!err) {
-              const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-              resolve({
-                title: datetime,
-                file: file,
-                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-              });
-            } else {
-              console.log(err);
-              resolve('data:image/png;base64,');
-            }
-          });
+      filesList.forEach(file => {
+        const datetime = moment(file.mtime).format(process.env.DATE_TIME_FORMAT);
+        outputData.images.push({
+          title: datetime,
+          file: file.file,
+          file_name: file.label + file.file
         });
-      }
-
+      });
+      outputData.images = await imageUtils.LoadImages(basePath, outputData.images);
+      res.json(outputData);
 
     } else {
       res.json(outputData);
     }
-
   });
 
 

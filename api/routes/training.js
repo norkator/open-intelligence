@@ -2,7 +2,6 @@
 const imageUtils = require('../module/imageUtils');
 const {Op} = require('sequelize');
 const path = require('path');
-const fs = require('fs');
 const dotEnv = require('dotenv');
 dotEnv.config();
 
