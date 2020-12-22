@@ -1,10 +1,8 @@
-const utils = require('../module/utils');
-const fs = require('fs');
-const {Op} = require('sequelize');
+'use strict';
+const imageUtils = require('../module/imageUtils');
 const path = require('path');
 const dotEnv = require('dotenv');
 dotEnv.config();
-const os = require('os-utils');
 
 
 async function Cameras(router, sequelizeObjects) {
@@ -28,60 +26,16 @@ async function Cameras(router, sequelizeObjects) {
         type: sequelizeObjects.sequelize.QueryTypes.SELECT
       }
     );
-
-    fs.readdir(objectDetectionImagesPath, function (err, files) {
-      if (err) {
-        res.status(500);
-        res.send(err);
-      } else {
-
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(cameraImages.length);
-
-        async function processImagesSequentially(taskLength) {
-
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            outputData.images.push(await task(
-              cameraImages[t].id, cameraImages[t].name, cameraImages[t].file_name, cameraImages[t].file_create_date
-            ));
-            t++;
-            if (t === taskLength) {
-              res.json(outputData); // All tasks completed, return
-            }
-          }
-        }
-
-        function processImage(id, name, file_name, file_create_date) {
-          return new Promise(resolve => {
-            fs.readFile(objectDetectionImagesPath + file_name
-              .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png'), function (err, data) {
-              if (!err) {
-                resolve({
-                  id: id,
-                  name: name,
-                  file_name: file_name,
-                  file_create_date: file_create_date,
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
-              } else {
-                console.log(err);
-                resolve('data:image/png;base64,');
-              }
-            });
-          });
-        }
-
-      }
+    cameraImages.forEach(cameraImage => {
+      outputData.images.push({
+        id: cameraImage.id,
+        name: cameraImage.name,
+        file_name: cameraImage.file_name,
+        file_create_date: cameraImage.file_create_date
+      });
     });
-
+    outputData.images = imageUtils.LoadImages(objectDetectionImagesPath, outputData.images);
+    res.json(outputData);
   });
 
 
