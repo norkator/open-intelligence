@@ -28,7 +28,14 @@ exports.LoadImages = LoadImages;
  * @return {Promise<string>}
  */
 async function loadImage(filePath, fileName) {
-  const fName = file_name.replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
-  const loaded = await fs.readFile(filePath + fName);
-  return 'data:image/png;base64,' + Buffer.from(loaded).toString('base64');
+  return new Promise(resolve => {
+    const fName = fileName.replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
+    fs.readFile(filePath + fName, function (error, data) {
+      if (!error) {
+        resolve('data:image/png;base64,' + Buffer.from(data).toString('base64'));
+      } else {
+        resolve('data:image/png;base64,');
+      }
+    });
+  });
 }
