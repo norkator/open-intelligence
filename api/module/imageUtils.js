@@ -9,7 +9,7 @@ const fs = require('fs');
  * @constructor
  */
 async function LoadImages(filePath = null, images = []) {
-  if (filePath == null) {
+  if (filePath === null) {
     return [];
   }
   for (const image of images) {

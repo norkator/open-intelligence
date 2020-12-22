@@ -34,7 +34,7 @@ async function Cameras(router, sequelizeObjects) {
         file_create_date: cameraImage.file_create_date
       });
     });
-    outputData.images = imageUtils.LoadImages(objectDetectionImagesPath, outputData.images);
+    outputData.images = await imageUtils.LoadImages(objectDetectionImagesPath, outputData.images);
     res.json(outputData);
   });
 
