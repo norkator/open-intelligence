@@ -1,11 +1,10 @@
-const utils = require('../module/utils');
+'use strict';
+const imageUtils = require('../module/imageUtils');
 const moment = require('moment');
-const fs = require('fs');
 const {Op} = require('sequelize');
 const path = require('path');
 const dotEnv = require('dotenv');
 dotEnv.config();
-const os = require('os-utils');
 
 
 async function Faces(router, sequelizeObjects) {
@@ -35,57 +34,16 @@ async function Faces(router, sequelizeObjects) {
       ]
     });
 
-    if (rows.length > 0) {
-      // noinspection JSIgnoredPromiseFromCall
-      processImagesSequentially(rows.length);
-
-      async function processImagesSequentially(taskLength) {
-        // Specify tasks
-        const promiseTasks = [];
-        for (let i = 0; i < taskLength; i++) {
-          promiseTasks.push(processImage);
-        }
-        // Execute tasks
-        let t = 0;
-        for (const task of promiseTasks) {
-          outputData.images.push(
-            await task(
-              rows[t].id,
-              rows[t].label,
-              rows[t].file_create_date,
-              rows[t].file_name_cropped
-            )
-          );
-          t++;
-          if (t === taskLength) {
-            outputData.images = outputData.images.filter(a => {
-              return a !== null;
-            });
-            res.json(outputData);
-          }
-        }
-      }
-
-      function processImage(id, label, file_create_date, file_name_cropped) {
-        return new Promise(resolve_ => {
-          fs.readFile(filePath + file_name_cropped, function (err, data) {
-            if (!err) {
-              const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
-              resolve_({
-                title: datetime,
-                file: file_name_cropped,
-                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-              });
-            } else {
-              resolve_(null);
-            }
-          });
-        });
-      }
-    } else {
-      res.json(outputData);
-    }
-
+    rows.forEach(row => {
+      const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+      outputData.images.push({
+        title: datetime,
+        file: row.file_name_cropped,
+        file_name: row.file_name_cropped,
+      });
+    });
+    outputData.images = await imageUtils.LoadImages(filePath, outputData.images);
+    res.json(outputData);
   });
 
 
