@@ -40,7 +40,8 @@ Table of contents
 * [Environment](#environment)
 * [Installing](#installing)
     * [Api side](#api-side)
-    * [Python side (Windows)](#python-side)
+    * [Python side (Windows)](#python-side)    
+* [Process drawing](#process-drawing) 
 * [Project folder structure](#project-folder-structure) 
 * [Python Apps](#python-apps)
     * [App.py](#app)
@@ -119,6 +120,13 @@ Python side
 (Linux)
 
 Not yet done.
+
+
+Process drawing
+============
+Overall process among different python processes for Open Intelligence.
+
+![ProcessDrawing](docs/process_drawing.png) 
 
 
 Project folder structure
