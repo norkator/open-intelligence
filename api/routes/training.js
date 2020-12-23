@@ -49,7 +49,8 @@ async function Training(router, sequelizeObjects) {
         file_name: (dataMode === 'OffSite' ? '/' + String(row.id) : row.label + '/') + row.file_name_cropped,
       });
     });
-    outputData.images = await (imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+    outputData.images = await imageUtils.LoadImages(filePath, outputData.images);
+    outputData.images = outputData.images.filter(image => {
       return image.image !== null;
     });
     res.json(outputData);
