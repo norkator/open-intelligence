@@ -1,3 +1,5 @@
+'use strict';
+const imageUtils = require('../module/imageUtils');
 const moment = require('moment');
 const utils = require('../module/utils');
 const fs = require('fs');
@@ -195,47 +197,18 @@ async function Site(router, sequelizeObjects) {
           ]
         });
 
-        // Read file data
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(rows.length);
-
-        async function processImagesSequentially(taskLength) {
-
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            console.log('Loading label: ' + rows[t].file_name_cropped);
-            outputData.images.push(await task(rows[t].file_name_cropped, rows[t].file_create_date));
-            t++;
-            if (t === taskLength) {
-              res.json(outputData); // All tasks completed, return
-            }
-          }
-        }
-
-        function processImage(file_name_cropped, file_create_date) {
-          return new Promise(resolve => {
-            fs.readFile(filePath + file_name_cropped, function (err, data) {
-              if (!err) {
-                const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
-                resolve({
-                  title: datetime,
-                  file: file_name_cropped,
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
-              } else {
-                console.log(err);
-                resolve('data:image/png;base64,');
-              }
-            });
+        rows.forEach(row => {
+          const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+          outputData.images.push({
+            title: datetime,
+            file: row.file_name_cropped,
+            file_name: row.file_name_cropped,
           });
-        }
+        });
+        outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+          return image.image !== null;
+        });
+        res.json(outputData);
 
       } catch (e) {
         res.status(500);
@@ -422,113 +395,79 @@ async function Site(router, sequelizeObjects) {
     if (rows.length > 0) {
 
       // Load known plates
-      utils.GetLicensePlates(sequelizeObjects).then(plates => {
+      const plates = await utils.GetLicensePlates(sequelizeObjects);
 
-        // Fetch data here before loading images
-        rows.forEach(row => {
-          const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
-          const detectionResult = utils.NoRead(row.detection_result);
-          const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
-          licensePlates.push({
-            id: row.id,
-            objectDetectionFileName: row.file_name,
-            title: datetime,
-            label: row.label,
-            file: row.file_name_cropped,
-            detectionResult: detectionResult,
-            detectionCorrected: vehicleDetails.plate,
-            ownerName: vehicleDetails.owner_name,
-          })
-        });
-
-        // Filter data before image loading
-        if (resultOption === 'limited_known') {
-          // Must have owner detail
-          licensePlates = licensePlates.filter(plate => {
-            return String(plate.ownerName).length > 0
-          });
-          // Limit count
-          let tempValues = [];
-          licensePlates.forEach(plate => {
-            if (tempValues.filter(a => {
-              return a.detectionCorrected === plate.detectionCorrected;
-            }).length <= 3) { // Only few of each seen
-              tempValues.push(plate);
-            }
-          });
-          licensePlates = tempValues;
-        } else if (resultOption === 'distinct_detection') {
-          // Filter corrected empty ones
-          licensePlates = licensePlates.filter(plate => {
-            return String(plate.detectionCorrected).length > 0
-          });
-          // Load with distinct detection corrected, one of each
-          let tempValues = [];
-          licensePlates.forEach(plate => {
-            if (tempValues.filter(a => {
-              return a.detectionCorrected === plate.detectionCorrected;
-            }).length === 0) {
-              tempValues.push(plate);
-            }
-          });
-          licensePlates = tempValues;
-        } else if (resultOption === 'owner_detail_needed') {
-          // No owner name
-          licensePlates = licensePlates.filter(plate => {
-            return String(plate.ownerName).length === 0
-          });
-          // Distinct non corrected plate
-          let tempValues = [];
-          licensePlates.forEach(plate => {
-            if (tempValues.filter(a => {
-              return a.detectionResult === plate.detectionResult;
-            }).length === 0) {
-              tempValues.push(plate);
-            }
-          });
-          licensePlates = tempValues;
-        }
-
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(licensePlates.length).catch(error => {
-          console.error(error);
-        });
-
-        async function processImagesSequentially(taskLength) {
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            licensePlates[t] = await task(licensePlates[t]);
-            t++;
-            if (t === taskLength) {
-              res.json({
-                licensePlates: licensePlates,
-              });
-            }
-          }
-        }
-
-        function processImage(lpObj) {
-          return new Promise(resolve_ => {
-            fs.readFile(filePath + lpObj.label + '/' + lpObj.file, function (err, data) {
-              if (!err) {
-                lpObj.image = 'data:image/png;base64,' + Buffer.from(data).toString('base64');
-                resolve_(lpObj);
-              } else {
-                resolve_(null);
-              }
-            });
-          });
-        }
-      }).catch(error => {
-        res.status(500);
-        res.send(error);
+      // Fetch data here before loading images
+      rows.forEach(row => {
+        const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+        const detectionResult = utils.NoRead(row.detection_result);
+        const vehicleDetails = utils.GetVehicleDetails(plates, detectionResult);
+        licensePlates.push({
+          id: row.id,
+          objectDetectionFileName: row.file_name,
+          title: datetime,
+          label: row.label,
+          file: row.file_name_cropped,
+          file_name: row.label + '/' + row.file_name_cropped,
+          detectionResult: detectionResult,
+          detectionCorrected: vehicleDetails.plate,
+          ownerName: vehicleDetails.owner_name,
+        })
       });
+
+      // Filter data before image loading
+      if (resultOption === 'limited_known') {
+        // Must have owner detail
+        licensePlates = licensePlates.filter(plate => {
+          return String(plate.ownerName).length > 0
+        });
+        // Limit count
+        let tempValues = [];
+        licensePlates.forEach(plate => {
+          if (tempValues.filter(a => {
+            return a.detectionCorrected === plate.detectionCorrected;
+          }).length <= 3) { // Only few of each seen
+            tempValues.push(plate);
+          }
+        });
+        licensePlates = tempValues;
+      } else if (resultOption === 'distinct_detection') {
+        // Filter corrected empty ones
+        licensePlates = licensePlates.filter(plate => {
+          return String(plate.detectionCorrected).length > 0
+        });
+        // Load with distinct detection corrected, one of each
+        let tempValues = [];
+        licensePlates.forEach(plate => {
+          if (tempValues.filter(a => {
+            return a.detectionCorrected === plate.detectionCorrected;
+          }).length === 0) {
+            tempValues.push(plate);
+          }
+        });
+        licensePlates = tempValues;
+      } else if (resultOption === 'owner_detail_needed') {
+        // No owner name
+        licensePlates = licensePlates.filter(plate => {
+          return String(plate.ownerName).length === 0
+        });
+        // Distinct non corrected plate
+        let tempValues = [];
+        licensePlates.forEach(plate => {
+          if (tempValues.filter(a => {
+            return a.detectionResult === plate.detectionResult;
+          }).length === 0) {
+            tempValues.push(plate);
+          }
+        });
+        licensePlates = tempValues;
+      }
+
+      licensePlates = (await imageUtils.LoadImages(filePath, licensePlates)).filter(image => {
+        return image.image !== null;
+      });
+      res.json({licensePlates: licensePlates});
+
     } else {
       res.status(200);
       res.json({licensePlates: licensePlates});
@@ -644,6 +583,8 @@ async function Site(router, sequelizeObjects) {
    */
   router.post('/get/faces', async (req, res) => {
     let faces = [];
+    const filePath = path.join(__dirname + '../../../' + 'output/');
+
     // Day selection from web interface, default today
     const selectedDate = req.body.selectedDate;
     const rows = await sequelizeObjects.Data.findAll({
@@ -671,68 +612,26 @@ async function Site(router, sequelizeObjects) {
     });
 
     if (rows.length > 0) {
-      const filePath = path.join(__dirname + '../../../' + 'output/');
-      // noinspection JSIgnoredPromiseFromCall
-      processImagesSequentially(rows.length);
 
-      async function processImagesSequentially(taskLength) {
-        // Specify tasks
-        const promiseTasks = [];
-        for (let i = 0; i < taskLength; i++) {
-          promiseTasks.push(processImage);
-        }
-        // Execute tasks
-        let t = 0;
-        for (const task of promiseTasks) {
-          faces.push(
-            await task(
-              rows[t].id,
-              rows[t].file_name_cropped,
-              rows[t].label,
-              rows[t].file_create_date,
-              rows[t].detection_result
-            )
-          );
-          t++;
-          if (t === taskLength) {
-            // Return results
-            res.json({
-              faces: faces,
-            });
-          }
-        }
-      }
-
-      function processImage(id, file, label, file_create_date, detection_result) {
-        return new Promise(resolve_ => {
-          fs.readFile(filePath + label + '/' + file, function (err, data) {
-            if (!err) {
-              const datetime = moment(file_create_date).format(process.env.DATE_TIME_FORMAT);
-              resolve_({
-                id: id,
-                title: datetime,
-                file: file,
-                detectionResult: detection_result,
-                image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-              });
-            } else {
-              console.log(err);
-              resolve_({
-                id: 0,
-                title: '',
-                file: file,
-                detectionResult: detection_result,
-                image: 'data:image/png;base64'
-              });
-            }
-          });
+      rows.forEach(row => {
+        const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+        faces.push({
+          id: row.id,
+          title: datetime,
+          file: row.file_name_cropped,
+          file_name: row.label + '/' + row.file_name_cropped,
+          detectionResult: row.detection_result,
         });
-      }
+      });
+      faces = (await imageUtils.LoadImages(filePath, faces)).filter(image => {
+        return image.image !== null;
+      });
+      res.json({faces: faces});
+
     } else {
       res.status(200);
       res.json({faces: faces});
     }
-
   });
 
 
@@ -743,71 +642,46 @@ async function Site(router, sequelizeObjects) {
   router.get('/get/face/grouping/images', async (req, res) => {
     let outputData = {names: [], images: []};
     const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
-    fs.readdir(filePath, function (err, files) {
-      if (err) {
+
+    fs.readdir(filePath, async function (error, files) {
+      if (error) {
         res.status(500);
-        res.send(err);
-      } else {
-        let filesList = [];
-        for (let file of files) {
-          if (!file.includes('Thumbs.db')) {
-            const stat = fs.statSync(filePath + '/' + file);
-            if (stat && stat.isDirectory()) {
-              const split = file.split('/');
-              const splitStr = split[split.length - 1];
-              if (splitStr !== 'box_images') {
-                outputData.names.push(splitStr);
-              }
-            } else {
-              if (file.includes('RECT_')) { // We want only images having rectangle to front end ui
-                filesList.push({"file": file, "mtime": stat.mtime.getTime()});
-              }
+        res.send('Error reading faces_dataset folder, may not exist.');
+      }
+      let filesList = [];
+      for (let file of files) {
+        if (!file.includes('Thumbs.db')) {
+          const stat = fs.statSync(filePath + '/' + file);
+          if (stat && stat.isDirectory()) {
+            const split = file.split('/');
+            const splitStr = split[split.length - 1];
+            if (splitStr !== 'box_images') {
+              outputData.names.push(splitStr);
+            }
+          } else {
+            if (file.includes('RECT_')) { // We want only images having rectangle to front end ui
+              filesList.push({"file": file, "mtime": stat.mtime.getTime()});
             }
           }
-        }
-        // Read file data
-        // noinspection JSIgnoredPromiseFromCall
-        processImagesSequentially(filesList.length > 30 ? 30 : filesList.length);
-
-        async function processImagesSequentially(taskLength) {
-          // Specify tasks
-          const promiseTasks = [];
-          for (let i = 0; i < taskLength; i++) {
-            promiseTasks.push(processImage);
-          }
-          // Execute tasks
-          let t = 0;
-          for (const task of promiseTasks) {
-            console.log('Loading: ' + filesList[t].file);
-            outputData.images.push(await task(filesList[t].file, filesList[t].mtime));
-            t++;
-            if (t === taskLength) {
-              res.json(outputData); // All tasks completed, return
-            }
-          }
-          if (promiseTasks.length === 0) {
-            res.json(outputData);
-          }
-        }
-
-        function processImage(file, mtime) {
-          return new Promise(resolve => {
-            fs.readFile(filePath + file, function (err, data) {
-              if (!err) {
-                const datetime = moment(mtime).format(process.env.DATE_TIME_FORMAT);
-                resolve({
-                  title: datetime,
-                  file: file,
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
-              } else {
-                console.log(err);
-                resolve('data:image/png;base64,');
-              }
-            });
-          });
         }
       }
+
+      let count = 0;
+      filesList.forEach(file => {
+        if (count < 50) {
+          count++;
+          const datetime = moment(file.mtime).format(process.env.DATE_TIME_FORMAT);
+          outputData.images.push({
+            title: datetime,
+            file: file.file,
+            file_name: file.file,
+          });
+        }
+      });
+      outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+        return image.image !== null;
+      });
+      res.json(outputData);
     });
   });
 

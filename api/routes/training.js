@@ -1,6 +1,7 @@
+'use strict';
+const imageUtils = require('../module/imageUtils');
 const {Op} = require('sequelize');
 const path = require('path');
-const fs = require('fs');
 const dotEnv = require('dotenv');
 dotEnv.config();
 
@@ -41,56 +42,18 @@ async function Training(router, sequelizeObjects) {
       limit: 24,
     });
 
-    if (rows.length > 0) {
-      // noinspection JSIgnoredPromiseFromCall
-      processImagesSequentially(rows.length);
-
-      async function processImagesSequentially(taskLength) {
-        // Specify tasks
-        const promiseTasks = [];
-        for (let i = 0; i < taskLength; i++) {
-          promiseTasks.push(processImage);
-        }
-        // Execute tasks
-        let t = 0;
-        for (const task of promiseTasks) {
-          outputData.images.push(
-            await task(
-              rows[t].id,
-              rows[t].label,
-              rows[t].file_name_cropped
-            )
-          );
-          t++;
-          if (t === taskLength) {
-            outputData.images = outputData.images.filter(a => {
-              return a !== null;
-            });
-            res.json(outputData);
-          }
-        }
-      }
-
-      function processImage(id, label, file_name_cropped) {
-        return new Promise(resolve_ => {
-          fs.readFile(
-            filePath + (dataMode === 'OffSite' ? '/' + String(id) : label + '/') + file_name_cropped, function (err, data) {
-              if (!err) {
-                resolve_({
-                  id: id,
-                  file: file_name_cropped,
-                  image: 'data:image/png;base64,' + Buffer.from(data).toString('base64')
-                });
-              } else {
-                resolve_(null);
-              }
-            });
-        });
-      }
-    } else {
-      res.json(outputData);
-    }
-
+    rows.forEach(row => {
+      outputData.images.push({
+        id: row.id,
+        file: row.file_name_cropped,
+        file_name: (dataMode === 'OffSite' ? '/' + String(row.id) : row.label + '/') + row.file_name_cropped,
+      });
+    });
+    outputData.images = await imageUtils.LoadImages(filePath, outputData.images);
+    outputData.images = outputData.images.filter(image => {
+      return image.image !== null;
+    });
+    res.json(outputData);
   });
 
 
