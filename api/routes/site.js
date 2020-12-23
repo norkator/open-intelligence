@@ -643,40 +643,46 @@ async function Site(router, sequelizeObjects) {
     let outputData = {names: [], images: []};
     const filePath = path.join(__dirname + '../../../' + 'output/faces_dataset/');
 
-    let filesList = [];
-    for (let file of files) {
-      if (!file.includes('Thumbs.db')) {
-        const stat = fs.statSync(filePath + '/' + file);
-        if (stat && stat.isDirectory()) {
-          const split = file.split('/');
-          const splitStr = split[split.length - 1];
-          if (splitStr !== 'box_images') {
-            outputData.names.push(splitStr);
-          }
-        } else {
-          if (file.includes('RECT_')) { // We want only images having rectangle to front end ui
-            filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+    fs.readdir(filePath, async function (error, files) {
+      if (error) {
+        res.status(500);
+        res.send('Error reading faces_dataset folder, may not exist.');
+      }
+      let filesList = [];
+      for (let file of files) {
+        if (!file.includes('Thumbs.db')) {
+          const stat = fs.statSync(filePath + '/' + file);
+          if (stat && stat.isDirectory()) {
+            const split = file.split('/');
+            const splitStr = split[split.length - 1];
+            if (splitStr !== 'box_images') {
+              outputData.names.push(splitStr);
+            }
+          } else {
+            if (file.includes('RECT_')) { // We want only images having rectangle to front end ui
+              filesList.push({"file": file, "mtime": stat.mtime.getTime()});
+            }
           }
         }
       }
-    }
 
-    let count = 0;
-    filesList.forEach(file => {
-      if (count < 30) {
-        count++;
-        const datetime = moment(file.mtime).format(process.env.DATE_TIME_FORMAT);
-        outputData.images.push({
-          title: datetime,
-          file: file.file,
-          file_name: file.file,
-        });
-      }
+      let count = 0;
+      filesList.forEach(file => {
+        if (count < 30) {
+          count++;
+          const datetime = moment(file.mtime).format(process.env.DATE_TIME_FORMAT);
+          outputData.images.push({
+            title: datetime,
+            file: file.file,
+            file_name: file.file,
+          });
+        }
+      });
+      outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+        return image.image !== null;
+      });
+      res.json(outputData);
     });
-    outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
-      return image.image !== null;
-    });
-    res.json(outputData);
   });
 
 
