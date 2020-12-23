@@ -668,7 +668,7 @@ async function Site(router, sequelizeObjects) {
 
       let count = 0;
       filesList.forEach(file => {
-        if (count < 30) {
+        if (count < 50) {
           count++;
           const datetime = moment(file.mtime).format(process.env.DATE_TIME_FORMAT);
           outputData.images.push({
