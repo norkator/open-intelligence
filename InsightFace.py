@@ -46,12 +46,11 @@ def app():
             database.update_insight_face_as_computed('', id)  # Problem with input data, skip
             print(e)
 
-    # Super resolution image
     if len(if_image_objects) > 0:
 
         temp_detection_result = None
 
-        # Process insightface
+        # Process insightFace
         for if_image_object in if_image_objects:
             try:
                 temp_detection_result = insightface_utils.face_detection(
@@ -70,7 +69,7 @@ def app():
             database.update_insight_face_as_computed(if_image_object.detection_result, if_image_object.id)
 
     else:
-        print('No insightface images to process')
+        print('No insightFace images to process')
 
 
 # ---------------------------------------------------------------------
