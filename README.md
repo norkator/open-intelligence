@@ -11,10 +11,14 @@ and then can be trained so that Open Intelligence can try to identify seen peopl
 Open Intelligence also uses super resolution neural network to process super resolution images for improved 
 license plate detection.
 
-Target goal is to make this useful information gathering tool to provide data for easy property monitoring without
-need for expensive camera systems because any existing cameras are suitable. 
+Project goal is to be useful information gathering tool to provide data for easy property monitoring without
+need for expensive camera systems because any existing cameras are suitable.
 
-<b>This project is looking for funding and contributors!</b>
+I developed this to my own use because were tired to use existing monitoring tools to go through 
+recorded video. I wanted to know what has been happening quickly.
+
+<b>This project has reached the point of my interests so any future major developments are up to 
+funding and contributors!</b>
 
 
 ![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
@@ -30,8 +34,6 @@ Cameras view             |  Plate calendar
 <br> 
 
 Open Intelligence is suitable from private properties to small businesses with medium activity.
-
-<b>Note: License will change when I get rid off AGPL licensed code.</b>
 
 -------------------------------------------------------------
 
@@ -331,10 +333,9 @@ Here's some ideas
 - [x] camera microphone access; [See Hikvision-video-audio-extractor](https://github.com/norkator/hikvision-video-audio-extractor)
 - [x] replace junk jQuery based front end UI with React js version
 - [x] Replace Yolo v3 with Yolo v4 
-- [ ] better data analysis methods, needs defining
-- [ ] make own ALPR based on deep neural nets and TensorFlow.
-- [ ] multi site combiner tools to be able to request intelligence from multiple OI sites at once
-- [ ] APIs for multi site combining to be able to request seen plates, person face lookup, analysis
+- [ ] ~~make own ALPR based on deep neural nets and TensorFlow.~~ **On hold**.
+- [ ] ~~multi site combiner tools to be able to request intelligence from multiple OI sites at once~~ **On hold**.
+- [ ] ~~APIs for multi site combining to be able to request seen plates, person face lookup, analysis~~ **On hold**.
 
 
 Authors
