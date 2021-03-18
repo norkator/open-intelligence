@@ -20,6 +20,8 @@ recorded video. I wanted to know what has been happening quickly.
 <b>This project has reached the point of my interests so any future major developments are up to 
 funding and contributors!</b>
 
+<b>Don't use this project commercially.</b>
+
 
 ![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
 
@@ -121,7 +123,7 @@ Python side
 -----
 (Linux)
 
-Not yet done.
+Not yet done or tried.
 
 
 Process drawing
