@@ -44,6 +44,7 @@ Table of contents
 * [Environment](#environment)
 * [Installing](#installing)
     * [Api side](#api-side)
+    * [Build react front end](#build-react-front-end)
     * [Python side (Windows)](#python-side)    
 * [Process drawing](#process-drawing) 
 * [Project folder structure](#project-folder-structure) 
@@ -92,9 +93,17 @@ API side
 4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
 5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
 6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
-7. Access `localhost:4300` unless port modified at .env file.
-8. Done. You should see React js user interface which is served from `/api/html` folder.
-9. Outdated frontend user manual for old ui version https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
+7. Go to `/api/front-end` folder and rename `.env_tpl` to `.env`.
+8. At `/api/front-end` run `npm start` so you have both api and front end running.
+9. Access `localhost:3000` if react app doesn't open browser window automatically.
+10. Outdated frontend user manual for old ui version https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
+
+Build react front end
+-----
+1. Go to `/api/front-end`
+2. Check your `.env` REACT_APP_API_BASE_URL that it corresponds your machine ip address where node js api is running.
+3. Build react front end via running `npm run build`
+4. Copy/replace `/build` folder contents into `/api/html` folder so that api can serve build webpage.
 
 
 Python side
