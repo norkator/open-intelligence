@@ -1,0 +1,20 @@
+version: 2
+updates:
+
+  # Maintain dependencies for Python backend
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # Maintain dependencies for Node.js backend
+  - package-ecosystem: "npm"
+    directory: "/api"
+    schedule:
+      interval: "daily"
+
+  # Maintain dependencies for React frontend
+  - package-ecosystem: "npm"
+    directory: "/api/front-end"
+    schedule:
+      interval: "daily"
