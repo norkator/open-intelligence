@@ -110,6 +110,7 @@ Python side
 -----
 (Windows)
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
+    * Only tested to work with Python 3.6. Newer ones caused problems with packages when tested.
 2. Install dependencies `pip install -r requirements_windows.txt`
 3. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
 Ensure that cfg file width and height is 608
