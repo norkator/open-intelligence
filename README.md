@@ -133,7 +133,13 @@ Python side
 -----
 (Linux)
 
-Not yet done or tried.
+1. Install required Python version.
+    ```shell script
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt-get install python3.6
+    virtualenv --python=/usr/bin/python3.6 /
+    ```
+2. Install dependencies `pip install -r requirements_linux.txt`
 
 
 Process drawing
