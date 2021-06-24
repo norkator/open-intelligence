@@ -111,19 +111,23 @@ Python side
 (Windows)
 1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe ) 
     * Only tested to work with Python 3.6. Newer ones caused problems with packages when tested.
-2. Install dependencies `pip install -r requirements_windows.txt`
-3. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
+2. Activate python virtual env.
+   ```shell script
+   .\venv\Scripts\actiate.bat
+   ```
+3. Install dependencies `pip install -r requirements_windows.txt`
+4. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
 Ensure that cfg file width and height is 608
-4. Extract weights, cfg and coco to `models` folder
-5. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
+5. Extract weights, cfg and coco to `models` folder
+6. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
 its also tested with version 12. (if you didn't install at upper api section)
-6. Rename `config.ini.tpl` to `config.ini` and fill details. 
+7. Rename `config.ini.tpl` to `config.ini` and fill details. 
     * Config.ini content settings explained, see [Config ini](#config-ini)
     * For multiple nodes, see [Multi node support](#multi-node-support))
-7. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
+8. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
     * This is needed by openALPR
-8. Separate camera and folder names with comma just like at base config template
-9. Run wanted python apps, see `Python Apps` section.
+9. Separate camera and folder names with comma just like at base config template
+10. Run wanted python apps, see `Python Apps` section.
 
 It's critical to setup ini configuration right.
  
