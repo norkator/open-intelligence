@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {WithTranslation, withTranslation} from "react-i18next";
 
 
-class DateRangeSelector extends Component<ReduxPropsInterface & WithTranslation> {
+class DateRangeSelector extends Component<ReduxPropsInterface & WithTranslation | any> {
   render() {
     const {t} = this.props;
 

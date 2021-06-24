@@ -18,7 +18,7 @@ import {DATE_RANGE_START_DATE_SELECTED, SET_AXIOS_ERROR} from "../../../store/ac
 import {AxiosError} from "axios";
 import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
 
-class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
+class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface | any> {
   state = {
     isLoading: false,
     today: getNowISODate(),

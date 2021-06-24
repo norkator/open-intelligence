@@ -42,7 +42,7 @@ export interface LabelDonutDataInterface {
 let clickHoldTimer: any = null;
 let longClickHandled: boolean = false;
 
-class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
+class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface | any> {
   state = {
     selectedDate: null,
     isLoading: true,

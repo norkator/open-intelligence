@@ -53,7 +53,7 @@ export const ActivityModal = (props: ActivityModalInterface) => {
         </Modal.Header>
         <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
-          <Line data={lineChartSpec}/>
+          <Line type='line' data={lineChartSpec}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.closeHandler()}>

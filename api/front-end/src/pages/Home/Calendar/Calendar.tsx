@@ -20,7 +20,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 import {ChangeDate, getNowISODate} from "../../../utils/DateUtils";
 import {DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 
-class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
+class Calendar extends Component<ReduxPropsInterface & WithTranslation | any> {
   state = {
     dateRangeStartDate: null,
     dateRangeEndDate: null,
@@ -92,6 +92,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation> {
                 initialView={initialView}
                 height={600}
                 handleWindowResize={true}
+                allDaySlot={false}
               />
             </div>
           </Card.Body>
