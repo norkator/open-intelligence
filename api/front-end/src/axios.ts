@@ -33,5 +33,6 @@ export const REJECT_LICENSE_PLATE_DETECTION: string = basePath + "reject/licence
 export const GET_CROPPED_IMAGE_FOR_LICENSE_PLATE: string = basePath + "get/cropped/image/for/license/plate";
 export const GET_HISTORY_CAMERA_NAMES: string = basePath + "get/history/camera/names";
 export const GET_HISTORY_CAMERA_IMAGES: string = basePath + "get/history/camera/images";
+export const GET_VOICE_INTELLIGENCE: string = basePath + "get/voice/intelligence";
 
 

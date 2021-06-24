@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import axios, {GET_LATEST_CAMERA_IMAGES_PATH} from '../../axios';
+import axios, {GET_LATEST_CAMERA_IMAGES_PATH, GET_VOICE_INTELLIGENCE} from '../../axios';
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import Notifications from "./Notifications/Notifications";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
@@ -15,13 +15,19 @@ interface ImageDataInterface {
   file_create_date: string
 }
 
+interface VoiceDataInterface {
+  message: string,
+}
+
 class Cameras extends Component<WithTranslation> {
   private _isMounted: boolean;
 
   state = {
     windowWidth: window.innerWidth,
     imageData: [] as ImageDataInterface[],
+    voiceData: {} as VoiceDataInterface,
     intervalId: 0,
+    intervalIdVoice: 0,
     isLoading: true,
     axiosError: null as AxiosError | null,
   };
@@ -35,8 +41,11 @@ class Cameras extends Component<WithTranslation> {
     this._isMounted = true;
     window.addEventListener("resize", this.handleResize);
     this.loadCameraImages();
+    this.loadVoiceIntelligence();
     const intervalId = setInterval(() => this.loadCameraImages(), 60 * 1000);
+    const intervalIdVoice = setInterval(() => this.loadCameraImages(), 30 * 1000);
     this.setState({intervalId: intervalId});
+    this.setState({intervalIdVoice: intervalIdVoice});
   }
 
   loadCameraImages = () => {
@@ -49,8 +58,21 @@ class Cameras extends Component<WithTranslation> {
     });
   };
 
+  loadVoiceIntelligence = () => {
+    axios.get(GET_VOICE_INTELLIGENCE).then((data: any) => {
+      if (this._isMounted) {
+        this.setState({voiceData: data.data as VoiceDataInterface});
+        const msg = new SpeechSynthesisUtterance(this.state.voiceData.message);
+        window.speechSynthesis.speak(msg);
+      }
+    }).catch((error: AxiosError) => {
+      this.setState({axiosError: error});
+    });
+  };
+
   componentWillUnmount(): void {
     clearInterval(this.state.intervalId);
+    clearInterval(this.state.intervalIdVoice);
     this._isMounted = false;
     window.removeEventListener("resize", this.handleResize);
   }
