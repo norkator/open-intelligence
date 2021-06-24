@@ -18,15 +18,9 @@ object-assign
  */
 
 /*!
-FullCalendar v5.3.1
+FullCalendar v5.8.0
 Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
-*/
-
-/*!
-FullCalendar v5.3.2
-Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
+(c) 2021 Adam Shaw
 */
 
 /*! *****************************************************************************
