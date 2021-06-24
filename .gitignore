@@ -12,6 +12,8 @@ config_tre.ini
 config_temp.ini
 dataset/*
 logs/*
+bin/
+pyvenv.cfg
 
 # Exclude some libraries
 libraries/nitramite_alpr/

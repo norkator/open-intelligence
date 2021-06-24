@@ -125,15 +125,31 @@ its also tested with version 12. (if you didn't install at upper api section)
 8. Separate camera and folder names with comma just like at base config template
 9. Run wanted python apps, see `Python Apps` section.
 
-It's critical to setup ini configuration right, you can contact me via email 
-nitramite@outlook.com or via opening issue if you have problems.
+It's critical to setup ini configuration right.
  
 
 Python side
 -----
 (Linux)
 
-Not yet done or tried.
+1. Install required Python version.
+    ```shell script
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt-get install python3.6
+    virtualenv --python=/usr/bin/python3.6 ./
+   source ./bin/activate
+    ```
+2. Install dependencies `pip install -r requirements_linux.txt`
+3. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
+Ensure that cfg file width and height is 608
+4. Extract weights, cfg and coco to `models` folder
+5. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
+its also tested with version 12. (if you didn't install at upper api section)
+6. Rename `config.ini.tpl` to `config.ini` and fill details. 
+    * Config.ini content settings explained, see [Config ini](#config-ini)
+    * For multiple nodes, see [Multi node support](#multi-node-support))
+7. Separate camera and folder names with comma just like at base config template
+8. Run wanted python apps, see `Python Apps` section.
 
 
 Process drawing
