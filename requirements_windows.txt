@@ -5,7 +5,7 @@ opencv-python==4.5.2.54
 tensorflow==2.0.3
 tensorflow-gpu==2.0.3
 Keras==2.3.1
-protobuf==3.6.0
+protobuf==3.17.3
 scikit-learn==0.22.1
 scikit-image==0.16.2
 imutils==0.5.3
