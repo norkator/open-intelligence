@@ -22,7 +22,7 @@
     "chart.js": "2.9.4",
     "dotenv": "10.0.0",
     "i18next": "19.8.3",
-    "react": "16.14.0",
+    "react": "17.0.2",
     "react-bootstrap": "1.6.1",
     "react-chartjs-2": "2.11.2",
     "react-dom": "16.14.0",
