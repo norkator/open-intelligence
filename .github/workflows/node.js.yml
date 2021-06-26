@@ -32,4 +32,4 @@ jobs:
     - run: npm run build --if-present
       working-directory: ./api/front-end/
     - run: npm run test-ci
-      working-directory: ./app/front-end/
+      working-directory: ./api/front-end/
