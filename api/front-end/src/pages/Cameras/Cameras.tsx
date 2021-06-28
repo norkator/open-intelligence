@@ -43,7 +43,7 @@ class Cameras extends Component<WithTranslation> {
     this.loadCameraImages();
     this.loadVoiceIntelligence();
     const intervalId = setInterval(() => this.loadCameraImages(), 60 * 1000);
-    const intervalIdVoice = setInterval(() => this.loadCameraImages(), 30 * 1000);
+    const intervalIdVoice = setInterval(() => this.loadVoiceIntelligence(), 10 * 1000);
     this.setState({intervalId: intervalId});
     this.setState({intervalIdVoice: intervalIdVoice});
   }
@@ -63,6 +63,7 @@ class Cameras extends Component<WithTranslation> {
       if (this._isMounted) {
         this.setState({voiceData: data.data as VoiceDataInterface});
         const msg = new SpeechSynthesisUtterance(this.state.voiceData.message);
+        window.speechSynthesis.cancel();
         window.speechSynthesis.speak(msg);
       }
     }).catch((error: AxiosError) => {
