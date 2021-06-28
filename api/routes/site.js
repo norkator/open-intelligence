@@ -300,29 +300,9 @@ async function Site(router, sequelizeObjects) {
 
     if (rows.length > 0) {
 
-      // Too much data
-      if (rows.length > 10) {
-        output.message += 'I have seen ';
-      }
-
-      // Labels
-      let labelCounts = utils.GetLabelCounts(rows);
-      labelCounts.forEach(labelObj => {
-        const count = labelObj.value;
-        output.message += String(labelObj.value) + ' ' + labelObj.label + (count > 1 ? 's' : '') + ', '
-      });
-
-      // Detection results
-      const detection_results_count = rows.filter(function (row) {
-        return row.detection_result !== ''
-      }).length;
-      output.message += (detection_results_count > 10 ? '' + String(detection_results_count) + ' new detection results.'
-        : '') + ' ';
-
       // Latest object detection image recorded
       const latestRow = rows[rows.length - 1];
-      output.message += '' + latestRow.label + ' at ' + latestRow.name + ' at '
-        + moment(latestRow.file_create_date).utc(true).format('HH:mm') + '. ';
+      output.message += '' + latestRow.label + ' at ' + latestRow.name;
 
       // Mark detections as talked over voice to not say them again
       sequelizeObjects.Data.update(
