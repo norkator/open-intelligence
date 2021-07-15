@@ -113,7 +113,7 @@ Python side
     * Only tested to work with Python 3.6. Newer ones caused problems with packages when tested.
 2. Activate python virtual env.
    ```shell script
-   .\venv\Scripts\actiate.bat
+   .\venv\Scripts\activate.bat
    ```
 3. Install dependencies `pip install -r requirements_windows.txt`
 4. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
