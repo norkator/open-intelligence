@@ -31,7 +31,7 @@
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.4",
-    "redux": "4.1.0",
+    "redux": "4.1.1",
     "redux-devtools-extension": "2.13.9",
     "typescript": "3.9.10"
   },
