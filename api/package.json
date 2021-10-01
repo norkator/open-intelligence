@@ -21,7 +21,7 @@
     "express": "4.17.1",
     "get-folder-size": "2.0.1",
     "helmet": "4.6.0",
-    "image-thumbnail": "1.0.13",
+    "image-thumbnail": "1.0.14",
     "moment": "2.29.1",
     "node-schedule": "2.0.0",
     "nodemailer": "6.6.3",
