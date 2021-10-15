@@ -2,7 +2,7 @@ name: Docker
 
 on:
   push:
-    branches: [ dockerize ] # change later to 'production' maybe?
+    branches: [ production ]
 
 env:
   REGISTRY: ghcr.io

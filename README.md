@@ -335,6 +335,17 @@ see more at `./api/front-end/README.md`
 ![Link](api/front-end/README.md) 
 
 
+
+Docker image development
+============
+Run container but swap to bash instead to tweak and try things.
+```
+docker run -it --entrypoint /bin/bash ghcr.io/norkator/open-intelligence-python:dockerize -s
+```
+Handy if container crashes immediately without clear reason.
+
+
+
 Troubleshooting
 ============
 Got `ImportError: DLL load failed: The specified module could not be found.` ???  
