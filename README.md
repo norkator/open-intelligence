@@ -40,7 +40,8 @@ Open Intelligence is suitable from private properties to small businesses with m
 Table of contents
 =================
 * [Environment](#environment)
-* [Installing](#installing)
+* [Installing with Docker](#installing-with-docker)
+* [Installing manually](#installing-manually)
     * [Api side](#api-side)
     * [Build react front end](#build-react-front-end)
     * [Python side (Windows)](#python-side)    
@@ -72,7 +73,16 @@ is at server one, python application at server two and api hosting at server thr
 
 ![Environment](docs/environment.png) 
 
-Installing
+
+Installing with Docker
+============
+```shell script
+docker pull ghcr.io/norkator/open-intelligence-python:dockerize
+```
+
+
+
+Installing manually
 ============
 
 Terminology for words like API side and Python side:
