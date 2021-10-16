@@ -10,13 +10,13 @@ const fs = require('fs');
 
 async function Configuration(router, sequelizeObjects) {
 
-  router.get('/python-config', async (req, res) => {
+  router.get('/python-configuration', async (req, res) => {
     const configurationFilePath = path.join(__dirname + '../../../' + 'config.ini');
     res.json({status: 'ok', data: fs.readFileSync(configurationFilePath).toString('base64')});
   });
 
 
-  router.patch('/python-config', async (req, res) => {
+  router.patch('/python-configuration', async (req, res) => {
     res.json({status: 'ok', data: ''});
   });
 

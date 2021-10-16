@@ -118,5 +118,8 @@
   "history": {
     "load": "Load",
     "camera": "Camera"
+  },
+  "configuration": {
+    "pythonConfiguration": "Python configuration"
   }
 }
