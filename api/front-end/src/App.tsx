@@ -13,6 +13,7 @@ import Faces from "./pages/Faces/Faces";
 import Plates from "./pages/Plates/Plates";
 import Training from "./pages/Training/Training";
 import History from "./pages/History/History";
+import Configuration from "./pages/Configuration/Configuration";
 
 
 class App extends Component<any, any> {
@@ -36,6 +37,7 @@ class App extends Component<any, any> {
               <Route exact path='/faces' component={Faces}/>
               <Route exact path='/training' component={Training}/>
               <Route exact path='/history' component={History}/>
+              <Route exact path='/configuration' component={Configuration}/>
             </Switch>
           </div>
         </div>
