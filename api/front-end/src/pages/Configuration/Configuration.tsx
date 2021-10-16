@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 import axios, {GET_PYTHON_CONFIGURATION} from "../../axios";
 import {AxiosError} from "axios";
-import {Card, Table, Form} from "react-bootstrap";
-import ErrorIndicator from "../../components/ErrorIndicator/ErrorIndicator";
+import {Button, Card, Form} from "react-bootstrap";
 
 interface PythonConfigurationInterface {
   status: string,
@@ -15,7 +14,7 @@ class Configuration extends Component<WithTranslation> {
 
   state = {
     isLoading: false,
-    pythonConfiguration: {} as PythonConfigurationInterface,
+    pythonConfiguration: '',
   };
 
   constructor(props: any) {
@@ -35,11 +34,22 @@ class Configuration extends Component<WithTranslation> {
   loadPythonConfiguration = () => {
     axios.get(GET_PYTHON_CONFIGURATION).then((data: any) => {
       if (this._isMounted) {
-        this.setState({pythonConfiguration: data.data as PythonConfigurationInterface, isLoading: false});
+        const config = data.data as PythonConfigurationInterface;
+        const pc = new Buffer(config.data, 'base64');
+        const decodedPythonConfig = pc.toString('ascii');
+        this.setState({pythonConfiguration: decodedPythonConfig, isLoading: false});
       }
     }).catch((error: AxiosError) => {
       this.setState({axiosError: error});
     });
+  };
+
+
+  handleConfigChange = (event: any) => {
+    this.setState({pythonConfiguration: event.target.value});
+  };
+
+  saveConfigChanges = () => {
   };
 
   render() {
@@ -50,10 +60,15 @@ class Configuration extends Component<WithTranslation> {
           <Card.Header>
             {t('configuration.pythonConfiguration')}
           </Card.Header>
-          <Card.Body style={{padding: '0px'}}>
+          <Card.Body style={{padding: '10px'}}>
             <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Control as="textarea" rows={20} value={this.state.pythonConfiguration.data} />
+              <Form.Control as="textarea" rows={40} value={this.state.pythonConfiguration}
+                            onChange={this.handleConfigChange}/>
             </Form.Group>
+            <Button onClick={() => this.saveConfigChanges()}
+                    className="float-left" variant="outline-light" size="sm">
+              {t('configuration.saveChanges')}
+            </Button>
           </Card.Body>
         </Card>
       </div>

@@ -120,6 +120,7 @@
     "camera": "Camera"
   },
   "configuration": {
-    "pythonConfiguration": "Python configuration"
+    "pythonConfiguration": "Python configuration",
+    "saveChanges": "Save changes"
   }
 }
