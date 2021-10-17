@@ -71,9 +71,9 @@ async function Configuration(router, sequelizeObjects) {
 
     const config =
       `[app]
-move_to_processed=` + fields.app.move_to_processed + `
+move_to_processed=` + (fields.app.move_to_processed ? `True` : `False`) + `
 process_sleep_seconds=` + fields.app.process_sleep_seconds + `
-cv2_imshow_enabled=` + fields.app.cv2_imshow_enabled + `
+cv2_imshow_enabled=` + (fields.app.cv2_imshow_enabled ? `True` : `False`) + `
 
 [yolo]
 ignored_labels=` + fields.yolo.ignored_labels + `
@@ -89,9 +89,9 @@ user=` + fields.postgresql.user + `
 password=` + fields.postgresql.password + `
 
 [openalpr]
-enabled=` + fields.openalpr.enabled + `
+enabled=` + (fields.openalpr.enabled ? `True` : `False`) + `
 region=` + fields.openalpr.region + `
-use_plate_char_length=` + fields.openalpr.use_plate_char_length + `
+use_plate_char_length=` + (fields.openalpr.use_plate_char_length ? `True` : `False`) + `
 plate_char_length=` + fields.openalpr.plate_char_length + `
 
 [facerecognition]
@@ -104,10 +104,10 @@ jpeg_stream_names=` + fields.streamgrab.jpeg_stream_names + `
 jpeg_streams=` + fields.streamgrab.jpeg_streams + `
 
 [similarity]
-delete_files=` + fields.similarity.delete_files + `
+delete_files=` + (fields.similarity.delete_files ? `True` : `False`) + `
 
 [super_resolution]
-use_gpu=` + fields.super_resolution.use_gpu + `
+use_gpu=` + (fields.super_resolution.use_gpu ? `True` : `False`) + `
 max_width=` + fields.super_resolution.max_width + `
 max_height=` + fields.super_resolution.max_height + `
 `;
