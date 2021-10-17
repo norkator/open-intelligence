@@ -4,6 +4,7 @@ import axios, {PYTHON_CONFIGURATION} from "../../axios";
 import {AxiosError} from "axios";
 import {Button, Card, Form} from "react-bootstrap";
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
+import toast, {Toaster} from "react-hot-toast";
 
 interface PythonConfigurationFieldsInterface {
   app: {
@@ -104,7 +105,16 @@ class Configuration extends Component<WithTranslation> {
   saveConfigChanges = () => {
     axios.patch(PYTHON_CONFIGURATION, this.state.fields).then((data: any) => {
       if (this._isMounted) {
-        console.log(data);
+        if (data.status === 200) {
+          this.loadPythonConfiguration();
+          toast('Configuration saved');
+        } else {
+          toast('Saving configuration failed.', {
+            style: {
+              border: '1px solid red',
+            },
+          });
+        }
       }
     }).catch((error: AxiosError) => {
       this.setState({axiosError: error});
@@ -450,6 +460,9 @@ class Configuration extends Component<WithTranslation> {
                           className="float-left" variant="outline-light" size="sm">
                     {t('configuration.saveChanges')}
                   </Button>
+
+                  <Toaster/>
+
                 </>
             }
           </Card.Body>
