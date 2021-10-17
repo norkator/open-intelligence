@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
-import axios, {GET_PYTHON_CONFIGURATION} from "../../axios";
+import axios, {PYTHON_CONFIGURATION} from "../../axios";
 import {AxiosError} from "axios";
 import {Button, Card, Form} from "react-bootstrap";
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
@@ -79,7 +79,7 @@ class Configuration extends Component<WithTranslation> {
   }
 
   loadPythonConfiguration = () => {
-    axios.get(GET_PYTHON_CONFIGURATION).then((data: any) => {
+    axios.get(PYTHON_CONFIGURATION).then((data: any) => {
       if (this._isMounted) {
         const config = data.data as PythonConfigurationInterface;
         const pc = new Buffer(config.configData, 'base64');
@@ -95,12 +95,20 @@ class Configuration extends Component<WithTranslation> {
     });
   };
 
-
-  handleConfigChange = (event: any) => {
-    this.setState({pythonConfiguration: event.target.value});
+  handleConfigChange = (mainPath: string, key: string, event: any) => {
+    let fields: any = this.state.fields;
+    fields[mainPath][key] = event.target.value;
+    this.setState({fields: fields});
   };
 
   saveConfigChanges = () => {
+    axios.patch(PYTHON_CONFIGURATION, this.state.fields).then((data: any) => {
+      if (this._isMounted) {
+        console.log(data);
+      }
+    }).catch((error: AxiosError) => {
+      this.setState({axiosError: error});
+    });
   };
 
   render() {
@@ -132,7 +140,9 @@ class Configuration extends Component<WithTranslation> {
                       <Form.Group>
                         <Form.Label>process_sleep_seconds</Form.Label>
                         <Form.Control type="number" placeholder="4"
-                                      value={this.state.fields.app?.process_sleep_seconds}/>
+                                      value={this.state.fields.app?.process_sleep_seconds}
+                                      onChange={(event: any) => {this.handleConfigChange('app', 'process_sleep_seconds', event)}}
+                        />
                         <Form.Text className="text-muted">
                           How long looping process should sleep before next image processing run.
                         </Form.Text>
@@ -343,8 +353,7 @@ class Configuration extends Component<WithTranslation> {
                   <hr/>
                   <Form.Group style={{marginTop: 10}} controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Current configuration looks like this</Form.Label>
-                    <Form.Control as="textarea" rows={10} value={this.state.pythonConfiguration}
-                                  onChange={this.handleConfigChange}/>
+                    <Form.Control as="textarea" rows={10} value={this.state.pythonConfiguration}/>
                   </Form.Group>
 
                   <Button onClick={() => this.saveConfigChanges()}
