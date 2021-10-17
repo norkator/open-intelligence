@@ -3,7 +3,8 @@
     "close": "Close",
     "save": "Save",
     "reject": "Reject",
-    "delete": "Delete"
+    "delete": "Delete",
+    "enabled": "Enabled"
   },
   "navbar": {
     "home": "Home",
@@ -121,6 +122,28 @@
   },
   "configuration": {
     "pythonConfiguration": "Python configuration",
-    "saveChanges": "Save changes"
+    "saveChanges": "Save changes",
+    "configurationSaved": "Configuration saved",
+    "configurationSaveFailed": "Saving configuration failed.",
+    "settings": "settings",
+    "moveToProcessedHint": "Determines are input images placed under /processed folder in same path as origin image is taken from.",
+    "processSleepSecondsHint": "How long looping process should sleep before next image processing run.",
+    "cv2ImshowEnabledHint": "If enabled, python process shows a window of what it's seeing. Does not work with containers.",
+    "ignoredLabelsHint": "Yolo detection will ignore following labels. Separate new ones with comma.",
+    "cameraNamesHint": "Camera names. Folders specified below. Separate new ones with comma. Should not be changed afterwards.",
+    "cameraFoldersHint": "Where to load images from. Separate new ones with comma. Can be changed later if location changes.",
+    "forPostgreSQL": "for Postgresql",
+    "openAlprEnabledHint": "Software for detecting and reading license plates from images.",
+    "usePlateCharLengthHint": "Custom option to maybe affect accuracy.",
+    "faceRecognition": "Face recognition",
+    "outputRootPathHint": "cwd means current working directory.",
+    "jpegStreamNamesHint": "Name for stream. Separate with comma.",
+    "jpegStreamsHint": "Camera stream address. Stream grab is handy for taking snapshots from camera streams.",
+    "similarityProcess": "Similarity process",
+    "deleteFilesHint": "This process tries to save some spaces by deleting similar images. You can make it permanently delete photos if needed so.",
+    "superResolution": "Super resolution",
+    "useGpuHint": "Using GPU requires complicated CUDA setup.",
+    "maxWidthHint": "This improves license plate detection so process it only for smaller images.",
+    "currentConfigurationLooksHint": "Current configuration looks like this"
   }
 }

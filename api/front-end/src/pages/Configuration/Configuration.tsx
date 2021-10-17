@@ -103,13 +103,14 @@ class Configuration extends Component<WithTranslation> {
   };
 
   saveConfigChanges = () => {
+    const {t} = this.props;
     axios.patch(PYTHON_CONFIGURATION, this.state.fields).then((data: any) => {
       if (this._isMounted) {
         if (data.status === 200) {
           this.loadPythonConfiguration();
-          toast('Configuration saved');
+          toast(t('configuration.configurationSaved'));
         } else {
-          toast('Saving configuration failed.', {
+          toast('configuration.configurationSaveFailed', {
             style: {
               border: '1px solid red',
             },
@@ -135,19 +136,18 @@ class Configuration extends Component<WithTranslation> {
                 <>
                   <Form>
                     <div style={{marginTop: 0}}>
-                      <h4>App.py settings</h4>
+                      <h4>App.py {t('configuration.settings')}</h4>
                       <Form.Group>
                         <Form.Label>move_to_processed</Form.Label>
                         <Form.Check
-                          type="checkbox" label="Enabled"
+                          type="checkbox" label={t('generic.enabled')}
                           defaultChecked={this.state.fields.app?.move_to_processed === 'True'}
                           onChange={(event: any) => {
                             this.handleConfigChange('app', 'move_to_processed', event, true)
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Determines are input images placed under /processed folder in same path as origin image is
-                          taken from.
+                          {t('configuration.moveToProcessedHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -160,26 +160,26 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          How long looping process should sleep before next image processing run.
+                          {t('configuration.processSleepSecondsHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>cv2_imshow_enabled</Form.Label>
                         <Form.Check
-                          type="checkbox" label="Enabled"
+                          type="checkbox" label={t('generic.enabled')}
                           defaultChecked={this.state.fields.app?.cv2_imshow_enabled === 'True'}
                           onChange={(event: any) => {
                             this.handleConfigChange('app', 'cv2_imshow_enabled', event, true)
                           }}
                         />
                         <Form.Text className="text-muted">
-                          If enabled, python process shows a window of what it's seeing. Does not work with containers.
+                          {t('configuration.cv2ImshowEnabledHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>Yolo settings</h4>
+                      <h4>Yolo {t('configuration.settings')}</h4>
                       <Form.Group>
                         <Form.Label>ignored_labels</Form.Label>
                         <Form.Control
@@ -190,13 +190,13 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Yolo detection will ignore following labels. Separate new ones with comma.
+                          {t('configuration.ignoredLabelsHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>Camera settings</h4>
+                      <h4>Camera {t('configuration.settings')}</h4>
                       <Form.Group>
                         <Form.Label>camera_names</Form.Label>
                         <Form.Control
@@ -207,8 +207,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Camera names. Folders specified below. Separate new ones with comma. Should not be changed
-                          afterwards.
+                          {t('configuration.cameraNamesHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -221,14 +220,13 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Where to load images from. Separate new ones with comma. Can be changed later if location
-                          changes.
+                          {t('configuration.cameraFoldersHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>Database settings for Postgresql</h4>
+                      <h4>Database {t('configuration.settings')} {t('configuration.forPostgreSQL')}</h4>
                       <Form.Group>
                         <Form.Label>host</Form.Label>
                         <Form.Control
@@ -272,18 +270,18 @@ class Configuration extends Component<WithTranslation> {
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>OpenALPR settings</h4>
+                      <h4>OpenALPR {t('configuration.settings')}</h4>
                       <Form.Group>
                         <Form.Label>enabled</Form.Label>
                         <Form.Check
-                          type="checkbox" label="Enabled"
+                          type="checkbox" label={t('generic.enabled')}
                           defaultChecked={this.state.fields.openalpr.enabled === 'True'}
                           onChange={(event: any) => {
                             this.handleConfigChange('openalpr', 'enabled', event, true)
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Software for detecting and reading license plates from images.
+                          {t('configuration.openAlprEnabledHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -299,14 +297,14 @@ class Configuration extends Component<WithTranslation> {
                       <Form.Group>
                         <Form.Label>use_plate_char_length</Form.Label>
                         <Form.Check
-                          type="checkbox" label="Enabled"
+                          type="checkbox" label={t('generic.enabled')}
                           defaultChecked={this.state.fields.openalpr.use_plate_char_length === 'True'}
                           onChange={(event: any) => {
                             this.handleConfigChange('openalpr', 'use_plate_char_length', event, true)
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Custom option to maybe affect accuracy.
+                          {t('configuration.usePlateCharLengthHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -322,7 +320,7 @@ class Configuration extends Component<WithTranslation> {
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>Face recognition</h4>
+                      <h4>{t('configuration.faceRecognition')}</h4>
                       <Form.Group>
                         <Form.Label>file_name_prefix</Form.Label>
                         <Form.Control
@@ -343,7 +341,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          cwd means current working directory.
+                          {t('configuration.outputRootPathHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
@@ -370,7 +368,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Name for stream. Separate with comma.
+                          {t('configuration.jpegStreamNamesHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -383,42 +381,41 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Camera stream address. Stream grab is handy for taking snapshots from camera streams.
+                          {t('configuration.jpegStreamsHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>Similarity process</h4>
+                      <h4>{t('configuration.similarityProcess')}</h4>
                       <Form.Group>
                         <Form.Label>delete_files</Form.Label>
                         <Form.Check
-                          type="checkbox" label="Enabled"
+                          type="checkbox" label={t('generic.enabled')}
                           defaultChecked={this.state.fields.similarity.delete_files === 'True'}
                           onChange={(event: any) => {
                             this.handleConfigChange('similarity', 'delete_files', event, true)
                           }}
                         />
                         <Form.Text className="text-muted">
-                          This process tries to save some spaces by deleting similar images. You can make it permanently
-                          delete photos if needed so.
+                          {t('configuration.deleteFilesHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
 
                     <div style={{marginTop: 40}}>
-                      <h4>Super resolution</h4>
+                      <h4>{t('configuration.superResolution')}</h4>
                       <Form.Group>
                         <Form.Label>use_gpu</Form.Label>
                         <Form.Check
-                          type="checkbox" label="Enabled"
+                          type="checkbox" label={t('generic.enabled')}
                           defaultChecked={this.state.fields.super_resolution.use_gpu === 'True'}
                           onChange={(event: any) => {
                             this.handleConfigChange('super_resolution', 'use_gpu', event, true)
                           }}
                         />
                         <Form.Text className="text-muted">
-                          Using GPU requires complicated CUDA setup.
+                          {t('configuration.useGpuHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -431,7 +428,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          This improves license plate detection so process it only for smaller images.
+                          {t('configuration.maxWidthHint')}
                         </Form.Text>
                       </Form.Group>
                       <Form.Group>
@@ -444,7 +441,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                         <Form.Text className="text-muted">
-                          This improves license plate detection so process it only for smaller images.
+                          {t('configuration.maxWidthHint')}
                         </Form.Text>
                       </Form.Group>
                     </div>
@@ -452,7 +449,7 @@ class Configuration extends Component<WithTranslation> {
 
                   <hr/>
                   <Form.Group style={{marginTop: 10}} controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Current configuration looks like this</Form.Label>
+                    <Form.Label>{t('configuration.currentConfigurationLooksHint')}</Form.Label>
                     <Form.Control as="textarea" rows={10} defaultValue={this.state.pythonConfiguration}/>
                   </Form.Group>
 
