@@ -7,12 +7,13 @@ const path = require('path');
 const dotEnv = require('dotenv').config();
 const fs = require('fs');
 
+const PYTHON_CONFIG_FILE_PATH = path.join(__dirname + '../../../' + 'config.ini');
+
 
 async function Configuration(router, sequelizeObjects) {
 
   router.get('/python-configuration', async (req, res) => {
-    const configurationFilePath = path.join(__dirname + '../../../' + 'config.ini');
-    const configFileData = fs.readFileSync(configurationFilePath).toString('base64');
+    const configFileData = fs.readFileSync(PYTHON_CONFIG_FILE_PATH).toString('base64');
     const raw = new Buffer.alloc(configFileData.length, configFileData, 'base64').toString('ascii');
     const response = {
       status: 'ok',
@@ -66,7 +67,52 @@ async function Configuration(router, sequelizeObjects) {
 
 
   router.patch('/python-configuration', async (req, res) => {
-    res.json({status: 'ok', data: ''});
+    const fields = req.body;
+
+    const config =
+      `[app]
+move_to_processed=` + fields.app.move_to_processed + `
+process_sleep_seconds=` + fields.app.process_sleep_seconds + `
+cv2_imshow_enabled=` + fields.app.cv2_imshow_enabled + `
+
+[yolo]
+ignored_labels=` + fields.yolo.ignored_labels + `
+
+[camera]
+camera_names=` + fields.camera.camera_names + `
+camera_folders=` + fields.camera.camera_folders + `
+
+[postgresql]
+host=` + fields.postgresql.host + `
+database=` + fields.postgresql.database + `
+user=` + fields.postgresql.user + `
+password=` + fields.postgresql.password + `
+
+[openalpr]
+enabled=` + fields.openalpr.enabled + `
+region=` + fields.openalpr.region + `
+use_plate_char_length=` + fields.openalpr.use_plate_char_length + `
+plate_char_length=` + fields.openalpr.plate_char_length + `
+
+[facerecognition]
+file_name_prefix=` + fields.facerecognition.file_name_prefix + `
+output_root_path=` + fields.facerecognition.output_root_path + `
+
+[streamgrab]
+sleep_seconds=` + fields.streamgrab.sleep_seconds + `
+jpeg_stream_names=` + fields.streamgrab.jpeg_stream_names + `
+jpeg_streams=` + fields.streamgrab.jpeg_streams + `
+
+[similarity]
+delete_files=` + fields.similarity.delete_files + `
+
+[super_resolution]
+use_gpu=` + fields.super_resolution.use_gpu + `
+max_width=` + fields.super_resolution.max_width + `
+max_height=` + fields.super_resolution.max_height + `
+`;
+    fs.writeFileSync(PYTHON_CONFIG_FILE_PATH, config);
+    res.json({status: 'ok'});
   });
 
 

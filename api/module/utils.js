@@ -733,7 +733,7 @@ exports.ParseVehicleEvents = ParseVehicleEvents;
 function ConfigValue(config, key) {
   const s = config.split('\n');
   for (let i = 0; i < s.length; i++) {
-    const l = s[i].replace('\'').split('=');
+    const l = s[i].split('=');
     if (l[0] === key) {
       return l[1];
     }
@@ -742,3 +742,4 @@ function ConfigValue(config, key) {
 }
 
 exports.ConfigValue = ConfigValue;
+
