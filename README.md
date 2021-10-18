@@ -380,7 +380,6 @@ I have needed to make small changes to them, that's why those are included here.
 
 License
 ============
-Current license is not fully suitable. I don't allow commercial use.  
-NonCommercial use only.
+See [LICENSE](./LICENSE) file.
 
 
