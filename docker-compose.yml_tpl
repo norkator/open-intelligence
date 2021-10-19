@@ -8,6 +8,8 @@ services:
       - "3000:3000"
     #depends_on:
     #  - open-intelligence-python
+    volumes:
+      - ./output:/usr/src/output
     environment:
       - NODE_ENV=development
       - LOGGING=true
