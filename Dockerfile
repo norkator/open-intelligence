@@ -1,7 +1,7 @@
 FROM python:3.6.15
 
 # COPY . /app
-COPY requirements_linux.txt /app/requirements_linux_container.txt
+COPY requirements_linux_container.txt /app/requirements_linux_container.txt
 
 WORKDIR /app
 
