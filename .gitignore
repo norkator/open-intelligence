@@ -26,6 +26,9 @@ models/yolov4.cfg
 models/yolov4.weights
 models/car_CNN_13AUGM_CMCMCMCMF.h5py
 models/color_model.h5
+models/retinaface_r50_v1.zip
+models/retinaface_r50_v1/R50-0000.params
+models/retinaface_r50_v1/R50-symbol.json
 
 # Api project
 api/node_modules/*
