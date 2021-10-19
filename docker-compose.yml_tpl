@@ -1,13 +1,27 @@
 version: '3'
 services:
+  open-intelligence-app-py:
+    container_name: open-intelligence-app-py
+    build: .
+    volumes:
+      - ./:/app
+      - E:/OITestInput:/input_test
+  open-intelligence-insight-face-py:
+    container_name: open-intelligence-insight-face-py
+    build:
+      context: .
+      dockerfile: if.Dockerfile
+    volumes:
+      - ./:/app
+      - E:/OITestInput:/input_test
   open-intelligence-front:
     container_name: open-intelligence-front
     build: ./api
     ports:
       - "4300:4300"
       - "3000:3000"
-    #depends_on:
-    #  - open-intelligence-python
+    depends_on:
+      - open-intelligence-app-py
     volumes:
       - ./output:/usr/src/output
     environment:
