@@ -4,7 +4,7 @@ Pillow==8.2.0
 opencv-python-headless==4.5.3.56
 tensorflow==2.0.3
 # tensorflow-gpu==2.0.3
-# Keras==2.3.1
+Keras==2.3.1
 protobuf==3.6.1
 scikit-learn==0.22.1
 scikit-image==0.16.2
