@@ -17,9 +17,9 @@ need for expensive camera systems because any existing cameras are suitable.
 I developed this to my own use because were tired to use existing monitoring tools to go through 
 recorded video. I wanted to know what has been happening quickly.
 
-<b>This project has reached the point of my interests so any future major developments are up to 
-funding and contributors!</b>
+<b>Any future major developments require funding and/or contributors!</b>
 
+<br>
 
 ![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
 
@@ -40,7 +40,8 @@ Open Intelligence is suitable from private properties to small businesses with m
 Table of contents
 =================
 * [Environment](#environment)
-* [Installing](#installing)
+* [Installing with Docker](#installing-with-docker)
+* [Installing manually](#installing-manually)
     * [Api side](#api-side)
     * [Build react front end](#build-react-front-end)
     * [Python side (Windows)](#python-side)    
@@ -72,7 +73,14 @@ is at server one, python application at server two and api hosting at server thr
 
 ![Environment](docs/environment.png) 
 
-Installing
+
+Installing with Docker
+============
+Follow [Installation-using-Docker](https://github.com/norkator/open-intelligence/wiki/Installation-using-Docker) 
+instruction from Wiki page.
+
+
+Installing manually
 ============
 
 Terminology for words like API side and Python side:
@@ -114,18 +122,16 @@ Python side
    .\venv\Scripts\activate.bat
    ```
 3. Install dependencies `pip install -r requirements_windows.txt`
-4. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
-Ensure that cfg file width and height is 608
-5. Extract weights, cfg and coco to `models` folder
-6. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
+4. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
+5. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
 its also tested with version 12. (if you didn't install at upper api section)
-7. Rename `config.ini.tpl` to `config.ini` and fill details. 
+6. Rename `config.ini.tpl` to `config.ini` and fill details. 
     * Config.ini content settings explained, see [Config ini](#config-ini)
     * For multiple nodes, see [Multi node support](#multi-node-support))
-8. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
+7. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
     * This is needed by openALPR
-9. Separate camera and folder names with comma just like at base config template
-10. Run wanted python apps, see `Python Apps` section.
+8. Separate camera and folder names with comma just like at base config template
+9. Run wanted python apps, see `Python Apps` section.
 
 It's critical to setup ini configuration right.
  
@@ -142,16 +148,14 @@ Python side
    source ./bin/activate
     ```
 2. Install dependencies `pip install -r requirements_linux.txt`
-3. Run `Setup.py` OR Download cfg and weights from here https://github.com/AlexeyAB/darknet#pre-trained-models, cfg, coco.names https://pjreddie.com/darknet/yolo/
-Ensure that cfg file width and height is 608
-4. Extract weights, cfg and coco to `models` folder
-5. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
+3. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
+4. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but
 its also tested with version 12. (if you didn't install at upper api section)
-6. Rename `config.ini.tpl` to `config.ini` and fill details. 
+5. Rename `config.ini.tpl` to `config.ini` and fill details. 
     * Config.ini content settings explained, see [Config ini](#config-ini)
     * For multiple nodes, see [Multi node support](#multi-node-support))
-7. Separate camera and folder names with comma just like at base config template
-8. Run wanted python apps, see `Python Apps` section.
+6. Separate camera and folder names with comma just like at base config template
+7. Run wanted python apps, see `Python Apps` section.
 
 
 Process drawing
@@ -323,6 +327,17 @@ Front end development
 There is separate Readme for this side so 
 see more at `./api/front-end/README.md`  
 ![Link](api/front-end/README.md) 
+
+
+
+Docker image development
+============
+Run container but swap to bash instead to tweak and try things.
+```
+docker run -it --entrypoint /bin/bash ghcr.io/norkator/open-intelligence-python:dockerize -s
+```
+Handy if container crashes immediately without clear reason.
+
 
 
 Troubleshooting

@@ -1,0 +1,51 @@
+version: '3'
+services:
+  open-intelligence-app-py:
+    container_name: open-intelligence-app-py
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    volumes:
+      - ./:/app
+      - E:/OITestInput:/input_test
+  open-intelligence-insight-face-py:
+    container_name: open-intelligence-insight-face-py
+    build:
+      context: .
+      dockerfile: if.Dockerfile
+    volumes:
+      - ./:/app
+  open-intelligence-super-resolution-py:
+    container_name: open-intelligence-super-resolution-py
+    build:
+      context: .
+      dockerfile: sr.Dockerfile
+    volumes:
+      - ./:/app
+  open-intelligence-similarity-process-py:
+    container_name: open-intelligence-similarity-process-py
+    build:
+      context: .
+      dockerfile: sp.Dockerfile
+    volumes:
+      - ./:/app
+  open-intelligence-front:
+    container_name: open-intelligence-front
+    build: ./api
+    ports:
+      - "4300:4300"
+      - "3000:3000"
+    depends_on:
+      - open-intelligence-app-py
+    volumes:
+      - ./output:/usr/src/output
+    environment:
+      - NODE_ENV=development
+      - LOGGING=true
+      - API_PORT=4300
+      - DB_DIALECT=postgres
+      - DB_USER=your-postgresql-server-user
+      - DB_HOST=your-postgresql-server-address
+      - DB_DATABASE=intelligence
+      - DB_PASSWORD=your-postgresql-server-password
+      - DB_PORT=5432

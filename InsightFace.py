@@ -1,12 +1,12 @@
 import os
 import sys
-from module import configparser, database, gpu_utils, insightface_utils, process_utils
+from module import configparser, database, insightface_utils, process_utils
 from objects import SrFile
 import psycopg2
 import time
 
 # Check does system has GPU support
-print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
+# print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 
 # Parse configs
 app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
