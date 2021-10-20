@@ -17,9 +17,9 @@ need for expensive camera systems because any existing cameras are suitable.
 I developed this to my own use because were tired to use existing monitoring tools to go through 
 recorded video. I wanted to know what has been happening quickly.
 
-<b>This project has reached the point of my interests so any future major developments are up to 
-funding and contributors!</b>
+<b>Any future major developments require funding and/or contributors!</b>
 
+<br>
 
 ![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
 
@@ -76,10 +76,8 @@ is at server one, python application at server two and api hosting at server thr
 
 Installing with Docker
 ============
-```shell script
-docker pull ghcr.io/norkator/open-intelligence-python:dockerize
-```
-
+Follow [Installation-using-Docker](https://github.com/norkator/open-intelligence/wiki/Installation-using-Docker) 
+instruction from Wiki page.
 
 
 Installing manually
