@@ -2,7 +2,9 @@ version: '3'
 services:
   open-intelligence-app-py:
     container_name: open-intelligence-app-py
-    build: .
+    build:
+      context: .
+      dockerfile: app.Dockerfile
     volumes:
       - ./:/app
       - E:/OITestInput:/input_test
@@ -13,7 +15,20 @@ services:
       dockerfile: if.Dockerfile
     volumes:
       - ./:/app
-      - E:/OITestInput:/input_test
+  open-intelligence-super-resolution-py:
+    container_name: open-intelligence-super-resolution-py
+    build:
+      context: .
+      dockerfile: sr.Dockerfile
+    volumes:
+      - ./:/app
+  open-intelligence-similarity-process-py:
+    container_name: open-intelligence-similarity-process-py
+    build:
+      context: .
+      dockerfile: sp.Dockerfile
+    volumes:
+      - ./:/app
   open-intelligence-front:
     container_name: open-intelligence-front
     build: ./api
