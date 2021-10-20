@@ -12,4 +12,7 @@ RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 # docker-compose file introduces mount point to mount source files without copying into docker image
 
+COPY models/retinaface_r50_v1/R50-0000.params /root/.insightface/models/retinaface_r50_v1/R50-0000.params
+COPY models/retinaface_r50_v1/R50-symbol.json /root/.insightface/models/retinaface_r50_v1//R50-symbol.json
+
 CMD ["python", "./InsightFace.py"]
