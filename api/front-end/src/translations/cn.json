@@ -14,7 +14,7 @@
     "training": "训练",
     "changeLanguage": "语言选择",
     "history": "历史",
-    "configuration": "Configuration"
+    "configuration": "配置"
   },
   "home": {
     "calendar": {
@@ -41,8 +41,8 @@
       "aliveCheck": "运行检测",
       "started": "始于",
       "noProcesses": {
-        "title": "No processors",
-        "description": "No main App.py image processors detected!"
+        "title": "无处理器",
+        "description": "未检测到主 App.py 图像处理器！"
       }
     },
     "labels": {
@@ -121,29 +121,29 @@
     "camera": "相机"
   },
   "configuration": {
-    "pythonConfiguration": "Python configuration",
-    "saveChanges": "Save changes",
-    "configurationSaved": "Configuration saved",
-    "configurationSaveFailed": "Saving configuration failed.",
-    "settings": "settings",
-    "moveToProcessedHint": "Determines are input images placed under /processed folder in same path as origin image is taken from.",
-    "processSleepSecondsHint": "How long looping process should sleep before next image processing run.",
-    "cv2ImshowEnabledHint": "If enabled, python process shows a window of what it's seeing. Does not work with containers.",
-    "ignoredLabelsHint": "Yolo detection will ignore following labels. Separate new ones with comma.",
-    "cameraNamesHint": "Camera names. Folders specified below. Separate new ones with comma. Should not be changed afterwards.",
-    "cameraFoldersHint": "Where to load images from. Separate new ones with comma. Can be changed later if location changes.",
-    "forPostgreSQL": "for Postgresql",
-    "openAlprEnabledHint": "Software for detecting and reading license plates from images.",
-    "usePlateCharLengthHint": "Custom option to maybe affect accuracy.",
-    "faceRecognition": "Face recognition",
-    "outputRootPathHint": "cwd means current working directory.",
-    "jpegStreamNamesHint": "Name for stream. Separate with comma.",
-    "jpegStreamsHint": "Camera stream address. Stream grab is handy for taking snapshots from camera streams.",
-    "similarityProcess": "Similarity process",
-    "deleteFilesHint": "This process tries to save some spaces by deleting similar images. You can make it permanently delete photos if needed so.",
-    "superResolution": "Super resolution",
-    "useGpuHint": "Using GPU requires complicated CUDA setup.",
-    "maxWidthHint": "This improves license plate detection so process it only for smaller images.",
-    "currentConfigurationLooksHint": "Current configuration looks like this"
+    "pythonConfiguration": "蟒蛇配置",
+    "saveChanges": "保存更改",
+    "configurationSaved": "配置已保存",
+    "configurationSaveFailed": "保存配置失败。",
+    "settings": "设置",
+    "moveToProcessedHint": "确定输入图像是否放置在 /processed 文件夹下，与原始图像取自的路径相同。",
+    "processSleepSecondsHint": "在下一次图像处理运行之前循环过程应该休眠多长时间。",
+    "cv2ImshowEnabledHint": "如果启用，python 进程会显示它所看到的窗口。不适用于容器。",
+    "ignoredLabelsHint": "Yolo 检测将忽略以下标签。用逗号分隔新的。",
+    "cameraNamesHint": "相机名称。下面指定的文件夹。用逗号分隔新的。以后不得更改。",
+    "cameraFoldersHint": "从哪里加载图像。用逗号分隔新的。如果位置更改，可以稍后更改。",
+    "forPostgreSQL": "对于 PostgreSQL",
+    "openAlprEnabledHint": "用于从图像中检测和读取车牌的软件。",
+    "usePlateCharLengthHint": "自定义选项可能会影响准确性。",
+    "faceRecognition": "人脸识别",
+    "outputRootPathHint": "cwd 表示当前工作目录。",
+    "jpegStreamNamesHint": "流的名称。用逗号分隔。",
+    "jpegStreamsHint": "相机流地址。流抓取对于从相机流中获取快照非常方便。",
+    "similarityProcess": "相似过程",
+    "deleteFilesHint": "这个过程试图通过删除相似的图像来节省一些空间。如果需要，您可以让它永久删除照片。",
+    "superResolution": "超分辨率",
+    "useGpuHint": "使用 GPU 需要复杂的 CUDA 设置。",
+    "maxWidthHint": "这改进了车牌检测，因此仅对较小的图像进行处理。",
+    "currentConfigurationLooksHint": "当前配置如下所示"
   }
 }
