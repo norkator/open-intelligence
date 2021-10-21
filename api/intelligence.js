@@ -28,8 +28,8 @@ initDb.initDatabase().then(() => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true,}));
 
-  if (process.env.allowAccessOriginAll === 'true') {
-    // allowAccessOriginAll will let any origin client connect to this api
+  if (process.env.ALLOW_ACCESS_ORIGIN_ALL === 'true') {
+    // ALLOW_ACCESS_ORIGIN_ALL will let any origin client connect to this api
     app.use(function(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PATCH, PUT');

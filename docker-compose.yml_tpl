@@ -7,7 +7,7 @@ services:
       dockerfile: app.Dockerfile
     volumes:
       - ./:/app
-      - E:/OITestInput:/input_test
+      # - E:/OITestInput:/input_test
   open-intelligence-insight-face-py:
     container_name: open-intelligence-insight-face-py
     build:
@@ -40,6 +40,8 @@ services:
     volumes:
       - ./output:/usr/src/output
     environment:
+      - REACT_APP_API_BASE_URL=http://<your-server-ip-address>:4300/
+      - ALLOW_ACCESS_ORIGIN_ALL=true
       - NODE_ENV=development
       - LOGGING=true
       - API_PORT=4300
