@@ -38,16 +38,29 @@ services:
     depends_on:
       - open-intelligence-app-py
     volumes:
-      - ./output:/usr/src/output
+      - /mnt/oi-output-mount/:/usr/src/output/
     environment:
+      # So that front end knows where api is
       - REACT_APP_API_BASE_URL=http://<your-server-ip-address>:4300/
-      - ALLOW_ACCESS_ORIGIN_ALL=true
       - NODE_ENV=development
       - LOGGING=true
       - API_PORT=4300
+      # Database
       - DB_DIALECT=postgres
       - DB_USER=your-postgresql-server-user
       - DB_HOST=your-postgresql-server-address
       - DB_DATABASE=intelligence
       - DB_PASSWORD=your-postgresql-server-password
       - DB_PORT=5432
+      - SEQ_LOGGING=false
+      # Time format
+      - DATE_TIME_FORMAT=YYYY-MM-DD HH:mm
+      # Security
+      - ALLOW_ACCESS_ORIGIN_ALL=true
+      # EMAIL
+      - EMAIL_ENABLED=False
+      - EMAIL_HOST=smtp-mail.somemail.com
+      - EMAIL_PORT=587
+      - EMAIL_USER=
+      - EMAIL_PASSWORD=
+      - EMAIL_TO_ADDRESS=address1@address.com,address2@addres.com
