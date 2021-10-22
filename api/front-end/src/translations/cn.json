@@ -3,7 +3,8 @@
     "close": "关闭",
     "save": "保存",
     "reject": "拒绝",
-    "delete": "删除"
+    "delete": "删除",
+    "enabled": "启用"
   },
   "navbar": {
     "home": "主页",
@@ -12,7 +13,8 @@
     "faces": "面孔",
     "training": "训练",
     "changeLanguage": "语言选择",
-    "history": "历史"
+    "history": "历史",
+    "configuration": "配置"
   },
   "home": {
     "calendar": {
@@ -37,7 +39,11 @@
       "runningInstances": "运行程序",
       "process": "进程",
       "aliveCheck": "运行检测",
-      "started": "始于"
+      "started": "始于",
+      "noProcesses": {
+        "title": "无处理器",
+        "description": "未检测到主 App.py 图像处理器！"
+      }
     },
     "labels": {
       "labelViewer": "类别一览",
@@ -113,5 +119,31 @@
   "history": {
     "load": "加载",
     "camera": "相机"
+  },
+  "configuration": {
+    "pythonConfiguration": "蟒蛇配置",
+    "saveChanges": "保存更改",
+    "configurationSaved": "配置已保存",
+    "configurationSaveFailed": "保存配置失败。",
+    "settings": "设置",
+    "moveToProcessedHint": "确定输入图像是否放置在 /processed 文件夹下，与原始图像取自的路径相同。",
+    "processSleepSecondsHint": "在下一次图像处理运行之前循环过程应该休眠多长时间。",
+    "cv2ImshowEnabledHint": "如果启用，python 进程会显示它所看到的窗口。不适用于容器。",
+    "ignoredLabelsHint": "Yolo 检测将忽略以下标签。用逗号分隔新的。",
+    "cameraNamesHint": "相机名称。下面指定的文件夹。用逗号分隔新的。以后不得更改。",
+    "cameraFoldersHint": "从哪里加载图像。用逗号分隔新的。如果位置更改，可以稍后更改。",
+    "forPostgreSQL": "对于 PostgreSQL",
+    "openAlprEnabledHint": "用于从图像中检测和读取车牌的软件。",
+    "usePlateCharLengthHint": "自定义选项可能会影响准确性。",
+    "faceRecognition": "人脸识别",
+    "outputRootPathHint": "cwd 表示当前工作目录。",
+    "jpegStreamNamesHint": "流的名称。用逗号分隔。",
+    "jpegStreamsHint": "相机流地址。流抓取对于从相机流中获取快照非常方便。",
+    "similarityProcess": "相似过程",
+    "deleteFilesHint": "这个过程试图通过删除相似的图像来节省一些空间。如果需要，您可以让它永久删除照片。",
+    "superResolution": "超分辨率",
+    "useGpuHint": "使用 GPU 需要复杂的 CUDA 设置。",
+    "maxWidthHint": "这改进了车牌检测，因此仅对较小的图像进行处理。",
+    "currentConfigurationLooksHint": "当前配置如下所示"
   }
 }

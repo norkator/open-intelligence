@@ -3,7 +3,8 @@
     "close": "Sulje",
     "save": "Tallenna",
     "reject": "Hylkää",
-    "delete": "Poista"
+    "delete": "Poista",
+    "enabled": "Käytössä"
   },
   "navbar": {
     "home": "Koti",
@@ -12,7 +13,8 @@
     "faces": "Kasvot",
     "training": "Opettaminen",
     "changeLanguage": "Vaihda kieltä",
-    "history": "Historia"
+    "history": "Historia",
+    "configuration": "Konfigurointi"
   },
   "home": {
     "calendar": {
@@ -37,7 +39,11 @@
       "runningInstances": "Ajossa olevat instanssit",
       "process": "Prosessi",
       "aliveCheck": "Raportoitu",
-      "started": "Käynnistetty"
+      "started": "Käynnistetty",
+      "noProcesses": {
+        "title": "Ei prosessoreita",
+        "description": "Ei päällä olevia App.py prosessoreita!"
+      }
     },
     "labels": {
       "labelViewer": "Leikekuvien katselu",
@@ -113,5 +119,31 @@
   "history": {
     "load": "Lataa",
     "camera": "Kamera"
+  },
+  "configuration": {
+    "pythonConfiguration": "Python konfiguraatio",
+    "saveChanges": "Tallenna muutokset",
+    "configurationSaved": "Konfiguraatio tallennettu",
+    "configurationSaveFailed": "Konfiguraation tallennus epäonnistui.",
+    "settings": "asetukset",
+    "moveToProcessedHint": "Päättää siirretäänkö prosessoidut kuvat /processed kansion alle samassa sijainnissa, josta kuvat ovat prosessoitu.",
+    "processSleepSecondsHint": "Kuinka kauan kuvia käsittelevän prosessin pitää nukkua ennen seuraavaa ajoa.",
+    "cv2ImshowEnabledHint": "Jos päällä, CV2 piirtää ikkunan, josta näet prosessoidun kuvan ja mitä kuvassa on nähty. Ei toimi konttiajo tilassa.",
+    "ignoredLabelsHint": "Yolo objektin tunnistus välttää seuraavat kategoriat. Erottele nimet pilkulla.",
+    "cameraNamesHint": "Kameroiden nimet. Kansiot määritellään alla. Erottele nimet pilkulla. Näitä asetuksia ei tulisi muuttaa myöhemmin.",
+    "cameraFoldersHint": "Where to load images from. Erottele nimet pilkulla. Can be changed later if location changes.",
+    "forPostgreSQL": "PostgreSQL:lle",
+    "openAlprEnabledHint": "Ohjelmisto rekisterinumeoiden tunnistukseen.",
+    "usePlateCharLengthHint": "Kustomoitu optio, joka saattaa vaikuttaa tunnistuksen tarkkuuteen.",
+    "faceRecognition": "Kasvontunnistus",
+    "outputRootPathHint": "cwd tarkoittaa 'current working directory'.",
+    "jpegStreamNamesHint": "Kamera striimin nimi. Erottele nimet pilkulla.",
+    "jpegStreamsHint": "Kamera striimin osoite. Kätevä työkalu kuvien tallentamiseen kamera lähetyksistä.",
+    "similarityProcess": "Samanlaisuus prosessi",
+    "deleteFilesHint": "Prosessi yrittää säästää tilaa etsimällä samanlaisia kuvia. Voit määritellä prosessin poistamaan kuvat lopullisesti, jos et tahdo varmuuden vuoksi tallentaa niitä.",
+    "superResolution": "Super resoluutio",
+    "useGpuHint": "GPU:n käyttö vaatii monimutkaisen CUDA asennuksen.",
+    "maxWidthHint": "Prosessi mahdollistaa rekisterinumeroiden paremman tunnistuksen pienistä kuvista.",
+    "currentConfigurationLooksHint": "Käytössä oleva konfiguraatio näyttää tältä"
   }
 }

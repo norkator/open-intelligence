@@ -725,3 +725,21 @@ function ParseVehicleEvents(dbData = []) {
 }
 
 exports.ParseVehicleEvents = ParseVehicleEvents;
+
+
+/**
+ * @return {String|null}
+ */
+function ConfigValue(config, key) {
+  const s = config.split('\n');
+  for (let i = 0; i < s.length; i++) {
+    const l = s[i].split('=');
+    if (l[0] === key) {
+      return l[1];
+    }
+  }
+  return null;
+}
+
+exports.ConfigValue = ConfigValue;
+

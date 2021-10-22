@@ -3,7 +3,8 @@
     "close": "बंद करे",
     "save": "सुरक्षित करे",
     "reject": "इनकार",
-    "delete": "हटाएँ"
+    "delete": "हटाएँ",
+    "enabled": "सक्षम"
   },
   "navbar": {
     "home": "मुख्य",
@@ -12,12 +13,13 @@
     "faces": "चेहरे",
     "training": "तैयार करे",
     "changeLanguage": "भाषा बदले",
-    "history": "इतिहास"
+    "history": "इतिहास",
+    "configuration": "व्यवस्था में बदलाव करे"
   },
   "home": {
     "calendar": {
       "vehicle_activity": "गाडी की गतिविधि",
-      "originalLicensePlateImage": "असली तस्वीर जहा चुनी हुई कैलेंडर प्लेट देखि जा सकती है"
+      "originalLicensePlateImage": "असली तस्वीर, जहा चुनी हुई कैलेंडर प्लेट देखि जा सकती है"
     },
     "dateRangeSelector": {
       "daysBetween": "इन दिनों क बीच में"
@@ -37,7 +39,11 @@
       "runningInstances": "उदाहरण लिए जा रहे हैं",
       "process": "प्रक्रिया",
       "aliveCheck": "जीवित होने की जांच",
-      "started": "शुरू हुआ"
+      "started": "शुरू हुआ",
+      "noProcesses": {
+        "title": "सुण्या प्रोसेसर",
+        "description": "कोई मुख्य App.py तस्वीर नहीं मिली !"
+      }
     },
     "labels": {
       "labelViewer": "लेबल दर्शक",
@@ -113,5 +119,31 @@
   "history": {
     "load": "भार",
     "camera": "कैमरा"
+  },
+  "configuration": {
+    "pythonConfiguration": "Python की व्यवस्था",
+    "saveChanges": "बदलाव सहेजे",
+    "configurationSaved": "व्यवस्था के बदलाव सुरक्षित कर लिए गए है",
+    "configurationSaveFailed": "व्यवस्था के बदलाव सुरक्षित नहीं हुये.",
+    "settings": "व्यवस्था",
+    "moveToProcessedHint": "निवेश की गयी तस्वीरें  /processed फोल्डर में है जहा स असली तस्वीरें ली गयी थी .",
+    "processSleepSecondsHint": "अगली तस्वीर पे काम करने से पहले, लूपिंग की प्रक्रिया कितनी देर विश्राम करेगी .",
+    "cv2ImshowEnabledHint": "अगर चालू किआ गया तो ये दर्शायेगा की ये क्या देख रहा है. कंटेनर के साथ काम नहीं करेगा .",
+    "ignoredLabelsHint": "Yolo इन लेबल को नजरअंदाज करेगा. नयी को कॉमा से अलग करे.",
+    "cameraNamesHint": "कैमरा का नाम . फ़ोल्डर्स नीचे बताये गए है . नयी को कॉमा से अलग करे. बाद में नहीं बदली जा सकती है.",
+    "cameraFoldersHint": "तस्वीरें कहा से ले . नयी को कॉमा से अलग करे . बाद में बदली जा सकती है .",
+    "forPostgreSQL": "Postgresql के लिए",
+    "openAlprEnabledHint": "तस्वीरो से लाइसेंस प्लेट पहचाननइ और पढ़ने के लिए परोगराम .",
+    "usePlateCharLengthHint": "बदलाव से सटीकता में परिवर्तन आ सकता है.",
+    "faceRecognition": "चेहरे पहचानना",
+    "outputRootPathHint": "cwd का मतलब अभी की मौजूदा डायरेक्टरी.",
+    "jpegStreamNamesHint": "वीडियो स्ट्रीम का नाम, कॉमा से अलग किया हुआ.",
+    "jpegStreamsHint": "कैमरा स्ट्रीम का पता, तस्वीर लेते वक़्त ये मददगार हो सकता है .",
+    "similarityProcess": "सामानता प्रक्रिया ",
+    "deleteFilesHint": "इस प्रक्रिया से एक जैसी तस्वीरें हटा दी जाएंगी ताकि जगह की बचत हो. आप इससे तस्वीरो को हमेशा के लिए भी हटा सकते है",
+    "superResolution": "उच्च संकल्प मीडिया",
+    "useGpuHint": "GPU के इस्तेमाल के लिए पेचीदा तकनीक की जरुरत है",
+    "maxWidthHint": "इससे लाइसेंस प्लेट पहचानने में बढ़ोतरी होगी, छोटी तस्वीर के लिए .",
+    "currentConfigurationLooksHint": "अभी की व्यवस्था ऐसी है"
   }
 }
