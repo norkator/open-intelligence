@@ -7,8 +7,9 @@ cv2_imshow_enabled=True
 ignored_labels=pottedplant,tennis racket,umbrella
 
 [camera]
+cameras_root_path=E:/CAMERA_SOURCE
 camera_names=TestCamera1,TestCamera2
-camera_folders=D:/testCamera1Folder/,D:/testCamera2Folder/,
+camera_folders=/testCamera1Folder/,/testCamera2Folder/,
 
 [postgresql]
 host=localhost

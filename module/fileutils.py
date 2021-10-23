@@ -15,16 +15,23 @@ path = os.getcwd() + '/images/'
 
 
 def get_camera_image_names(directory_path):
-    return os.listdir(directory_path)
+    files = []
+    for file_name in os.listdir(directory_path):
+        p = os.path.join(directory_path, file_name)
+        if os.path.isdir(p):
+            continue
+        else:
+            files.append(file_name)
+    return files
 
 
-def get_file_extension(directory_path, file_name):
-    filename, file_extension = os.path.splitext(directory_path + file_name)
+def get_file_extension(root_path, directory_path, file_name):
+    filename, file_extension = os.path.splitext(root_path + directory_path + file_name)
     return file_extension
 
 
-def get_file_create_time(directory_path, file_name):
-    return time.gmtime(os.path.getmtime(directory_path + file_name))
+def get_file_create_time(root_path, directory_path, file_name):
+    return time.gmtime(os.path.getmtime(root_path + directory_path + file_name))
 
 
 def get_file_create_year(gm_time):
@@ -52,8 +59,8 @@ def get_file_create_second(gm_time):
     return time.strftime('%S', gm_time)
 
 
-def get_file_mtime(directory_path, file_name):
-    return os.path.getmtime(directory_path + file_name)
+def get_file_mtime(root_path, directory_path, file_name):
+    return os.path.getmtime(root_path + directory_path + file_name)
 
 
 # -----------------------------------------

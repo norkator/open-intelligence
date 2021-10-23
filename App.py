@@ -20,8 +20,8 @@ print('Time offset: ' + str(time_offset_hours))
 
 # Specify your names and folders at config.ini
 # split them by a,b,c,d
-names = ['App1']
-folders = [os.getcwd() + '/images/']
+names = []  # ['App1']
+folders = []  # [os.getcwd() + '/images/']
 
 # Process arguments
 parser = ArgumentParser()
@@ -33,6 +33,7 @@ camera_config = configparser.any_config(
     filename=os.getcwd() + ('/config_slave.ini' if args.bool_slave_node == 'True' else '/config.ini'),
     section='camera'
 )
+cameras_root_path = camera_config['cameras_root_path']
 camera_names_config = camera_config['camera_names'].split(',')
 camera_folders_config = camera_config['camera_folders'].split(',')
 
@@ -46,13 +47,14 @@ for n, f in zip(camera_names_config, camera_folders_config):
 def get_time_sorted_files():
     time_sorted_files = []
     for name, folder in zip(names, folders):
-        fileutils.create_directory(folder + 'processed/')
-        for file_name in fileutils.get_camera_image_names(folder):
+        fileutils.create_directory(cameras_root_path + folder + 'processed/')
+        for file_name in fileutils.get_camera_image_names(cameras_root_path + folder):
             if file_name != 'processed' and file_name != 'Thumbs.db' and file_name.find('.lock') is -1:
                 try:
                     time_sorted_files.append(
                         File.File(
                             name,
+                            cameras_root_path,
                             folder,
                             file_name,
                             None,
@@ -62,10 +64,11 @@ def get_time_sorted_files():
                             None,
                             None,
                             None,
-                            fileutils.get_file_mtime(folder, file_name)
+                            fileutils.get_file_mtime(cameras_root_path, folder, file_name)
                         )
                     )
                 except Exception as e:
+                    print(e)
                     print(file_name + ' file is already taken.')
 
     time_sorted_files.sort(key=lambda x: x.getmtime, reverse=False)
@@ -99,7 +102,7 @@ def app():
     for sorted_file in sorted_files:
 
         # File locking check and locking
-        if not os.path.isfile(sorted_file.file_path + sorted_file.file_name + '.lock'):
+        if not os.path.isfile(sorted_file.root_path + sorted_file.file_path + sorted_file.file_name + '.lock'):
             try:
                 # Limited amount of files
                 taken_files_count = taken_files_count + 1
@@ -107,14 +110,15 @@ def app():
                     break
 
                 # Lock file and process
-                open(sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
+                open(sorted_file.root_path + sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
                 # Append for processing
-                gm_time = fileutils.get_file_create_time(sorted_file.file_path, sorted_file.file_name)
+                gm_time = fileutils.get_file_create_time(sorted_file.root_path, sorted_file.file_path, sorted_file.file_name)
                 file = File.File(
                     sorted_file.name,
+                    sorted_file.root_path,
                     sorted_file.file_path,
                     sorted_file.file_name,
-                    fileutils.get_file_extension(sorted_file.file_path, sorted_file.file_name),
+                    fileutils.get_file_extension(sorted_file.root_path, sorted_file.file_path, sorted_file.file_name),
                     fileutils.get_file_create_year(gm_time),
                     fileutils.get_file_create_month(gm_time),
                     fileutils.get_file_create_day(gm_time),
@@ -125,6 +129,7 @@ def app():
                 )
                 image_file_objects.append(file)
             except FileNotFoundError as e:
+                print(e)
                 pass
 
     # Analyze image objects
@@ -139,7 +144,7 @@ def app():
             print(e)
         finally:
             # Finally remove lock file so those don't pile up
-            remove_file_lock(image_object.file_path + image_object.file_name + '.lock')
+            remove_file_lock(image_object.root_path + image_object.file_path + image_object.file_name + '.lock')
 
 
 # ---------------------------------------------------------------------
