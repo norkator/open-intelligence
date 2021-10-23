@@ -15,7 +15,14 @@ path = os.getcwd() + '/images/'
 
 
 def get_camera_image_names(directory_path):
-    return os.listdir(directory_path)
+    files = []
+    for file_name in os.listdir(directory_path):
+        p = os.path.join(directory_path, file_name)
+        if os.path.isdir(p):
+            continue
+        else:
+            files.append(file_name)
+    return files
 
 
 def get_file_extension(root_path, directory_path, file_name):
