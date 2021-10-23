@@ -48,7 +48,7 @@ def analyze_image(image_object, bool_move_processed):
         colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
         # Loading image
-        img = cv2.imread(image_object.file_path + image_object.file_name)
+        img = cv2.imread(image_object.root_path + image_object.file_path + image_object.file_name)
         # Storing original img and dimensions
         original_h, original_w, original_c = img.shape
         img_full_size = img.copy()
@@ -158,8 +158,8 @@ def analyze_image(image_object, bool_move_processed):
 
         # Move processed image
         if bool_move_processed:
-            shutil.move(image_object.file_path + image_object.file_name,
-                        image_object.file_path + 'processed/' + image_object.file_name)
+            shutil.move(image_object.root_path + image_object.file_path + image_object.file_name,
+                        image_object.root_path + image_object.file_path + 'processed/' + image_object.file_name)
 
         # Show preview
         if cv2_imshow_enabled is True:
