@@ -64,10 +64,11 @@ def get_time_sorted_files():
                             None,
                             None,
                             None,
-                            fileutils.get_file_mtime(folder, file_name)
+                            fileutils.get_file_mtime(cameras_root_path, folder, file_name)
                         )
                     )
                 except Exception as e:
+                    print(e)
                     print(file_name + ' file is already taken.')
 
     time_sorted_files.sort(key=lambda x: x.getmtime, reverse=False)
@@ -109,15 +110,15 @@ def app():
                     break
 
                 # Lock file and process
-                open(sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
+                open(sorted_file.root_path + sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
                 # Append for processing
-                gm_time = fileutils.get_file_create_time(sorted_file.file_path, sorted_file.file_name)
+                gm_time = fileutils.get_file_create_time(sorted_file.root_path, sorted_file.file_path, sorted_file.file_name)
                 file = File.File(
                     sorted_file.name,
                     sorted_file.root_path,
                     sorted_file.file_path,
                     sorted_file.file_name,
-                    fileutils.get_file_extension(sorted_file.file_path, sorted_file.file_name),
+                    fileutils.get_file_extension(sorted_file.root_path, sorted_file.file_path, sorted_file.file_name),
                     fileutils.get_file_create_year(gm_time),
                     fileutils.get_file_create_month(gm_time),
                     fileutils.get_file_create_day(gm_time),
@@ -128,6 +129,7 @@ def app():
                 )
                 image_file_objects.append(file)
             except FileNotFoundError as e:
+                print(e)
                 pass
 
     # Analyze image objects
