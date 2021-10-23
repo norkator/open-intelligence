@@ -20,8 +20,8 @@ print('Time offset: ' + str(time_offset_hours))
 
 # Specify your names and folders at config.ini
 # split them by a,b,c,d
-names = ['App1']
-folders = [os.getcwd() + '/images/']
+names = []  # ['App1']
+folders = []  # [os.getcwd() + '/images/']
 
 # Process arguments
 parser = ArgumentParser()
