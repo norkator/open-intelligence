@@ -18,6 +18,7 @@ services:
       dockerfile: if.Dockerfile
     volumes:
       - ./:/app
+      # - E:/OUTPUT_FOLDER:/output_test
   open-intelligence-super-resolution-py:
     container_name: open-intelligence-super-resolution-py
     build:
@@ -25,6 +26,7 @@ services:
       dockerfile: sr.Dockerfile
     volumes:
       - ./:/app
+      # - E:/OUTPUT_FOLDER:/output_test
   open-intelligence-similarity-process-py:
     container_name: open-intelligence-similarity-process-py
     build:
@@ -32,6 +34,7 @@ services:
       dockerfile: sp.Dockerfile
     volumes:
       - ./:/app
+      # - E:/OUTPUT_FOLDER:/output_test
   open-intelligence-front:
     container_name: open-intelligence-front
     build: ./api
@@ -41,7 +44,7 @@ services:
     depends_on:
       - open-intelligence-app-py
     volumes:
-      - /mnt/oi-output-mount/:/usr/src/output/
+      # - E:/OUTPUT_FOLDER:/usr/src/output/
       - ./config.ini:/usr/src/config.ini
     environment:
       # So that front end knows where api is

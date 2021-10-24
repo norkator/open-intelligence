@@ -25,7 +25,7 @@ max_width = int(super_resolution_config['max_width'])
 max_height = int(super_resolution_config['max_height'])
 
 # Output path
-output_root_folder_path = os.getcwd() + '/output/'
+output_root_folder_path = app_config['output_folder']
 
 
 def is_null(input_variable):

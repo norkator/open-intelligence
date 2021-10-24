@@ -13,7 +13,7 @@ app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', secti
 process_sleep_seconds = app_config['process_sleep_seconds']
 
 # Output path
-output_root_folder_path = os.getcwd() + '/output/'
+output_root_folder_path = app_config['output_folder']
 
 
 def is_null(input_variable):

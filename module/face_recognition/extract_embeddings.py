@@ -1,16 +1,22 @@
 from imutils import paths
+from module import configparser
 import numpy as np
 import imutils
 import pickle
 import cv2
 import os
 
-faces_dataset_folder = '/output/faces_dataset/'
+
+# App config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
+
+faces_dataset_folder = output_root_folder_path + '/faces_dataset/'
 
 
 def extract_embeddings(cwd_path, input_confidence=0.5):
     # Path to output serialized db of facial embeddings
-    embeddings_output_path = cwd_path + '/output/faces_models/' + 'embeddings.pickle'
+    embeddings_output_path = output_root_folder_path + '/faces_models/' + 'embeddings.pickle'
 
     # load our serialized face detector from disk
     print("[INFO] loading face detector...")

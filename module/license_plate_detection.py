@@ -8,7 +8,10 @@ import numpy as np
 import cv2
 from objects import Plate
 
+
 # Custom config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
 open_alpr_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='openalpr')
 alpr_enabled = open_alpr_config['enabled'] == 'True'
 region = open_alpr_config['region']
@@ -16,8 +19,8 @@ use_plate_char_length = open_alpr_config['use_plate_char_length'] == 'True'
 plate_char_length = int(open_alpr_config['plate_char_length'])
 
 # Paths
-car_labels_path = os.getcwd() + '/output/car/'
-rotation_temp_images_path = os.getcwd() + '/output/rotation_temp/'
+car_labels_path = output_root_folder_path + '/car/'
+rotation_temp_images_path = output_root_folder_path + '/rotation_temp/'
 alpr_dir = os.getcwd() + '/libraries/openalpr_64'
 open_alpr_conf = os.getcwd() + '/libraries/openalpr_64/openalpr.conf'
 open_alpr_runtime_data = os.getcwd() + '/libraries/openalpr_64/runtime_data'

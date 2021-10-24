@@ -16,7 +16,7 @@ process_sleep_seconds = app_config['process_sleep_seconds']
 delete_files = similarity_config['delete_files'] == 'True'
 
 # Define paths
-output_root_folder_path = os.getcwd() + '/output/'
+output_root_folder_path = app_config['output_folder']
 test_move_path = output_root_folder_path + 'recycle/'
 
 # Check directory existence
