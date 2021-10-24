@@ -28,6 +28,7 @@ async function Configuration(router, sequelizeObjects) {
           ignored_labels: utils.ConfigValue(raw, 'ignored_labels'),
         },
         camera: {
+          cameras_root_path: utils.ConfigValue(raw, 'cameras_root_path'),
           camera_names: utils.ConfigValue(raw, 'camera_names'),
           camera_folders: utils.ConfigValue(raw, 'camera_folders'),
         },
@@ -81,6 +82,7 @@ output_folder=` + fields.app.output_folder + `
 ignored_labels=` + fields.yolo.ignored_labels + `
 
 [camera]
+cameras_root_path=` + fields.camera.cameras_root_path + `
 camera_names=` + fields.camera.camera_names + `
 camera_folders=` + fields.camera.camera_folders + `
 
