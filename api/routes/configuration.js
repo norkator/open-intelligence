@@ -22,11 +22,13 @@ async function Configuration(router, sequelizeObjects) {
           move_to_processed: utils.ConfigValue(raw, 'move_to_processed'),
           process_sleep_seconds: utils.ConfigValue(raw, 'process_sleep_seconds'),
           cv2_imshow_enabled: utils.ConfigValue(raw, 'cv2_imshow_enabled'),
+          output_folder: utils.ConfigValue(raw, 'output_folder'),
         },
         yolo: {
           ignored_labels: utils.ConfigValue(raw, 'ignored_labels'),
         },
         camera: {
+          cameras_root_path: utils.ConfigValue(raw, 'cameras_root_path'),
           camera_names: utils.ConfigValue(raw, 'camera_names'),
           camera_folders: utils.ConfigValue(raw, 'camera_folders'),
         },
@@ -74,11 +76,13 @@ async function Configuration(router, sequelizeObjects) {
 move_to_processed=` + (fields.app.move_to_processed ? `True` : `False`) + `
 process_sleep_seconds=` + fields.app.process_sleep_seconds + `
 cv2_imshow_enabled=` + (fields.app.cv2_imshow_enabled ? `True` : `False`) + `
+output_folder=` + fields.app.output_folder + `
 
 [yolo]
 ignored_labels=` + fields.yolo.ignored_labels + `
 
 [camera]
+cameras_root_path=` + fields.camera.cameras_root_path + `
 camera_names=` + fields.camera.camera_names + `
 camera_folders=` + fields.camera.camera_folders + `
 

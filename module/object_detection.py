@@ -10,10 +10,14 @@ import numpy as np
 import shutil
 from module import database, detection_utils, configparser
 
+# App config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
+
 # Paths
 models_path = os.getcwd() + '/models/'
-output_path = os.getcwd() + '/output/'
-object_detection_image_path = os.getcwd() + '/output/object_detection/'
+output_path = output_root_folder_path
+object_detection_image_path = output_root_folder_path + '/object_detection/'
 
 # Config
 yolo_ignored_labels = str(configparser.any_config(section='yolo')['ignored_labels']).split(',')

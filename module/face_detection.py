@@ -1,9 +1,14 @@
 import os
 from module.face_recognition import recognize
+from module import configparser
+
+# App config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
 
 # Paths
-person_path = os.getcwd() + '/output/person/'
-output_faces_path = os.getcwd() + '/output/faces/'
+person_path = output_root_folder_path + '/person/'
+output_faces_path = output_root_folder_path + '/faces/'
 classifier_path = os.getcwd() + '/classifiers/'
 
 

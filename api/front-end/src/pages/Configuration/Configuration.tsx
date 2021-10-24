@@ -11,11 +11,13 @@ interface PythonConfigurationFieldsInterface {
     move_to_processed: string,
     process_sleep_seconds: string,
     cv2_imshow_enabled: string,
+    output_folder: string,
   },
   yolo: {
     ignored_labels: string,
   },
   camera: {
+    cameras_root_path: string,
     camera_names: string,
     camera_folders: string,
   },
@@ -176,6 +178,19 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.cv2ImshowEnabledHint')}
                         </Form.Text>
                       </Form.Group>
+                      <Form.Group>
+                        <Form.Label>output_folder</Form.Label>
+                        <Form.Control
+                          type="text" placeholder="/output_test/"
+                          value={this.state.fields.app?.output_folder}
+                          onChange={(event: any) => {
+                            this.handleConfigChange('app', 'output_folder', event)
+                          }}
+                        />
+                        <Form.Text className="text-muted">
+                          Output folder is used to save all Open-Intelligence image related data.
+                        </Form.Text>
+                      </Form.Group>
                     </div>
 
                     <div style={{marginTop: 40}}>
@@ -198,6 +213,19 @@ class Configuration extends Component<WithTranslation> {
                     <div style={{marginTop: 40}}>
                       <h4>Camera {t('configuration.settings')}</h4>
                       <Form.Group>
+                        <Form.Label>cameras_root_path</Form.Label>
+                        <Form.Control
+                          type="text" placeholder="/input_test"
+                          value={this.state.fields.camera.cameras_root_path}
+                          onChange={(event: any) => {
+                            this.handleConfigChange('camera', 'cameras_root_path', event)
+                          }}
+                        />
+                        <Form.Text className="text-muted">
+                          Specifies main root path which under all folders for each camera source images are stored.
+                        </Form.Text>
+                      </Form.Group>
+                       <Form.Group>
                         <Form.Label>camera_names</Form.Label>
                         <Form.Control
                           type="text" placeholder="TestCamera1,TestCamera2"
