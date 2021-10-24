@@ -22,6 +22,7 @@ async function Configuration(router, sequelizeObjects) {
           move_to_processed: utils.ConfigValue(raw, 'move_to_processed'),
           process_sleep_seconds: utils.ConfigValue(raw, 'process_sleep_seconds'),
           cv2_imshow_enabled: utils.ConfigValue(raw, 'cv2_imshow_enabled'),
+          output_folder: utils.ConfigValue(raw, 'output_folder'),
         },
         yolo: {
           ignored_labels: utils.ConfigValue(raw, 'ignored_labels'),
@@ -74,6 +75,7 @@ async function Configuration(router, sequelizeObjects) {
 move_to_processed=` + (fields.app.move_to_processed ? `True` : `False`) + `
 process_sleep_seconds=` + fields.app.process_sleep_seconds + `
 cv2_imshow_enabled=` + (fields.app.cv2_imshow_enabled ? `True` : `False`) + `
+output_folder=` + fields.app.output_folder + `
 
 [yolo]
 ignored_labels=` + fields.yolo.ignored_labels + `
