@@ -1,6 +1,7 @@
 # This is tool to process external image
 # not part of application process
 
+from module import configparser
 from pathlib import Path
 from imutils import paths
 import shutil
@@ -9,9 +10,13 @@ import imutils
 import cv2
 import os
 
+# App config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
+
 # Paths
-face_extraction_output_path = os.getcwd() + '/output/face_extractions/'
-face_extraction_output_bad_path = os.getcwd() + '/output/face_extractions/rejected/'
+face_extraction_output_path = output_root_folder_path + '/face_extractions/'
+face_extraction_output_bad_path = output_root_folder_path + '/face_extractions/rejected/'
 
 # Check path existence
 Path(face_extraction_output_path).mkdir(parents=True, exist_ok=True)

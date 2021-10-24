@@ -1,16 +1,22 @@
+from module import configparser
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 import pickle
+import os
+
+# App config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
 
 
 def train_model(cwd_path):
     # Output paths
-    recognizer_output_path = cwd_path + '/output/faces_models/' + 'recognizer.pickle'
-    label_encoder_output_path = cwd_path + '/output/faces_models/' + 'label_encoder.pickle'
+    recognizer_output_path = output_root_folder_path + '/faces_models/' + 'recognizer.pickle'
+    label_encoder_output_path = output_root_folder_path + '/faces_models/' + 'label_encoder.pickle'
 
     # load the face embeddings
     print("[INFO] loading face embeddings...")
-    embeddings_path = cwd_path + '/output/faces_models/' + 'embeddings.pickle'
+    embeddings_path = output_root_folder_path + '/faces_models/' + 'embeddings.pickle'
     data = pickle.loads(open(embeddings_path, "rb").read())
 
     # encode the labels

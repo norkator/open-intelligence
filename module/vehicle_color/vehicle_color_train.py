@@ -11,10 +11,15 @@ from keras.layers import BatchNormalization, Lambda, Input, Dense, Convolution2D
 from keras.layers.merge import Concatenate
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, TensorBoard
+from module import configparser
 import tensorflow as tf
 from pathlib import Path
 import math
 import os
+
+# App config
+app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
+output_root_folder_path = app_config['output_folder']
 
 # Paths
 logs_path = os.getcwd() + '/logs'
@@ -177,13 +182,13 @@ def train_color_net():
     test_datagen = ImageDataGenerator(rescale=1. / 255, dtype='float32')
 
     training_set = train_datagen.flow_from_directory(
-        os.getcwd() + '/output/' + 'dataset/train/',
+        output_root_folder_path + '/dataset/train/',
         target_size=(img_rows, img_cols),
         batch_size=batch_size,
         class_mode='categorical')
 
     test_set = test_datagen.flow_from_directory(
-        os.getcwd() + '/output/' + 'dataset/test/',
+        output_root_folder_path + '/dataset/test/',
         target_size=(img_rows, img_cols),
         batch_size=batch_size,
         class_mode='categorical')
