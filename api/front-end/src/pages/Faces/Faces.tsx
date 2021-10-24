@@ -52,6 +52,10 @@ class Faces extends Component<WithTranslation> {
     this._isMounted = false;
   }
 
+  onDateSelected = (event: any) => {
+    this.setSelectedDay(event.target.value);
+  };
+
   loadEarlierDayHandler = () => {
     let date = new Date(this.state.selectedDay);
     date.setDate(date.getDate() - 1);
@@ -140,9 +144,15 @@ class Faces extends Component<WithTranslation> {
         {this.state.axiosError !== null ?
           <NetworkErrorIndicator t={t} axiosError={this.state.axiosError}/> : null}
         <div className="d-flex justify-content-center flex-wrap mb-2 magictime spaceInLeft">
-          <div className="input-group mb-2" style={{maxWidth: '300px'}}>
+          <div className="input-group mb-2" style={{maxWidth: '500px'}}>
             <input type="text" style={{backgroundColor: '#343a40', color: '#999999'}}
                    disabled className="form-control" value={this.state.selectedDay}/>
+            <input
+              type="date" className="form-control" placeholder="Date"
+              aria-label="Date" value={this.state.selectedDay}
+              onChange={(event: any) => this.onDateSelected(event)}
+              style={{backgroundColor: '#343a40', color: '#999999'}}
+            />
             <div className="input-group-append">
               <button className="btn btn-outline-info" type="button" onClick={this.loadEarlierDayHandler}>
                 {t('faces.earlier')}
