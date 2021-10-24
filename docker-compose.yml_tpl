@@ -1,7 +1,9 @@
 version: '3'
 services:
   open-intelligence-app-py:
-    container_name: open-intelligence-app-py
+    # container_name: open-intelligence-app-py
+    deploy:
+      replicas: 2
     build:
       context: .
       dockerfile: app.Dockerfile
@@ -39,6 +41,7 @@ services:
       - open-intelligence-app-py
     volumes:
       - /mnt/oi-output-mount/:/usr/src/output/
+      - ./config.ini:/usr/src/config.ini
     environment:
       # So that front end knows where api is
       - REACT_APP_API_BASE_URL=http://<your-server-ip-address>:4300/
