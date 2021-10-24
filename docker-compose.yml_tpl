@@ -10,6 +10,7 @@ services:
     volumes:
       - ./:/app
       # - E:/OITestInput:/input_test
+      # - E:/OUTPUT_FOLDER:/output_test
   open-intelligence-insight-face-py:
     container_name: open-intelligence-insight-face-py
     build:
