@@ -205,12 +205,12 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
 
     if (this.state.labelImages !== undefined) {
       if (this.state.labelImages.length > 0) {
-        labels = this.state.labelImages.map(image => {
+        labels = this.state.labelImages.map((image: LabelInterface, index: number) => {
           return (
             <div
               onMouseDown={() => this.handleLabelMouseDown(image.file)}
               onMouseUp={() => this.handleLabelMouseUp(image.file)}
-              key={image.file}>
+              key={image.file + '_' + index}>
               <img
                 id={image.file}
                 title={image.title}
