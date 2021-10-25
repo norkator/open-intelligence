@@ -4,11 +4,11 @@
 
 Open Intelligence processes <b>any camera</b> motion triggered images and sorts seen objects using Yolo, 
 it provides easy to use front end web interface with rich features so that you can have up to date
-intel what is the current status on your property. Open Intelligence also uses license plate detection (ALPR) 
+intel what is the current status on your property. Open Intelligence uses license plate detection (ALPR) 
 to detect vehicle plates and face detection to detect people faces which then can be sorted into person folders
 and then can be trained so that Open Intelligence can try to identify seen people. All this can be done from front end interface.
 
-Open Intelligence also uses super resolution neural network to process super resolution images for improved 
+Open Intelligence uses super resolution neural network to process super resolution images for improved 
 license plate detection.
 
 Project goal is to be useful information gathering tool to provide data for easy property monitoring without
@@ -17,9 +17,9 @@ need for expensive camera systems because any existing cameras are suitable.
 I developed this to my own use because were tired to use existing monitoring tools to go through 
 recorded video. I wanted to know what has been happening quickly.
 
-<b>Any future major developments require funding and/or contributors!</b>
-
 <br>
+
+![docker](docs/img/docker.png)
 
 ![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
 
@@ -177,17 +177,9 @@ Project folder structure
     ├── models                   # Yolo and other detector model files
     ├── module                   # Python side application logic, source files 
     ├── objects                  # Base objects for internal logic
-    ├── output                   # Analyse results, labels, detection images, ...
-    ├── scripts                  # Scripts to ease things
-    
-    Appearing after installation
-    .
-    └── images                   # Project default input image folder, more sources specified in config.ini
-    
-        
-<br>
+    ├── scripts                  # Scripts to ease things      
 
-    
+
 Python Apps
 ============
 This part is explaining in better detail what each of base python app scripts is meant for. Many 
@@ -295,7 +287,6 @@ Cuda only works with some processes like super resolution and insightface. Requi
 
 Postgresql notes
 ============
-
 All datetime fields are inserted without timezone so that:
 
 ```
@@ -308,6 +299,7 @@ Database timestamps are shifted on use based on local time offset.
 
 Openalpr notes
 ============
+These notes are for Windows. Current Docker way makes this installation automatic.
 
 Got it running with following works.
 Downloaded `2.3.0` release from here https://github.com/openalpr/openalpr/releases
@@ -326,61 +318,12 @@ Front end development
 ============
 There is separate Readme for this side so 
 see more at `./api/front-end/README.md`  
-![Link](api/front-end/README.md) 
-
-
-
-Docker image development
-============
-Run container but swap to bash instead to tweak and try things.
-```
-docker run -it --entrypoint /bin/bash ghcr.io/norkator/open-intelligence-python:dockerize -s
-```
-Handy if container crashes immediately without clear reason.
-
+![link](api/front-end/README.md) 
 
 
 Troubleshooting
 ============
-Got `ImportError: DLL load failed: The specified module could not be found.` ???  
-=> try `import cv2`, not working -> packages missing, vc redistributable etc?  
-=> Windows Server for example requires desktop experience features installed.
-
-Got `Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found`
-=> Check that you have correct CUDA toolkit version with cuDNN.
-=> Windows link for right 10.0 is https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64
-=> Download cuDNN "Download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0"
-https://developer.nvidia.com/rdp/cudnn-archive
-
-Python crashes with error like `python.exe with problem event BEX64, ucrtbase.DLL...`
-This happened with SuperResolution.py
-=> Reason is missing Visual C++ Redistributable Packages related on Python and Tensorflow requirements.
-
-Todo
-============
-
-Here's some ideas
-
-- [x] implement usable **base** structure
-- [x] basic api for serving small static statistics/status web page 'command center'
-- [x] voice intelligence support (web page can talk)
-- [x] license plate recognition from normal camera images
-- [x] basic face detection from cropped person images
-- [x] detect faces
-- [x] recognize faces via user trained person face model
-- [x] web interface supports face sorting to provide data for training
-- [x] web interface section for face data model training
-- [x] basic license plate detection (Automatic number-plate recognition)
-- [x] identify car owners from license plates (user determines owners at web ui)
-- [x] send emails on new license plate detections based on known plate records
-- [x] main App.py multiple processing nodes support
-- [x] email intelligence statistics (partially implemented, plates for now)
-- [x] camera microphone access; [See Hikvision-video-audio-extractor](https://github.com/norkator/hikvision-video-audio-extractor)
-- [x] replace junk jQuery based front end UI with React js version
-- [x] Replace Yolo v3 with Yolo v4 
-- [ ] ~~make own ALPR based on deep neural nets and TensorFlow.~~ **On hold**.
-- [ ] ~~multi site combiner tools to be able to request intelligence from multiple OI sites at once~~ **On hold**.
-- [ ] ~~APIs for multi site combining to be able to request seen plates, person face lookup, analysis~~ **On hold**.
+Refer to [troubleshooting wiki](https://github.com/norkator/open-intelligence/wiki/Troubleshooting).
 
 
 Authors
