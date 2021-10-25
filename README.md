@@ -1,7 +1,5 @@
 ![Open-Intelligence-title-logo](docs/img/oi_title_logo.png) 
 
-# Open-Intelligence
-
 Open Intelligence processes <b>any camera</b> motion triggered images and sorts seen objects using Yolo, 
 it provides easy to use front end web interface with rich features so that you can have up to date
 intel what is the current status on your property. Open Intelligence uses license plate detection (ALPR) 
