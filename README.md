@@ -29,6 +29,16 @@ Cameras view             |  Plate calendar
 :-------------------------:|:-------------------------:
 ![cameras_1](docs/img/cameras_1.PNG)   |  ![plates_1](docs/img/plates_1.PNG)
 
+* It's possible to make cameras view play heard microphone sounds.
+* Calendar view can open full source detection image by clicking car plate event. 
+
+Face wall             |  Face wall source dialog
+:-------------------------:|:-------------------------:
+![face_wall](docs/img/face_wall.png)   |  ![plates_1](docs/img/face_wall_source.PNG)
+
+* Face wall is one of the creepiest features. 
+* You can go trough pile of faces and by clicking them, you can see source image.
+
 <br> 
 
 Open Intelligence is suitable from private properties to small businesses with medium activity.
