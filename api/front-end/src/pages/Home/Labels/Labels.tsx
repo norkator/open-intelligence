@@ -26,6 +26,7 @@ import GetDonutColor from "../../../utils/ColorUtils";
 import {SET_AXIOS_ERROR} from "../../../store/actionTypes";
 import {AxiosError} from "axios";
 import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
+import toast, {Toaster} from "react-hot-toast";
 
 
 export interface DonutDatasetsInterface {
@@ -142,22 +143,34 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
   };
 
   async loadSuperResolutionImage(croppedImageName: string) {
+    const {t} = this.props;
     this.setState({isLoading: true});
-    const image = await getSuperResolutionImage(this.state.labelSelection || "", croppedImageName) as SuperResolutionInterface;
-    // Todo, generic modal image needs more fields to show color, detection result etc
-    this.setState({
-      isLoading: false,
-      genericImageModalData: {
-        show: true,
-        title: croppedImageName,
-        description: (image.srImage ? this.props.t('home.labels.srImage') : this.props.t('home.labels.standardImage')),
-        src: image.data,
-        showBadges: true,
-        srImage: image.srImage,
-        detectionResult: image.detectionResult,
-        color: image.color,
-      }
-    });
+    try {
+      const image = await getSuperResolutionImage(this.state.labelSelection || "", croppedImageName) as SuperResolutionInterface;
+      // Todo, generic modal image needs more fields to show color, detection result etc
+      this.setState({
+        isLoading: false,
+        genericImageModalData: {
+          show: true,
+          title: croppedImageName,
+          description: (image.srImage ? this.props.t('home.labels.srImage') : this.props.t('home.labels.standardImage')),
+          src: image.data,
+          showBadges: true,
+          srImage: image.srImage,
+          detectionResult: image.detectionResult,
+          color: image.color,
+        }
+      });
+    } catch (e) {
+      toast(t('generic.loadingError'), {
+        style: {
+          border: '1px solid red',
+        },
+      });
+      this.setState({
+        isLoading: false,
+      });
+    }
   };
 
   genericImageModalCloseHandler = () => {
@@ -290,6 +303,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
           closeHandler={() => this.activityModalCloseHandler}
           chartData={this.state.activityModal.chartData}
         />
+
+        <Toaster/>
 
       </div>
     )

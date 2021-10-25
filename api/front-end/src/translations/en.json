@@ -4,7 +4,8 @@
     "save": "Save",
     "reject": "Reject",
     "delete": "Delete",
-    "enabled": "Enabled"
+    "enabled": "Enabled",
+    "loadingError": "Error loading data"
   },
   "navbar": {
     "home": "Home",
