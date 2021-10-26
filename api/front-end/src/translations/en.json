@@ -5,7 +5,10 @@
     "reject": "Reject",
     "delete": "Delete",
     "enabled": "Enabled",
-    "loadingError": "Error loading data"
+    "loadingError": "Error loading data",
+    "loading": "Loading",
+    "error": "Error",
+    "success": "Success"
   },
   "navbar": {
     "home": "Home",
