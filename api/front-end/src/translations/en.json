@@ -4,7 +4,11 @@
     "save": "Save",
     "reject": "Reject",
     "delete": "Delete",
-    "enabled": "Enabled"
+    "enabled": "Enabled",
+    "loadingError": "Error loading data",
+    "loading": "Loading",
+    "error": "Error",
+    "success": "Success"
   },
   "navbar": {
     "home": "Home",
@@ -118,7 +122,8 @@
   },
   "history": {
     "load": "Load",
-    "camera": "Camera"
+    "camera": "Camera",
+    "cameraNameNotSelected": "Camera name not selected"
   },
   "configuration": {
     "pythonConfiguration": "Python configuration",

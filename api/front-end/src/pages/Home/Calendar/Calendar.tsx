@@ -19,6 +19,7 @@ import {connect} from "react-redux";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {ChangeDate, getNowISODate} from "../../../utils/DateUtils";
 import {DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
+import {toast, Toaster} from "react-hot-toast";
 
 class Calendar extends Component<ReduxPropsInterface & WithTranslation | any> {
   state = {
@@ -86,7 +87,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation | any> {
                 eventClick={this.handleEventClick}
                 headerToolbar={{
                   left: this.isSmallView() ? 'prev,next' : 'prev,next today',
-                  center: this.isSmallView() ? '' :  'title',
+                  center: this.isSmallView() ? '' : 'title',
                   right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 }}
                 initialView={initialView}
@@ -112,6 +113,8 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation | any> {
           additionalInfo={this.state.genericImageModalData.additionalInfo}
         />
 
+        <Toaster/>
+
       </div>
     )
   }
@@ -121,10 +124,22 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation | any> {
   };
 
   handleEventClick = (clickInfo: EventClickArg) => {
+    const {t} = this.props;
     const title = clickInfo.event.title;
     const file = clickInfo.event.extendedProps.file_name_cropped;
     const description = clickInfo.event.extendedProps.description;
-    this.loadObjectDetectionImageHandler(file, title, description).then(() => null);
+    toast.promise(
+      this.loadObjectDetectionImageHandler(file, title, description),
+      {
+        loading: t('generic.loading'),
+        success: t('generic.success'),
+        error: t('generic.error'),
+      }, {
+        style: {
+          padding: '24px',
+        },
+      }
+    ).then(() => null);
   };
 
   async loadObjectDetectionImageHandler(croppedImageName: string, detectionResult: string, description: string) {

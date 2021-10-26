@@ -4,7 +4,11 @@
     "save": "保存",
     "reject": "拒绝",
     "delete": "删除",
-    "enabled": "启用"
+    "enabled": "启用",
+    "loadingError": "加载数据时出错",
+    "loading": "加载中",
+    "error": "错误",
+    "success": "成功"
   },
   "navbar": {
     "home": "主页",
@@ -118,7 +122,8 @@
   },
   "history": {
     "load": "加载",
-    "camera": "相机"
+    "camera": "相机",
+    "cameraNameNotSelected": "未选择摄像机名称"
   },
   "configuration": {
     "pythonConfiguration": "蟒蛇配置",

@@ -14,6 +14,7 @@ import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicat
 import {WithTranslation, withTranslation} from "react-i18next";
 import {AxiosError} from "axios";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
+import {toast, Toaster} from "react-hot-toast";
 
 
 interface FacesInterface {
@@ -95,21 +96,26 @@ class Faces extends Component<WithTranslation> {
 
 
   async loadObjectDetectionImageHandler(croppedImageName: string) {
+    const {t} = this.props;
     this.setState({isLoading: true});
-    const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
-    // Todo: implement error handling for null|undefined file with bar functional component + state
-    const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
-    // Todo: add error handling here also
-    this.setState({
-      isLoading: false,
-      genericImageModalData: {
-        show: true,
-        title: image.file_name,
-        description: this.props.t('faces.modalOriginalImageDescription'),
-        src: image.data,
-        showBadges: false,
-      }
-    });
+    try {
+      const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
+      // Todo: implement error handling for null|undefined file with bar functional component + state
+      const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
+      // Todo: add error handling here also
+      this.setState({
+        isLoading: false,
+        genericImageModalData: {
+          show: true,
+          title: image.file_name,
+          description: this.props.t('faces.modalOriginalImageDescription'),
+          src: image.data,
+          showBadges: false,
+        }
+      });
+    } catch (e) {
+      toast.error(t('generic.loadingError'));
+    }
   };
 
   genericImageModalCloseHandler = () => {
@@ -185,6 +191,8 @@ class Faces extends Component<WithTranslation> {
         { /* Handle showing loading indicator */
           this.state.isLoading ? <LoadingIndicator isDark={false}/> : null
         }
+
+        <Toaster/>
 
       </div>
     )

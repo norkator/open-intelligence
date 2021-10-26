@@ -4,7 +4,11 @@
     "save": "सुरक्षित करे",
     "reject": "इनकार",
     "delete": "हटाएँ",
-    "enabled": "सक्षम"
+    "enabled": "सक्षम",
+    "loadingError": "डेटा लोड करने में त्रुटि",
+    "loading": "लोड हो रहा है",
+    "error": "त्रुटि",
+    "success": "सफलता"
   },
   "navbar": {
     "home": "मुख्य",
@@ -118,7 +122,8 @@
   },
   "history": {
     "load": "भार",
-    "camera": "कैमरा"
+    "camera": "कैमरा",
+    "cameraNameNotSelected": "कैमरे का नाम नहीं चुना गया"
   },
   "configuration": {
     "pythonConfiguration": "Python की व्यवस्था",

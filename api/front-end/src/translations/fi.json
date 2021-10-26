@@ -4,7 +4,11 @@
     "save": "Tallenna",
     "reject": "Hylkää",
     "delete": "Poista",
-    "enabled": "Käytössä"
+    "enabled": "Käytössä",
+    "loadingError": "Virhe ladatessa dataa",
+    "loading": "Ladataan",
+    "error": "Virhe",
+    "success": "Onnistui"
   },
   "navbar": {
     "home": "Koti",
@@ -118,7 +122,8 @@
   },
   "history": {
     "load": "Lataa",
-    "camera": "Kamera"
+    "camera": "Kamera",
+    "cameraNameNotSelected": "Kameran nimi ei ole valittu"
   },
   "configuration": {
     "pythonConfiguration": "Python konfiguraatio",

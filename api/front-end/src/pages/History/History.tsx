@@ -7,6 +7,7 @@ import axios, {GET_HISTORY_CAMERA_IMAGES, GET_HISTORY_CAMERA_NAMES} from "../../
 import {ChangeDate} from "../../utils/DateUtils";
 import {DropdownButton, FormControl, InputGroup, Dropdown, Alert} from "react-bootstrap";
 import styles from './History.module.css'
+import toast, {Toaster} from "react-hot-toast";
 
 
 interface HistoryInterface {
@@ -58,6 +59,7 @@ class History extends Component<WithTranslation> {
   };
 
   loadImagesBtnClick = () => {
+    const {t} = this.props;
     if (this.state.selectedCameraName !== null && this.state.selectedCameraName !== '') {
       this.setState({isLoading: true});
       this.loadHistoryImages(
@@ -67,8 +69,7 @@ class History extends Component<WithTranslation> {
         this.state.timeOfDate
       );
     } else {
-      // Todo, some sort of error|warning dialog here
-      console.error('Camera name not selected');
+      toast.error(t('history.cameraNameNotSelected'));
     }
   };
 
@@ -152,6 +153,7 @@ class History extends Component<WithTranslation> {
               aria-describedby="camera-names-dropdown-1"
               value={this.state.selectedCameraName}
               style={{maxWidth: '80px', backgroundColor: '#343a40', color: '#fff'}}
+              onChange={() => null}
             />
             <input
               type="time" className="form-control" placeholder="Time target"
@@ -186,6 +188,8 @@ class History extends Component<WithTranslation> {
         <div className={['d-flex', 'justify-content-center', 'flex-wrap'].join(' ')}>
           {historyImages}
         </div>
+
+        <Toaster/>
 
       </div>
     );

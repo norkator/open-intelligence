@@ -6,6 +6,7 @@ import NetworkErrorIndicator from "../../components/NetworkErrorComponent/Networ
 import {AxiosError} from "axios";
 import {WithTranslation, withTranslation} from "react-i18next";
 import styles from './Cameras.module.css';
+import {toast, Toaster} from "react-hot-toast";
 
 interface ImageDataInterface {
   id: string,
@@ -62,13 +63,36 @@ class Cameras extends Component<WithTranslation> {
     axios.get(GET_VOICE_INTELLIGENCE).then((data: any) => {
       if (this._isMounted) {
         this.setState({voiceData: data.data as VoiceDataInterface});
-        const msg = new SpeechSynthesisUtterance(this.state.voiceData.message);
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(msg);
+        if (this.state.voiceData.message !== '') {
+          this.showToast(this.state.voiceData.message);
+          this.speak(this.state.voiceData.message);
+        }
       }
     }).catch((error: AxiosError) => {
       this.setState({axiosError: error});
     });
+  };
+
+  speak = (text: string) => {
+    try {
+      const msg = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(msg);
+    } catch (e) {
+    }
+  };
+
+  showToast = (text: string) => {
+    toast(text,
+      {
+        icon: '🔔',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      }
+    );
   };
 
   componentWillUnmount(): void {
@@ -121,6 +145,9 @@ class Cameras extends Component<WithTranslation> {
         { /* Handle showing loading indicator */
           this.state.isLoading ? <LoadingIndicator/> : null
         }
+
+        <Toaster/>
+
       </div>
     )
   }
