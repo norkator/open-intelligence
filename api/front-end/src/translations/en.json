@@ -119,7 +119,8 @@
   },
   "history": {
     "load": "Load",
-    "camera": "Camera"
+    "camera": "Camera",
+    "cameraNameNotSelected": "Camera name not selected"
   },
   "configuration": {
     "pythonConfiguration": "Python configuration",

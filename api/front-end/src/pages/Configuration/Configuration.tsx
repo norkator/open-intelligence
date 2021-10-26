@@ -110,13 +110,9 @@ class Configuration extends Component<WithTranslation> {
       if (this._isMounted) {
         if (data.status === 200) {
           this.loadPythonConfiguration();
-          toast(t('configuration.configurationSaved'));
+          toast.success(t('configuration.configurationSaved'));
         } else {
-          toast('configuration.configurationSaveFailed', {
-            style: {
-              border: '1px solid red',
-            },
-          });
+          toast.error('configuration.configurationSaveFailed');
         }
       }
     }).catch((error: AxiosError) => {

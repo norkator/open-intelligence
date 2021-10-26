@@ -162,11 +162,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
         }
       });
     } catch (e) {
-      toast(t('generic.loadingError'), {
-        style: {
-          border: '1px solid red',
-        },
-      });
+      toast.error(t('generic.loadingError'));
       this.setState({
         isLoading: false,
       });
