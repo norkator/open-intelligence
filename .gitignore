@@ -170,3 +170,4 @@ dmypy.json
 # Docker
 docker-compose.yml
 *.lock
+cookie
