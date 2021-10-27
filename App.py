@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from argparse import ArgumentParser
-from module import fileutils, object_detection, configparser, actions, process_utils
+from module import fileutils, object_detection, configparser, actions, process_utils, database
 from objects import File
 import psycopg2
 import sys
@@ -140,6 +140,14 @@ def app():
                 image_object,
                 move_to_processed,
             )
+        except AttributeError as a:
+            print('Invalid image file or storage may be run out', a)
+            database.insert_notification(
+                'Invalid image file or camera storage may be run out for camera ' +
+                image_object.name
+            )
+            # try remove the file
+            os.remove(image_object.root_path + image_object.file_path + image_object.file_name)
         except Exception as e:
             print(e)
         finally:

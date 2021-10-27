@@ -423,3 +423,30 @@ def delete_rejected_offsite_image_record(id):
         print(error)
     finally:
         connection.close()
+
+
+def insert_notification(message):
+    connection = psycopg2.connect(**params)
+    try:
+        cursor = connection.cursor()
+
+        # Query
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        postgres_insert_query = """INSERT INTO notifications (text) VALUES (%s)"""
+
+        # Variables
+        to_insert = (message,)
+
+        # Execute insert
+        cursor.execute(postgres_insert_query, to_insert)
+
+        connection.commit()
+        # count = cursor.rowcount
+
+        cursor.close()
+        # print(count, "Database record inserted")
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()

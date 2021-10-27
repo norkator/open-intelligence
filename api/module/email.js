@@ -16,7 +16,9 @@ function SendMail(mailTitle, mailBodyHtmlContent) {
     const emailAddresses = getEmailAddresses();
     const len = emailAddresses.length;
     sendEmailsSequentially(len).then(result => {
+      resolve(result);
     }).catch(error => {
+      reject(error);
     });
 
     async function sendEmailsSequentially(len) {
