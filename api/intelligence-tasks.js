@@ -44,7 +44,7 @@ initDb.initDatabase().then(() => {
       }
     }
   });
-
+  
   schedule.scheduleJob('*/120 * * * *', async () => {
     if (process.env.EMAIL_ENABLED === 'True') {
       try {
