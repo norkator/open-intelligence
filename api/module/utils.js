@@ -304,7 +304,7 @@ String.prototype.levenstein = function (string) {
  * @param {Object} sequelizeObjects
  * @constructor
  */
-function SendEmail(sequelizeObjects) {
+function SendStatisticsEmail(sequelizeObjects) {
   return new Promise(function (resolve, reject) {
     GetLicensePlates(sequelizeObjects).then(knownPlates => {
       if (knownPlates.length > 0) {
@@ -462,7 +462,7 @@ function SendEmail(sequelizeObjects) {
   });
 }
 
-exports.SendEmail = SendEmail;
+exports.SendStatisticsEmail = SendStatisticsEmail;
 
 
 /**
@@ -743,3 +743,29 @@ function ConfigValue(config, key) {
 
 exports.ConfigValue = ConfigValue;
 
+
+/**
+ * Send email notifications
+ * @param {Object} sequelizeObjects
+ * @constructor
+ */
+async function SendNotifications(sequelizeObjects) {
+
+  const notifications = await sequelizeObjects.Notification.findAll({
+    where: {
+      sent: false
+    }
+  });
+
+  console.log(notifications);
+
+  /*
+  await email.SendMail('Open-Intelligence Notifications', emailContent);
+  await sequelizeObjects.Notification.update({
+      sent: true,
+    }, {where: {id: nonSentIds}}
+  );
+   */
+}
+
+exports.SendNotifications = SendNotifications;

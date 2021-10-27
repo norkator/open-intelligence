@@ -25,31 +25,35 @@ initDb.initDatabase().then(() => {
 
   console.info('Emailing feature is ' + (process.env.EMAIL_ENABLED === 'True' ? 'enabled' : 'disabled'));
 
-  schedule.scheduleJob('*/60 * * * *', () => {
-    new SetStorageUsage();
-  });
-
-  schedule.scheduleJob('0 0 22 * * *', () => {
-	  new SendEmail();
-  });
-
-
-  function SendEmail() {
-    if (process.env.EMAIL_ENABLED === 'True') {
-      utils.SendEmail(sequelizeObjects).then(() => {
-        console.info('Email function run completed.')
-      }).catch(error => {
-        console.error(error);
-      });
+  schedule.scheduleJob('*/60 * * * *', async () => {
+    try {
+      await utils.SetStorageUsage();
+      console.info('Storage usage updated.');
+    } catch (e) {
+      console.error(e);
     }
-  }
+  });
 
-  function SetStorageUsage() {
-    utils.SetStorageUsage().then(() => {
-      console.info('Storage usage updated.')
-    }).catch(error => {
-      console.error(error);
-    });
-  }
+  schedule.scheduleJob('0 0 22 * * *', async () => {
+    if (process.env.EMAIL_ENABLED === 'True') {
+      try {
+        await utils.SendStatisticsEmail(sequelizeObjects);
+        console.info('Email function run completed.');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  });
+
+  schedule.scheduleJob('*/120 * * * *', async () => {
+    if (process.env.EMAIL_ENABLED === 'True') {
+      try {
+        await utils.SendNotifications(sequelizeObjects);
+        console.info('Email notification sent function run completed.');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  });
 
 });
