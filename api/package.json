@@ -1,6 +1,6 @@
 {
   "name": "open-intelligence",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "Tools to process security camera motion triggered images and sort seen objects in different categories",
   "main": "intelligence",
   "scripts": {
