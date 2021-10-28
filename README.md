@@ -15,6 +15,10 @@ need for expensive camera systems because any existing cameras are suitable.
 I developed this to my own use because were tired to use existing monitoring tools to go through 
 recorded video. I wanted to know what has been happening quickly.
 
+
+Click below to watch promo video
+[![promo-youtube-video](docs/img/youtube_video.png)](https://www.youtube.com/embed/ox5i6xCZaaA)
+
 <br>
 
 ![docker](docs/img/docker.png)
