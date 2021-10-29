@@ -19,16 +19,6 @@ recorded video. I wanted to know what has been happening quickly.
 Click below to watch promo video
 [![promo-youtube-video](docs/img/youtube_video.png)](https://www.youtube.com/embed/ox5i6xCZaaA)
 
-<br>
-
-![docker](docs/img/docker.png)
-
-![Open-Intelligence-Front-Page](docs/img/frontpage_2.png) 
-
-This is small part of front page.
-
-<br>
-
 Cameras view             |  Plate calendar
 :-------------------------:|:-------------------------:
 ![cameras_1](docs/img/cameras_1.PNG)   |  ![plates_1](docs/img/plates_1.PNG)
@@ -42,6 +32,11 @@ Face wall             |  Face wall source dialog
 
 * Face wall is one of the creepiest features. 
 * You can go trough pile of faces and by clicking them, you can see source image.
+
+<br> 
+
+Open Intelligence can run with Docker, directly at host or mixed.
+![docker](docs/img/docker.png)
 
 <br> 
 
