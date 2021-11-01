@@ -32,7 +32,7 @@
     "react-router": "5.2.1",
     "react-router-dom": "5.3.0",
     "react-scripts": "3.4.4",
-    "redux": "4.1.1",
+    "redux": "4.1.2",
     "redux-devtools-extension": "2.13.9",
     "typescript": "3.9.10"
   },
