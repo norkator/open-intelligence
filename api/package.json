@@ -28,6 +28,6 @@
     "os-utils": "0.0.14",
     "pg": "8.7.3",
     "pgtools": "0.3.2",
-    "sequelize": "6.17.0"
+    "sequelize": "6.20.1"
   }
 }
