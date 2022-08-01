@@ -22,7 +22,7 @@
     "get-folder-size": "2.0.1",
     "helmet": "5.1.0",
     "image-thumbnail": "1.0.15",
-    "moment": "2.29.3",
+    "moment": "2.29.4",
     "node-schedule": "2.1.0",
     "nodemailer": "6.7.5",
     "os-utils": "0.0.14",
