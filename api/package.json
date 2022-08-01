@@ -19,7 +19,7 @@
   "dependencies": {
     "dotenv": "16.0.1",
     "express": "4.18.1",
-    "get-folder-size": "2.0.1",
+    "get-folder-size": "4.0.0",
     "helmet": "5.1.0",
     "image-thumbnail": "1.0.15",
     "moment": "2.29.3",
