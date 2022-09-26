@@ -1,7 +1,4 @@
-# docker build -t open-intelligence-front .
-# docker run open-intelligence-front
-
-FROM node:14-alpine
+FROM node:16-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
