@@ -22,7 +22,7 @@ if (!utils.ValidNodeJSVersion()) {
 
 
 // Run app
-initDb.initDatabase().then(() => {
+initDb.initDatabase().then(async () => {
   let sequelizeObjects = require('./module/sequelize');
 
   app.use(bodyParser.json());
@@ -76,4 +76,4 @@ initDb.initDatabase().then(() => {
     logger.log(`Development api listening on port ${process.env.API_PORT}.`, logger.LOG_YELLOW);
   });
 
-});
+}).catch(() => null);
