@@ -14,7 +14,7 @@ updates:
       interval: "monthly"
 
   # Maintain dependencies for React frontend
-  # - package-ecosystem: "npm"
-  #  directory: "/api/front-end"
-  #  schedule:
-  #    interval: "monthly"
+  - package-ecosystem: "npm"
+    directory: "/front-end"
+    schedule:
+      interval: "monthly"

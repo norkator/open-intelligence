@@ -83,8 +83,50 @@ is at server one, python application at server two and api hosting at server thr
 
 Installing with Docker
 ============
-Follow [Installation-using-Docker](https://github.com/norkator/open-intelligence/wiki/Installation-using-Docker) 
-instruction from Wiki page.
+This section has step-by-step installation tutorial to get started with Docker based installation. 
+Docker way of running Open-Intelligence is not going to limit you for only Docker, you can still run for example api, 
+front-end, app.py, similarity processes with Docker and have separate GPU enabled machine for super resolution and 
+insightface processes.
+
+
+### 1. Install database
+Download [PostgreSQL](https://www.postgresql.org/) and install it on any machine you want on your network. 
+Look over with search engine how to make it available on local network devices if you are installing it on a 
+different machine than what is running Docker images.
+
+### 2. Install Docker
+If you don't already have, go to [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/) and 
+follow their instructions.
+
+### 3. Clone this repository code
+Use any version control tool to clone this repository code. I recommend using any git based tool so that you 
+can checkout latest code and by recommend, I mean don't download it as "offline" zip file.
+
+Using git from shell:
+```shell script
+git clone https://github.com/norkator/open-intelligence.git
+```
+
+### 4. Get models
+Get models here https://drive.google.com/file/d/1dSJuxpwSFfF7SIJg8NMKG5yCIG9CHQKw/view?usp=sharing
+unzip models into open intelligence `/python/models` folder.
+
+### 5. Configure
+1. Rename `docker-compose.yml_tpl` into `docker-compose.yml` and fill in your environment variables which pretty 
+   much are database configuration.
+2. Rename `config.ini.tpl` to `config.ini` and fill in your details. Config.ini content settings are explained at Readme.
+
+### 6. Verify your timezone (linux server distro case)
+https://github.com/norkator/open-intelligence/wiki/Linux-notes#ensure-your-timezone-is-right
+
+### 7. Configure storage
+This is big step so follow this article: https://github.com/norkator/open-intelligence/wiki/Configuring-storage
+(Todo... add instructions here)
+
+### 8. Run
+1. Run `docker-compose up` in root of this project and let magic happen.
+2. Open `http://localhost:3000/` and you should see Open Intelligence front page. Hopefully.
+
 
 
 Installing manually
@@ -324,8 +366,8 @@ Now works without any python site-package installation.
 Front end development
 ============
 There is separate Readme for this side so 
-see more at `./api/front-end/README.md`  
-![link](api/front-end/README.md) 
+see more at `./front-end/README.md`  
+![link](./front-end/README.md) 
 
 
 Troubleshooting

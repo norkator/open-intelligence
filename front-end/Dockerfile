@@ -3,18 +3,18 @@ FROM node:16-alpine
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install backend dependencies
+# Install frontend dependencies
 COPY package*.json ./
 RUN npm install
 
 # Bundle app source
 COPY . .
 
-# Port to access backend
-EXPOSE 4300
+# Go back to root
+WORKDIR /usr/src/app
 
-# PM2 is used to run apps
-RUN npm install -g pm2
+# Port to access frontend
+EXPOSE 3000
 
 # define the command to run your app using CMD which defines your runtime
-CMD ["pm2-runtime", "ecosystem.config.js"]
+CMD ["npm", "start"]

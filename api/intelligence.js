@@ -61,14 +61,6 @@ initDb.initDatabase().then(async () => {
   require('./routes/configuration').Configuration(app, sequelizeObjects);
 
   // -------------------------------------------------------------------------------------------------------------------
-  // Serve web front end (serve as last after api routes)
-
-  app.use('/', express.static(path.join(__dirname, '/html/')));
-  app.get('*', function(req, res) {
-    res.sendFile('index.html', {root: path.join(__dirname, '/html/')});
-  });
-
-  // -------------------------------------------------------------------------------------------------------------------
   // Start web server
 
   // Development server
