@@ -17,4 +17,4 @@ WORKDIR /usr/src/app
 EXPOSE 3000
 
 # define the command to run your app using CMD which defines your runtime
-CMD ["npm", "start", "--prefix", "./front-end"]
+CMD ["npm", "start"]
