@@ -2,8 +2,8 @@ version: '3'
 services:
   app-py:
     container_name: app-py
-    deploy:
-      replicas: 2
+    # deploy:
+    #   replicas: 2
     build:
       context: .
       dockerfile: app.Dockerfile

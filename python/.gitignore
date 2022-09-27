@@ -6,10 +6,6 @@ images/*
 images2/*
 output/*
 object_detection/*
-config.ini
-config_slave.ini
-config_tre.ini
-config_temp.ini
 dataset/*
 logs/*
 bin/

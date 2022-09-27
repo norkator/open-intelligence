@@ -3,3 +3,6 @@
 
 # Config files
 docker-compose.yml
+config.ini
+config_slave.ini
+config_temp.ini
