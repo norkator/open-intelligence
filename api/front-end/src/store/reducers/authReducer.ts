@@ -8,6 +8,7 @@ import {
 
 
 export interface AuthStateInterface {
+  isAuthenticated: boolean;
   token: string | null;
   userId: number | null;
   error: string | null;
@@ -24,6 +25,7 @@ export interface AuthActionInterface {
 }
 
 const initialState = {
+  isAuthenticated: false,
   token: 'dummy-place-holder', // token: null,
   userId: null,
   error: null,

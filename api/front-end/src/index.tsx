@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter} from "react-router-dom";
-import './Magic.css'
+import './magic.css'
 import {Provider} from 'react-redux'
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import dateReducer from "./store/reducers/dateReducer";
@@ -15,7 +15,6 @@ import {I18nextProvider} from "react-i18next";
 import i18next from "i18next";
 import i18nConfig from "./i18nConfig";
 import commonReducer from "./store/reducers/commonReducer";
-// import thunk from 'redux-thunk'; // Todo, install thunk if needed (lets you write async logic that interacts with the store)
 
 // i18n translation config
 i18next.init(i18nConfig);
@@ -40,7 +39,7 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <I18nextProvider i18n={i18next}>
-          <App/>
+          <App error={null} loading={false} token={null} userId={null} authRedirectPath={''}/>
         </I18nextProvider>
       </BrowserRouter>
     </Provider>

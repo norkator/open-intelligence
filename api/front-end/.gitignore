@@ -62,3 +62,6 @@ typings/
 
 # Old front end needed for developing new
 /old-front-end
+
+# Others
+package-lock.json

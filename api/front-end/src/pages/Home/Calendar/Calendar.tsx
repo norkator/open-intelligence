@@ -20,8 +20,9 @@ import {WithTranslation, withTranslation} from "react-i18next";
 import {ChangeDate, getNowISODate} from "../../../utils/DateUtils";
 import {DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 import {toast, Toaster} from "react-hot-toast";
+import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
 
-class Calendar extends Component<ReduxPropsInterface & WithTranslation | any> {
+class Calendar extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
   state = {
     dateRangeStartDate: null,
     dateRangeEndDate: null,

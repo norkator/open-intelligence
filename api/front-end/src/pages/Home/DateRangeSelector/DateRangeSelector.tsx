@@ -3,9 +3,10 @@ import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
 import {DATE_RANGE_END_DATE_SELECTED, DATE_RANGE_START_DATE_SELECTED} from "../../../store/actionTypes";
 import {connect} from "react-redux";
 import {WithTranslation, withTranslation} from "react-i18next";
+import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
 
 
-class DateRangeSelector extends Component<ReduxPropsInterface & WithTranslation | any> {
+class DateRangeSelector extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
   render() {
     const {t} = this.props;
 

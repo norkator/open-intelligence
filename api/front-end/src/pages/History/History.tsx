@@ -5,7 +5,7 @@ import {AxiosError} from "axios";
 import NetworkErrorIndicator from "../../components/NetworkErrorComponent/NetworkErrorIndicator/NetworkErrorIndicator";
 import axios, {GET_HISTORY_CAMERA_IMAGES, GET_HISTORY_CAMERA_NAMES} from "../../axios";
 import {ChangeDate} from "../../utils/DateUtils";
-import {DropdownButton, FormControl, InputGroup, Dropdown, Alert} from "react-bootstrap";
+import {DropdownButton, FormControl, Dropdown, Alert} from "react-bootstrap";
 import styles from './History.module.css'
 import toast, {Toaster} from "react-hot-toast";
 
@@ -142,7 +142,6 @@ class History extends Component<WithTranslation> {
         <div className="d-flex justify-content-center flex-wrap mb-2 magictime spaceInLeft">
           <div className="input-group mb-2" style={{maxWidth: '700px'}}>
             <DropdownButton
-              as={InputGroup.Prepend}
               variant="outline-secondary"
               title={t('history.camera')}
               id="camera-names-dropdown-1"
