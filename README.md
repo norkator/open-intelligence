@@ -324,8 +324,8 @@ Now works without any python site-package installation.
 Front end development
 ============
 There is separate Readme for this side so 
-see more at `./api/front-end/README.md`  
-![link](api/front-end/README.md) 
+see more at `./front-end/README.md`  
+![link](./front-end/README.md) 
 
 
 Troubleshooting
