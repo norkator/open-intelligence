@@ -8,7 +8,7 @@ output_folder=/output_test/
 ignored_labels=pottedplant,tennis racket,umbrella
 
 [camera]
-cameras_root_path=E:/CAMERA_SOURCE
+cameras_root_path=/input
 camera_names=TestCamera1,TestCamera2
 camera_folders=/testCamera1Folder/,/testCamera2Folder/,
 
