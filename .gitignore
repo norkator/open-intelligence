@@ -1,2 +1,5 @@
 # IDE
 .idea
+
+# Config files
+docker-compose.yml

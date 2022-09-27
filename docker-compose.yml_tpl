@@ -1,7 +1,7 @@
 version: '3'
 services:
-  open-intelligence-app-py:
-    # container_name: open-intelligence-app-py
+  app-py:
+    container_name: app-py
     deploy:
       replicas: 2
     build:
@@ -11,38 +11,38 @@ services:
       - ./:/app
       # - E:/OITestInput:/input_test
       # - E:/OUTPUT_FOLDER:/output_test
-  open-intelligence-insight-face-py:
-    container_name: open-intelligence-insight-face-py
+  insight-face-py:
+    container_name: insight-face-py
     build:
       context: .
       dockerfile: if.Dockerfile
     volumes:
       - ./:/app
       # - E:/OUTPUT_FOLDER:/output_test
-  open-intelligence-super-resolution-py:
-    container_name: open-intelligence-super-resolution-py
+  super-resolution-py:
+    container_name: super-resolution-py
     build:
       context: .
       dockerfile: sr.Dockerfile
     volumes:
       - ./:/app
       # - E:/OUTPUT_FOLDER:/output_test
-  open-intelligence-similarity-process-py:
-    container_name: open-intelligence-similarity-process-py
+  similarity-process-py:
+    container_name: similarity-process-py
     build:
       context: .
       dockerfile: sp.Dockerfile
     volumes:
       - ./:/app
       # - E:/OUTPUT_FOLDER:/output_test
-  open-intelligence-front:
-    container_name: open-intelligence-front
+  front:
+    container_name: front
     build: ./api
     ports:
       - "4300:4300"
       - "3000:3000"
     depends_on:
-      - open-intelligence-app-py
+      - app-py
     volumes:
       # - E:/OUTPUT_FOLDER:/usr/src/output/
       - ./config.ini:/usr/src/config.ini
