@@ -40,15 +40,12 @@ services:
     build: ./api
     ports:
       - "4300:4300"
-      - "3000:3000"
     depends_on:
       - app-py
     volumes:
       # - E:/OUTPUT_FOLDER:/usr/src/output/
       - ./config.ini:/usr/src/config.ini
     environment:
-      # So that front end knows where api is
-      - REACT_APP_API_BASE_URL=http://<your-server-ip-address>:4300/
       - NODE_ENV=development
       - LOGGING=true
       - API_PORT=4300
@@ -71,3 +68,11 @@ services:
       - EMAIL_USER=
       - EMAIL_PASSWORD=
       - EMAIL_TO_ADDRESS=address1@address.com,address2@addres.com
+  frontend:
+    container_name: frontend
+    build: ./front-end
+    ports:
+      - "3000:3000"
+    environment:
+      # So that front end knows where api is
+      - REACT_APP_API_BASE_URL=http://localhost:4300/
