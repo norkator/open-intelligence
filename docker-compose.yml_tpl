@@ -5,45 +5,45 @@ services:
     # deploy:
     #   replicas: 2
     build:
-      context: .
+      context: ./python
       dockerfile: app.Dockerfile
     volumes:
-      - ./:/app
-      # - E:/OITestInput:/input_test
-      # - E:/OUTPUT_FOLDER:/output_test
+      - ./python/:/app
+      - /Users/<user-name>/Desktop/camera_root:/input
+      - /Users/<user-name>/Desktop/output:/output_test
   insight-face-py:
     container_name: insight-face-py
     build:
-      context: .
+      context: ./python
       dockerfile: if.Dockerfile
     volumes:
-      - ./:/app
-      # - E:/OUTPUT_FOLDER:/output_test
+      - ./python/:/app
+      - /Users/<user-name>/Desktop/output:/output_test
   super-resolution-py:
     container_name: super-resolution-py
     build:
-      context: .
+      context: ./python
       dockerfile: sr.Dockerfile
     volumes:
-      - ./:/app
-      # - E:/OUTPUT_FOLDER:/output_test
+      - ./python/:/app
+      - /Users/<user-name>/Desktop/output:/output_test
   similarity-process-py:
     container_name: similarity-process-py
     build:
-      context: .
+      context: ./python
       dockerfile: sp.Dockerfile
     volumes:
       - ./:/app
-      # - E:/OUTPUT_FOLDER:/output_test
-  front:
-    container_name: front
+      - /Users/<user-name>/Desktop/output:/output_test
+  backend:
+    container_name: backend
     build: ./api
     ports:
       - "4300:4300"
     depends_on:
       - app-py
     volumes:
-      # - E:/OUTPUT_FOLDER:/usr/src/output/
+      - /Users/<user-name>/Desktop/output:/output_test
       - ./config.ini:/usr/src/config.ini
     environment:
       - NODE_ENV=development

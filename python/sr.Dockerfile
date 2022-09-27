@@ -39,7 +39,7 @@ RUN cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc 
 ##################### OPEN INTELLIGENCE ##########################
 
 # COPY . /app
-COPY python/requirements_linux_container_heavy.txt /app/requirements_linux_container_heavy.txt
+COPY requirements_linux_container_heavy.txt /app/requirements_linux_container_heavy.txt
 
 WORKDIR /app
 
@@ -52,4 +52,4 @@ RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 # docker-compose file introduces mount point to mount source files without copying into docker image
 
-CMD ["python", "./python/SuperResolution.py"]
+CMD ["python", "./SuperResolution.py"]
