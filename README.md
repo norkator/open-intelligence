@@ -133,9 +133,24 @@ unzip models into open intelligence `/python/models` folder.
 https://github.com/norkator/open-intelligence/wiki/Linux-notes#ensure-your-timezone-is-right
 
 ### 7. Configure storage
+On linux machine configuring storage steps are:
 
-This is big step so follow this article: https://github.com/norkator/open-intelligence/wiki/Configuring-storage
-(Todo... add instructions here)
+Open docker-compose.yml and tweak all volume configs
+```yaml
+    volumes:
+      - ./python/:/app
+      - /Users/<user-name>/Desktop/camera_root:/input
+      - /Users/<user-name>/Desktop/output:/output_test
+```
+where first part `/Users/<user-name>/Desktop/camera_root` is your path to your host machine folder. 
+Same with another output folder path. Its just some folder in your machine where you want all open intelligence
+output files to be stored.
+
+That latter part like `:/input` and `:/output_test` corresponds to same config found from python folder file
+`config.ini` variables `output_folder` and `cameras_root_path`. By changing these you only change how 
+containers see these folders named. It does not affect any way to your actual mounted folders. 
+
+More on this article: https://github.com/norkator/open-intelligence/wiki/Configuring-storage
 
 ### 8. Run
 
