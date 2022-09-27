@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes';
 import {AxiosError} from "axios";
 
 export interface CommonPropsInterface {
-  onSetAxiosError: (error: AxiosError) => void;
+  onSetAxiosError: (error: AxiosError | any) => void;
 }
 
 interface CommonStateInterface {

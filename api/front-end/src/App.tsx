@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import './App.css';
 import NavBar from "./pages/Navbar/Navbar";
-import {Switch, Route} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import styles from './pages/Cameras/Cameras.module.css';
 import * as auth from './store/actions/auth';
 import {connect} from "react-redux";
+import {AuthStateInterface} from "./store/reducers/authReducer";
 
 // Pages
 import Cameras from "./pages/Cameras/Cameras";
@@ -14,9 +15,11 @@ import Plates from "./pages/Plates/Plates";
 import Training from "./pages/Training/Training";
 import History from "./pages/History/History";
 import Configuration from "./pages/Configuration/Configuration";
+import {ReduxPropsInterface} from "./store/reducers/dateReducer";
+import {CommonPropsInterface} from "./store/reducers/commonReducer";
 
 
-class App extends Component<any, any> {
+class App extends Component<AuthStateInterface> {
 
   componentDidMount() {
     // this.props.onTryAutoSignup(); // Enabling some day when this app has authentication
@@ -30,15 +33,15 @@ class App extends Component<any, any> {
         <div>
           <NavBar/>
           <div className={classes.join(' ')} style={{paddingBottom: '80px'}}>
-            <Switch>
-              <Route exact path='/' component={Home}/>
-              <Route exact path='/cameras' component={Cameras}/>
-              <Route exact path='/plates' component={Plates}/>
-              <Route exact path='/faces' component={Faces}/>
-              <Route exact path='/training' component={Training}/>
-              <Route exact path='/history' component={History}/>
-              <Route exact path='/configuration' component={Configuration}/>
-            </Switch>
+            <Routes>
+              <Route path='/' element={<Home {...props}/>}/>
+              <Route path='/cameras' element={<Cameras/>}/>
+              <Route path='/plates' element={<Plates {...props}/>}/>
+              <Route path='/faces' element={<Faces/>}/>
+              <Route path='/training' element={<Training/>}/>
+              <Route path='/history' element={<History/>}/>
+              <Route path='/configuration' element={<Configuration/>}/>
+            </Routes>
           </div>
         </div>
         :
@@ -55,9 +58,33 @@ class App extends Component<any, any> {
   }
 }
 
+const props: ReduxPropsInterface & CommonPropsInterface & AuthStateInterface = {
+  authRedirectPath: "",
+  dateRangeEndDate: "",
+  dateRangeStartDate: "",
+  error: null,
+  isAuthenticated: false,
+  loading: false,
+  onDateRangeEndDateSelected(event: Object): void {
+  },
+  onDateRangeStartDateSelected(event: Object): void {
+  },
+  onDateSelected(event: string): void {
+  },
+  onDecrementDay(): void {
+  },
+  onIncrementDay(): void {
+  },
+  onSetAxiosError(error: any): void {
+  },
+  selectedDate: "",
+  token: null,
+  userId: null
+}
+
 const mapStateToProps = (state: any) => {
   return {
-    isAuthenticated: state.authReducer.token !== null
+    isAuthenticated: state.authReducer.token !== null,
   };
 };
 

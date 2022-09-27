@@ -77,7 +77,7 @@ class PersonTraining extends Component<WithTranslation & CommonPropsInterface> {
             <Button onClick={async () => await this.moveFaceGroupingImageHandler(String(name))}
                     variant="outline-secondary"
                     size="sm" className="m-1">
-              {name}
+              {String(name)}
             </Button>
           </div>
         )

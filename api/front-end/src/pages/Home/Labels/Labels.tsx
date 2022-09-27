@@ -43,7 +43,7 @@ export interface LabelDonutDataInterface {
 let clickHoldTimer: any = null;
 let longClickHandled: boolean = false;
 
-class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface | any> {
+class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface & {}> {
   state = {
     selectedDate: null,
     isLoading: true,
@@ -99,7 +99,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
         labelDonutData: labelDonutData,
         activityChartData: result.activity.data,
       });
-    } catch (e) {
+    } catch (e: any) {
       this.props.onSetAxiosError(e);
     }
   };
@@ -231,8 +231,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
                 <b>{t('home.labels.labelViewer')}</b>
               </div>
               <div className="col-sm text-right">
-                <Badge variant="dark" className="mr-2">IC{this.state.instanceCount}</Badge>
-                <Badge variant="dark">STR {this.state.storageUse}</Badge>
+                <Badge bg="dark" className="mr-2">IC{this.state.instanceCount}</Badge>
+                <Badge bg="dark">STR {this.state.storageUse}</Badge>
               </div>
             </div>
           </Card.Header>
@@ -243,7 +243,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
                 {
                   this.state.labelDonutData.datasets !== undefined ?
                     <Doughnut
-                      onElementsClick={(element: any) => this.onDonutElementClickHandler(element)}
+                      onClick={(element: any) => this.onDonutElementClickHandler(element)}
                       data={this.state.labelDonutData}
                       height={300}
                       options={{maintainAspectRatio: false}}/>

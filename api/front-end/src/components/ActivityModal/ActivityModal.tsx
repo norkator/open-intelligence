@@ -16,7 +16,20 @@ export const ActivityModal = (props: ActivityModalInterface) => {
     data.push(cd.a);
   });
 
-  const lineChartSpec = {
+  const lineChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: props.t('activityModal.hourDataSet'),
+      },
+    },
+  };
+
+  const lineChartData = {
     labels: labels,
     datasets: [
       {
@@ -25,10 +38,10 @@ export const ActivityModal = (props: ActivityModalInterface) => {
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'butt',
+        // borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
+        // borderJoinStyle: 'miter',
         pointBorderColor: 'rgba(75,192,192,1)',
         pointBackgroundColor: '#fff',
         pointBorderWidth: 1,
@@ -53,7 +66,7 @@ export const ActivityModal = (props: ActivityModalInterface) => {
         </Modal.Header>
         <Modal.Body>
           <p className="text-muted mb-2">{props.description}</p>
-          <Line type='line' data={lineChartSpec}/>
+          <Line options={lineChartOptions} data={lineChartData}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.closeHandler()}>

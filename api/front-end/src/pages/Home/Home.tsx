@@ -8,8 +8,9 @@ import Calendar from "./Calendar/Calendar";
 import FaceIdentity from "./FaceIdentity/FaceIdentity";
 import ErrorComponent from "../../components/NetworkErrorComponent/ErrorComponent";
 import {CommonPropsInterface} from "../../store/reducers/commonReducer";
+import {AuthStateInterface} from "../../store/reducers/authReducer";
 
-class Home extends Component<ReduxPropsInterface & CommonPropsInterface> {
+class Home extends Component<ReduxPropsInterface & CommonPropsInterface & AuthStateInterface> {
   render() {
     return (
       <div>
