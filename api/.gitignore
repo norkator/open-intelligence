@@ -1,0 +1,5 @@
+# IDE
+.idea
+
+# Config files
+.env
