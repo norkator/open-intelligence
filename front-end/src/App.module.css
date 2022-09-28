@@ -1,0 +1,9 @@
+.App {
+  padding-bottom: 80px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: fixed;
+  overflow: auto;
+  height: 100vh;
+  width: 100%;
+}

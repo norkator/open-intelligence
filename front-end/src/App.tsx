@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import './App.css';
 import NavBar from "./pages/Navbar/Navbar";
 import {Route, Routes} from "react-router-dom";
-import styles from './pages/Cameras/Cameras.module.css';
+import styles from './App.module.css';
 import * as auth from './store/actions/auth';
 import {connect} from "react-redux";
 import {AuthStateInterface} from "./store/reducers/authReducer";
@@ -26,13 +25,13 @@ class App extends Component<AuthStateInterface> {
   }
 
   render() {
-    let classes: string[] = [styles.Cameras];
+    let classes: string[] = [styles.App, 'bg-dark'];
 
     let content =
       this.props.isAuthenticated ?
         <div>
           <NavBar/>
-          <div className={classes.join(' ')} style={{paddingBottom: '80px'}}>
+          <div className={classes.join(' ')}>
             <Routes>
               <Route path='/' element={<Home {...props}/>}/>
               <Route path='/cameras' element={<Cameras/>}/>
