@@ -77,7 +77,7 @@ class Owners extends Component<ReduxPropsInterface & WithTranslation> {
           <Card.Header>
             <b>{t('plates.owners.vehicleOwners')}</b>
           </Card.Header>
-          <Card.Body style={{padding: '0px'}}>
+          <Card.Body>
             <div className="row">
               <div className="col-sm">
                 <input type="text" className="form-control mt-2 mb-2" placeholder={t('plates.owners.searchFilter')}

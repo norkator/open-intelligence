@@ -92,7 +92,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonProps
             <Card.Header>
               <b>{t('plates.cars.unknownCars')}</b>
             </Card.Header>
-            <Card.Body style={{padding: '0px'}}>
+            <Card.Body>
               <small className="ml-2">{t('plates.cars.byDefaultDescription')}</small>
               <DateRangeSelector {...this.props} />
               <div className="d-flex justify-content-center flex-wrap">
