@@ -20,7 +20,7 @@ plate_char_length = int(open_alpr_config['plate_char_length'])
 
 # Paths
 car_labels_path = output_root_folder_path + '/car/'
-rotation_temp_images_path = output_root_folder_path + '/rotation_temp/'
+rotation_temp_images_path = output_root_folder_path + 'rotation_temp/'
 alpr_dir = os.getcwd() + '/libraries/openalpr_64'
 open_alpr_conf = os.getcwd() + '/libraries/openalpr_64/openalpr.conf'
 open_alpr_runtime_data = os.getcwd() + '/libraries/openalpr_64/runtime_data'
