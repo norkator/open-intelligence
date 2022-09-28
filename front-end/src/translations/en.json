@@ -87,7 +87,8 @@
   "faces": {
     "earlier": "← Earlier",
     "next": "Next →",
-    "modalOriginalImageDescription": "Original image file where face is detected"
+    "modalOriginalImageDescription": "Original image file where face is detected",
+    "no_images": "No faces images available for today or your insight face process is not running"
   },
   "training": {
     "personTraining": {

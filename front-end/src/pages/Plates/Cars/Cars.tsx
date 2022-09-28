@@ -17,10 +17,11 @@ import {withTranslation, WithTranslation} from "react-i18next";
 import {DATE_RANGE_START_DATE_SELECTED, SET_AXIOS_ERROR} from "../../../store/actionTypes";
 import {AxiosError} from "axios";
 import {CommonPropsInterface} from "../../../store/reducers/commonReducer";
+import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
 
 class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface> {
   state = {
-    isLoading: false,
+    isLoading: true,
     today: getNowISODate(),
     resultOption: 'owner_detail_needed',
     totalPlates: 0,
@@ -49,6 +50,7 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonProps
       const licensePlateDetections = await getLicensePlateDetections(
         this.state.resultOption, '', startDate, endDate) as LicensePlateDetectionsInterface[];
       this.setState({
+        isLoading: false,
         dateRangeStartDate: startDate,
         dateRangeEndDate: endDate,
         licensePlateDetections: licensePlateDetections
@@ -92,7 +94,10 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonProps
             <Card.Header>
               <b>{t('plates.cars.unknownCars')}</b>
             </Card.Header>
-            <Card.Body style={{padding: '0px'}}>
+            <Card.Body>
+              {
+                this.state.isLoading ? <LoadingIndicator isDark={true}/> : null
+              }
               <small className="ml-2">{t('plates.cars.byDefaultDescription')}</small>
               <DateRangeSelector {...this.props} />
               <div className="d-flex justify-content-center flex-wrap">
@@ -132,7 +137,6 @@ class Cars extends Component<ReduxPropsInterface & WithTranslation & CommonProps
           showReject={true}
           rejectHandler={(plateObject: PlateEditModalPropsInterface) => this.plateRejectHandler(plateObject)}
           loadVehicleImageHandler={() => null}/>
-
       </div>
     )
   }

@@ -58,29 +58,31 @@ class FaceIdentity extends Component<ReduxPropsInterface & WithTranslation> {
 
     return (
       <div>
-        <Card bg="light" text="dark">
-          <Card.Header>
-            {t('home.faceIdentity.faceIdentifications')}
-          </Card.Header>
-          <Card.Body style={{padding: '0px'}}>
-            <div className="d-flex justify-content-center flex-wrap">
-              {
-                this.state.faceDetections.length === 0 ?
-                  this.state.isLoading ? <LoadingIndicator isDark={true}/> :
-                    <Button variant="dark" className="mt-2 mb-2"
-                            onClick={() => this.getFacesClickHandler()}>
-                      {t('home.faceIdentity.loadDetections')}
-                    </Button>
-                  : faces
-              }
-            </div>
-          </Card.Body>
-          <Card.Footer className="p-2">
-            <small className="text-muted">
-              {t('home.faceIdentity.faceIdentificationsFooter')}
-            </small>
-          </Card.Footer>
-        </Card>
+        <div className="magictime vanishIn">
+          <Card bg="light" text="dark">
+            <Card.Header>
+              <b>{t('home.faceIdentity.faceIdentifications')}</b>
+            </Card.Header>
+            <Card.Body style={{padding: '0px'}}>
+              <div className="d-flex justify-content-center flex-wrap">
+                {
+                  this.state.faceDetections.length === 0 ?
+                    this.state.isLoading ? <LoadingIndicator isDark={true}/> :
+                      <Button variant="dark" className="mt-2 mb-2"
+                              onClick={() => this.getFacesClickHandler()}>
+                        {t('home.faceIdentity.loadDetections')}
+                      </Button>
+                    : faces
+                }
+              </div>
+            </Card.Body>
+            <Card.Footer className="p-2">
+              <small className="text-muted">
+                {t('home.faceIdentity.faceIdentificationsFooter')}
+              </small>
+            </Card.Footer>
+          </Card>
+        </div>
       </div>
     )
   }

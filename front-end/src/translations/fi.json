@@ -87,7 +87,8 @@
   "faces": {
     "earlier": "Aikaisempi",
     "next": "Seuraava",
-    "modalOriginalImageDescription": "Originaali kuva jossa kasvo on tunnistettu"
+    "modalOriginalImageDescription": "Originaali kuva jossa kasvo on tunnistettu",
+    "no_images": "Ei kasvokuvia saatavilla valitulle päivälle tai insight face prosessi ei ole toiminnassa"
   },
   "training": {
     "personTraining": {

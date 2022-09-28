@@ -36,15 +36,15 @@ const store = createStore(
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <I18nextProvider i18n={i18next}>
-          <App error={null} loading={false} token={null} userId={null} authRedirectPath={''}/>
-        </I18nextProvider>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode> // enable for help to spot side effects only in the development
+  <Provider store={store}>
+    <BrowserRouter>
+      <I18nextProvider i18n={i18next}>
+        <App error={null} loading={true} token={null} userId={null} authRedirectPath={''}/>
+      </I18nextProvider>
+    </BrowserRouter>
+  </Provider>
+  // </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

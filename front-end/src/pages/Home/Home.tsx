@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 import {ReduxPropsInterface} from "../../store/reducers/dateReducer";
 import DateSelector from "./DateSelector/DateSelector";
 import Calendar from "./Calendar/Calendar";
-import FaceIdentity from "./FaceIdentity/FaceIdentity";
 import ErrorComponent from "../../components/NetworkErrorComponent/ErrorComponent";
 import {CommonPropsInterface} from "../../store/reducers/commonReducer";
 import {AuthStateInterface} from "../../store/reducers/authReducer";
@@ -26,9 +25,6 @@ class Home extends Component<ReduxPropsInterface & CommonPropsInterface & AuthSt
         </div>
         <div className="mt-2 mr-2 ml-2">
           <Instances/>
-        </div>
-        <div className="mt-2 mr-2 ml-2">
-          <FaceIdentity {...this.props} />
         </div>
       </div>
     )

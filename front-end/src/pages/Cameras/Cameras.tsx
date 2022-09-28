@@ -42,10 +42,10 @@ class Cameras extends Component<WithTranslation> {
     this._isMounted = true;
     window.addEventListener("resize", this.handleResize);
     this.loadCameraImages();
-    this.loadVoiceIntelligence();
     const intervalId = setInterval(() => this.loadCameraImages(), 60 * 1000);
-    const intervalIdVoice = setInterval(() => this.loadVoiceIntelligence(), 10 * 1000);
     this.setState({intervalId: intervalId});
+    this.loadVoiceIntelligence();
+    const intervalIdVoice = setInterval(() => this.loadVoiceIntelligence(), 10 * 1000);
     this.setState({intervalIdVoice: intervalIdVoice});
   }
 
@@ -63,10 +63,8 @@ class Cameras extends Component<WithTranslation> {
     axios.get(GET_VOICE_INTELLIGENCE).then((data: any) => {
       if (this._isMounted) {
         this.setState({voiceData: data.data as VoiceDataInterface});
-        if (this.state.voiceData.message !== '') {
-          this.showToast(this.state.voiceData.message);
-          // this.speak(this.state.voiceData.message);
-        }
+        this.showToast(this.state.voiceData.message);
+        // this.speak(this.state.voiceData.message);
       }
     }).catch((error: AxiosError) => {
       this.setState({axiosError: error});
@@ -74,25 +72,29 @@ class Cameras extends Component<WithTranslation> {
   };
 
   speak = (text: string) => {
-    try {
-      const msg = new SpeechSynthesisUtterance(text);
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(msg);
-    } catch (e) {
+    if (text !== undefined && text !== '') {
+      try {
+        const msg = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(msg);
+      } catch (e) {
+      }
     }
   };
 
   showToast = (text: string) => {
-    toast(text,
-      {
-        icon: '🔔',
-        style: {
-          borderRadius: '10px',
-          background: '#333',
-          color: '#fff',
-        },
-      }
-    );
+    if (text !== undefined && text !== '') {
+      toast(text,
+        {
+          icon: '🔔',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+    }
   };
 
   componentWillUnmount(): void {
