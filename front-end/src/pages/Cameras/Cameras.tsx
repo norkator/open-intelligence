@@ -65,7 +65,7 @@ class Cameras extends Component<WithTranslation> {
         this.setState({voiceData: data.data as VoiceDataInterface});
         if (this.state.voiceData.message !== '') {
           this.showToast(this.state.voiceData.message);
-          this.speak(this.state.voiceData.message);
+          // this.speak(this.state.voiceData.message);
         }
       }
     }).catch((error: AxiosError) => {
