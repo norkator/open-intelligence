@@ -18,7 +18,8 @@
     "training": "Opettaminen",
     "changeLanguage": "Vaihda kieltä",
     "history": "Historia",
-    "configuration": "Konfigurointi"
+    "configuration": "Konfigurointi",
+    "cleaning": "Siivoaminen"
   },
   "home": {
     "calendar": {

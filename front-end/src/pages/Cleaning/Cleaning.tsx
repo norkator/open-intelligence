@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
-import {Button, Card} from "react-bootstrap";
-import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
-import toast, {Toaster} from "react-hot-toast";
+import {Card} from "react-bootstrap";
 
 
 class Cleaning extends Component<WithTranslation> {
