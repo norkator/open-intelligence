@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
+import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import styles from './Navbar.module.css'
 import {Link} from "react-router-dom";
 import {withTranslation} from "react-i18next";
 import {saveLanguageSelection} from "../../i18nConfig";
-// eslint-disable-next-line
-import {i18n} from "i18next"; // Todo, why esLint whines even when it's in use?
+import {i18n} from "i18next";
+
 const githubAsset = require('../../assets/github-light-64px.png');
 
 
@@ -16,11 +16,11 @@ class NavBar extends Component<any, any> {
   };
 
   setNavExpanded = (expanded: boolean) => {
-    this.setState({ navExpanded: expanded });
+    this.setState({navExpanded: expanded});
   };
 
   closeNav = () => {
-    this.setState({ navExpanded: false });
+    this.setState({navExpanded: false});
   };
 
   setActiveLinkHandler = (link: string) => {
@@ -53,85 +53,88 @@ class NavBar extends Component<any, any> {
     return (
       <>
         <Navbar
+          bg="dark" variant="dark" expand="lg"
           onToggle={this.setNavExpanded}
           expanded={this.state.navExpanded}
-          bg="dark" variant="dark" expand="lg">
-          <Navbar.Brand className={styles.NavbarBrand}>
-            <img
-              alt="Open-Intelligence Logo"
-              src={navBarImg}
-              width="36"
-              height="36"
-              className="d-inline-block align-top"
-            />{' '}
-            <span className={styles.NavbarBrand}>Open-Intelligence</span>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarSupportedContent"/>
-          <Navbar.Collapse id="navbarSupportedContent">
-            <Nav className="mr-auto">
-              {
-                this.state.activeLink !== '/' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/"
-                        onClick={() => this.setActiveLinkHandler('/')}>{t('navbar.home')}</Link>
-                  : <span className="mt-2">{t('navbar.home')}</span>
-              }
-              {
-                this.state.activeLink !== '/cameras' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/cameras"
-                        onClick={() => this.setActiveLinkHandler('/cameras')}>{t('navbar.cameras')}</Link>
-                  : <span className="mt-2">{t('navbar.cameras')}</span>
-              }
-              {
-                this.state.activeLink !== '/plates' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/plates"
-                        onClick={() => this.setActiveLinkHandler('/plates')}>{t('navbar.plates')}</Link>
-                  : <span className="mt-2">{t('navbar.plates')}</span>
-              }
-              {
-                this.state.activeLink !== '/faces' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/faces"
-                        onClick={() => this.setActiveLinkHandler('/faces')}>{t('navbar.faces')}</Link>
-                  : <span className="mt-2">{t('navbar.faces')}</span>
-              }
-              {
-                this.state.activeLink !== '/training' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/training"
-                        onClick={() => this.setActiveLinkHandler('/training')}>{t('navbar.training')}</Link>
-                  : <span className="mt-2">{t('navbar.training')}</span>
-              }
-              {
-                this.state.activeLink !== '/history' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/history"
-                        onClick={() => this.setActiveLinkHandler('/history')}>{t('navbar.history')}</Link>
-                  : <span className="mt-2">{t('navbar.history')}</span>
-              }
-              {
-                this.state.activeLink !== '/configuration' ?
-                  <Link className={navBarLinksClasses.join(' ')} to="/configuration"
-                        onClick={() => this.setActiveLinkHandler('/configuration')}>{t('navbar.configuration')}</Link>
-                  : <span className="mt-2">{t('navbar.configuration')}</span>
-              }
-            </Nav>
-            <Nav className="mr-2">
-              <NavDropdown title={t('navbar.changeLanguage')} id="lang-dropdown">
-                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'en')}>English</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'fi')}>Finnish</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'cn')}>Chinese</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'hi')}>Hindi</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav>
-              <Navbar.Brand href="https://github.com/norkator/open-intelligence">
-                <img
-                  src={githubAsset}
-                  width="30"
-                  height="30"
-                  className="d-inline-block align-top"
-                  alt="Repository link"
-                />
-              </Navbar.Brand>
-            </Nav>
-          </Navbar.Collapse>
+        >
+          <Container>
+            <Navbar.Brand href="#home">
+              <img
+                alt="Open-Intelligence Logo"
+                src={navBarImg}
+                width="36"
+                height="36"
+                className="d-inline-block align-top"
+              />{' '}
+              <span className={styles.NavbarBrand}>Open-Intelligence</span>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="navbarSupportedContent"/>
+            <Navbar.Collapse id="navbarSupportedContent">
+              <Nav className="me-auto my-2 my-lg-0">
+                {
+                  this.state.activeLink !== '/' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/"
+                          onClick={() => this.setActiveLinkHandler('/')}>{t('navbar.home')}</Link>
+                    : <span className="mt-2">{t('navbar.home')}</span>
+                }
+                {
+                  this.state.activeLink !== '/cameras' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/cameras"
+                          onClick={() => this.setActiveLinkHandler('/cameras')}>{t('navbar.cameras')}</Link>
+                    : <span className="mt-2">{t('navbar.cameras')}</span>
+                }
+                {
+                  this.state.activeLink !== '/plates' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/plates"
+                          onClick={() => this.setActiveLinkHandler('/plates')}>{t('navbar.plates')}</Link>
+                    : <span className="mt-2">{t('navbar.plates')}</span>
+                }
+                {
+                  this.state.activeLink !== '/faces' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/faces"
+                          onClick={() => this.setActiveLinkHandler('/faces')}>{t('navbar.faces')}</Link>
+                    : <span className="mt-2">{t('navbar.faces')}</span>
+                }
+                {
+                  this.state.activeLink !== '/training' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/training"
+                          onClick={() => this.setActiveLinkHandler('/training')}>{t('navbar.training')}</Link>
+                    : <span className="mt-2">{t('navbar.training')}</span>
+                }
+                {
+                  this.state.activeLink !== '/history' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/history"
+                          onClick={() => this.setActiveLinkHandler('/history')}>{t('navbar.history')}</Link>
+                    : <span className="mt-2">{t('navbar.history')}</span>
+                }
+                {
+                  this.state.activeLink !== '/configuration' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/configuration"
+                          onClick={() => this.setActiveLinkHandler('/configuration')}>{t('navbar.configuration')}</Link>
+                    : <span className="mt-2">{t('navbar.configuration')}</span>
+                }
+              </Nav>
+              <Nav className="d-flex">
+                <NavDropdown title={t('navbar.changeLanguage')} id="lang-dropdown">
+                  <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'en')}>English</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'fi')}>Finnish</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'cn')}>Chinese</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => this.setLanguageHandler(i18n, 'hi')}>Hindi</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              <Nav className="d-flex">
+                <Navbar.Brand href="https://github.com/norkator/open-intelligence">
+                  <img
+                    src={githubAsset}
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                    alt="Repository link"
+                  />
+                </Navbar.Brand>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
         </Navbar>
       </>
     )
