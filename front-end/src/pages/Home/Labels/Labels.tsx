@@ -240,9 +240,11 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
               <div className="col-sm">
                 <b>{t('home.labels.labelViewer')}</b>
               </div>
-              <div className="col-sm text-right">
-                <Badge bg="dark" className="mr-2">IC{this.state.instanceCount}</Badge>
-                <Badge bg="dark">STR {this.state.storageUse}</Badge>
+              <div className="col-sm d-flex justify-content-end">
+                <div className="text-right">
+                  <Badge bg="dark" className="me-2">IC{this.state.instanceCount}</Badge>
+                  <Badge bg="dark">STR {this.state.storageUse}</Badge>
+                </div>
               </div>
             </div>
           </Card.Header>
@@ -277,14 +279,23 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
 
           </Card.Body>
           <Card.Footer>
-            <small
-              className="text-muted">{this.state.labelSelection === null ?
-              t('home.labels.noLabelSelected') :
-              t('home.labels.selectedLabel', {label: this.state.labelSelection})}</small>
-            <Button onClick={() => this.showActivityModalHandler()}
-                    className="float-right" variant="outline-dark" size="sm">
-              {t('home.labels.activityBtn')}
-            </Button>
+            <div className="row">
+              <div className="col-sm">
+                <small
+                  className="text-muted">{this.state.labelSelection === null ?
+                  t('home.labels.noLabelSelected') :
+                  t('home.labels.selectedLabel', {label: this.state.labelSelection})}
+                </small>
+              </div>
+              <div className="col-sm d-flex justify-content-end">
+                <Button
+                  onClick={() => this.showActivityModalHandler()}
+                  variant="outline-dark" size="sm"
+                >
+                  {t('home.labels.activityBtn')}
+                </Button>
+              </div>
+            </div>
           </Card.Footer>
         </Card>
 
