@@ -136,6 +136,7 @@ class Faces extends Component<WithTranslation> {
             background: '#333',
             color: '#fff',
           },
+          position: "bottom-right",
         }
       );
     }
