@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
+import 'chart.js/auto';
 import {Doughnut} from 'react-chartjs-2';
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
 import {
