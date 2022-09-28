@@ -62,8 +62,8 @@ const props: ReduxPropsInterface & CommonPropsInterface & AuthStateInterface = {
   dateRangeEndDate: "",
   dateRangeStartDate: "",
   error: null,
-  isAuthenticated: false,
-  loading: false,
+  isAuthenticated: true,
+  loading: true,
   onDateRangeEndDateSelected(event: Object): void {
   },
   onDateRangeStartDateSelected(event: Object): void {
