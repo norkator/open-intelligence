@@ -57,26 +57,25 @@ Table of contents
     * [Storage configuration](#7-configure-storage)
     * [Run apps](#8-run)
 * [Update to the latest version](#updating-to-the-latest-version)
+* [Process drawing](#process-drawing)
+* [Project folder structure](#project-folder-structure)
+* [Python Apps](#python-apps)
+      * [App.py](#app)
+      * [StreamGrab.py](#streamgrab)
+      * [SuperResolution.py](#superresolution)
+      * [InsightFace.py](#insightface)
+      * [SimilarityProcess.py](#similarityprocess)
+* [Config ini](#config-ini)
 * [Installing manually](#installing-manually)
     * [Api side](#api-side)
     * [Build react front end](#build-react-front-end)
     * [Python side (Windows)](#python-side)
-* [Process drawing](#process-drawing)
-* [Project folder structure](#project-folder-structure)
-* [Python Apps](#python-apps)
-    * [App.py](#app)
-    * [StreamGrab.py](#streamgrab)
-    * [SuperResolution.py](#superresolution)
-    * [InsightFace.py](#insightface)
-    * [SimilarityProcess.py](#similarityprocess)
-* [Config ini](#config-ini)
 * [Multi node support](#multi-node-support)
 * [Cuda GPU Support](#cuda-gpu-support)
 * [Postgresql notes](#postgresql-notes)
 * [Openalpr notes](#openalpr-notes)
 * [Front end development](#front-end-development)
 * [Troubleshooting](#troubleshooting)
-* [Todo](#todo)
 * [Authors](#authors)
 * [License](#license)
 
@@ -84,7 +83,8 @@ Environment
 ============
 
 Everything can be installed on one server or to separate servers meaning that database is at server one, python
-application at server two and api hosting at server three.
+application at server two and api hosting at server three. Processes must have access to output storage containing 
+processed image result files.
 
 ![Environment](docs/environment.png)
 
@@ -173,88 +173,6 @@ docker-compose up
 ```
 
 
-
-Installing manually
-============
-
-Terminology for words like API side and Python side:
-
-* "API Side" is `/api` folder containing node api process `intelligence.js`.
-* "Python side" is `/python` folder containing different python processes.
-
-See [Project folder structure](#project-folder-structure)  for more details about folders.
-
-API side
------
-
-1. Go to `/api` folder and run `npm install`
-2. Install PostgreSQL server: https://www.postgresql.org/
-    * Accessing postgres you need to find tool like pgAdmin which comes with postgres, command line or some IDE having
-      db tools.
-3. Rename `.env_tpl` to `.env` and fill details.
-4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
-5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
-6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
-7. Go to `/front-end` folder and rename `.env_tpl` to `.env`.
-8. At `/front-end` run `npm start` so you have both api and front end running.
-9. Access `localhost:3000` if react app doesn't open browser window automatically.
-10. Outdated frontend user manual for old ui
-    version https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
-
-Build react front end
------
-
-1. Go to `/front-end`
-2. Check your `.env` REACT_APP_API_BASE_URL that it corresponds your machine ip address where node js api is running.
-3. Build react front end via running `npm run build`
-4. Copy/replace `/build` folder contents somewhere to serve build webpage if you want.
-
-Python side
------
-(Windows)
-
-1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe )
-    * Only tested to work with Python 3.6. Newer ones caused problems with packages when tested.
-2. Jump to `/python` folder
-3. Activate python virtual env.
-   ```shell script
-   .\venv\Scripts\activate.bat
-   ```
-4. Install dependencies `pip install -r requirements_windows.txt`
-5. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
-6. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but its also tested with
-   version 12. (if you didn't install at upper api section)
-7. Rename `config.ini.tpl` to `config.ini` and fill details.
-    * Config.ini content settings explained, see [Config ini](#config-ini)
-    * For multiple nodes, see [Multi node support](#multi-node-support))
-8. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
-    * This is needed by openALPR
-9. Separate camera and folder names with comma just like at base config template
-10. Run wanted python apps, see `Python Apps` section.
-
-It's critical to setup ini configuration right.
-
-
-Python side
------
-(Linux)
-
-1. Install required Python version.
-    ```shell script
-    sudo add-apt-repository ppa:deadsnakes/ppa
-    sudo apt-get install python3.6
-    virtualenv --python=/usr/bin/python3.6 ./
-   source ./bin/activate
-    ```
-2. Install dependencies `pip install -r requirements_linux.txt`
-3. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
-4. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but its also tested with
-   version 12. (if you didn't install at upper api section)
-5. Rename `config.ini.tpl` to `config.ini` and fill details.
-    * Config.ini content settings explained, see [Config ini](#config-ini)
-    * For multiple nodes, see [Multi node support](#multi-node-support))
-6. Separate camera and folder names with comma just like at base config template
-7. Run wanted python apps, see `Python Apps` section.
 
 Process drawing
 ============
@@ -367,6 +285,92 @@ cv2_imshow_enabled=True
 Other parameters are case specific.
 
 
+
+Installing manually
+============
+This is no longer recommended. Using docker method is much better.
+
+Terminology for words like API side and Python side:
+
+* "API Side" is `/api` folder containing node api process `intelligence.js`.
+* "Python side" is `/python` folder containing different python processes.
+
+See [Project folder structure](#project-folder-structure)  for more details about folders.
+
+API side
+-----
+
+1. Go to `/api` folder and run `npm install`
+2. Install PostgreSQL server: https://www.postgresql.org/
+    * Accessing postgres you need to find tool like pgAdmin which comes with postgres, command line or some IDE having
+      db tools.
+3. Rename `.env_tpl` to `.env` and fill details.
+4. Run `intelligence-tasks.js` or with PM2 process manager `pm2 start intelligence-tasks.js`.
+5. Run `node intelligence.js` or with PM2 process manager `pm2 start intelligence.js -i 2`.
+6. Running these NodeJS scripts will create database and table structures, if you see error run it again.
+7. Go to `/front-end` folder and rename `.env_tpl` to `.env`.
+8. At `/front-end` run `npm start` so you have both api and front end running.
+9. Access `localhost:3000` if react app doesn't open browser window automatically.
+10. Outdated frontend user manual for old ui
+    version https://docs.google.com/document/d/1BwjXO0tUM9aemt1zNzofSY-DKeno321zeqpcmPI-wEw/edit?usp=sharing
+
+Build react front end
+-----
+
+1. Go to `/front-end`
+2. Check your `.env` REACT_APP_API_BASE_URL that it corresponds your machine ip address where node js api is running.
+3. Build react front end via running `npm run build`
+4. Copy/replace `/build` folder contents somewhere to serve build webpage if you want.
+
+Python side
+-----
+(Windows)
+
+1. Download Python 3.6 ( https://www.python.org/ftp/python/3.6.0/python-3.6.0-amd64.exe )
+    * Only tested to work with Python 3.6. Newer ones caused problems with packages when tested.
+2. Jump to `/python` folder
+3. Activate python virtual env.
+   ```shell script
+   .\venv\Scripts\activate.bat
+   ```
+4. Install dependencies `pip install -r requirements_windows.txt`
+5. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
+6. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but its also tested with
+   version 12. (if you didn't install at upper api section)
+7. Rename `config.ini.tpl` to `config.ini` and fill details.
+    * Config.ini content settings explained, see [Config ini](#config-ini)
+    * For multiple nodes, see [Multi node support](#multi-node-support))
+8. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
+    * This is needed by openALPR
+9. Separate camera and folder names with comma just like at base config template
+10. Run wanted python apps, see `Python Apps` section.
+
+It's critical to setup ini configuration right.
+
+
+Python side
+-----
+(Linux)
+
+1. Install required Python version.
+    ```shell script
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt-get install python3.6
+    virtualenv --python=/usr/bin/python3.6 ./
+   source ./bin/activate
+    ```
+2. Install dependencies `pip install -r requirements_linux.txt`
+3. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
+4. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but its also tested with
+   version 12. (if you didn't install at upper api section)
+5. Rename `config.ini.tpl` to `config.ini` and fill details.
+    * Config.ini content settings explained, see [Config ini](#config-ini)
+    * For multiple nodes, see [Multi node support](#multi-node-support))
+6. Separate camera and folder names with comma just like at base config template
+7. Run wanted python apps, see `Python Apps` section.
+
+
+
 Multi node support
 ============
 Multi node support requires little bit more work to configure but it's doable. Follow instructions below.
@@ -421,7 +425,7 @@ Now works without any python site-package installation.
 
 Front end development
 ============
-There is separate Readme for this side so see more at `./front-end/README.md`  
+There is a separate readme file for this side so see more at `./front-end/README.md`  
 ![link](./front-end/README.md)
 
 
