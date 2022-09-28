@@ -199,6 +199,4 @@ class Faces extends Component<WithTranslation> {
   }
 }
 
-// @ts-ignore
-// Todo, solve why this whines about multiple default exports
 export default withTranslation('i18n')(Faces);

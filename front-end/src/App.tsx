@@ -37,7 +37,7 @@ class App extends Component<AuthStateInterface> {
               <Route path='/cameras' element={<Cameras/>}/>
               <Route path='/plates' element={<Plates {...props}/>}/>
               <Route path='/faces' element={<Faces/>}/>
-              <Route path='/training' element={<Training/>}/>
+              <Route path='/training' element={<Training {...props}/>}/>
               <Route path='/history' element={<History/>}/>
               <Route path='/configuration' element={<Configuration/>}/>
             </Routes>
