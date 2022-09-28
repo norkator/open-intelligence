@@ -152,5 +152,8 @@
     "useGpuHint": "GPU:n käyttö vaatii monimutkaisen CUDA asennuksen.",
     "maxWidthHint": "Prosessi mahdollistaa rekisterinumeroiden paremman tunnistuksen pienistä kuvista.",
     "currentConfigurationLooksHint": "Käytössä oleva konfiguraatio näyttää tältä"
+  },
+  "cleaning": {
+    "title": "Siivoaminen"
   }
 }

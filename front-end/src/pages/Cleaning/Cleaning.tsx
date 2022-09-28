@@ -29,7 +29,7 @@ class Cleaning extends Component<WithTranslation> {
       <div className="mt-2 mr-2 ml-2">
         <Card bg="dark" text="light">
           <Card.Header>
-            Title
+            {t('cleaning.title')}
           </Card.Header>
           <Card.Body style={{padding: '10px'}}>
           </Card.Body>

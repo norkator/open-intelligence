@@ -18,7 +18,8 @@
     "training": "तैयार करे",
     "changeLanguage": "भाषा बदले",
     "history": "इतिहास",
-    "configuration": "व्यवस्था में बदलाव करे"
+    "configuration": "व्यवस्था में बदलाव करे",
+    "cleaning": "Cleaning"
   },
   "home": {
     "calendar": {
@@ -87,7 +88,8 @@
   "faces": {
     "earlier": "← पिछला",
     "next": "अगला →",
-    "modalOriginalImageDescription": "असली तस्वीर जहा  चेहरा पहचान में आया"
+    "modalOriginalImageDescription": "असली तस्वीर जहा  चेहरा पहचान में आया",
+    "no_images": "No faces images available for today or your insight face process is not running"
   },
   "training": {
     "personTraining": {
@@ -150,5 +152,8 @@
     "useGpuHint": "GPU के इस्तेमाल के लिए पेचीदा तकनीक की जरुरत है",
     "maxWidthHint": "इससे लाइसेंस प्लेट पहचानने में बढ़ोतरी होगी, छोटी तस्वीर के लिए .",
     "currentConfigurationLooksHint": "अभी की व्यवस्था ऐसी है"
+  },
+  "cleaning": {
+    "title": "Cleaning"
   }
 }
