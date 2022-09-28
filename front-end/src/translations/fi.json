@@ -18,7 +18,8 @@
     "training": "Opettaminen",
     "changeLanguage": "Vaihda kieltä",
     "history": "Historia",
-    "configuration": "Konfigurointi"
+    "configuration": "Konfigurointi",
+    "cleaning": "Siivoaminen"
   },
   "home": {
     "calendar": {
@@ -151,5 +152,8 @@
     "useGpuHint": "GPU:n käyttö vaatii monimutkaisen CUDA asennuksen.",
     "maxWidthHint": "Prosessi mahdollistaa rekisterinumeroiden paremman tunnistuksen pienistä kuvista.",
     "currentConfigurationLooksHint": "Käytössä oleva konfiguraatio näyttää tältä"
+  },
+  "cleaning": {
+    "title": "Siivoaminen"
   }
 }

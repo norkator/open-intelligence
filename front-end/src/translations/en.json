@@ -18,7 +18,8 @@
     "training": "Training",
     "changeLanguage": "Change language",
     "history": "History",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "cleaning": "Cleaning"
   },
   "home": {
     "calendar": {
@@ -151,5 +152,8 @@
     "useGpuHint": "Using GPU requires complicated CUDA setup.",
     "maxWidthHint": "This improves license plate detection so process it only for smaller images.",
     "currentConfigurationLooksHint": "Current configuration looks like this"
+  },
+  "cleaning": {
+    "title": "Cleaning"
   }
 }

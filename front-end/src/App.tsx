@@ -5,6 +5,8 @@ import styles from './App.module.css';
 import * as auth from './store/actions/auth';
 import {connect} from "react-redux";
 import {AuthStateInterface} from "./store/reducers/authReducer";
+import {ReduxPropsInterface} from "./store/reducers/dateReducer";
+import {CommonPropsInterface} from "./store/reducers/commonReducer";
 
 // Pages
 import Cameras from "./pages/Cameras/Cameras";
@@ -14,8 +16,7 @@ import Plates from "./pages/Plates/Plates";
 import Training from "./pages/Training/Training";
 import History from "./pages/History/History";
 import Configuration from "./pages/Configuration/Configuration";
-import {ReduxPropsInterface} from "./store/reducers/dateReducer";
-import {CommonPropsInterface} from "./store/reducers/commonReducer";
+import Cleaning from "./pages/Cleaning/Cleaning";
 
 
 class App extends Component<AuthStateInterface> {
@@ -40,6 +41,7 @@ class App extends Component<AuthStateInterface> {
               <Route path='/training' element={<Training {...props}/>}/>
               <Route path='/history' element={<History/>}/>
               <Route path='/configuration' element={<Configuration/>}/>
+              <Route path='/cleaning' element={<Cleaning/>}/>
             </Routes>
           </div>
         </div>

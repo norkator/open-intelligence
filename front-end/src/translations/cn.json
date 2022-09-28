@@ -87,7 +87,8 @@
   "faces": {
     "earlier": "← 上一个",
     "next": "下一个 →",
-    "modalOriginalImageDescription": "显示该面孔原图出处"
+    "modalOriginalImageDescription": "显示该面孔原图出处",
+    "no_images": "No faces images available for today or your insight face process is not running"
   },
   "training": {
     "personTraining": {
@@ -150,5 +151,8 @@
     "useGpuHint": "使用 GPU 需要复杂的 CUDA 设置。",
     "maxWidthHint": "这改进了车牌检测，因此仅对较小的图像进行处理。",
     "currentConfigurationLooksHint": "当前配置如下所示"
+  },
+  "cleaning": {
+    "title": "Cleaning"
   }
 }
