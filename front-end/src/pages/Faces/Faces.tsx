@@ -79,7 +79,11 @@ class Faces extends Component<WithTranslation> {
   loadFaceImages = (date: string) => {
     axios.post(GET_FACES_FOR_DAY_PATH, {selectedDate: date}).then((data: any) => {
       if (this._isMounted) {
-        this.setState({faceImages: this.removeDuplicates(data.data.images as FacesInterface[]), isLoading: false});
+        const faceImages: FacesInterface[] = this.removeDuplicates(data.data.images);
+        this.setState({faceImages: faceImages, isLoading: false});
+        if (faceImages.length === 0) {
+          this.showToast(this.props.t('faces.no_images'));
+        }
       }
     }).catch((error: AxiosError) => {
       this.setState({axiosError: error});
@@ -120,6 +124,21 @@ class Faces extends Component<WithTranslation> {
 
   genericImageModalCloseHandler = () => {
     this.setState({genericImageModalData: {show: false}});
+  };
+
+  showToast = (text: string) => {
+    if (text !== undefined && text !== '') {
+      toast(text,
+        {
+          icon: '🔔',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
+    }
   };
 
   render() {
