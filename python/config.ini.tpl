@@ -1,7 +1,7 @@
 [app]
 move_to_processed=True
 process_sleep_seconds=4
-cv2_imshow_enabled=True
+cv2_imshow_enabled=False
 output_folder=/output_test/
 
 [yolo]

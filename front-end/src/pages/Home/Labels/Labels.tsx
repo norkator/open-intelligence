@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Badge, Button, Card} from "react-bootstrap";
-import {Doughnut} from 'react-chartjs-2';
+import 'chart.js/auto';
+import {Doughnut, getElementsAtEvent} from 'react-chartjs-2';
 import {LoadingIndicator} from "../../../components/LoadingIndicator/LoadingIndicator";
 import {
   getIntelligence,
@@ -44,6 +45,13 @@ let clickHoldTimer: any = null;
 let longClickHandled: boolean = false;
 
 class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPropsInterface & {}> {
+  chartRef: any;
+
+  constructor(props: ReduxPropsInterface & WithTranslation & CommonPropsInterface & {}) {
+    super(props);
+    this.chartRef = React.createRef();
+  }
+
   state = {
     selectedDate: null,
     isLoading: true,
@@ -104,9 +112,11 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
     }
   };
 
-  onDonutElementClickHandler = (element: any) => {
-    if (element !== undefined && element.length > 0) {
-      const index = element[0]._index;
+  onDonutElementClickHandler = (event: any) => {
+    // @ts-ignore
+    const elements = getElementsAtEvent(this.chartRef.current, event);
+    if (elements !== undefined && elements.length > 0) {
+      const index = elements[0].index;
       const labelSelected = this.state.labelDonutData.labels[index];
       this.setState({isLoading: true, labelSelection: labelSelected});
       this.loadLabelImagesHandler(this.props.selectedDate, labelSelected).then(() => null);
@@ -243,7 +253,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
                 {
                   this.state.labelDonutData.datasets !== undefined ?
                     <Doughnut
-                      onClick={(element: any) => this.onDonutElementClickHandler(element)}
+                      ref={this.chartRef}
+                      onClick={(evet: any) => this.onDonutElementClickHandler(evet)}
                       data={this.state.labelDonutData}
                       height={300}
                       options={{maintainAspectRatio: false}}/>

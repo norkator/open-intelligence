@@ -17,7 +17,7 @@ output_root_folder_path = app_config['output_folder']
 # Paths
 models_path = os.getcwd() + '/models/'
 output_path = output_root_folder_path
-object_detection_image_path = output_root_folder_path + '/object_detection/'
+object_detection_image_path = output_root_folder_path + 'object_detection/'
 
 # Config
 yolo_ignored_labels = str(configparser.any_config(section='yolo')['ignored_labels']).split(',')
@@ -176,7 +176,7 @@ def analyze_image(image_object, bool_move_processed):
             try:
                 Path(object_detection_image_path).mkdir(parents=True, exist_ok=True)
                 cv2.imwrite(
-                    object_detection_image_path + '/' + image_object.file_name + image_object.file_extension, img
+                    object_detection_image_path + image_object.file_name + image_object.file_extension, img
                 )
             except Exception as e:
                 print(e)
