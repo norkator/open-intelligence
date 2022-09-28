@@ -56,6 +56,7 @@ Table of contents
     * [Verify time zone](#6-verify-your-timezone-linux-server-distro-case)
     * [Storage configuration](#7-configure-storage)
     * [Run apps](#8-run)
+* [Update to the latest version](#updating-to-the-latest-version)
 * [Installing manually](#installing-manually)
     * [Api side](#api-side)
     * [Build react front end](#build-react-front-end)
@@ -156,6 +157,22 @@ More on this article: https://github.com/norkator/open-intelligence/wiki/Configu
 
 1. Run `docker-compose up` in root of this project and let magic happen.
 2. Open `http://localhost:3000/` and you should see Open Intelligence front page. Hopefully.
+
+
+
+Updating to the latest version
+============
+
+Run at root of this project:
+
+```shell
+git fetch
+git pull
+docker-compose build
+docker-compose up
+```
+
+
 
 Installing manually
 ============
