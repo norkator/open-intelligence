@@ -43,7 +43,7 @@ services:
     depends_on:
       - app-py
     volumes:
-      - /Users/<user-name>/Desktop/output:/output_test
+      - /Users/<user-name>/Desktop/output:/usr/src/output
       - ./config.ini:/usr/src/config.ini
     environment:
       - NODE_ENV=development
