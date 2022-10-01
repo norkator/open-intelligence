@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 import axios, {PYTHON_CONFIGURATION} from "../../axios";
-import {AxiosError} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {Button, Card, Form} from "react-bootstrap";
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import toast, {Toaster} from "react-hot-toast";
@@ -55,7 +55,6 @@ interface PythonConfigurationFieldsInterface {
 interface PythonConfigurationInterface {
   status: string,
   fields: PythonConfigurationFieldsInterface,
-  configData: string,
 }
 
 class Configuration extends Component<WithTranslation> {
@@ -64,7 +63,6 @@ class Configuration extends Component<WithTranslation> {
   state = {
     isLoading: true,
     fields: {} as PythonConfigurationFieldsInterface,
-    pythonConfiguration: '',
   };
 
   constructor(props: any) {
@@ -82,14 +80,11 @@ class Configuration extends Component<WithTranslation> {
   }
 
   loadPythonConfiguration = () => {
-    axios.get(PYTHON_CONFIGURATION).then((data: any) => {
+    axios.get(PYTHON_CONFIGURATION).then((response: AxiosResponse) => {
+      const fields: PythonConfigurationFieldsInterface = response.data.fields;
       if (this._isMounted) {
-        const config = data.data as PythonConfigurationInterface;
-        const pc = new Buffer(config.configData, 'base64');
-        const decodedPythonConfig = pc.toString('ascii');
         this.setState({
-          fields: config.fields,
-          pythonConfiguration: decodedPythonConfig,
+          fields: fields,
           isLoading: false
         });
       }
@@ -471,14 +466,8 @@ class Configuration extends Component<WithTranslation> {
                     </div>
                   </Form>
 
-                  <hr/>
-                  <Form.Group style={{marginTop: 10}} controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>{t('configuration.currentConfigurationLooksHint')}</Form.Label>
-                    <Form.Control as="textarea" rows={10} defaultValue={this.state.pythonConfiguration}/>
-                  </Form.Group>
-
                   <Button onClick={() => this.saveConfigChanges()}
-                          className="float-left" variant="outline-light" size="sm">
+                          className="float-left mt-5" variant="outline-light" size="sm">
                     {t('configuration.saveChanges')}
                   </Button>
 
