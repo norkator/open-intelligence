@@ -113,6 +113,12 @@ class NavBar extends Component<any, any> {
                           onClick={() => this.setActiveLinkHandler('/cleaning')}>{t('navbar.cleaning')}</Link>
                     : <span className="mt-2 text-white">{t('navbar.cleaning')}</span>
                 }
+                {
+                  this.state.activeLink !== '/configuration' ?
+                    <Link className={navBarLinksClasses.join(' ')} to="/configuration"
+                          onClick={() => this.setActiveLinkHandler('/configuration')}>{t('navbar.configuration')}</Link>
+                    : <span className="mt-2 text-white">{t('navbar.configuration')}</span>
+                }
               </Nav>
               <Nav className="d-flex">
                 <NavDropdown title={t('navbar.changeLanguage')} id="lang-dropdown">
