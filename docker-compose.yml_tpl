@@ -33,7 +33,7 @@ services:
       context: ./python
       dockerfile: sp.Dockerfile
     volumes:
-      - ./:/app
+      - ./python/:/app
       - /Users/<user-name>/Desktop/output:/output_test
   backend:
     container_name: backend
