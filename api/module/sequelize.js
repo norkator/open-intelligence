@@ -12,6 +12,7 @@ const PlatesModel = require('../models/plate');
 const InstanceModel = require('../models/instance');
 const RecordingModel = require('../models/recording');
 const NotificationModel = require('../models/notification');
+const ConfigurationModel = require('../models/configuration');
 
 
 // Sequelize instance
@@ -40,6 +41,7 @@ const Plate = PlatesModel(sequelize, Sequelize);
 const Instance = InstanceModel(sequelize, Sequelize);
 const Recording = RecordingModel(sequelize, Sequelize);
 const Notification = NotificationModel(sequelize, Sequelize);
+const Configuration = ConfigurationModel(sequelize, Sequelize);
 
 
 // Sync with database
@@ -58,4 +60,5 @@ module.exports = {
   Instance,
   Recording,
   Notification,
+  Configuration,
 };
