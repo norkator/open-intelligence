@@ -44,7 +44,6 @@ services:
       - app-py
     volumes:
       - /Users/<user-name>/Desktop/output:/usr/src/output
-      - ./config.ini:/usr/src/config.ini
     environment:
       - NODE_ENV=development
       - LOGGING=true
