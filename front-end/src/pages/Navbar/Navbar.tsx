@@ -57,19 +57,19 @@ class NavBar extends Component<any, any> {
           onToggle={this.setNavExpanded}
           expanded={this.state.navExpanded}
         >
-          <Container>
+          <>
             <Navbar.Brand href="#home">
               <img
                 alt="Open-Intelligence Logo"
                 src={navBarImg}
                 width="36"
                 height="36"
-                className="d-inline-block align-top"
+                className="d-inline-block align-top ms-2"
               />{' '}
               <span className={styles.NavbarBrand}>Open-Intelligence</span>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="navbarSupportedContent"/>
-            <Navbar.Collapse id="navbarSupportedContent">
+            <Navbar.Toggle aria-controls="navbarSupportedContent" className="me-2"/>
+            <Navbar.Collapse id="navbarSupportedContent" className={this.state.navExpanded ? 'm-2' : ''}>
               <Nav className="me-auto my-2 my-lg-0">
                 {
                   this.state.activeLink !== '/' ?
@@ -140,7 +140,7 @@ class NavBar extends Component<any, any> {
                 </Navbar.Brand>
               </Nav>
             </Navbar.Collapse>
-          </Container>
+          </>
         </Navbar>
       </>
     )
