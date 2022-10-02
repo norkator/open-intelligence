@@ -56,6 +56,7 @@ Table of contents
     * [Verify time zone](#6-verify-your-timezone-linux-server-distro-case)
     * [Storage configuration](#7-configure-storage)
     * [Run apps](#8-run)
+    * [Configuration from UI](#9-configuration-from-ui)
 * [Update to the latest version](#updating-to-the-latest-version)
 * [Process drawing](#process-drawing)
 * [Project folder structure](#project-folder-structure)
@@ -65,7 +66,6 @@ Table of contents
       * [SuperResolution.py](#superresolution)
       * [InsightFace.py](#insightface)
       * [SimilarityProcess.py](#similarityprocess)
-* [Config ini](#config-ini)
 * [Installing manually](#installing-manually)
     * [Api side](#api-side)
     * [Build react front end](#build-react-front-end)
@@ -126,8 +126,6 @@ unzip models into open intelligence `/python/models` folder.
 
 1. Rename `docker-compose.yml_tpl` into `docker-compose.yml` and fill in your environment variables which pretty much
    are database configuration.
-2. Rename `config.ini.tpl` to `config.ini` and fill in your details. Config.ini content settings are explained at
-   Readme.
 
 ### 6. Verify your timezone (linux server distro case)
 
@@ -147,9 +145,8 @@ where first part `/Users/<user-name>/Desktop/camera_root` is your path to your h
 Same with another output folder path. Its just some folder in your machine where you want all open intelligence
 output files to be stored.
 
-That latter part like `:/input` and `:/output_test` corresponds to same config found from python folder file
-`config.ini` variables `output_folder` and `cameras_root_path`. By changing these you only change how 
-containers see these folders named. It does not affect any way to your actual mounted folders. 
+That latter part like `:/input` and `:/output_test` is how python process sees paths in container side. 
+It does not affect any way to your actual mounted folders so better not change these. 
 
 More on this article: https://github.com/norkator/open-intelligence/wiki/Configuring-storage
 
@@ -158,6 +155,12 @@ More on this article: https://github.com/norkator/open-intelligence/wiki/Configu
 1. Run `docker-compose up` in root of this project and let magic happen.
 2. Open `http://localhost:3000/` and you should see Open Intelligence front page. Hopefully.
 
+
+### 9. Configuration from UI
+
+1. Go to Configuration page and fill in your details. Content settings are explained at
+   configuration page.
+2. Run `docker-compose up` again so that changes takes effect in python side.
 
 
 Updating to the latest version
@@ -258,34 +261,6 @@ SimilarityProcess
 <br>
 
 
-Config ini
-============
-
-This section explains `config.ini` file contents which are used by python processes. Config ini start with contents like
-below.
-
-```ini
-[app]
-move_to_processed=True
-process_sleep_seconds=4
-cv2_imshow_enabled=True
-...
-```
-
-* `move_to_processed` => When set to True, processed input image is moved into /processed folder, otherwise file is
-  deleted.
-* `process_sleep_seconds` => After every batch of files, process will sleep this amount of seconds.
-* `cv2_imshow_enabled` => Set to True will show window showing processed images, bounding boxes and more.
-* `ignored_labels` => This will ignore labels, example if you get a lot of false positives from umbrellas and you don't
-  care saving any images of umbrellas anyway then ignore it.
-* `camera_names` => Camera name/location name, up to you. Must of separated with comma ,
-* `camera_folders` => Input image folders, same camera names and folders must be in same order and same count
-* postgresql section => fill in database credentials. This should not need explaining.
-
-Other parameters are case specific.
-
-
-
 Installing manually
 ============
 This is no longer recommended. Using docker method is much better.
@@ -363,11 +338,8 @@ Python side
 3. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
 4. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but its also tested with
    version 12. (if you didn't install at upper api section)
-5. Rename `config.ini.tpl` to `config.ini` and fill details.
-    * Config.ini content settings explained, see [Config ini](#config-ini)
-    * For multiple nodes, see [Multi node support](#multi-node-support))
-6. Separate camera and folder names with comma just like at base config template
-7. Run wanted python apps, see `Python Apps` section.
+5. Separate camera and folder names with comma just like at base config template
+6. Run wanted python apps, see `Python Apps` section.
 
 
 
