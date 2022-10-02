@@ -3,7 +3,8 @@ const moment = require('moment');
 const path = require('path');
 const email = require('./email');
 const {Op} = require('sequelize');
-const getFolderSize = require('get-folder-size');
+const util = require('util');
+const disk = require('diskusage');
 const imageThumbnail = require('image-thumbnail');
 const dotEnv = require('dotenv');
 dotEnv.config();
@@ -574,20 +575,15 @@ exports.GetBase64ImagesForEmail = GetBase64ImagesForEmail;
  * pulling this takes time, so it's run by scheduler
  * @constructor
  */
-exports.SetStorageUsage = function () {
-  return new Promise(function (resolve, reject) {
-    getFolderSize(outputFolderPath, (error, size) => {
-      if (!error) {
-        const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
-        console.info('Current storage usage: ' + storageUsage);
-        fs.writeFile(storageFilePathName, storageUsage, function (err) {
-          console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
-        });
-        resolve();
-      } else {
-        reject();
-      }
-    });
+exports.SetStorageUsage = async function () {
+  const getFolderSize = (await import('get-folder-size')).default;
+  const size = await getFolderSize.loose(outputFolderPath);
+  const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  const diskCheck = await disk.check(outputFolderPath);
+  const availableStorage = (diskCheck.available / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  console.info('Current storage usage', storageUsage, 'and size available', availableStorage);
+  fs.writeFile(storageFilePathName, storageUsage + ' / ' + availableStorage, function (err) {
+    console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
   });
 };
 
