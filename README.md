@@ -15,6 +15,9 @@ expensive camera systems because any existing cameras are suitable.
 I developed this to my own use because were tired to use existing monitoring tools to go through recorded video. I
 wanted to know what has been happening quickly.
 
+Open Intelligence is meant to be run with Docker.
+![docker](docs/img/docker.png)
+
 Click below to watch promo video
 [![promo-youtube-video](docs/img/youtube_video.png)](https://www.youtube.com/embed/ox5i6xCZaaA)
 
@@ -31,15 +34,6 @@ Face wall             |  Face wall source dialog
 
 * Face wall is one of the creepiest features.
 * You can go trough pile of faces and by clicking them, you can see source image.
-
-<br> 
-
-Open Intelligence can run with Docker, directly at host or mixed.
-![docker](docs/img/docker.png)
-
-<br> 
-
-Open Intelligence is suitable from private properties to small businesses with medium activity.
 
 -------------------------------------------------------------
 
@@ -61,11 +55,11 @@ Table of contents
 * [Process drawing](#process-drawing)
 * [Project folder structure](#project-folder-structure)
 * [Python Apps](#python-apps)
-      * [App.py](#app)
-      * [StreamGrab.py](#streamgrab)
-      * [SuperResolution.py](#superresolution)
-      * [InsightFace.py](#insightface)
-      * [SimilarityProcess.py](#similarityprocess)
+    * [App.py](#app)
+    * [StreamGrab.py](#streamgrab)
+    * [SuperResolution.py](#superresolution)
+    * [InsightFace.py](#insightface)
+    * [SimilarityProcess.py](#similarityprocess)
 * [Installing manually](#installing-manually)
     * [Api side](#api-side)
     * [Build react front end](#build-react-front-end)
@@ -212,12 +206,6 @@ App
 * Status: *Mandatory*
 * This is main app which is responsible for processing input images from configured sources.
 * Cluster support: Yes.
-* One computer, multiple instances: Just open app.py on multiple shell's like `python .\App.py`
-* Multi instance command when run on network computer: `\.App.py --bool_slave_node True`
-  This slave node option means that script uses `config_slave.ini` instead of stock `config.ini`
-  Reason is that in this case master node has database installation. If database and camera images are accessible else
-  where like other ip and camera images on smb share having same mount letter/path then it's possible to run
-  only `python .\App.py` on multiple individual machines.
 
 StreamGrab
 -----
@@ -245,7 +233,7 @@ InsightFace
 
 * File: `InsightFace.py`
 * Status: *Optional*
-* Processes faces page 'face wall' images using InsightFace retina model. This is currently for testing use.
+* Process faces page 'face wall' images using InsightFace retina model.
 * Cluster support: No.
 
 SimilarityProcess
@@ -258,7 +246,6 @@ SimilarityProcess
 * Cluster support: No.
 * Process is trying to save some space.
 
-<br>
 
 
 Installing manually
@@ -312,15 +299,11 @@ Python side
 5. Get models using these instruction https://github.com/norkator/open-intelligence/wiki/Models
 6. Download PostgreSQL server ( https://www.postgresql.org/ ) I am using version <b>11.6</b> but its also tested with
    version 12. (if you didn't install at upper api section)
-7. Rename `config.ini.tpl` to `config.ini` and fill details.
-    * Config.ini content settings explained, see [Config ini](#config-ini)
-    * For multiple nodes, see [Multi node support](#multi-node-support))
-8. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
+7. Ensure you have `Microsoft Visual C++ 2015 Redistributable (x64)` installed.
     * This is needed by openALPR
-9. Separate camera and folder names with comma just like at base config template
-10. Run wanted python apps, see `Python Apps` section.
+8. Separate camera and folder names with comma just like at base config template
+9. Run wanted python apps, see `Python Apps` section.
 
-It's critical to setup ini configuration right.
 
 
 Python side
@@ -345,7 +328,7 @@ Python side
 
 Multi node support
 ============
-Multi node support requires little bit more work to configure but it's doable. Follow instructions below.
+Multi node support requires little more work to configure, but it's doable. Follow instructions below.
 
 1. Each node needs to have access to source files hosted by one main node via network share.
 2. Create configuration file `config_slave.ini` from template `config_slave.ini.tpl`
