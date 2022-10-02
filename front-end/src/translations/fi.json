@@ -151,7 +151,10 @@
     "superResolution": "Super resoluutio",
     "useGpuHint": "GPU:n käyttö vaatii monimutkaisen CUDA asennuksen.",
     "maxWidthHint": "Prosessi mahdollistaa rekisterinumeroiden paremman tunnistuksen pienistä kuvista.",
-    "currentConfigurationLooksHint": "Käytössä oleva konfiguraatio näyttää tältä"
+    "currentConfigurationLooksHint": "Käytössä oleva konfiguraatio näyttää tältä",
+    "dataRetention": "Data retention",
+    "dataRetentionEnabledHint": "Data retention enabled will activate service, which will destroy defined X days old output data.",
+    "dataRetentionDaysHint": "Days which after data is deleted if data retention feature is enabled."
   },
   "cleaning": {
     "title": "Siivoaminen"

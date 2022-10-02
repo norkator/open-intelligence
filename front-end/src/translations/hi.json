@@ -151,7 +151,10 @@
     "superResolution": "उच्च संकल्प मीडिया",
     "useGpuHint": "GPU के इस्तेमाल के लिए पेचीदा तकनीक की जरुरत है",
     "maxWidthHint": "इससे लाइसेंस प्लेट पहचानने में बढ़ोतरी होगी, छोटी तस्वीर के लिए .",
-    "currentConfigurationLooksHint": "अभी की व्यवस्था ऐसी है"
+    "currentConfigurationLooksHint": "अभी की व्यवस्था ऐसी है",
+    "dataRetention": "Data retention",
+    "dataRetentionEnabledHint": "Data retention enabled will activate service, which will destroy defined X days old output data.",
+    "dataRetentionDaysHint": "Days which after data is deleted if data retention feature is enabled."
   },
   "cleaning": {
     "title": "Cleaning"

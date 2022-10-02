@@ -18,7 +18,8 @@
     "training": "训练",
     "changeLanguage": "语言选择",
     "history": "历史",
-    "configuration": "配置"
+    "configuration": "配置",
+    "cleaning": "Cleaning"
   },
   "home": {
     "calendar": {
@@ -150,7 +151,10 @@
     "superResolution": "超分辨率",
     "useGpuHint": "使用 GPU 需要复杂的 CUDA 设置。",
     "maxWidthHint": "这改进了车牌检测，因此仅对较小的图像进行处理。",
-    "currentConfigurationLooksHint": "当前配置如下所示"
+    "currentConfigurationLooksHint": "当前配置如下所示",
+    "dataRetention": "Data retention",
+    "dataRetentionEnabledHint": "Data retention enabled will activate service, which will destroy defined X days old output data.",
+    "dataRetentionDaysHint": "Days which after data is deleted if data retention feature is enabled."
   },
   "cleaning": {
     "title": "Cleaning"
