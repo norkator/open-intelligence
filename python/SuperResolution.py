@@ -24,7 +24,7 @@ max_width = int(database.find_config_value(app_config, 'max_width'))
 max_height = int(database.find_config_value(app_config, 'max_height'))
 
 # Output path
-output_root_folder_path = app_config['output_folder']
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 
 def is_null(input_variable):

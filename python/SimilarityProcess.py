@@ -12,7 +12,7 @@ import time
 # Parse configs
 app_config = database.get_application_config()
 output_root_folder_path = database.find_config_value(app_config, 'output_folder')
-process_sleep_seconds = app_config['process_sleep_seconds']
+process_sleep_seconds = database.find_config_value(app_config, 'process_sleep_seconds')
 delete_files = database.find_config_value(app_config, 'delete_files') == 'True'
 
 # Define paths
