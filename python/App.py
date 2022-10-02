@@ -30,8 +30,8 @@ args = parser.parse_args()
 
 # Parse camera name and folder config
 cameras_root_path = database.find_config_value(app_config, 'cameras_root_path')
-camera_names_config = database.find_config_value(app_config, 'camera_names')
-camera_folders_config = database.find_config_value(app_config, 'camera_folders')
+camera_names_config = database.find_config_value(app_config, 'camera_names').split(',')
+camera_folders_config = database.find_config_value(app_config, 'camera_folders').split(',')
 
 # Append in names and folders
 for n, f in zip(camera_names_config, camera_folders_config):
