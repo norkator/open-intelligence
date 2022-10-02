@@ -33,12 +33,6 @@ async function Configuration(router, sequelizeObjects) {
           camera_names: utils.ConfigValue(configurations, 'camera_names', 'TestCamera1,TestCamera2'),
           camera_folders: utils.ConfigValue(configurations, 'camera_folders', '/testCamera1Folder/,/testCamera2Folder/,'),
         },
-        postgresql: {
-          host: utils.ConfigValue(configurations, 'host', 'localhost'),
-          database: utils.ConfigValue(configurations, 'database', 'intelligence'),
-          user: utils.ConfigValue(configurations, 'user', 'postgres'),
-          password: utils.ConfigValue(configurations, 'password', ''),
-        },
         openalpr: {
           enabled: utils.ConfigValue(configurations, 'enabled', 'True'),
           region: utils.ConfigValue(configurations, 'region', 'eu'),
@@ -74,7 +68,6 @@ async function Configuration(router, sequelizeObjects) {
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.app));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.yolo));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.camera));
-    configs = configs.concat(utils.ObjectKeyValuePairs(fields.postgresql));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.openalpr));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.facerecognition));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.streamgrab));

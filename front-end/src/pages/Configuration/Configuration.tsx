@@ -21,12 +21,6 @@ interface PythonConfigurationFieldsInterface {
     camera_names: string,
     camera_folders: string,
   },
-  postgresql: {
-    host: string,
-    database: string,
-    user: string,
-    password: string,
-  },
   openalpr: {
     enabled: string,
     region: string,
@@ -243,50 +237,6 @@ class Configuration extends Component<WithTranslation> {
                         <Form.Text className="text-muted">
                           {t('configuration.cameraFoldersHint')}
                         </Form.Text>
-                      </Form.Group>
-                    </div>
-
-                    <div style={{marginTop: 40}}>
-                      <h4>Database {t('configuration.settings')} {t('configuration.forPostgreSQL')}</h4>
-                      <Form.Group>
-                        <Form.Label>host</Form.Label>
-                        <Form.Control
-                          type="text" placeholder="localhost"
-                          value={this.state.fields.postgresql.host}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'host', event)
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>database</Form.Label>
-                        <Form.Control
-                          type="text" placeholder="intelligence"
-                          value={this.state.fields.postgresql.database}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'database', event)
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>user</Form.Label>
-                        <Form.Control
-                          type="text" placeholder="user"
-                          value={this.state.fields.postgresql.user}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'user', event)
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>password</Form.Label>
-                        <Form.Control
-                          type="password" placeholder="password"
-                          value={this.state.fields.postgresql.password}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'password', event)
-                          }}
-                        />
                       </Form.Group>
                     </div>
 
