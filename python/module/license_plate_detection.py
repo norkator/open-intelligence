@@ -3,20 +3,19 @@ from os import environ
 from pathlib import Path
 import imutils
 from libraries.openalpr_64.openalpr import Alpr
-from module import configparser
+from module import database
 import numpy as np
 import cv2
 from objects import Plate
 
-
 # Custom config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
-open_alpr_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='openalpr')
-alpr_enabled = open_alpr_config['enabled'] == 'True'
-region = open_alpr_config['region']
-use_plate_char_length = open_alpr_config['use_plate_char_length'] == 'True'
-plate_char_length = int(open_alpr_config['plate_char_length'])
+app_config = database.get_application_config()
+
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
+alpr_enabled = database.find_config_value(app_config, 'enabled') == 'True'  # Todo, rename this variable
+region = database.find_config_value(app_config, 'region')
+use_plate_char_length = database.find_config_value(app_config, 'use_plate_char_length') == 'True'
+plate_char_length = int(database.find_config_value(app_config, 'plate_char_length'))
 
 # Paths
 car_labels_path = output_root_folder_path + '/car/'

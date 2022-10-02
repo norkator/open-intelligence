@@ -1,12 +1,12 @@
-from module import fileutils, configparser
+from module import fileutils, database
 from module.face_detection import recognize
 import insightface
 import cv2
 import os
 
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Paths
 output_images_path = output_root_folder_path + '/insightface/faces/'

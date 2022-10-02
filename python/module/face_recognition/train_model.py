@@ -1,12 +1,12 @@
-from module import configparser
+from module import database
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 import pickle
 import os
 
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 
 def train_model(cwd_path):

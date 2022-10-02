@@ -11,15 +11,15 @@ from keras.layers import BatchNormalization, Lambda, Input, Dense, Convolution2D
 from keras.layers.merge import Concatenate
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, TensorBoard
-from module import configparser
+from module import database
 import tensorflow as tf
 from pathlib import Path
 import math
 import os
 
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Paths
 logs_path = os.getcwd() + '/logs'

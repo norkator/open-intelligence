@@ -1,5 +1,5 @@
 from pathlib import Path
-from module import configparser
+from module import database
 import numpy as np
 import shutil
 import imutils
@@ -8,13 +8,13 @@ import cv2
 import os
 
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Config
-face_recognition_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='facerecognition')
-file_name_prefix = str(face_recognition_config['file_name_prefix'])
-cv2_imshow_enabled = True if configparser.any_config(section='app')['cv2_imshow_enabled'] == 'True' else False
+file_name_prefix = str(database.find_config_value(app_config, 'file_name_prefix'))
+cv2_imshow_enabled = True if database.find_config_value(app_config, 'cv2_imshow_enabled') == 'True' else False
+output_root_path = database.find_config_value(app_config, 'output_root_path')
 
 # Paths
 recognizer_path = None
@@ -23,7 +23,6 @@ output_faces_path = None
 output_faces_dataset = None
 
 # Set paths
-output_root_path = face_recognition_config['output_root_path']
 if str(output_root_path) == 'cwd':
     # Stock paths
     recognizer_path = output_root_folder_path + '/faces_models/' + 'recognizer.pickle'

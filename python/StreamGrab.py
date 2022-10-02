@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from module import configparser
+from module import database
 import time
 import os
 import sys
@@ -13,9 +13,10 @@ grab_image_output_path = os.getcwd() + '/images/'
 Path(grab_image_output_path).mkdir(parents=True, exist_ok=True)
 
 # Config
-sleep_seconds = float(configparser.any_config(section='streamgrab')['sleep_seconds'])
-jpeg_stream_names = configparser.any_config(section='streamgrab')['jpeg_stream_names'].split(',')
-steam_urls_config = configparser.any_config(section='streamgrab')['jpeg_streams'].split(',')
+app_config = database.get_application_config()
+sleep_seconds = float(database.find_config_value(app_config, 'sleep_seconds'))
+jpeg_stream_names = database.find_config_value(app_config, 'jpeg_stream_names').split(',')
+steam_urls_config = database.find_config_value(app_config, 'jpeg_streams').split(',')
 
 
 def grab():

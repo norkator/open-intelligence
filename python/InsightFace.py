@@ -1,6 +1,6 @@
 import os
 import sys
-from module import configparser, database, insightface_utils, process_utils
+from module import database, insightface_utils, process_utils
 from objects import SrFile
 import psycopg2
 import time
@@ -9,11 +9,9 @@ import time
 # print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 
 # Parse configs
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-process_sleep_seconds = app_config['process_sleep_seconds']
-
-# Output path
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
+process_sleep_seconds = database.find_config_value(app_config, 'process_sleep_seconds')
 
 
 def is_null(input_variable):

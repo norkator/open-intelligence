@@ -1,7 +1,7 @@
 # This is tool to process external image
 # not part of application process
 
-from module import configparser
+from module import database
 from pathlib import Path
 from imutils import paths
 import shutil
@@ -11,8 +11,8 @@ import cv2
 import os
 
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Paths
 face_extraction_output_path = output_root_folder_path + '/face_extractions/'
