@@ -4,7 +4,6 @@ const path = require('path');
 const email = require('./email');
 const {Op} = require('sequelize');
 const util = require('util');
-const disk = require('diskusage');
 const imageThumbnail = require('image-thumbnail');
 const dotEnv = require('dotenv');
 dotEnv.config();
@@ -579,7 +578,8 @@ exports.SetStorageUsage = async function () {
   const getFolderSize = (await import('get-folder-size')).default;
   const size = await getFolderSize.loose(outputFolderPath);
   const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
-  const diskCheck = await disk.check(outputFolderPath);
+  // const diskCheck = await disk.check(outputFolderPath);
+  const diskCheck = {available: 0};
   const availableStorage = (diskCheck.available / 1024 / 1024 / 1024).toFixed(2) + ' GB';
   console.info('Current storage usage', storageUsage, 'and size available', availableStorage);
   fs.writeFile(storageFilePathName, storageUsage + ' / ' + availableStorage, function (err) {
