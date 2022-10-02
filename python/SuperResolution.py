@@ -1,13 +1,13 @@
 import os
 import sys
-from module import configparser, process_utils, database, detection_utils
+from module import process_utils, database, detection_utils
 from objects import SrFile
 from pathlib import Path
 import psycopg2
 import time
 
-super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='super_resolution')
-use_gpu = super_resolution_config['use_gpu'] == 'True'
+app_config = database.get_application_config()
+use_gpu = database.find_config_value(app_config, 'use_gpu') == 'True'
 if use_gpu is False:
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     print('GPU Disabled at config')
@@ -19,10 +19,9 @@ from module.vehicle_color import vehicle_color_detect
 print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 
 # Parse configs
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-process_sleep_seconds = app_config['process_sleep_seconds']
-max_width = int(super_resolution_config['max_width'])
-max_height = int(super_resolution_config['max_height'])
+process_sleep_seconds = database.find_config_value(app_config, 'process_sleep_seconds')
+max_width = int(database.find_config_value(app_config, 'max_width'))
+max_height = int(database.find_config_value(app_config, 'max_height'))
 
 # Output path
 output_root_folder_path = app_config['output_folder']

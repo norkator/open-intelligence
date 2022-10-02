@@ -1,10 +1,10 @@
 import os
-from module import database, detection_utils, configparser
+from module import database, detection_utils
 from module.face_recognition import extract_embeddings, train_model
 
 # Path
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 
 def check_for_tasks():

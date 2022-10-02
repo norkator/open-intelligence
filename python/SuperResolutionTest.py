@@ -1,11 +1,11 @@
 import os
 import sys
 from argparse import ArgumentParser
-from module import configparser
+from module import database
 from objects import SrFile
 
-super_resolution_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='super_resolution')
-use_gpu = super_resolution_config['use_gpu'] == 'True'
+app_config = database.get_application_config()
+use_gpu = database.find_config_value(app_config, 'use_gpu') == 'True'
 if use_gpu is False:
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     print('GPU Disabled at config')
@@ -24,10 +24,9 @@ print('hello world')
 print('GPU support available: ' + str(gpu_utils.is_gpu_available()))
 
 # Parse configs
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-process_sleep_seconds = app_config['process_sleep_seconds']
-max_width = int(super_resolution_config['max_width'])
-max_height = int(super_resolution_config['max_height'])
+process_sleep_seconds = database.find_config_value(app_config, 'process_sleep_seconds')
+max_width = int(database.find_config_value(app_config, 'max_width'))
+max_height = int(database.find_config_value(app_config, 'max_height'))
 
 if __name__ == '__main__':
     try:

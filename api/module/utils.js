@@ -728,20 +728,37 @@ exports.ParseVehicleEvents = ParseVehicleEvents;
 
 
 /**
- * @return {String|null}
+ * Get configuration value
+ * @return {String}
+ * @default return stock default value
  */
-function ConfigValue(config, key) {
-  const s = config.split('\n');
-  for (let i = 0; i < s.length; i++) {
-    const l = s[i].split('=');
-    if (l[0] === key) {
-      return l[1];
+function ConfigValue(configurations, key, defaultValue) {
+  for (let i = 0; i < configurations.length; i++) {
+    const cKey = configurations[i].key;
+    if (cKey === key) {
+      return configurations[i].value;
     }
   }
-  return null;
+  return defaultValue;
 }
 
 exports.ConfigValue = ConfigValue;
+
+
+/**
+ * @param {Object} jsonObject
+ * @returns {[{key: string, value: string}]}
+ * @constructor
+ */
+function ObjectKeyValuePairs(jsonObject) {
+  const keyValues = [];
+  Object.keys(jsonObject).forEach(function(key) {
+    keyValues.push({key: key, value: jsonObject[key]});
+  });
+  return keyValues;
+}
+
+exports.ObjectKeyValuePairs = ObjectKeyValuePairs;
 
 
 /**

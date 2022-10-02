@@ -1,15 +1,14 @@
 from imutils import paths
-from module import configparser
+from module import database
 import numpy as np
 import imutils
 import pickle
 import cv2
 import os
 
-
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 faces_dataset_folder = output_root_folder_path + '/faces_dataset/'
 

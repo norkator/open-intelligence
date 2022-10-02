@@ -1,16 +1,16 @@
 import os
 from datetime import datetime
 from argparse import ArgumentParser
-from module import fileutils, object_detection, configparser, actions, process_utils, database
+from module import fileutils, object_detection, actions, process_utils, database
 from objects import File
 import psycopg2
 import sys
 import time
 
 # Config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-move_to_processed = app_config['move_to_processed'] == 'True'
-process_sleep_seconds = int(app_config['process_sleep_seconds'])
+app_config = database.get_application_config()
+move_to_processed = database.find_config_value(app_config, 'move_to_processed') == 'True'
+process_sleep_seconds = int(database.find_config_value(app_config, 'process_sleep_seconds'))
 
 # Get current time offset
 ts = time.time()
@@ -18,7 +18,7 @@ utc_offset = (datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)).total_
 time_offset_hours = int(utc_offset / 60 / 60)
 print('Time offset: ' + str(time_offset_hours))
 
-# Specify your names and folders at config.ini
+# Specify your names and folders at ui configuration page
 # split them by a,b,c,d
 names = []  # ['App1']
 folders = []  # [os.getcwd() + '/images/']
@@ -29,13 +29,9 @@ parser.add_argument('--bool_slave_node', type=str, help='Multi node support, giv
 args = parser.parse_args()
 
 # Parse camera name and folder config
-camera_config = configparser.any_config(
-    filename=os.getcwd() + ('/config_slave.ini' if args.bool_slave_node == 'True' else '/config.ini'),
-    section='camera'
-)
-cameras_root_path = camera_config['cameras_root_path']
-camera_names_config = camera_config['camera_names'].split(',')
-camera_folders_config = camera_config['camera_folders'].split(',')
+cameras_root_path = database.find_config_value(app_config, 'cameras_root_path')
+camera_names_config = database.find_config_value(app_config, 'camera_names').split(',')
+camera_folders_config = database.find_config_value(app_config, 'camera_folders').split(',')
 
 # Append in names and folders
 for n, f in zip(camera_names_config, camera_folders_config):
@@ -112,7 +108,8 @@ def app():
                 # Lock file and process
                 open(sorted_file.root_path + sorted_file.file_path + sorted_file.file_name + '.lock', 'a').close()
                 # Append for processing
-                gm_time = fileutils.get_file_create_time(sorted_file.root_path, sorted_file.file_path, sorted_file.file_name)
+                gm_time = fileutils.get_file_create_time(sorted_file.root_path, sorted_file.file_path,
+                                                         sorted_file.file_name)
                 file = File.File(
                     sorted_file.name,
                     sorted_file.root_path,

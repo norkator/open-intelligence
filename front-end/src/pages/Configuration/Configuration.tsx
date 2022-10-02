@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 import axios, {PYTHON_CONFIGURATION} from "../../axios";
-import {AxiosError} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {Button, Card, Form} from "react-bootstrap";
 import {LoadingIndicator} from "../../components/LoadingIndicator/LoadingIndicator";
 import toast, {Toaster} from "react-hot-toast";
@@ -20,12 +20,6 @@ interface PythonConfigurationFieldsInterface {
     cameras_root_path: string,
     camera_names: string,
     camera_folders: string,
-  },
-  postgresql: {
-    host: string,
-    database: string,
-    user: string,
-    password: string,
   },
   openalpr: {
     enabled: string,
@@ -52,11 +46,6 @@ interface PythonConfigurationFieldsInterface {
   },
 }
 
-interface PythonConfigurationInterface {
-  status: string,
-  fields: PythonConfigurationFieldsInterface,
-  configData: string,
-}
 
 class Configuration extends Component<WithTranslation> {
   private _isMounted: boolean;
@@ -64,7 +53,6 @@ class Configuration extends Component<WithTranslation> {
   state = {
     isLoading: true,
     fields: {} as PythonConfigurationFieldsInterface,
-    pythonConfiguration: '',
   };
 
   constructor(props: any) {
@@ -82,14 +70,11 @@ class Configuration extends Component<WithTranslation> {
   }
 
   loadPythonConfiguration = () => {
-    axios.get(PYTHON_CONFIGURATION).then((data: any) => {
+    axios.get(PYTHON_CONFIGURATION).then((response: AxiosResponse) => {
+      const fields: PythonConfigurationFieldsInterface = response.data.fields;
       if (this._isMounted) {
-        const config = data.data as PythonConfigurationInterface;
-        const pc = new Buffer(config.configData, 'base64');
-        const decodedPythonConfig = pc.toString('ascii');
         this.setState({
-          fields: config.fields,
-          pythonConfiguration: decodedPythonConfig,
+          fields: fields,
           isLoading: false
         });
       }
@@ -100,7 +85,9 @@ class Configuration extends Component<WithTranslation> {
 
   handleConfigChange = (mainPath: string, key: string, event: any, isBooleanValue = false) => {
     let fields: any = this.state.fields;
-    fields[mainPath][key] = isBooleanValue ? event.target.checked : event.target.value;
+    fields[mainPath][key] = isBooleanValue ?
+      (event.target.checked ? 'True' : 'False') :
+      event.target.value;
     this.setState({fields: fields});
   };
 
@@ -221,7 +208,7 @@ class Configuration extends Component<WithTranslation> {
                           Specifies main root path which under all folders for each camera source images are stored.
                         </Form.Text>
                       </Form.Group>
-                       <Form.Group>
+                      <Form.Group>
                         <Form.Label>camera_names</Form.Label>
                         <Form.Control
                           type="text" placeholder="TestCamera1,TestCamera2"
@@ -246,50 +233,6 @@ class Configuration extends Component<WithTranslation> {
                         <Form.Text className="text-muted">
                           {t('configuration.cameraFoldersHint')}
                         </Form.Text>
-                      </Form.Group>
-                    </div>
-
-                    <div style={{marginTop: 40}}>
-                      <h4>Database {t('configuration.settings')} {t('configuration.forPostgreSQL')}</h4>
-                      <Form.Group>
-                        <Form.Label>host</Form.Label>
-                        <Form.Control
-                          type="text" placeholder="localhost"
-                          value={this.state.fields.postgresql.host}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'host', event)
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>database</Form.Label>
-                        <Form.Control
-                          type="text" placeholder="intelligence"
-                          value={this.state.fields.postgresql.database}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'database', event)
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>user</Form.Label>
-                        <Form.Control
-                          type="text" placeholder="user"
-                          value={this.state.fields.postgresql.user}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'user', event)
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>password</Form.Label>
-                        <Form.Control
-                          type="password" placeholder="password"
-                          value={this.state.fields.postgresql.password}
-                          onChange={(event: any) => {
-                            this.handleConfigChange('postgresql', 'password', event)
-                          }}
-                        />
                       </Form.Group>
                     </div>
 
@@ -471,14 +414,8 @@ class Configuration extends Component<WithTranslation> {
                     </div>
                   </Form>
 
-                  <hr/>
-                  <Form.Group style={{marginTop: 10}} controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>{t('configuration.currentConfigurationLooksHint')}</Form.Label>
-                    <Form.Control as="textarea" rows={10} defaultValue={this.state.pythonConfiguration}/>
-                  </Form.Group>
-
                   <Button onClick={() => this.saveConfigChanges()}
-                          className="float-left" variant="outline-light" size="sm">
+                          className="float-left mt-5" variant="outline-light" size="sm">
                     {t('configuration.saveChanges')}
                   </Button>
 

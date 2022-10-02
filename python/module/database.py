@@ -1,6 +1,5 @@
 import os
 import psycopg2
-from module import configparser
 from argparse import ArgumentParser
 
 # Process arguments
@@ -10,18 +9,21 @@ args = parser.parse_args()
 if args.bool_slave_node == 'True':
     print('[INFO] Process running in slave mode!')
 
-params = configparser.any_config(
-    filename=os.getcwd() + ('/config_slave.ini' if args.bool_slave_node == 'True' else '/config.ini'),
-    section='postgresql'
+params = "dbname=%s user=%s password=%s host=%s port=%s" % (
+    os.environ['DB_DATABASE'],
+    os.environ['DB_USER'],
+    os.environ['DB_PASSWORD'],
+    os.environ['DB_HOST'],
+    os.environ['DB_PORT']
 )
 
 
-# connection = psycopg2.connect(**params)
+# connection = psycopg2.connect(params)
 # print(connection.get_backend_pid())
 
 
 def db_connected():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cur = connection.cursor()
         cur.execute('SELECT 1')
@@ -33,9 +35,33 @@ def db_connected():
         connection.close()
 
 
+def get_application_config():
+    connection = psycopg2.connect(params)
+    try:
+        cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        config_query = "SELECT key, value FROM configurations"
+        cursor.execute(config_query)
+        config_records = cursor.fetchall()
+        cursor.close()
+        return config_records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def find_config_value(configs, key):
+    for config in configs:
+        if config[0] == key:
+            return config[1]
+    return None
+
+
 def insert_value(name, label, file_path, file_name, year, month, day, hour, minute, second, file_name_cropped,
                  detection_result, color):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -68,7 +94,7 @@ def insert_value(name, label, file_path, file_name, year, month, day, hour, minu
 
 
 def get_super_resolution_images_to_compute():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # Load specific label image not older than one day from now
@@ -93,7 +119,7 @@ def get_super_resolution_images_to_compute():
 
 
 def update_super_resolution_row_result(detection_result, color, sr_image_name, id):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -111,7 +137,7 @@ def update_super_resolution_row_result(detection_result, color, sr_image_name, i
 
 
 def bool_run_train_face_model():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -138,7 +164,7 @@ def bool_run_train_face_model():
 
 
 def get_detection_tasks():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -157,7 +183,7 @@ def get_detection_tasks():
 
 
 def update_detection_task_result(id, detection_result):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -175,7 +201,7 @@ def update_detection_task_result(id, detection_result):
 
 
 def get_insight_face_images_to_compute():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -192,7 +218,7 @@ def get_insight_face_images_to_compute():
 
 
 def update_insight_face_as_computed(detection_result, id):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -209,7 +235,7 @@ def update_insight_face_as_computed(detection_result, id):
 
 
 def get_images_for_similarity_check_process():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -247,7 +273,7 @@ def get_images_for_similarity_check_process():
 
 
 def update_similarity_check_row_checked(id):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -263,7 +289,7 @@ def update_similarity_check_row_checked(id):
 
 
 def clean_instances():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -278,7 +304,7 @@ def clean_instances():
 
 
 def new_instance(process_name):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -302,7 +328,7 @@ def new_instance(process_name):
 
 # noinspection PyShadowingBuiltins
 def update_instance(id):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
         # noinspection SqlDialectInspection,SqlNoDataSourceInspection
@@ -318,7 +344,7 @@ def update_instance(id):
 
 
 def get_labeled_for_training_lp_images():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -350,7 +376,7 @@ def get_labeled_for_training_lp_images():
 
 
 def insert_offsite_value(name, label, file_name, year, month, day, hour, minute, second, file_name_cropped):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -383,7 +409,7 @@ def insert_offsite_value(name, label, file_name, year, month, day, hour, minute,
 
 
 def get_rejected_offsite_images():
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -405,7 +431,7 @@ def get_rejected_offsite_images():
 
 
 def delete_rejected_offsite_image_record(id):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 
@@ -426,7 +452,7 @@ def delete_rejected_offsite_image_record(id):
 
 
 def insert_notification(message):
-    connection = psycopg2.connect(**params)
+    connection = psycopg2.connect(params)
     try:
         cursor = connection.cursor()
 

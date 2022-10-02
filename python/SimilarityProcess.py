@@ -1,6 +1,6 @@
 from skimage.metrics import structural_similarity as ssim
 from pathlib import Path
-from module import configparser, database, process_utils
+from module import database, process_utils
 from objects import SrFile
 import psycopg2
 import shutil
@@ -10,13 +10,12 @@ import sys
 import time
 
 # Parse configs
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-similarity_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='similarity')
+app_config = database.get_application_config()
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 process_sleep_seconds = app_config['process_sleep_seconds']
-delete_files = similarity_config['delete_files'] == 'True'
+delete_files = database.find_config_value(app_config, 'delete_files') == 'True'
 
 # Define paths
-output_root_folder_path = app_config['output_folder']
 test_move_path = output_root_folder_path + 'recycle/'
 
 # Check directory existence

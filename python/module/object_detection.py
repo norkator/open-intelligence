@@ -8,11 +8,12 @@ from pathlib import Path
 import cv2
 import numpy as np
 import shutil
-from module import database, detection_utils, configparser
+from module import database, detection_utils
 
 # App config
-app_config = configparser.any_config(filename=os.getcwd() + '/config.ini', section='app')
-output_root_folder_path = app_config['output_folder']
+app_config = database.get_application_config()
+
+output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Paths
 models_path = os.getcwd() + '/models/'
@@ -20,8 +21,8 @@ output_path = output_root_folder_path
 object_detection_image_path = output_root_folder_path + 'object_detection/'
 
 # Config
-yolo_ignored_labels = str(configparser.any_config(section='yolo')['ignored_labels']).split(',')
-cv2_imshow_enabled = True if configparser.any_config(section='app')['cv2_imshow_enabled'] == 'True' else False
+yolo_ignored_labels = str(database.find_config_value(app_config, 'ignored_labels').split(','))
+cv2_imshow_enabled = True if database.find_config_value(app_config, 'cv2_imshow_enabled') == 'True' else False
 print('[Info] cv2_imshow_enabled is ' + str(cv2_imshow_enabled))
 
 
