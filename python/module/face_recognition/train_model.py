@@ -11,12 +11,12 @@ output_root_folder_path = database.find_config_value(app_config, 'output_folder'
 
 def train_model(cwd_path):
     # Output paths
-    recognizer_output_path = output_root_folder_path + '/faces_models/' + 'recognizer.pickle'
-    label_encoder_output_path = output_root_folder_path + '/faces_models/' + 'label_encoder.pickle'
+    recognizer_output_path = output_root_folder_path + 'faces_models/' + 'recognizer.pickle'
+    label_encoder_output_path = output_root_folder_path + 'faces_models/' + 'label_encoder.pickle'
 
     # load the face embeddings
     print("[INFO] loading face embeddings...")
-    embeddings_path = output_root_folder_path + '/faces_models/' + 'embeddings.pickle'
+    embeddings_path = output_root_folder_path + 'faces_models/' + 'embeddings.pickle'
     data = pickle.loads(open(embeddings_path, "rb").read())
 
     # encode the labels

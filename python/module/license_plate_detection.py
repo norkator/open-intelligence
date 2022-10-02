@@ -18,7 +18,7 @@ use_plate_char_length = database.find_config_value(app_config, 'use_plate_char_l
 plate_char_length = int(database.find_config_value(app_config, 'plate_char_length'))
 
 # Paths
-car_labels_path = output_root_folder_path + '/car/'
+car_labels_path = output_root_folder_path + 'car/'
 rotation_temp_images_path = output_root_folder_path + 'rotation_temp/'
 alpr_dir = os.getcwd() + '/libraries/openalpr_64'
 open_alpr_conf = os.getcwd() + '/libraries/openalpr_64/openalpr.conf'

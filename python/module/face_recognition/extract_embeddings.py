@@ -10,12 +10,12 @@ import os
 app_config = database.get_application_config()
 output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
-faces_dataset_folder = output_root_folder_path + '/faces_dataset/'
+faces_dataset_folder = output_root_folder_path + 'faces_dataset/'
 
 
 def extract_embeddings(cwd_path, input_confidence=0.5):
     # Path to output serialized db of facial embeddings
-    embeddings_output_path = output_root_folder_path + '/faces_models/' + 'embeddings.pickle'
+    embeddings_output_path = output_root_folder_path + 'faces_models/' + 'embeddings.pickle'
 
     # load our serialized face detector from disk
     print("[INFO] loading face detector...")

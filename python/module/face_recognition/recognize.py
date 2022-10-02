@@ -25,10 +25,10 @@ output_faces_dataset = None
 # Set paths
 if str(output_root_path) == 'cwd':
     # Stock paths
-    recognizer_path = output_root_folder_path + '/faces_models/' + 'recognizer.pickle'
-    label_encoder_path = output_root_folder_path + '/faces_models/' + 'label_encoder.pickle'
-    output_faces_path = output_root_folder_path + '/faces/'
-    output_faces_dataset = output_root_folder_path + '/faces_dataset/'
+    recognizer_path = output_root_folder_path + 'faces_models/' + 'recognizer.pickle'
+    label_encoder_path = output_root_folder_path + 'faces_models/' + 'label_encoder.pickle'
+    output_faces_path = output_root_folder_path + 'faces/'
+    output_faces_dataset = output_root_folder_path + 'faces_dataset/'
 else:
     # Custom paths
     recognizer_path = output_root_path + '/faces_models/' + 'recognizer.pickle'

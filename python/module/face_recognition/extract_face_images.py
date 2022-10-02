@@ -15,8 +15,8 @@ app_config = database.get_application_config()
 output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Paths
-face_extraction_output_path = output_root_folder_path + '/face_extractions/'
-face_extraction_output_bad_path = output_root_folder_path + '/face_extractions/rejected/'
+face_extraction_output_path = output_root_folder_path + 'face_extractions/'
+face_extraction_output_bad_path = output_root_folder_path + 'face_extractions/rejected/'
 
 # Check path existence
 Path(face_extraction_output_path).mkdir(parents=True, exist_ok=True)

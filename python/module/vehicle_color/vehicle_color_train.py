@@ -182,13 +182,13 @@ def train_color_net():
     test_datagen = ImageDataGenerator(rescale=1. / 255, dtype='float32')
 
     training_set = train_datagen.flow_from_directory(
-        output_root_folder_path + '/dataset/train/',
+        output_root_folder_path + 'dataset/train/',
         target_size=(img_rows, img_cols),
         batch_size=batch_size,
         class_mode='categorical')
 
     test_set = test_datagen.flow_from_directory(
-        output_root_folder_path + '/dataset/test/',
+        output_root_folder_path + 'dataset/test/',
         target_size=(img_rows, img_cols),
         batch_size=batch_size,
         class_mode='categorical')

@@ -7,8 +7,8 @@ app_config = database.get_application_config()
 output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
 # Paths
-person_path = output_root_folder_path + '/person/'
-output_faces_path = output_root_folder_path + '/faces/'
+person_path = output_root_folder_path + 'person/'
+output_faces_path = output_root_folder_path + 'faces/'
 classifier_path = os.getcwd() + '/classifiers/'
 
 
