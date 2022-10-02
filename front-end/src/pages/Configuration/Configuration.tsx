@@ -46,10 +46,6 @@ interface PythonConfigurationFieldsInterface {
   },
 }
 
-interface PythonConfigurationInterface {
-  status: string,
-  fields: PythonConfigurationFieldsInterface,
-}
 
 class Configuration extends Component<WithTranslation> {
   private _isMounted: boolean;
