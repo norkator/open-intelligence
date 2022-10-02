@@ -70,6 +70,34 @@ async function Configuration(router, sequelizeObjects) {
 
   router.patch('/python-configuration', async (req, res) => {
     const fields = req.body;
+    let configs = [];
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.app));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.yolo));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.camera));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.postgresql));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.openalpr));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.facerecognition));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.streamgrab));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.similarity));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.super_resolution));
+
+    for await (const config of configs) {
+      const configObj = await sequelizeObjects.Configuration.findOne({
+        where: {key: config.key}
+      });
+      if (configObj === null) {
+        await sequelizeObjects.Configuration.create({
+          key: config.key,
+          value: config.value,
+        });
+      } else {
+        await configObj.update({
+          key: config.key,
+          value: config.value,
+        });
+      }
+    }
+
     res.json({status: 'ok'});
   });
 

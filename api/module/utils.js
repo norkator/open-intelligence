@@ -746,6 +746,22 @@ exports.ConfigValue = ConfigValue;
 
 
 /**
+ * @param {Object} jsonObject
+ * @returns {[{key: string, value: string}]}
+ * @constructor
+ */
+function ObjectKeyValuePairs(jsonObject) {
+  const keyValues = [];
+  Object.keys(jsonObject).forEach(function(key) {
+    keyValues.push({key: key, value: jsonObject[key]});
+  });
+  return keyValues;
+}
+
+exports.ObjectKeyValuePairs = ObjectKeyValuePairs;
+
+
+/**
  * Send email notifications
  * @param {Object} sequelizeObjects
  * @constructor

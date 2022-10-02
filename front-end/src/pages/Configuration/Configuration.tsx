@@ -95,7 +95,9 @@ class Configuration extends Component<WithTranslation> {
 
   handleConfigChange = (mainPath: string, key: string, event: any, isBooleanValue = false) => {
     let fields: any = this.state.fields;
-    fields[mainPath][key] = isBooleanValue ? event.target.checked : event.target.value;
+    fields[mainPath][key] = isBooleanValue ?
+      (event.target.checked ? 'True' : 'False') :
+      event.target.value;
     this.setState({fields: fields});
   };
 
@@ -216,7 +218,7 @@ class Configuration extends Component<WithTranslation> {
                           Specifies main root path which under all folders for each camera source images are stored.
                         </Form.Text>
                       </Form.Group>
-                       <Form.Group>
+                      <Form.Group>
                         <Form.Label>camera_names</Form.Label>
                         <Form.Control
                           type="text" placeholder="TestCamera1,TestCamera2"

@@ -1,11 +1,10 @@
 module.exports = (sequelize, type) => {
   return sequelize.define('configuration', {
-    id: {
-      type: type.BIGINT,
-      primaryKey: true,
-      autoIncrement: true
+    key: {
+      type: type.STRING,
+      allowNull: false,
+      unique: true
     },
-    key: type.STRING,
     value: type.STRING,
 
     // Normally Sequelize manages these
