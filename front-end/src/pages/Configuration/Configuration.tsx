@@ -44,6 +44,10 @@ interface PythonConfigurationFieldsInterface {
     max_width: string,
     max_height: string,
   },
+  data_retention: {
+    data_retention_enabled: string;
+    data_retention_days: string;
+  }
 }
 
 

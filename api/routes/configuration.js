@@ -56,6 +56,10 @@ async function Configuration(router, sequelizeObjects) {
           max_width: utils.ConfigValue(configurations, 'max_width', '1000'),
           max_height: utils.ConfigValue(configurations, 'max_height', '1000'),
         },
+        data_retention: {
+          data_retention_enabled: utils.ConfigValue(configurations, 'data_retention_enabled', 'False'),
+          data_retention_days: utils.ConfigValue(configurations, 'data_retention_days', '30'),
+        },
       },
     };
     res.json(response);
@@ -73,6 +77,7 @@ async function Configuration(router, sequelizeObjects) {
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.streamgrab));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.similarity));
     configs = configs.concat(utils.ObjectKeyValuePairs(fields.super_resolution));
+    configs = configs.concat(utils.ObjectKeyValuePairs(fields.data_retention));
 
     for await (const config of configs) {
       const configObj = await sequelizeObjects.Configuration.findOne({
