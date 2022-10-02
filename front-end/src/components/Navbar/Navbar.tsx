@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap'
+import {Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import styles from './Navbar.module.css'
 import {Link} from "react-router-dom";
 import {withTranslation} from "react-i18next";
@@ -106,12 +106,6 @@ class NavBar extends Component<any, any> {
                     <Link className={navBarLinksClasses.join(' ')} to="/history"
                           onClick={() => this.setActiveLinkHandler('/history')}>{t('navbar.history')}</Link>
                     : <span className="mt-2 text-white">{t('navbar.history')}</span>
-                }
-                {
-                  this.state.activeLink !== '/cleaning' ?
-                    <Link className={navBarLinksClasses.join(' ')} to="/cleaning"
-                          onClick={() => this.setActiveLinkHandler('/cleaning')}>{t('navbar.cleaning')}</Link>
-                    : <span className="mt-2 text-white">{t('navbar.cleaning')}</span>
                 }
                 {
                   this.state.activeLink !== '/configuration' ?
