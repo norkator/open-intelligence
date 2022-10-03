@@ -60,7 +60,8 @@
       "srImage": "Tämä on prosessoitu super resoluutio kuva",
       "standardImage": "Tämä on normaali kuva",
       "loading": "Ladataan...",
-      "noLabels": "Ei nimikkeitä valitulle päivälle"
+      "noLabels": "Ei nimikkeitä valitulle päivälle",
+      "storage": "TILA"
     }
   },
   "plates": {

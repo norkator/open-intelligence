@@ -60,7 +60,8 @@
       "srImage": "This is processed super resolution image",
       "standardImage": "This is standard image",
       "loading": "Loading...",
-      "noLabels": "No labels for selected day"
+      "noLabels": "No labels for selected day",
+      "storage": "STORAGE"
     }
   },
   "plates": {
