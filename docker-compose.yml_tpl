@@ -59,6 +59,20 @@ services:
     volumes:
       - ./python/:/app
       - /Users/<user-name>/Desktop/output:/output_test
+  data-retention-py:
+    container_name: data-retention-py
+    build:
+      context: ./python
+      dockerfile: dr.Dockerfile
+    environment:
+      - DB_USER=your-postgresql-server-user
+      - DB_HOST=your-postgresql-server-address
+      - DB_DATABASE=intelligence
+      - DB_PASSWORD=your-postgresql-server-password
+      - DB_PORT=5432
+    volumes:
+      - ./python/:/app
+      - /Users/<user-name>/Desktop/output:/output_test
   backend:
     container_name: backend
     build: ./api
