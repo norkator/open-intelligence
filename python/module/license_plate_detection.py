@@ -40,8 +40,10 @@ def detect_license_plate(input_image, file_name, use_rotation=False):
                 environ['PATH'] = alpr_dir + ';' + environ['PATH']
 
                 all_images = [input_image]
-                rotation_images = get_rotation_images(use_rotation, input_image, file_name)
+                # Todo.. make settings about this below feature, this is making process very very slow
+                rotation_images = []  # get_rotation_images(use_rotation, input_image, file_name)
                 all_images = all_images + rotation_images  # append together
+
                 for image in all_images:
 
                     # Initialize openalpr

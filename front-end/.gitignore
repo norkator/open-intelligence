@@ -65,6 +65,7 @@ typings/
 
 # Others
 package-lock.json
+yarn.lock
 
 # Build
 build

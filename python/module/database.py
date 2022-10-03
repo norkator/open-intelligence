@@ -476,3 +476,43 @@ def insert_notification(message):
         print(error)
     finally:
         connection.close()
+
+
+def get_data_retention_data(days):
+    connection = psycopg2.connect(params)
+    try:
+        cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        dr_work_query = """SELECT id, label, file_name, file_name_cropped, sr_image_name 
+        FROM data WHERE file_create_date < now() - interval '(%s) day' 
+        AND deleted = false ORDER BY id DESC"""
+
+        # Variables
+        query_params = (days,)
+
+        cursor.execute(dr_work_query, query_params)
+        dr_work_records = cursor.fetchall()
+
+        cursor.close()
+        return dr_work_records
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()
+
+
+def update_data_retention_data_deleted(id):
+    connection = psycopg2.connect(params)
+    try:
+        cursor = connection.cursor()
+        # noinspection SqlDialectInspection,SqlNoDataSourceInspection
+        update_query = """UPDATE data SET deleted = true WHERE id = %s"""
+        cursor.execute(update_query, (id,))
+        connection.commit()
+        cursor.close()
+    except psycopg2.DatabaseError as error:
+        connection.rollback()
+        print(error)
+    finally:
+        connection.close()

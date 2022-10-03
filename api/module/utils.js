@@ -1,9 +1,10 @@
+const checkDiskSpace = require('check-disk-space').default
 const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
 const email = require('./email');
 const {Op} = require('sequelize');
-const getFolderSize = require('get-folder-size');
+const util = require('util');
 const imageThumbnail = require('image-thumbnail');
 const dotEnv = require('dotenv');
 dotEnv.config();
@@ -11,7 +12,6 @@ dotEnv.config();
 
 // Variables
 const outputFolderPath = path.join(__dirname + '../../../' + 'output/');
-const storageFilePathName = __dirname + '/../' + "/storage.txt";
 
 
 /**
@@ -574,20 +574,15 @@ exports.GetBase64ImagesForEmail = GetBase64ImagesForEmail;
  * pulling this takes time, so it's run by scheduler
  * @constructor
  */
-exports.SetStorageUsage = function () {
-  return new Promise(function (resolve, reject) {
-    getFolderSize(outputFolderPath, (error, size) => {
-      if (!error) {
-        const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
-        console.info('Current storage usage: ' + storageUsage);
-        fs.writeFile(storageFilePathName, storageUsage, function (err) {
-          console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
-        });
-        resolve();
-      } else {
-        reject();
-      }
-    });
+exports.SetStorageUsage = async function () {
+  const getFolderSize = (await import('get-folder-size')).default;
+  const size = await getFolderSize.loose(outputFolderPath);
+  const storageUsage = (size / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  const diskCheck = await checkDiskSpace(outputFolderPath);
+  const availableStorage = (diskCheck.free / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  console.info('Current storage usage', storageUsage, 'and size available', availableStorage);
+  fs.writeFile(outputFolderPath + '/storage.txt', storageUsage + ' / ' + availableStorage, function (err) {
+    console.info('Storage.txt updated at ' + new moment().utc(true).toISOString(true));
   });
 };
 
@@ -598,7 +593,7 @@ exports.SetStorageUsage = function () {
  */
 exports.GetStorageUsage = function () {
   return new Promise(function (resolve, reject) {
-    fs.readFile(storageFilePathName, {encoding: 'utf-8'}, function (error, data) {
+    fs.readFile(outputFolderPath + '/storage.txt', {encoding: 'utf-8'}, function (error, data) {
       resolve(error ? resolve('N/A GB') : resolve(data));
     });
   });

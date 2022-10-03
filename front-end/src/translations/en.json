@@ -60,7 +60,8 @@
       "srImage": "This is processed super resolution image",
       "standardImage": "This is standard image",
       "loading": "Loading...",
-      "noLabels": "No labels for selected day"
+      "noLabels": "No labels for selected day",
+      "storage": "STORAGE"
     }
   },
   "plates": {
@@ -151,7 +152,10 @@
     "superResolution": "Super resolution",
     "useGpuHint": "Using GPU requires complicated CUDA setup.",
     "maxWidthHint": "This improves license plate detection so process it only for smaller images.",
-    "currentConfigurationLooksHint": "Current configuration looks like this"
+    "currentConfigurationLooksHint": "Current configuration looks like this",
+    "dataRetention": "Data retention",
+    "dataRetentionEnabledHint": "Data retention enabled will activate service, which will destroy defined X days old output data.",
+    "dataRetentionDaysHint": "Days which after data is deleted if data retention feature is enabled."
   },
   "cleaning": {
     "title": "Cleaning"

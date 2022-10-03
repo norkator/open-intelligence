@@ -44,6 +44,10 @@ interface PythonConfigurationFieldsInterface {
     max_width: string,
     max_height: string,
   },
+  data_retention: {
+    data_retention_enabled: string;
+    data_retention_days: string;
+  }
 }
 
 
@@ -120,9 +124,10 @@ class Configuration extends Component<WithTranslation> {
               this.state.isLoading ? <LoadingIndicator isDark={false}/> :
                 <>
                   <Form>
+
                     <div style={{marginTop: 0}}>
                       <h4>App.py {t('configuration.settings')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>move_to_processed</Form.Label>
                         <Form.Check
                           type="checkbox" label={t('generic.enabled')}
@@ -135,7 +140,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.moveToProcessedHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>process_sleep_seconds</Form.Label>
                         <Form.Control
                           type="number" placeholder="4"
@@ -148,7 +153,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.processSleepSecondsHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>cv2_imshow_enabled</Form.Label>
                         <Form.Check
                           type="checkbox" label={t('generic.enabled')}
@@ -161,7 +166,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.cv2ImshowEnabledHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>output_folder</Form.Label>
                         <Form.Control
                           type="text" placeholder="/output_test/"
@@ -176,9 +181,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>Yolo {t('configuration.settings')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>ignored_labels</Form.Label>
                         <Form.Control
                           type="text" placeholder="pottedplant,tennis racket,umbrella"
@@ -193,9 +200,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>Camera {t('configuration.settings')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>cameras_root_path</Form.Label>
                         <Form.Control
                           type="text" placeholder="/input_test"
@@ -208,7 +217,7 @@ class Configuration extends Component<WithTranslation> {
                           Specifies main root path which under all folders for each camera source images are stored.
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>camera_names</Form.Label>
                         <Form.Control
                           type="text" placeholder="TestCamera1,TestCamera2"
@@ -221,7 +230,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.cameraNamesHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>camera_folders</Form.Label>
                         <Form.Control
                           type="text" placeholder="D:/testCamera1Folder/,D:/testCamera2Folder/,"
@@ -236,9 +245,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>OpenALPR {t('configuration.settings')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>enabled</Form.Label>
                         <Form.Check
                           type="checkbox" label={t('generic.enabled')}
@@ -251,7 +262,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.openAlprEnabledHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>region</Form.Label>
                         <Form.Control
                           type="text" placeholder="eu"
@@ -261,7 +272,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>use_plate_char_length</Form.Label>
                         <Form.Check
                           type="checkbox" label={t('generic.enabled')}
@@ -274,7 +285,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.usePlateCharLengthHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>plate_char_length</Form.Label>
                         <Form.Control
                           type="number" placeholder="6"
@@ -286,9 +297,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>{t('configuration.faceRecognition')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>file_name_prefix</Form.Label>
                         <Form.Control
                           type="text" placeholder=""
@@ -298,7 +311,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>output_root_path</Form.Label>
                         <Form.Control
                           type="text" placeholder="cwd"
@@ -313,9 +326,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>Stream grab</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>sleep_seconds</Form.Label>
                         <Form.Control
                           type="number" placeholder="4"
@@ -325,7 +340,7 @@ class Configuration extends Component<WithTranslation> {
                           }}
                         />
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>jpeg_stream_names</Form.Label>
                         <Form.Control
                           type="text" placeholder="name"
@@ -338,7 +353,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.jpegStreamNamesHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>jpeg_streams</Form.Label>
                         <Form.Control
                           type="text" placeholder="http://127.0.0.1/mjpg/video.mjpg"
@@ -353,9 +368,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>{t('configuration.similarityProcess')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>delete_files</Form.Label>
                         <Form.Check
                           type="checkbox" label={t('generic.enabled')}
@@ -370,9 +387,11 @@ class Configuration extends Component<WithTranslation> {
                       </Form.Group>
                     </div>
 
+                    <hr/>
+
                     <div style={{marginTop: 40}}>
                       <h4>{t('configuration.superResolution')}</h4>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>use_gpu</Form.Label>
                         <Form.Check
                           type="checkbox" label={t('generic.enabled')}
@@ -385,7 +404,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.useGpuHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>max_width</Form.Label>
                         <Form.Control
                           type="number" placeholder="1000"
@@ -398,7 +417,7 @@ class Configuration extends Component<WithTranslation> {
                           {t('configuration.maxWidthHint')}
                         </Form.Text>
                       </Form.Group>
-                      <Form.Group>
+                      <Form.Group className="mt-4">
                         <Form.Label>max_height</Form.Label>
                         <Form.Control
                           type="number" placeholder="1000"
@@ -412,6 +431,41 @@ class Configuration extends Component<WithTranslation> {
                         </Form.Text>
                       </Form.Group>
                     </div>
+
+                    <hr/>
+
+                    <div style={{marginTop: 0}}>
+                      <h4>{t('configuration.dataRetention')}</h4>
+                      <Form.Group className="mt-4">
+                        <Form.Label>data_retention_enabled</Form.Label>
+                        <Form.Check
+                          type="checkbox" label={t('generic.enabled')}
+                          defaultChecked={this.state.fields.data_retention?.data_retention_enabled === 'True'}
+                          onChange={(event: any) => {
+                            this.handleConfigChange('data_retention', 'data_retention_enabled', event, true)
+                          }}
+                        />
+                        <Form.Text className="text-muted">
+                          {t('configuration.dataRetentionEnabledHint')}
+                        </Form.Text>
+                      </Form.Group>
+                      <Form.Group className="mt-4">
+                        <Form.Label>data_retention_days</Form.Label>
+                        <Form.Control
+                          type="number" placeholder="4"
+                          value={this.state.fields.data_retention?.data_retention_days}
+                          onChange={(event: any) => {
+                            this.handleConfigChange('data_retention', 'data_retention_days', event)
+                          }}
+                        />
+                        <Form.Text className="text-muted">
+                          {t('configuration.dataRetentionDaysHint')}
+                        </Form.Text>
+                      </Form.Group>
+                    </div>
+
+                    <hr/>
+
                   </Form>
 
                   <Button onClick={() => this.saveConfigChanges()}

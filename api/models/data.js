@@ -63,6 +63,10 @@ module.exports = (sequelize, type) => {
       type: type.INTEGER, defaultValue: 0
     },
 
+    deleted: {
+      type: type.BOOLEAN,
+      defaultValue: false
+    },
 
     // Normally Sequelize manages these
     // but for python side we need also default value

@@ -243,7 +243,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
               <div className="col-sm d-flex justify-content-end">
                 <div className="text-right">
                   <Badge bg="dark" className="me-2">IC{this.state.instanceCount}</Badge>
-                  <Badge bg="dark">STR {this.state.storageUse}</Badge>
+                  <Badge bg="dark">{t('home.labels.storage')} {this.state.storageUse}</Badge>
                 </div>
               </div>
             </div>
