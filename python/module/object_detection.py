@@ -165,6 +165,9 @@ def analyze_image(image_object, bool_move_processed):
         if bool_move_processed:
             shutil.move(image_object.root_path + image_object.file_path + image_object.file_name,
                         image_object.root_path + image_object.file_path + 'processed/' + image_object.file_name)
+        # else remove the file
+        else:
+            os.remove(image_object.root_path + image_object.file_path + image_object.file_name)
 
         # Show preview
         if cv2_imshow_enabled is True:
