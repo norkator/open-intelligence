@@ -1,5 +1,6 @@
 from imutils import paths
 from module import database
+from pathlib import Path
 import numpy as np
 import imutils
 import pickle
@@ -15,7 +16,11 @@ faces_dataset_folder = output_root_folder_path + 'faces_dataset/'
 
 def extract_embeddings(cwd_path, input_confidence=0.5):
     # Path to output serialized db of facial embeddings
-    embeddings_output_path = output_root_folder_path + 'faces_models/' + 'embeddings.pickle'
+    embeddings_output_path = output_root_folder_path + 'faces_models/'
+    embeddings_output_file_name = 'embeddings.pickle'
+
+    # Check directory existence
+    Path(embeddings_output_path).mkdir(parents=True, exist_ok=True)
 
     # load our serialized face detector from disk
     print("[INFO] loading face detector...")
@@ -108,6 +113,6 @@ def extract_embeddings(cwd_path, input_confidence=0.5):
     # dump the facial embeddings + names to disk
     print("[INFO] serializing {} encodings...".format(total))
     data = {"embeddings": known_embeddings, "names": known_names}
-    f = open(embeddings_output_path, "wb")
+    f = open(embeddings_output_path + embeddings_output_file_name, "wb")
     f.write(pickle.dumps(data))
     f.close()
