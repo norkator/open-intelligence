@@ -8,6 +8,11 @@ import os
 app_config = database.get_application_config()
 output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 
+try:
+    output_root_folder_path = os.environ['OUTPUT_FOLDER']
+except KeyError as e:
+    print(e)
+
 # Paths
 output_images_path = output_root_folder_path + 'insightface/faces/'
 
