@@ -13,6 +13,11 @@ app_config = database.get_application_config()
 output_root_folder_path = database.find_config_value(app_config, 'output_folder')
 process_sleep_seconds = database.find_config_value(app_config, 'process_sleep_seconds')
 
+try:
+    output_root_folder_path = os.environ['OUTPUT_FOLDER']
+except KeyError as e:
+    print(e)
+
 
 def is_null(input_variable):
     return input_variable is None or input_variable == '' or input_variable == ' '
@@ -38,7 +43,9 @@ def app():
             output_image = output_image_path + cropped_file_name
 
             # Make objects
-            if_image_object = SrFile.SrFile(id, label, cropped_file_name, input_image, output_image, detection_result, '')
+            if_image_object = SrFile.SrFile(
+                id, label, cropped_file_name, input_image, output_image, detection_result, ''
+            )
             if_image_objects.append(if_image_object)
         except Exception as e:
             database.update_insight_face_as_computed('', id)  # Problem with input data, skip
