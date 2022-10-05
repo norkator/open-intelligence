@@ -186,8 +186,18 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
     this.setState({genericImageModalData: {show: false}});
   };
 
-  async genericImageModalDeleteHandler() {
-    await deleteLabelImage(this.state.genericImageModalData.id);
+  genericImageModalDeleteHandler = async () => {
+    const {t} = this.props;
+    try {
+      await deleteLabelImage(Number(this.state.genericImageModalData.id));
+      if (this.state.labelSelection !== null) {
+        this.loadLabelImagesHandler(this.props.selectedDate, this.state.labelSelection).then(() => null);
+      }
+      this.setState({genericImageModalData: {show: false}});
+      toast.success(t('home.labels.imageDeleteSuccess'));
+    } catch (e) {
+      toast.error(t('home.labels.imageDeleteFailed'));
+    }
   };
 
   activityModalCloseHandler = () => {

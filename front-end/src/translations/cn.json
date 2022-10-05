@@ -61,7 +61,9 @@
       "standardImage": "标准原图",
       "loading": "载入中...",
       "noLabels": "所选日期没有标签",
-      "storage": "STORAGE"
+      "storage": "STORAGE",
+      "imageDeleteSuccess": "Image deleted",
+      "imageDeleteFailed": "Image deletion failed"
     }
   },
   "plates": {
