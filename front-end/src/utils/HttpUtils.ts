@@ -243,8 +243,8 @@ export interface FaceGroupingImagesInterface {
 }
 
 export interface FaceGroupingData {
-  names: FaceGroupingNamesInterface[],
-  images: FaceGroupingImagesInterface[],
+  names?: FaceGroupingNamesInterface[],
+  images?: FaceGroupingImagesInterface[],
 }
 
 export async function getFaceGroupingImages(): Promise<FaceGroupingData> {

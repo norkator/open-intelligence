@@ -625,8 +625,8 @@ async function Site(router, sequelizeObjects) {
 
     fs.readdir(filePath, async function (error, files) {
       if (error) {
-        res.status(500);
-        res.send('Error reading faces_dataset folder, may not exist.');
+        res.status(204);
+        res.send('No faces_dataset folder available, meaning there is no content yet.');
       } else {
         let filesList = [];
         for (let file of files) {

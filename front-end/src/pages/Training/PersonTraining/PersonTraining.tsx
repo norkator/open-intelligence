@@ -70,7 +70,7 @@ class PersonTraining extends Component<WithTranslation & CommonPropsInterface> {
       }
     }
 
-    if (this.state.faceGroupingNames.length > 0) {
+    if (this.state.faceGroupingNames !== undefined && this.state.faceGroupingNames.length > 0) {
       names = this.state.faceGroupingNames.map(name => {
         return (
           <div key={String(name)}>
