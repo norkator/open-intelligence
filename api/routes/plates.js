@@ -9,11 +9,11 @@ dotEnv.config();
 async function Plates(router, sequelizeObjects) {
 
 
-  router.post('/get/calendar/events', async (req, res) => {
+  router.get('/calendar/events', async (req, res) => {
     let output = {events: []};
 
-    const start = req.body.dateRangeStartDate;
-    const end = req.body.dateRangeEndDate;
+    const start = req.query.dateRangeStartDate;
+    const end = req.query.dateRangeEndDate;
 
     console.info('Calendar range: ', start, end);
 

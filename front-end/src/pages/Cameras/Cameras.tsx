@@ -50,7 +50,7 @@ class Cameras extends Component<WithTranslation> {
   }
 
   loadCameraImages = () => {
-    axios.post(GET_LATEST_CAMERA_IMAGES_PATH).then((data: any) => {
+    axios.get(GET_LATEST_CAMERA_IMAGES_PATH).then((data: any) => {
       if (this._isMounted) {
         this.setState({imageData: data.data.images, isLoading: false});
       }

@@ -77,7 +77,11 @@ class Faces extends Component<WithTranslation> {
   };
 
   loadFaceImages = (date: string) => {
-    axios.post(GET_FACES_FOR_DAY_PATH, {selectedDate: date}).then((data: any) => {
+    axios.get(GET_FACES_FOR_DAY_PATH, {
+      params: {
+        selectedDate: date
+      }
+    }).then((data: any) => {
       if (this._isMounted) {
         const faceImages: FacesInterface[] = this.removeDuplicates(data.data.images);
         this.setState({faceImages: faceImages, isLoading: false});

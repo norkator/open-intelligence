@@ -178,9 +178,11 @@ export interface CalendarEventsInterface {
 }
 
 export async function getCalendarEvents(dateRangeStartDate: string, dateRangeEndDate: string) {
-  const response = await axios.post(GET_CALENDAR_EVENTS, {
-    dateRangeStartDate: dateRangeStartDate,
-    dateRangeEndDate: dateRangeEndDate
+  const response = await axios.get(GET_CALENDAR_EVENTS, {
+    params: {
+      dateRangeStartDate: dateRangeStartDate,
+      dateRangeEndDate: dateRangeEndDate
+    }
   });
   return response.data.events as CalendarEventsInterface[];
 }
@@ -254,11 +256,13 @@ export interface LicensePlateDetectionsInterface {
 }
 
 export async function getLicensePlateDetections(resultOption: string, selectedDate: string, startDate: string, endDate: string) {
-  const response = await axios.post(GET_LICENSE_PLATE_DETECTIONS, {
-    resultOption: resultOption,
-    selectedDate: selectedDate,
-    selectedDateStart: startDate,
-    selectedDateEnd: endDate,
+  const response = await axios.get(GET_LICENSE_PLATE_DETECTIONS, {
+    params: {
+      resultOption: resultOption,
+      selectedDate: selectedDate,
+      selectedDateStart: startDate,
+      selectedDateEnd: endDate,
+    }
   });
   return response.data.licensePlates as LicensePlateDetectionsInterface[];
 }

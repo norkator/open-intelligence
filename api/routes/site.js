@@ -285,7 +285,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get voice intelligence
    */
-  router.get('/get/voice/intelligence', async (req, res) => {
+  router.get('/voice/intelligence', async (req, res) => {
     let output = {message: ''};
 
     const rows = await sequelizeObjects.Data.findAll({
@@ -339,17 +339,17 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get license plate detection results
    */
-  router.post('/get/license/plate/detections', async (req, res) => {
+  router.get('/license/plate/detections', async (req, res) => {
 
     // Variables
     const filePath = path.join(__dirname + '../../../' + 'output/');
     let licensePlates = [];
 
     // Parameters from front end
-    const resultOption = req.body.resultOption;
-    const selectedDate = req.body.selectedDate;
-    const selectedDateStart = req.body.selectedDateStart;
-    const selectedDateEnd = req.body.selectedDateEnd;
+    const resultOption = req.query.resultOption;
+    const selectedDate = req.query.selectedDate;
+    const selectedDateStart = req.query.selectedDateStart;
+    const selectedDateEnd = req.query.selectedDateEnd;
 
     // Get all detections
     const rows = await sequelizeObjects.Data.findAll({
