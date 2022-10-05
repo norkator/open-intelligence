@@ -12,7 +12,9 @@ import {
   ObjectDetectionImageFileNameInterface,
   getObjectDetectionImage,
   ObjectDetectionImageInterface,
-  getSuperResolutionImage, SuperResolutionInterface,
+  getSuperResolutionImage,
+  SuperResolutionInterface,
+  deleteLabelImage,
 } from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
@@ -184,8 +186,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
     this.setState({genericImageModalData: {show: false}});
   };
 
-  genericImageModalDeleteHandler = () => {
-    console.log(this.state.genericImageModalData.id);
+  async genericImageModalDeleteHandler() {
+    await deleteLabelImage(this.state.genericImageModalData.id);
   };
 
   activityModalCloseHandler = () => {

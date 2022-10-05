@@ -16,10 +16,10 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get intelligence
    */
-  router.post('/get/intelligence', async (req, res) => {
+  router.get('/intelligence', async (req, res) => {
 
     // Day selection from web interface, default today
-    const selectedDate = req.body.selectedDate;
+    const selectedDate = req.query.selectedDate;
 
     const performance = {
       loadAvg: String(os.loadavg(5) + '%'),
@@ -228,9 +228,9 @@ async function Site(router, sequelizeObjects) {
    * Loads sr image
    * if sr not found, load normal image
    */
-  router.post('/get/super/resolution/image', async (req, res) => {
-    const label = req.body.label;
-    const image_file_name = req.body.imageFile;
+  router.get('/super/resolution/image', async (req, res) => {
+    const label = req.query.label;
+    const image_file_name = req.query.imageFile;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/super_resolution/');
     const stockFilePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
 
@@ -855,9 +855,9 @@ async function Site(router, sequelizeObjects) {
   /**
    * Load object_detection folder image file with given name
    */
-  router.post('/get/object/detection/image', async (req, res) => {
-    const object_detection_image_file_name = String(req.body.objectDetectionImageFileName)
-      .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png'); // TODO: Not good, re-think later.
+  router.get('/object/detection/image', async (req, res) => {
+    const object_detection_image_file_name = String(req.query.objectDetectionImageFileName)
+      .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
     const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
     fs.readFile(filePath + object_detection_image_file_name, function (err, data) {
       if (err) {
@@ -876,8 +876,8 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get object detection image file name for cropped image
    */
-  router.post('/get/object/detection/image/for/cropped/image', async (req, res) => {
-    const croppedImageName = req.body.croppedImageName;
+  router.get('/object/detection/image/for/cropped/image', async (req, res) => {
+    const croppedImageName = req.query.croppedImageName;
     sequelizeObjects.Data.findAll({
       attributes: [
         'id',
