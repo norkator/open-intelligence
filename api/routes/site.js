@@ -220,7 +220,34 @@ async function Site(router, sequelizeObjects) {
 
   router.delete('/label/image', async (req, res) => {
     const id = req.query.id;
-    console.log(id);
+    if (id === undefined) {
+      res.status(500);
+      res.send('required id query parameter missing');
+    } else {
+      const row = await sequelizeObjects.Data.findOne({
+        attributes: [
+          'id',
+          'label',
+          'file_name',
+          'file_name_cropped',
+          'file_create_date',
+        ],
+        where: {
+          id: id,
+        },
+      });
+      if (row !== null) {
+        const filePath = path.join(__dirname + '../../../' + 'output/' + row.label + '/');
+        await imageUtils.DeleteImage(filePath, row.file_name);
+        await sequelizeObjects.Data.destroy({
+          where: {id: id},
+        });
+        res.status(200).send('removed data row and label with id ' + id);
+      } else {
+        res.status(404);
+        res.send('no data row found with given id');
+      }
+    }
   });
 
 
