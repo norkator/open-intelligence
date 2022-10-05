@@ -12,7 +12,9 @@ import {
   ObjectDetectionImageFileNameInterface,
   getObjectDetectionImage,
   ObjectDetectionImageInterface,
-  getSuperResolutionImage, SuperResolutionInterface,
+  getSuperResolutionImage,
+  SuperResolutionInterface,
+  deleteLabelImage,
 } from '../../../utils/HttpUtils';
 import {connect} from 'react-redux';
 import {ReduxPropsInterface} from "../../../store/reducers/dateReducer";
@@ -128,22 +130,23 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
     this.setState({isLoading: false, labelImages: result});
   }
 
-  async labelImageClickHandler(file: string, loadObjectDetectionImage: boolean) {
+  async labelImageClickHandler(id: number, file: string, loadObjectDetectionImage: boolean) {
     this.setState({isLoading: true});
     if (loadObjectDetectionImage) {
-      this.loadObjectDetectionImageHandler(file).then(() => null);
+      this.loadObjectDetectionImageHandler(id, file).then(() => null);
     } else {
-      this.loadSuperResolutionImage(file).then(() => null);
+      this.loadSuperResolutionImage(id, file).then(() => null);
     }
   }
 
-  async loadObjectDetectionImageHandler(croppedImageName: string) {
+  async loadObjectDetectionImageHandler(id: number, croppedImageName: string) {
     this.setState({isLoading: true});
     const file = await getObjectDetectionImageFileNameForCroppedImageName(croppedImageName) as ObjectDetectionImageFileNameInterface;
     const image = await getObjectDetectionImage(file.file_name) as ObjectDetectionImageInterface;
     this.setState({
       isLoading: false,
       genericImageModalData: {
+        id: id,
         show: true,
         title: image.file_name,
         description: 'Full object detection image for selected label where label is originating',
@@ -152,15 +155,15 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
     });
   };
 
-  async loadSuperResolutionImage(croppedImageName: string) {
+  async loadSuperResolutionImage(id: number, croppedImageName: string) {
     const {t} = this.props;
     this.setState({isLoading: true});
     try {
       const image = await getSuperResolutionImage(this.state.labelSelection || "", croppedImageName) as SuperResolutionInterface;
-      // Todo, generic modal image needs more fields to show color, detection result etc
       this.setState({
         isLoading: false,
         genericImageModalData: {
+          id: id,
           show: true,
           title: croppedImageName,
           description: (image.srImage ? this.props.t('home.labels.srImage') : this.props.t('home.labels.standardImage')),
@@ -183,23 +186,37 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
     this.setState({genericImageModalData: {show: false}});
   };
 
+  genericImageModalDeleteHandler = async () => {
+    const {t} = this.props;
+    try {
+      await deleteLabelImage(Number(this.state.genericImageModalData.id));
+      if (this.state.labelSelection !== null) {
+        this.loadLabelImagesHandler(this.props.selectedDate, this.state.labelSelection).then(() => null);
+      }
+      this.setState({genericImageModalData: {show: false}});
+      toast.success(t('home.labels.imageDeleteSuccess'));
+    } catch (e) {
+      toast.error(t('home.labels.imageDeleteFailed'));
+    }
+  };
+
   activityModalCloseHandler = () => {
     this.setState({activityModal: {show: false}});
   };
 
-  handleLabelMouseDown = (file: string) => {
+  handleLabelMouseDown = (id: number, file: string) => {
     clickHoldTimer = setTimeout(() => {
       console.log('Mouse long click run');
-      this.labelImageClickHandler(file, true).then(() => null);
+      this.labelImageClickHandler(id, file, true).then(() => null);
       longClickHandled = true;
     }, 1000);
   };
 
-  handleLabelMouseUp = (file: string) => {
+  handleLabelMouseUp = (id: number, file: string) => {
     clearTimeout(clickHoldTimer);
     if (!longClickHandled) {
       console.log('Mouse short click run');
-      this.labelImageClickHandler(file, false).then(() => null);
+      this.labelImageClickHandler(id, file, false).then(() => null);
     }
     longClickHandled = false;
   };
@@ -214,8 +231,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
         labels = this.state.labelImages.map((image: LabelInterface, index: number) => {
           return (
             <div
-              onMouseDown={() => this.handleLabelMouseDown(image.file)}
-              onMouseUp={() => this.handleLabelMouseUp(image.file)}
+              onMouseDown={() => this.handleLabelMouseDown(image.id, image.file)}
+              onMouseUp={() => this.handleLabelMouseUp(image.id, image.file)}
               key={image.file + '_' + index}>
               <img
                 id={image.file}
@@ -301,6 +318,7 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
 
         <GenericImageModal
           t={t}
+          id={this.state.genericImageModalData.id}
           closeHandler={() => this.genericImageModalCloseHandler}
           show={this.state.genericImageModalData.show}
           description={this.state.genericImageModalData.description}
@@ -311,6 +329,8 @@ class Labels extends Component<ReduxPropsInterface & WithTranslation & CommonPro
           detectionResult={this.state.genericImageModalData.detectionResult}
           color={this.state.genericImageModalData.color}
           additionalInfo={this.state.genericImageModalData.additionalInfo}
+          deleteEnabled={true}
+          deleteHandler={() => this.genericImageModalDeleteHandler}
         />
 
         <ActivityModal

@@ -38,3 +38,21 @@ async function loadImage(filePath, fileName) {
     });
   });
 }
+
+
+/**
+ * Delete file from given path
+ * @param filePath
+ * @param fileName
+ * @returns {Promise<boolean>}
+ */
+async function DeleteImage(filePath, fileName) {
+  try {
+    fs.unlinkSync(filePath + fileName);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+exports.DeleteImage = DeleteImage;

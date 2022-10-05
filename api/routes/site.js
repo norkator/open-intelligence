@@ -16,10 +16,10 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get intelligence
    */
-  router.post('/get/intelligence', async (req, res) => {
+  router.get('/intelligence', async (req, res) => {
 
     // Day selection from web interface, default today
-    const selectedDate = req.body.selectedDate;
+    const selectedDate = req.query.selectedDate;
 
     const performance = {
       loadAvg: String(os.loadavg(5) + '%'),
@@ -169,62 +169,95 @@ async function Site(router, sequelizeObjects) {
    * Get label images from output /label folder
    * label specified at post body
    */
-  router.post('/get/label/images', async (req, res) => {
-      // Day selection from web interface, default today
-      const selectedDate = req.body.selectedDate;
+  router.get('/label/images', async (req, res) => {
+    // Day selection from web interface, default today
+    const selectedDate = req.query.selectedDate;
+    const label = req.query.label;
 
-      let outputData = {images: []};
-      const label = req.body.label;
-      const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
+    let outputData = {images: []};
+    const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
 
-      try {
-        const rows = await sequelizeObjects.Data.findAll({
-          attributes: [
-            'id',
-            'file_name',
-            'file_name_cropped',
-            'file_create_date',
-          ],
-          where: {
-            label: label,
-            file_create_date: {
-              [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
-              [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
-            }
-          },
-          order: [
-            ['file_create_date', 'asc']
-          ]
+    try {
+      const rows = await sequelizeObjects.Data.findAll({
+        attributes: [
+          'id',
+          'file_name',
+          'file_name_cropped',
+          'file_create_date',
+        ],
+        where: {
+          label: label,
+          file_create_date: {
+            [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+            [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+          }
+        },
+        order: [
+          ['file_create_date', 'asc']
+        ]
+      });
+
+      rows.forEach(row => {
+        const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+        outputData.images.push({
+          id: row.id,
+          title: datetime,
+          file: row.file_name_cropped,
+          file_name: row.file_name_cropped,
         });
+      });
+      outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+        return image.image !== null;
+      });
+      res.json(outputData);
 
-        rows.forEach(row => {
-          const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
-          outputData.images.push({
-            title: datetime,
-            file: row.file_name_cropped,
-            file_name: row.file_name_cropped,
-          });
-        });
-        outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
-          return image.image !== null;
-        });
-        res.json(outputData);
+    } catch (e) {
+      res.status(500);
+      res.send('Could not load / find database records with label.')
+    }
+  });
 
-      } catch (e) {
-        res.status(500);
-        res.send('Could not load / find database records with label.')
+
+  router.delete('/label/image', async (req, res) => {
+    const id = req.query.id;
+    if (id === undefined) {
+      res.status(500);
+      res.send('required id query parameter missing');
+    } else {
+      const row = await sequelizeObjects.Data.findOne({
+        attributes: [
+          'id',
+          'label',
+          'file_name',
+          'file_name_cropped',
+          'file_create_date',
+        ],
+        where: {
+          id: id,
+        },
+      });
+      if (row !== null) {
+        const filePath = path.join(__dirname + '../../../' + 'output/' + row.label + '/');
+        await imageUtils.DeleteImage(filePath, row.file_name);
+        await sequelizeObjects.Data.destroy({
+          where: {id: id},
+        });
+        res.status(200).send('removed data row and label with id ' + id);
+      } else {
+        res.status(404);
+        res.send('no data row found with given id');
       }
     }
-  );
+  });
 
 
   /**
    * Loads sr image
    * if sr not found, load normal image
    */
-  router.post('/get/super/resolution/image', async (req, res) => {
-    const label = req.body.label;
-    const image_file_name = req.body.imageFile;
+  router.get('/super/resolution/image', async (req, res) => {
+    const label = req.query.label;
+    const image_file_name = req.query.imageFile;
     const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/super_resolution/');
     const stockFilePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
 
@@ -279,7 +312,7 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get voice intelligence
    */
-  router.get('/get/voice/intelligence', async (req, res) => {
+  router.get('/voice/intelligence', async (req, res) => {
     let output = {message: ''};
 
     const rows = await sequelizeObjects.Data.findAll({
@@ -333,17 +366,17 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get license plate detection results
    */
-  router.post('/get/license/plate/detections', async (req, res) => {
+  router.get('/license/plate/detections', async (req, res) => {
 
     // Variables
     const filePath = path.join(__dirname + '../../../' + 'output/');
     let licensePlates = [];
 
     // Parameters from front end
-    const resultOption = req.body.resultOption;
-    const selectedDate = req.body.selectedDate;
-    const selectedDateStart = req.body.selectedDateStart;
-    const selectedDateEnd = req.body.selectedDateEnd;
+    const resultOption = req.query.resultOption;
+    const selectedDate = req.query.selectedDate;
+    const selectedDateStart = req.query.selectedDateStart;
+    const selectedDateEnd = req.query.selectedDateEnd;
 
     // Get all detections
     const rows = await sequelizeObjects.Data.findAll({
@@ -849,9 +882,9 @@ async function Site(router, sequelizeObjects) {
   /**
    * Load object_detection folder image file with given name
    */
-  router.post('/get/object/detection/image', async (req, res) => {
-    const object_detection_image_file_name = String(req.body.objectDetectionImageFileName)
-      .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png'); // TODO: Not good, re-think later.
+  router.get('/object/detection/image', async (req, res) => {
+    const object_detection_image_file_name = String(req.query.objectDetectionImageFileName)
+      .replace('.jpg', '.jpg.jpg').replace('.png', '.png.png');
     const filePath = path.join(__dirname + '../../../' + 'output/object_detection/');
     fs.readFile(filePath + object_detection_image_file_name, function (err, data) {
       if (err) {
@@ -870,8 +903,8 @@ async function Site(router, sequelizeObjects) {
   /**
    * Get object detection image file name for cropped image
    */
-  router.post('/get/object/detection/image/for/cropped/image', async (req, res) => {
-    const croppedImageName = req.body.croppedImageName;
+  router.get('/object/detection/image/for/cropped/image', async (req, res) => {
+    const croppedImageName = req.query.croppedImageName;
     sequelizeObjects.Data.findAll({
       attributes: [
         'id',

@@ -5,7 +5,7 @@ import {Button, Modal} from "react-bootstrap";
  * This class idea is to show big object detection raw images from anywhere where it's called
  */
 export const GenericImageModal = (props: ModalPropsInterface) => {
-  // Todo: set modal 'animation={false}' to avoid findDOMNode warning, I use it for now since animations are cool
+  // Note: set modal 'animation={false}' to avoid findDOMNode warning, I use it for now since animations are cool
   return (
     <>
       <Modal size="lg" show={props.show} onHide={props.closeHandler()}>
@@ -33,6 +33,13 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
                alt="genericModalImage" src={props.src}/>
         </Modal.Body>
         <Modal.Footer>
+          {
+            props.deleteEnabled ?
+              <Button variant="danger" onClick={props.deleteHandler()}>
+                {props.t('generic.delete')}
+              </Button>
+              : null
+          }
           <Button variant="secondary" onClick={props.closeHandler()}>
             {props.t('generic.close')}
           </Button>
@@ -43,6 +50,7 @@ export const GenericImageModal = (props: ModalPropsInterface) => {
 };
 
 export interface ModalPropsInterface {
+  id: number;
   t: Function;
   show: boolean;
   title: string;
@@ -54,4 +62,6 @@ export interface ModalPropsInterface {
   detectionResult: string;
   color: string;
   additionalInfo: string;
+  deleteEnabled: boolean;
+  deleteHandler: Function;
 }

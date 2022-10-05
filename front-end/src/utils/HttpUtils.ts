@@ -3,6 +3,7 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE,
   GET_LABEL_IMAGES,
+  DELETE_LABEL_IMAGE,
   GET_SUPER_RESOLUTION_IMAGE,
   GET_INSTANCE_DETAILS,
   GET_CALENDAR_EVENTS,
@@ -28,7 +29,11 @@ export interface ObjectDetectionImageFileNameInterface {
  */
 export async function getObjectDetectionImageFileNameForCroppedImageName(croppedImageName: string): Promise<any> {
   let fileData = {} as ObjectDetectionImageFileNameInterface;
-  const response = await axios.post(GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG, {croppedImageName: croppedImageName});
+  const response = await axios.get(GET_GET_OBJ_IMG_NAME_FROM_CROPPED_IMG, {
+    params: {
+      croppedImageName: croppedImageName
+    }
+  });
   fileData.file_name = response.data.file_name;
   return fileData;
 }
@@ -46,7 +51,11 @@ export interface ObjectDetectionImageInterface {
 export async function getObjectDetectionImage(objectDetectionImageFileName: string): Promise<any> {
   let imageData = {} as ObjectDetectionImageInterface;
   imageData.file_name = objectDetectionImageFileName;
-  const response = await axios.post(GET_OBJECT_DETECTION_IMAGE, {objectDetectionImageFileName: objectDetectionImageFileName});
+  const response = await axios.get(GET_OBJECT_DETECTION_IMAGE, {
+    params: {
+      objectDetectionImageFileName: objectDetectionImageFileName
+    }
+  });
   imageData.data = response.data.data;
   return imageData;
 }
@@ -77,12 +86,17 @@ export interface IntelligenceInterface {
  * @return IntelligenceInterface object
  */
 export async function getIntelligence(selectedDate: string): Promise<any> {
-  const response = await axios.post(GET_INTELLIGENCE, {selectedDate: selectedDate});
+  const response = await axios.get(GET_INTELLIGENCE, {
+    params: {
+      selectedDate: selectedDate
+    }
+  });
   return response.data as IntelligenceInterface;
 }
 
 
 export interface LabelInterface {
+  id: number;
   title: string;
   file: string;
   image: string;
@@ -95,8 +109,22 @@ export interface LabelInterface {
  * @return LabelInterface
  */
 export async function loadLabelImages(selectedDate: string, label: string) {
-  const response = await axios.post(GET_LABEL_IMAGES, {selectedDate: selectedDate, label: label});
+  const response = await axios.get(GET_LABEL_IMAGES, {
+    params: {
+      selectedDate: selectedDate,
+      label: label
+    }
+  });
   return response.data.images as LabelInterface[];
+}
+
+
+export async function deleteLabelImage(id: number): Promise<void> {
+  await axios.delete(DELETE_LABEL_IMAGE, {
+    params: {
+      id: id,
+    }
+  });
 }
 
 
@@ -115,7 +143,11 @@ export interface SuperResolutionInterface {
  * @param imageFile label image name
  */
 export async function getSuperResolutionImage(label: string, imageFile: string) {
-  const response = await axios.post(GET_SUPER_RESOLUTION_IMAGE, {label: label, imageFile: imageFile});
+  const response = await axios.get(GET_SUPER_RESOLUTION_IMAGE, {
+    params: {
+      label: label, imageFile: imageFile
+    }
+  });
   return response.data as SuperResolutionInterface;
 }
 
@@ -146,9 +178,11 @@ export interface CalendarEventsInterface {
 }
 
 export async function getCalendarEvents(dateRangeStartDate: string, dateRangeEndDate: string) {
-  const response = await axios.post(GET_CALENDAR_EVENTS, {
-    dateRangeStartDate: dateRangeStartDate,
-    dateRangeEndDate: dateRangeEndDate
+  const response = await axios.get(GET_CALENDAR_EVENTS, {
+    params: {
+      dateRangeStartDate: dateRangeStartDate,
+      dateRangeEndDate: dateRangeEndDate
+    }
   });
   return response.data.events as CalendarEventsInterface[];
 }
@@ -222,11 +256,13 @@ export interface LicensePlateDetectionsInterface {
 }
 
 export async function getLicensePlateDetections(resultOption: string, selectedDate: string, startDate: string, endDate: string) {
-  const response = await axios.post(GET_LICENSE_PLATE_DETECTIONS, {
-    resultOption: resultOption,
-    selectedDate: selectedDate,
-    selectedDateStart: startDate,
-    selectedDateEnd: endDate,
+  const response = await axios.get(GET_LICENSE_PLATE_DETECTIONS, {
+    params: {
+      resultOption: resultOption,
+      selectedDate: selectedDate,
+      selectedDateStart: startDate,
+      selectedDateEnd: endDate,
+    }
   });
   return response.data.licensePlates as LicensePlateDetectionsInterface[];
 }

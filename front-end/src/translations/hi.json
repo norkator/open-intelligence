@@ -61,7 +61,9 @@
       "standardImage": "यह आम तस्वीर है",
       "loading": " लोड हो रहा है...",
       "noLabels": "चयनित तारिख के लिए कोई लेबल उपलब्ध नहीं है",
-      "storage": "STORAGE"
+      "storage": "STORAGE",
+      "imageDeleteSuccess": "Image deleted",
+      "imageDeleteFailed": "Image deletion failed"
     }
   },
   "plates": {
