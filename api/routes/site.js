@@ -169,53 +169,59 @@ async function Site(router, sequelizeObjects) {
    * Get label images from output /label folder
    * label specified at post body
    */
-  router.post('/get/label/images', async (req, res) => {
-      // Day selection from web interface, default today
-      const selectedDate = req.body.selectedDate;
+  router.get('/label/images', async (req, res) => {
+    // Day selection from web interface, default today
+    const selectedDate = req.query.selectedDate;
+    const label = req.query.label;
 
-      let outputData = {images: []};
-      const label = req.body.label;
-      const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
+    let outputData = {images: []};
+    const filePath = path.join(__dirname + '../../../' + 'output/' + label + '/');
 
-      try {
-        const rows = await sequelizeObjects.Data.findAll({
-          attributes: [
-            'id',
-            'file_name',
-            'file_name_cropped',
-            'file_create_date',
-          ],
-          where: {
-            label: label,
-            file_create_date: {
-              [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
-              [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
-            }
-          },
-          order: [
-            ['file_create_date', 'asc']
-          ]
+    try {
+      const rows = await sequelizeObjects.Data.findAll({
+        attributes: [
+          'id',
+          'file_name',
+          'file_name_cropped',
+          'file_create_date',
+        ],
+        where: {
+          label: label,
+          file_create_date: {
+            [Op.gt]: moment(selectedDate).startOf('day').utc(true).toISOString(true),
+            [Op.lt]: moment(selectedDate).endOf('day').utc(true).toISOString(true),
+          }
+        },
+        order: [
+          ['file_create_date', 'asc']
+        ]
+      });
+
+      rows.forEach(row => {
+        const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
+        outputData.images.push({
+          id: row.id,
+          title: datetime,
+          file: row.file_name_cropped,
+          file_name: row.file_name_cropped,
         });
+      });
+      outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
+        return image.image !== null;
+      });
+      res.json(outputData);
 
-        rows.forEach(row => {
-          const datetime = moment(row.file_create_date).format(process.env.DATE_TIME_FORMAT);
-          outputData.images.push({
-            title: datetime,
-            file: row.file_name_cropped,
-            file_name: row.file_name_cropped,
-          });
-        });
-        outputData.images = (await imageUtils.LoadImages(filePath, outputData.images)).filter(image => {
-          return image.image !== null;
-        });
-        res.json(outputData);
-
-      } catch (e) {
-        res.status(500);
-        res.send('Could not load / find database records with label.')
-      }
+    } catch (e) {
+      res.status(500);
+      res.send('Could not load / find database records with label.')
     }
-  );
+  });
+
+
+  router.delete('/label/image', async (req, res) => {
+    const id = req.query.id;
+    console.log(id);
+  });
 
 
   /**

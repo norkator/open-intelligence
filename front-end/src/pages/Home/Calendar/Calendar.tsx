@@ -102,6 +102,7 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation & CommonP
 
         <GenericImageModal
           t={t}
+          id={-1}
           closeHandler={() => this.genericImageModalCloseHandler}
           show={this.state.genericImageModalData.show}
           description={this.state.genericImageModalData.description}
@@ -112,6 +113,8 @@ class Calendar extends Component<ReduxPropsInterface & WithTranslation & CommonP
           detectionResult={this.state.genericImageModalData.detectionResult}
           color={this.state.genericImageModalData.color}
           additionalInfo={this.state.genericImageModalData.additionalInfo}
+          deleteEnabled={false}
+          deleteHandler={() => null}
         />
 
         <Toaster/>

@@ -3,6 +3,7 @@ import axios, {
   GET_OBJECT_DETECTION_IMAGE,
   GET_INTELLIGENCE,
   GET_LABEL_IMAGES,
+  DELETE_LABEL_IMAGE,
   GET_SUPER_RESOLUTION_IMAGE,
   GET_INSTANCE_DETAILS,
   GET_CALENDAR_EVENTS,
@@ -83,6 +84,7 @@ export async function getIntelligence(selectedDate: string): Promise<any> {
 
 
 export interface LabelInterface {
+  id: number;
   title: string;
   file: string;
   image: string;
@@ -95,8 +97,22 @@ export interface LabelInterface {
  * @return LabelInterface
  */
 export async function loadLabelImages(selectedDate: string, label: string) {
-  const response = await axios.post(GET_LABEL_IMAGES, {selectedDate: selectedDate, label: label});
+  const response = await axios.get(GET_LABEL_IMAGES, {
+    params: {
+      selectedDate: selectedDate,
+      label: label
+    }
+  });
   return response.data.images as LabelInterface[];
+}
+
+
+export async function deleteLabelImage(id: number): Promise<void> {
+  await axios.delete(DELETE_LABEL_IMAGE, {
+    params: {
+      id: id,
+    }
+  });
 }
 
 
