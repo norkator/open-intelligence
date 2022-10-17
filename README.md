@@ -100,7 +100,12 @@ than what is running Docker images.
 If you don't already have, go to [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/) and follow
 their instructions.
 
-### 3. Clone this repository code
+### 3. Install Docker Compose
+
+If you don't already have, go to [https://docs.docker.com/compose/install//](https://docs.docker.com/compose/install//) and follow
+their instructions.
+
+### 4. Clone this repository code
 
 Use any version control tool to clone this repository code. I recommend using any git based tool so that you can
 checkout latest code and by recommend, I mean don't download it as "offline" zip file.
@@ -111,21 +116,21 @@ Using git from shell:
 git clone https://github.com/norkator/open-intelligence.git
 ```
 
-### 4. Get models
+### 5. Get models
 
 Get models here https://drive.google.com/file/d/1dSJuxpwSFfF7SIJg8NMKG5yCIG9CHQKw/view?usp=sharing
 unzip models into open intelligence `/python/models` folder.
 
-### 5. Configure
+### 6. Configure
 
 1. Rename `docker-compose.yml_tpl` into `docker-compose.yml` and fill in your environment variables which pretty much
    are database configuration.
 
-### 6. Verify your timezone (linux server distro case)
+### 7. Verify your timezone (linux server distro case)
 
 https://github.com/norkator/open-intelligence/wiki/Linux-notes#ensure-your-timezone-is-right
 
-### 7. Configure storage
+### 8. Configure storage
 On linux machine configuring storage steps are:
 
 Open docker-compose.yml and tweak all volume configs
@@ -144,13 +149,13 @@ It does not affect any way to your actual mounted folders so better not change t
 
 More on this article: https://github.com/norkator/open-intelligence/wiki/Configuring-storage
 
-### 8. Run
+### 9. Run
 
 1. Run `docker-compose up` in root of this project and let magic happen.
 2. Open `http://localhost:3000/` and you should see Open Intelligence front page. Hopefully.
 
 
-### 9. Configuration from UI
+### 10. Configuration from UI
 
 1. Go to Configuration page and fill in your details. Content settings are explained at
    configuration page.
