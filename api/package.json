@@ -21,7 +21,7 @@
     "dotenv": "16.0.3",
     "express": "4.18.1",
     "get-folder-size": "4.0.0",
-    "helmet": "6.0.0",
+    "helmet": "6.0.1",
     "image-thumbnail": "1.0.15",
     "moment": "2.29.4",
     "node-schedule": "2.1.0",
