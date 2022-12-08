@@ -21,7 +21,7 @@
     "bootstrap": "5.2.1",
     "chart.js": "3.9.1",
     "dotenv": "16.0.3",
-    "i18next": "21.9.2",
+    "i18next": "22.0.6",
     "react": "18.2.0",
     "react-bootstrap": "2.5.0",
     "react-chartjs-2": "4.3.1",
